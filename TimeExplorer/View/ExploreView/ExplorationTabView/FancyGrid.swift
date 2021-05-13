@@ -13,19 +13,17 @@ struct FancyGrid:View{
     @StateObject var IMD:ImageDownloader = .init()
     
     func largeImg(top:ExploreData,w:CGFloat,h:CGFloat) -> some View{
-//        return ExploreColCard(data: top, selectedCard: .constant(.init()), showSelectedCard: .constant(false), w: w, h: h)
-        return ImageView(url: top.img, width: w, height: h, contentMode: .fill)
-            .clipShape(RoundedRectangle(cornerRadius: 20))
+        return ExploreColCard(data: top, selectedCard: .constant(.init()), showSelectedCard: .constant(false), w: w, h: h)
     }
     
     func sideVStack(_imgs:[ExploreData],w:CGFloat,h:CGFloat) -> some View{
-        return VStack(alignment: .center, spacing: 4) {
+        return VStack(alignment: .center, spacing: 5) {
             ForEach(Array(_imgs.enumerated()),id:\.offset){ _data in
                 let data = _data.element
 //                let idx = _data.offset
-//                ExploreColCard(data: data, selectedCard: .constant(.init()), showSelectedCard: .constant(false), w: w, h:  h * 0.5)
-                ImageView(url: data.img, width: w, height: h * 0.5, contentMode: .fill)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                ExploreColCard(data: data, selectedCard: .constant(.init()), showSelectedCard: .constant(false), w: w, h:  h * 0.5)
+//                ImageView(url: data.img, width: w, height: h * 0.5, contentMode: .fill)
+//                    .clipShape(RoundedRectangle(cornerRadius: 20))
             }
         }
     }

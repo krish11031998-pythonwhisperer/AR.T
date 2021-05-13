@@ -23,13 +23,13 @@ struct NormalGrid:View{
                     let data = _data.element
                     let width = w * 0.325
 //                    
-//                    ExploreColCard(data: data, selectedCard: .constant(.init()), showSelectedCard: .constant(false), w: w * 0.325, h: h)
+                    ExploreColCard(data: data, selectedCard: .constant(.init()), showSelectedCard: .constant(false), w: w * 0.325, h: h)
 //                    LazyVStack{
 //                        MainText(content: "heading", fontSize: 12, color: .black, fontWeight: .regular)
 //                            .padding()
 //                            .frame(width: width, alignment: .leading)
-                        ImageView(url: data.img, width: w * 0.325, height: h * 0.85, contentMode: .fill)
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
+//                        ImageView(url: data.img, width: w * 0.325, height: h * 0.85, contentMode: .fill)
+//                            .clipShape(RoundedRectangle(cornerRadius: 20))
 //                    }
                     
                 }

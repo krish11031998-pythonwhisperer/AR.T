@@ -36,27 +36,18 @@ struct ExploreColCard:View{
     
     
     var v2:some View{
-        LazyVStack(alignment: .leading, spacing: 10) {
-            MainText(content: "heading" , fontSize: 12, color: .black, fontWeight: .regular)
-                .padding()
-                .padding(.top)
-                .frame(width: width,height: height * 0.15,alignment: .leading)
-            Image(uiImage: self.IMD.image)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: width, height: height * 0.85, alignment: .center)
-                .clipShape(Corners(rect: .topRight, size: .init(width: 20, height: 20)))
-                .overlay(ZStack{
-                    Color.clear
-                    if self.IMD.loading{
-                        BlurView(style: .dark)
-                    }
-                })
+        LazyVStack(alignment: .leading, spacing: 5) {
+            ImageView(url: self.data.img, width: width, height: (height * 0.75) - 5, contentMode: .fill, alignment: .center)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+            VStack(alignment: .leading, spacing: 2.5){
+                Text("heading")
+                    .font(.system(size: 12, weight: .regular, design: .serif))
+                Text("subheading")
+                    .font(.system(size: 10, weight: .regular, design: .monospaced))
+            }.padding()
+            .frame(width: width,height: height * 0.25,alignment: .leading)
         }
         .frame(width: width, height: height, alignment: .center)
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 20))
-        .shadow(radius: 5)
         .onAppear {
             if let url = self.data.img{
                 self.IMD.getImage(url: url)

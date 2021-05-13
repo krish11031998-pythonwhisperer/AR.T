@@ -51,14 +51,15 @@ struct ImageView:View{
     func imgView(w _w:CGFloat? = nil,h _h:CGFloat? = nil) -> some View{
         let w = _w == nil ? self.width : _w
         var h = _h == nil ? self.height : _h
-        let img = self.img != nil ? self.img! : self.IMD.image
+        let img = (self.img != nil ? self.img! : self.IMD.image).cropToBounds(width: self.width, height: self.height)
         let ar = UIImage.aspectRatio(img: img)
         h = self.autoHeight ? self.width/ar : h
 //        h = h < 175 && self.autoHeight ? 175 : h
         return ZStack(alignment: .center) {
             Image(uiImage: img)
                 .resizable()
-                .aspectRatio(ar,contentMode: self.contentMode)
+//                .aspectRatio(ar,contentMode: self.contentMode)
+                .aspectRatio(contentMode: self.contentMode)
                 .frame(width: self.width, height: h, alignment: alignment)
             
             if self.IMD.loading && self.img == nil{
@@ -88,12 +89,14 @@ struct ImageView:View{
         ZStack{
             if self.heading != nil{
                 self.imgView_w_caption
+                    .transition(.opacity)
             }
             
             if self.heading == nil{
                 self.imgView()
+                    .transition(.opacity)
             }
-        }
+        }.animation(.default)
         
     }
     

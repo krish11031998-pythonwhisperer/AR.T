@@ -59,6 +59,7 @@ struct ExploreTabView: View {
                                     self.exploreList.append(data)
                                 }
                             }
+                            print("posts:  ",self.exploreList[0...2])
                         }
                     }
                 case "blogs":
@@ -96,13 +97,12 @@ struct ExploreTabView: View {
             ForEach(Array(self.exploreList.TwoDArray(col: 6).enumerated()),id:\.offset){_grid in
                 let grid = _grid.element
                 let idx = _grid.offset%2
-                LazyVStack{
+                LazyVStack(spacing:5){
                     FancyGrid(data: Array(grid[0..<3]), direction: idx == 0 ? .left : .right)
                     NormalGrid(data: Array(grid[3...]))
                 }
             }
             Spacer().frame(height: 200)
-//            }
         }.frame(width: totalWidth, alignment: .center)
     }
     
@@ -111,9 +111,8 @@ struct ExploreTabView: View {
             .padding(.top,50)
         .edgesIgnoringSafeArea(.all)
         .onAppear {
-            if !self.onAppear && self.exploreList.isEmpty{
+            if self.exploreList.isEmpty{
                 print("calling on Appear")
-                self.onAppear = true
                 self.getTrendingItems()
                 dispatchGroup.notify(queue: .main) {
                     if self.mainStates.loading{

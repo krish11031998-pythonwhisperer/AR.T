@@ -18,6 +18,11 @@
 		BC124109257D49AE0009B976 /* FloatHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC124108257D49AE0009B976 /* FloatHelpers.swift */; };
 		BC1410F02585E05900AAA0B4 /* LikeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1410EF2585E05900AAA0B4 /* LikeView.swift */; };
 		BC1410F52585E0A100AAA0B4 /* heart.json in Resources */ = {isa = PBXBuildFile; fileRef = BC1410F42585E0A100AAA0B4 /* heart.json */; };
+		BC1BDDCD264D45EB005B2C8A /* FancyScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1BDDCA264D45EB005B2C8A /* FancyScroll.swift */; };
+		BC1BDDCE264D45EB005B2C8A /* InfoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1BDDCB264D45EB005B2C8A /* InfoCard.swift */; };
+		BC1BDDCF264D45EB005B2C8A /* FancyScrollCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1BDDCC264D45EB005B2C8A /* FancyScrollCard.swift */; };
+		BC1BDDD2264D46A9005B2C8A /* FancyScroll_Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1BDDD1264D46A9005B2C8A /* FancyScroll_Structs.swift */; };
+		BC1BDDD4264D4928005B2C8A /* FancyScrollMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1BDDD3264D4928005B2C8A /* FancyScrollMain.swift */; };
 		BC1F8407259B76AB003E2CA8 /* SortsMillGoudy-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC1F8406259B76AB003E2CA8 /* SortsMillGoudy-Regular.ttf */; };
 		BC2AD920261F071C007F5921 /* SCNSceneHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2AD91F261F071C007F5921 /* SCNSceneHelper.swift */; };
 		BC2AD925261F0778007F5921 /* URLHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2AD924261F0778007F5921 /* URLHelper.swift */; };
@@ -173,6 +178,11 @@
 		BC124108257D49AE0009B976 /* FloatHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatHelpers.swift; sourceTree = "<group>"; };
 		BC1410EF2585E05900AAA0B4 /* LikeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeView.swift; sourceTree = "<group>"; };
 		BC1410F42585E0A100AAA0B4 /* heart.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = heart.json; sourceTree = "<group>"; };
+		BC1BDDCA264D45EB005B2C8A /* FancyScroll.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FancyScroll.swift; sourceTree = "<group>"; };
+		BC1BDDCB264D45EB005B2C8A /* InfoCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoCard.swift; sourceTree = "<group>"; };
+		BC1BDDCC264D45EB005B2C8A /* FancyScrollCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FancyScrollCard.swift; sourceTree = "<group>"; };
+		BC1BDDD1264D46A9005B2C8A /* FancyScroll_Structs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyScroll_Structs.swift; sourceTree = "<group>"; };
+		BC1BDDD3264D4928005B2C8A /* FancyScrollMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyScrollMain.swift; sourceTree = "<group>"; };
 		BC1F8406259B76AB003E2CA8 /* SortsMillGoudy-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SortsMillGoudy-Regular.ttf"; sourceTree = "<group>"; };
 		BC2AD91F261F071C007F5921 /* SCNSceneHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNSceneHelper.swift; sourceTree = "<group>"; };
 		BC2AD924261F0778007F5921 /* URLHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLHelper.swift; sourceTree = "<group>"; };
@@ -336,6 +346,7 @@
 		BC027B2C25A05F4900CB58B5 /* ExploreView */ = {
 			isa = PBXGroup;
 			children = (
+				BC1BDDC9264D45EB005B2C8A /* FancyScroll */,
 				BC2AD92E261FAE8E007F5921 /* ArtView */,
 				BC5AFFFC25FB9FFA00A9E202 /* ExplorationTabView */,
 				BCB25F1125B0C15B00290E18 /* TrendingView */,
@@ -366,6 +377,18 @@
 				BC2B4370258C777800854668 /* timer.json */,
 			);
 			path = lottieFiles;
+			sourceTree = "<group>";
+		};
+		BC1BDDC9264D45EB005B2C8A /* FancyScroll */ = {
+			isa = PBXGroup;
+			children = (
+				BC1BDDCA264D45EB005B2C8A /* FancyScroll.swift */,
+				BC1BDDCB264D45EB005B2C8A /* InfoCard.swift */,
+				BC1BDDCC264D45EB005B2C8A /* FancyScrollCard.swift */,
+				BC1BDDD1264D46A9005B2C8A /* FancyScroll_Structs.swift */,
+				BC1BDDD3264D4928005B2C8A /* FancyScrollMain.swift */,
+			);
+			path = FancyScroll;
 			sourceTree = "<group>";
 		};
 		BC2AD92E261FAE8E007F5921 /* ArtView */ = {
@@ -1046,12 +1069,14 @@
 			files = (
 				BCFAF93C2548AD9100392163 /* UVPosts.swift in Sources */,
 				BC2AD920261F071C007F5921 /* SCNSceneHelper.swift in Sources */,
+				BC1BDDCF264D45EB005B2C8A /* FancyScrollCard.swift in Sources */,
 				BCE6FB8B25EF914000944D32 /* BlogViewMain.swift in Sources */,
 				BCA1AD192602779D009C31A4 /* TopPostView.swift in Sources */,
 				BCF1934D2549F45D0080DDCE /* UVDetail.swift in Sources */,
 				BCE0B9F32539BC600043EDEF /* User.swift in Sources */,
 				BCE6FB8125EF90EB00944D32 /* StickyHeaderImage.swift in Sources */,
 				BC96B67B2615C4B90062B905 /* ExploreColCard.swift in Sources */,
+				BC1BDDCD264D45EB005B2C8A /* FancyScroll.swift in Sources */,
 				BCA038D6257931F100C6713C /* RefreshingScrollView.swift in Sources */,
 				BC9102BC253198830016E8B1 /* SVRows.swift in Sources */,
 				BC89632825A0C17200E1AE82 /* BlogViewCarousel.swift in Sources */,
@@ -1108,6 +1133,7 @@
 				BCAFD51D2514C74E0072F161 /* LineChart.swift in Sources */,
 				BCAFD5052514C70B0072F161 /* WeatherData.swift in Sources */,
 				BCA038B82579315700C6713C /* Color.swift in Sources */,
+				BC1BDDD2264D46A9005B2C8A /* FancyScroll_Structs.swift in Sources */,
 				BCCDBE3F2587B28700E6A2C1 /* CustomCameraViewMain.swift in Sources */,
 				BCC4E0692619DACF00988164 /* Transitions.swift in Sources */,
 				BCE6FB7225EF902500944D32 /* TourVerticalCardView.swift in Sources */,
@@ -1126,7 +1152,9 @@
 				BC37DE4F2516041F000BC15E /* TabBarView.swift in Sources */,
 				BCAFD5042514C70B0072F161 /* InstagramData.swift in Sources */,
 				BCA038C22579318A00C6713C /* DateFormatter.swift in Sources */,
+				BC1BDDD4264D4928005B2C8A /* FancyScrollMain.swift in Sources */,
 				BCB22A63251E929B00F5926C /* AMMain.swift in Sources */,
+				BC1BDDCE264D45EB005B2C8A /* InfoCard.swift in Sources */,
 				BCE0EF032620DF1900864E49 /* SCNViewHelper.swift in Sources */,
 				BC2AD92A261F1584007F5921 /* SceneModelView.swift in Sources */,
 				BCC224EA25528ED800AE6769 /* TabBarButtons.swift in Sources */,

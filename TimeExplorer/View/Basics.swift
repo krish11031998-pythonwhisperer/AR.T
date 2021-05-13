@@ -18,6 +18,29 @@ enum TextStyle:String{
 //    case normal = "SF Pro"
 //    case normal = "Raleway-VariableFont_wght"
 }
+struct BasicText: View {
+    
+    var content:String
+    var fontDesign:Font.Design
+    var size:CGFloat
+    var weight:Font.Weight
+    
+    
+    init(content:String,fontDesign:Font.Design = .default,size:CGFloat = 15, weight:Font.Weight = .regular){
+        self.content = content
+        self.fontDesign = fontDesign
+        self.size = size
+        self.weight = weight
+        
+    }
+    
+    var body:some View{
+        Text(self.content)
+            .font(.system(size: self.size, weight: self.weight, design: self.fontDesign))
+            .foregroundColor(.black)
+    }
+
+}
 
 struct MainText: View {
     var content:String
