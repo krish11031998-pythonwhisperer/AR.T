@@ -65,6 +65,11 @@ struct FancyScrollMain: View {
 
     var body: some View {
         ZStack(alignment: .center) {
+            VStack(alignment: .leading, spacing: 10) {
+                MainText(content: "Discover", fontSize: 30, color: .black, fontWeight: .bold, style: .heading)
+                    .background(lightbottomShadow.rotationEffect(.init(degrees: 180)))
+                Spacer()
+            }
             FancyScroll(data: self.exploreList)
         }.onAppear(perform: self.onAppear)
     }

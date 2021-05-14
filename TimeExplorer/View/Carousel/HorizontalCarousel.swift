@@ -116,7 +116,7 @@ struct CarouselSliderCard:View{
     var data:CarouselData = .init()
     var count:Int
     @Binding var clickAction:Bool
-    @StateObject var IMD:ImageDownloader = .init()
+//    @StateObject var IMD:ImageDownloader = .init()
     var width:CGFloat
     var height:CGFloat
     var numbered:Bool
@@ -169,27 +169,16 @@ struct CarouselSliderCard:View{
     }
     
     var body: some View{
-//        Image(uiImage: self.IMD.image)
-//            .resizable()
-//            .aspectRatio(contentMode: .fill)
-//            .frame(width: self.width, height: self.height, alignment: .center)
-//            .clipShape(ArcCorners(corner: .topRight, curveFactor: 0.1, cornerRadius: 30, roundedCorner: .allCorners))
         ImageView(url: self.data.mainImage, width: self.width, height: self.height, contentMode: .fill)
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .overlay(
                 self.overlayView
-//                    .clipShape(ArcCorners(corner: .topRight, curveFactor: 0.1, cornerRadius: 30, roundedCorner: .allCorners))
             )
-            .onAppear {
-                if let url = self.data.mainImage , self.IMD.url != url{
-                    self.IMD.getImage(url: url)
-                }
-                
-//                if let _url = self.data.userImg, ImageDownloader.shared.url != _url{
-//                    ImageDownloader.shared.getImage(url: _url)
+//            .onAppear {
+//                if let url = self.data.mainImage , self.IMD.url != url{
+//                    self.IMD.getImage(url: url)
 //                }
-                
-            }
+//            }
             
     }
     
