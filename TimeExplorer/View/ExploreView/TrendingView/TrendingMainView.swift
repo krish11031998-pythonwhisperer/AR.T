@@ -252,6 +252,7 @@ struct TrendingMainView: View {
             self.ContentScroll(w: totalWidth, h: totalHeight)
             if self.showTour{
                 TourVerticalCardView(self.currentCard.data as? TourData ?? .init(), self.$showTour)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
             }
             if self.showPost{
                 self.navigationLinkToPost

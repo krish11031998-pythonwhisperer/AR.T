@@ -18,42 +18,31 @@ struct SceneModelView: View {
     @EnvironmentObject var viewStates:ArtViewStates
     @StateObject var mdD:ARModelDownloader = .init()
     @State var scene:SCNScene? = nil
-    @Binding var isEditting:Bool
-    @Binding var showFeatures:Bool
-    @Binding var selectedAnnotation:String
-    @Binding var annotations:[String:SCNVector3]
     @Binding var player:AVPlayer?
     @State var idx:Int = 1
     var sendAnnotation: ((String,SCNVector3?) -> Void)? = nil
     
     
-    init(isEdit:Binding<Bool> = .constant(false),annotations:Binding<[String:SCNVector3]> = .constant([:]),showAnnotations:Binding<Bool> = .constant(false),selectedAnnotation:Binding<String> = .constant(""),name:String,url_str:String,w:CGFloat,h:CGFloat,player:Binding<AVPlayer?>? = nil,handler: ((String,SCNVector3?) -> Void)? = nil){
-        self._isEditting  = isEdit
-        self._annotations = annotations
-        self._selectedAnnotation = selectedAnnotation
-        self._showFeatures = showAnnotations
-        self.name = name
-        self.url_str = url_str
+    init(w:CGFloat,h:CGFloat,name:String,url_str:String,player:Binding<AVPlayer?>? = nil,handler:((String,SCNVector3?) -> Void)? = nil){
         self.w = w
         self.h = h
-        self.sendAnnotation = handler
+        self.name = name
+        self.url_str = url_str
         self._player = player ?? .constant(nil)
+        self.sendAnnotation = handler
     }
-
+    
     
     func getName(name:String){
         print(name)
     }
     
     func sceneView() -> some View{
-        let sceneView  = SCNSceneView(model: $scene, isEditting: $isEditting, annotations: $annotations, idx: $idx, showAnnotations: $showFeatures
-                                      ,annotationVideos: $viewStates.annotationVideo, inspect:$viewStates.inspect,player: $player, width: w, height: h)
-        { (name,vector) in
+        let sceneView = SCNSceneView(model: $scene, idx: $idx, player: $player, width: w, height: h) { (name,vector) in
             if self.sendAnnotation != nil{
                 self.sendAnnotation!(name,vector)
             }
-            self.selectedAnnotation = name
-        }
+        }.environmentObject(self.viewStates)
         return sceneView
     }
     

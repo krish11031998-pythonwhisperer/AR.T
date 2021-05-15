@@ -37,7 +37,7 @@ struct BasicText: View {
     var body:some View{
         Text(self.content)
             .font(.system(size: self.size, weight: self.weight, design: self.fontDesign))
-            .foregroundColor(.black)
+//            .foregroundColor(.black)
     }
 
 }

@@ -10,6 +10,34 @@ import ARKit
 import RealityKit
 
 
+protocol URLDictCache{
+    subscript(_ url:URL) -> URL? { get set }
+}
+//
+struct ModelURLCache:URLDictCache{
+
+    private let cache:NSCache<NSURL, NSURL> = {
+        let cache = NSCache<NSURL,NSURL>()
+        return cache
+    }()
+    
+    static var cache = ModelURLCache()
+
+    subscript(url: URL) -> URL? {
+        get{
+            var res : URL? = nil
+            if let url = url as? NSURL{
+                res = self.cache.object(forKey: url) as? URL
+            }
+            return res
+        }
+        set{
+            guard let fin_url = newValue as? NSURL, let _url = url as? NSURL else {return}
+            self.cache.setObject(fin_url, forKey: _url)
+        }
+    }
+}
+
 extension SCNScene{
     static func downloadModel(name:String,url:String) -> SCNScene?{
         var finalScene: SCNScene? = nil
@@ -39,23 +67,29 @@ extension SCNScene{
 
 class ARModelDownloader:ObservableObject{
     @Published var url:URL? = nil
-    
+        
     func loadModel(name:String,url_string:String){
         guard let url = URL(string: url_string) else{return}
-        do{
-            try url.download(to: .documentDirectory, filename: name, overwrite: false) { (_url, err) in
-                guard let final_url = _url else {
-                    print(err!.localizedDescription)
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    self.url = final_url
-                }
+        if let modelURL = ModelURLCache.cache[url]{
+            DispatchQueue.main.async {
+                self.url = modelURL
             }
-        }catch{
-            print(error.localizedDescription)
+        }else{
+            do{
+                try url.download(to: .documentDirectory, filename: name, overwrite: false) { (_url, err) in
+                    guard let final_url = _url else {
+                        print(err!.localizedDescription)
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        self.url = final_url
+                    }
+                }
+            }catch{
+                print(error.localizedDescription)
+            }
         }
+        
         
     }
     
