@@ -167,8 +167,8 @@ struct TrendingMainCard:View{
                     MainText(content: self.data.location ?? "", fontSize: 15, color: .white, fontWeight: .semibold, style: .normal)
                 }.padding().background(RoundedRectangle(cornerRadius: 25).fill(Color.black))
             }
-            MainText(content: self.data.mainText ?? "", fontSize: 30, color: .white, fontWeight: .bold, style: .normal)
-                .multilineTextAlignment(.leading)
+            BasicText(content: self.data.mainText ?? "", fontDesign: .serif, size: 30, weight: .bold)
+                .foregroundColor(.white)
             
             if self.playerObj.player != nil && self.showVideo{
                 self.videoPlayerButton()
@@ -203,12 +203,6 @@ struct TrendingMainCard:View{
         .scaleEffect(self.scale)
         .onAppear(perform: self.onAppear)
         .onReceive(self.playerObj.$player, perform: self.onReceiveVidURL(player:))
-//        .onChange(of: self.showSummary) { showTour in
-//            if let data = self.data.data as? TourData,let imgURL = data.landmarks?.compactMap({$0.image}),showTour{
-//                self.IMD.getImages(urls: imgURL)
-//            }
-//        }
-//        
         .navigationTitle("")
         .navigationBarHidden(true)
     }

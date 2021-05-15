@@ -26,6 +26,8 @@ struct ArtView: View {
     @State var inspect:Bool = false
     @State var tabData:[(heading:String,detail:String,key:String?)]? = nil
     @State var showInfoCard:Bool = false
+    @State var viewAR:Bool = false
+    
     var onChanged:((DragGesture.Value) -> ())?
     var onEnded:((DragGesture.Value) -> ())?
     var tabs:[String] = ["Introduction","Top Features","Top Facts"]
@@ -62,29 +64,29 @@ struct ArtView: View {
     }
     
     //MARK: - Footer
-    func footer(w:CGFloat) -> some View{
-        return HStack(alignment: .top, spacing: 20){
-            if self.viewStates.mainTab > 0{
-                SystemButton(b_name: "arrow.left", b_content: self.tabs[self.viewStates.mainTab - 1],color: .black) {
-                    print("left button")
-                    self.viewStates.mainTab -= 1
-                }
-            }else{
-                Spacer()
-            }
-            MainText(content: self.tabs[self.viewStates.mainTab] , fontSize: 12.5,color: .black,fontWeight: .semibold,addBG: true)
-                .padding()
-            if self.viewStates.mainTab < self.tabs.count - 1{
-                SystemButton(b_name: "arrow.right", b_content: self.tabs[self.viewStates.mainTab + 1],color: .black) {
-                    print("right button")
-                    self.viewStates.mainTab += 1
-                }
-            }else{
-                Spacer()
-            }
-            
-        }.padding(.horizontal).frame(width: w, alignment: .center)
-    }
+//    func footer(w:CGFloat) -> some View{
+//        return HStack(alignment: .top, spacing: 20){
+//            if self.viewStates.mainTab > 0{
+//                SystemButton(b_name: "arrow.left", b_content: self.tabs[self.viewStates.mainTab - 1],color: .black) {
+//                    print("left button")
+//                    self.viewStates.mainTab -= 1
+//                }
+//            }else{
+//                Spacer()
+//            }
+//            MainText(content: self.tabs[self.viewStates.mainTab] , fontSize: 12.5,color: .black,fontWeight: .semibold,addBG: true)
+//                .padding()
+//            if self.viewStates.mainTab < self.tabs.count - 1{
+//                SystemButton(b_name: "arrow.right", b_content: self.tabs[self.viewStates.mainTab + 1],color: .black) {
+//                    print("right button")
+//                    self.viewStates.mainTab += 1
+//                }
+//            }else{
+//                Spacer()
+//            }
+//
+//        }.padding(.horizontal).frame(width: w, alignment: .center)
+//    }
     
     
     //MARK: - Sidebars
@@ -95,6 +97,7 @@ struct ArtView: View {
             VStack(alignment: .center, spacing: 10) {
                 TabBarButtons(bindingState: $viewStates.showFeatures, name: "sparkles")
                 TabBarButtons(bindingState: $viewStates.isEditting,name: "pencil")
+                TabBarButtons(bindingState: $viewAR, name: "cube")
             }
         }.padding()
         .frame(width: w, alignment: .trailing)
@@ -191,21 +194,22 @@ struct ArtView: View {
     func onAppear(){
         self.mainStates.showTab = false
 //        let loaded = self.viewStates.annotations.isEmpty && self.viewStates.annotationInfos.isEmpty && self.viewStates.annotationVideo.isEmpty
+        
         if let annotations = self.data.annotations{
             let (infos,coords,video) = ArtViewStates.updateAnnotations(annotations: annotations)
             DispatchQueue.main.async {
                 self.viewStates.annotations = coords
                 self.viewStates.annotationInfos = infos
                 self.viewStates.annotationVideo = video
-                if let topFacts = self.data.top_facts{
-                    self.tabData = topFacts.map({ (el) -> (heading:String,detail:String,key:String?) in
-                        return (heading:el.key,detail:el.value,key:nil)
-                    })
-                }
-                tabData?.append(contentsOf: infos.map { (el) -> (heading:String,detail:String,key:String?) in
-                    return (heading:el.value.heading ?? "Heading",detail: el.value.detail ?? "Detail",key:el.key)
-                })
-                print("tabData is loaded : \(String(describing: tabData?.count))")
+//                if let topFacts = self.data.top_facts{
+//                    self.tabData = topFacts.map({ (el) -> (heading:String,detail:String,key:String?) in
+//                        return (heading:el.key,detail:el.value,key:nil)
+//                    })
+//                }
+//                tabData?.append(contentsOf: infos.map { (el) -> (heading:String,detail:String,key:String?) in
+//                    return (heading:el.value.heading ?? "Heading",detail: el.value.detail ?? "Detail",key:el.key)
+//                })
+//                print("tabData is loaded : \(String(describing: tabData?.count))")
             }
         }
         
@@ -242,7 +246,7 @@ struct ArtView: View {
     //MARK: - SceneView
     func sceneView(w:CGFloat,h:CGFloat) -> some View{
         let radius = self.viewStates.inspect ? 0 : 15
-        return SceneModelView(isEdit: $viewStates.isEditting, annotations: $viewStates.annotations,showAnnotations: $viewStates.showFeatures, name: self.name, url_str: self.data.model_url ?? "", w: w, h: h,player: nil,handler:self.updateAfterSceneInteraction(name:vector:))
+        return SceneModelView(w: w, h: h, name: self.name, url_str: self.data.model_url ?? "", player: nil, handler: self.updateAfterSceneInteraction(name:vector:))
             .environmentObject(viewStates)
             .background(BlurView(style: .dark))
             .animation(.easeInOut)
@@ -377,6 +381,9 @@ struct ArtView: View {
                 ZStack(alignment: .center) {
                     Color.black
                     self.mainBody(w: w, h: h)
+                    if self.viewAR{
+                        ARMainView(name: self.name, url: self.data.model_url ?? "", show: $viewAR)
+                    }
                 }.frame(width: w, height: h, alignment: .center)
             )
             

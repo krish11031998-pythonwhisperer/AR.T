@@ -11,23 +11,22 @@ struct ArtScrollMainView: View {
     @EnvironmentObject var mainStates:AppStates
     var data:ArtData
     @Binding var showArt:Bool
-    var imgSet:[String]{
-        var res:[String] = ["monaLisa"]
-        for x in 1...5{
-            res.append("img\(x)")
-        }
-        return res
-    }
-    
-    var thresHeight:CGFloat{
-        return totalHeight * 0.1
-    }
     @State var minY:CGFloat = 0
     @State var swiped:Int = 0
     @State var offset:CGFloat = 0
     @State var changeFocus:Bool = false
     let no_cards:Int = 4
-
+    var off_percent:CGFloat{
+        let percent = abs(self.offset)/self.thresHeight
+        return percent > 1 ? 1 : percent < 0 ? 0 : percent
+    }
+    
+    var swipedOffset:CGFloat{
+        let y_off = -CGFloat(self.swiped) * totalHeight
+        return y_off
+    }
+    
+    
     func onChanged(value:DragGesture.Value){
         let height = value.translation.height
         self.offset = height
@@ -51,16 +50,8 @@ struct ArtScrollMainView: View {
         self.offset = off
         
     }
-    
-    var off_percent:CGFloat{
-        let percent = abs(self.offset)/self.thresHeight
-        return percent > 1 ? 1 : percent < 0 ? 0 : percent
-    }
-    
-    var swipedOffset:CGFloat{
-
-        let y_off = -CGFloat(self.swiped) * totalHeight
-        return y_off
+    var thresHeight:CGFloat{
+        return totalHeight * 0.1
     }
     
     func activeViews(idx:Int) -> some View{
@@ -87,7 +78,7 @@ struct ArtScrollMainView: View {
             }
         }.edgesIgnoringSafeArea(.all)
         .frame(width: totalWidth, height: totalHeight, alignment: .top)
-        .offset(y: swipedOffset + self.offset)
+        .offset(y: self.swipedOffset + self.offset)
         .animation(.easeInOut)
         .onChange(of: self.minY, perform: { value in
             if self.swiped == 0 && self.minY == totalHeight && self.showArt{
@@ -100,6 +91,9 @@ struct ArtScrollMainView: View {
         .onAppear(perform: {
             if self.mainStates.showTab{
                 self.mainStates.showTab = false
+            }
+            if self.mainStates.loading{
+                self.mainStates.loading = false
             }
         })
         .onDisappear(perform: {

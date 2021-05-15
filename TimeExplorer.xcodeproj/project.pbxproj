@@ -50,9 +50,10 @@
 		BC645DDD2595124A0054F2FE /* MessageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC645DDC2595124A0054F2FE /* MessageData.swift */; };
 		BC645DE225951D0B0054F2FE /* MessageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC645DE125951D0B0054F2FE /* MessageList.swift */; };
 		BC67C27025307BAC00F1FC3C /* SVStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC67C26F25307BAC00F1FC3C /* SVStory.swift */; };
-		BC69478A264DCB7000FE5FF1 /* ARMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC694789264DCB7000FE5FF1 /* ARMainView.swift */; };
+		BC69478A264DCB7000FE5FF1 /* ARHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC694789264DCB7000FE5FF1 /* ARHelpers.swift */; };
 		BC69478D264DE1B800FE5FF1 /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = BC69478C264DE1B800FE5FF1 /* FocusEntity */; };
 		BC69478F264DE6D500FE5FF1 /* ARViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC69478E264DE6D500FE5FF1 /* ARViewHelper.swift */; };
+		BC694791264E5DF400FE5FF1 /* ARMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC694790264E5DF400FE5FF1 /* ARMainView.swift */; };
 		BC78837E2637FC9A00511836 /* SwipedParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78837D2637FC9A00511836 /* SwipedParams.swift */; };
 		BC7B173B2519698F0043FFCE /* AVDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7B173A2519698E0043FFCE /* AVDetail.swift */; };
 		BC7D02372645DF12002D2E9D /* ArtIntroMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7D02362645DF12002D2E9D /* ArtIntroMainView.swift */; };
@@ -211,8 +212,9 @@
 		BC645DDC2595124A0054F2FE /* MessageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageData.swift; sourceTree = "<group>"; };
 		BC645DE125951D0B0054F2FE /* MessageList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageList.swift; sourceTree = "<group>"; };
 		BC67C26F25307BAC00F1FC3C /* SVStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVStory.swift; sourceTree = "<group>"; };
-		BC694789264DCB7000FE5FF1 /* ARMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARMainView.swift; sourceTree = "<group>"; };
+		BC694789264DCB7000FE5FF1 /* ARHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARHelpers.swift; sourceTree = "<group>"; };
 		BC69478E264DE6D500FE5FF1 /* ARViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewHelper.swift; sourceTree = "<group>"; };
+		BC694790264E5DF400FE5FF1 /* ARMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARMainView.swift; sourceTree = "<group>"; };
 		BC78837D2637FC9A00511836 /* SwipedParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipedParams.swift; sourceTree = "<group>"; };
 		BC7B173A2519698E0043FFCE /* AVDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVDetail.swift; sourceTree = "<group>"; };
 		BC7D02362645DF12002D2E9D /* ArtIntroMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtIntroMainView.swift; sourceTree = "<group>"; };
@@ -491,7 +493,8 @@
 		BC694788264DCB6200FE5FF1 /* ARMainView */ = {
 			isa = PBXGroup;
 			children = (
-				BC694789264DCB7000FE5FF1 /* ARMainView.swift */,
+				BC694789264DCB7000FE5FF1 /* ARHelpers.swift */,
+				BC694790264E5DF400FE5FF1 /* ARMainView.swift */,
 			);
 			path = ARMainView;
 			sourceTree = "<group>";
@@ -1119,6 +1122,7 @@
 				BC78837E2637FC9A00511836 /* SwipedParams.swift in Sources */,
 				BCC4E06E2619DB2000988164 /* HeroConfiguration.swift in Sources */,
 				BCA038CC257931B500C6713C /* LottieView.swift in Sources */,
+				BC694791264E5DF400FE5FF1 /* ARMainView.swift in Sources */,
 				BC9A324D264541FB00882AB1 /* ArtPageView.swift in Sources */,
 				BCE6FB8625EF911B00944D32 /* AVCarousel.swift in Sources */,
 				BC124109257D49AE0009B976 /* FloatHelpers.swift in Sources */,
@@ -1181,7 +1185,7 @@
 				BCE0EF032620DF1900864E49 /* SCNViewHelper.swift in Sources */,
 				BC2AD92A261F1584007F5921 /* SceneModelView.swift in Sources */,
 				BCC224EA25528ED800AE6769 /* TabBarButtons.swift in Sources */,
-				BC69478A264DCB7000FE5FF1 /* ARMainView.swift in Sources */,
+				BC69478A264DCB7000FE5FF1 /* ARHelpers.swift in Sources */,
 				BCE1AC9A2595F283002A150F /* MessageView.swift in Sources */,
 				BC8526EF256EAC0F002AACEA /* BlogMainView.swift in Sources */,
 				BCA038AE2579312D00C6713C /* ImagePicker.swift in Sources */,

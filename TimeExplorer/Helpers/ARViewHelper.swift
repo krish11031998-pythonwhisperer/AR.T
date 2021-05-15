@@ -13,14 +13,23 @@ import RealityKit
 
 extension ARView{
     
-//    
-//    func addModel(_url:String? = nil, _model:ModelEntity? = nil,position:SIMD3<Float>? = nil, scale:SIMD3<Float>? = nil){
-//        var model:ModelEntity = .init()
-//        if let model = _model{
-//            model = model
-//        }else if let urlStr = _url, let url = URL(string: urlStr), let entity = try? Entity.load(named: name, in: .main.bundleURL){
-//            
-//        }
-//    }
-//    
+    
+    func addModel(model _model:ModelEntity? = nil,url _url:URL? = nil,position _pos:SIMD3<Float>? = nil, scale _scale:SIMD3<Float>? = nil){
+        var model:ModelEntity = .init()
+        if let mod = _model{
+            model = mod
+        }else if let url = _url,let entity = try? ModelEntity.loadModel(contentsOf: url){
+            model = entity
+        }
+        model.name = "arModel"
+        model.generateCollisionShapes(recursive: true)
+        let anchor = AnchorEntity(plane: .horizontal)
+        if let pos = _pos{
+            anchor.position = pos
+        }
+        anchor.addChild(model)
+        self.scene.addAnchor(anchor)
+        self.installGestures([.translation,.scale], for: model)
+    }
+    
 }

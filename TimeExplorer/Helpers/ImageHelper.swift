@@ -246,7 +246,7 @@ class ImageDownloader:ObservableObject{
                     self.images[url] = cachedImage
                 }
                 self.loading = false
-                print("Loaded from the cache")
+//                print("Loaded from the cache")
             }
         }else{
             guard let safeURL = URL(string:url) else {print("Something wrong with the url : \(url)");return}
@@ -275,7 +275,7 @@ class ImageDownloader:ObservableObject{
                         self.images[url] = safeImage
                     }
                     self.loading = false
-                    print("Loaded from the url")
+//                    print("Loaded from the url")
                     
                 }
                 

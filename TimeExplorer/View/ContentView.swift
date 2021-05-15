@@ -12,7 +12,7 @@ import MapKit
 class AppStates:ObservableObject{
     @Published var coordinates:CLLocationCoordinate2D = .init()
     @Published var loading:Bool = true
-    @Published var tab:String = "attractions"
+    @Published var tab:String = "feed"
     @Published var showTab:Bool = true
     @Published var userAcc:Account = .init()
     @Published var photosManager:PhotoImages = .init()

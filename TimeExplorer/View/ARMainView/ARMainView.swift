@@ -1,68 +1,87 @@
 //
-//  ARMainView.swift
+//  ARView.swift
 //  TimeExplorer
 //
 //  Created by Krishna Venkatramani on 14/05/2021.
 //
 
 import SwiftUI
-import ARKit
-import RealityKit
-import FocusEntity
 
-class FocusARView : ARView{
-    var focusEntity:FocusEntity?
-
-    required init(frame frameRect: CGRect) {
-        super.init(frame: frameRect)
-        self.focusEntity = .init(on: self, focus: .classic)
-        self.focusEntity?.isEnabled = false
-        self.configure()
+struct ARMainView: View {
+    @StateObject var mdlDM:ARModelDownloader = .init()
+    var name:String
+    var url:String
+    @Binding var show:Bool
+    @State var cancel:Bool = true
+    @State var placeModel:Bool = false
+    
+    init(name:String,url: String,show:Binding<Bool>){
+        self.name = name
+        self.url = url
+        self._show = show
     }
     
-    @objc required dynamic init?(coder decoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    func togglePlace(){
+        self.placeModel.toggle()
     }
     
-    func configure(){
-        var config = ARWorldTrackingConfiguration()
-        config.planeDetection = [.horizontal,.vertical]
-        self.session.run(config)
+    
+    func onAppear(){
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250)) {
+            self.mdlDM.loadModel(name: self.name, url_string: self.url)
+        }
+    }
+    
+    func onReceive(url:URL?){
+        if url != nil{
+            self.cancel = false
+        }
+    }
+    
+    var ARControllerView:some View{
+        VStack(alignment: .center, spacing: 10) {
+            HStack(alignment: .center, spacing: 10){
+                Spacer()
+                SystemButton(b_name: "xmark", b_content: "", color: .black, haveBG: true, bgcolor: .white) {
+                    self.show.toggle()
+                }
+            }.padding().frame(width: totalWidth, alignment: .center)
+            Spacer()
+            if !self.cancel{
+                HStack(alignment: .center, spacing: 10){
+                    Spacer()
+                    SystemButton(b_name: "checkmark", b_content: "", color: .white, haveBG: true, bgcolor: .black) {
+                        self.placeModel.toggle()
+                    }
+                    SystemButton(b_name: "xmark", b_content: "", color: .white, haveBG: true, bgcolor: .black) {
+                        self.cancel.toggle()
+                    }
+                    Spacer()
+                }.frame(width: totalWidth, alignment: .center)
+            }
+            
+        }.padding()
+        .padding(.bottom,20)
+        .frame(width: totalWidth, height: totalHeight, alignment: .center)
+    }
+    
+    var body: some View {
+        ZStack{
+            ARViewContainer(url: self.$mdlDM.url, place: self.$placeModel)
+                .frame(width: totalWidth, height: totalHeight, alignment: .center)
+            if !self.cancel{
+                self.ARControllerView
+            }
+            
+        }.edgesIgnoringSafeArea(.all)
+        .frame(width: totalWidth, height: totalHeight, alignment: .center)
+        .onAppear(perform: self.onAppear)
+        .onReceive(mdlDM.$url, perform: self.onReceive(url:))
     }
 }
 
-//struct ARViewContainer:UIViewRepresentable{
-//    @EnvironmentObject var mainContext:AppContext
-//
-//    func makeUIView(context: Context) -> CustomARView {
-//        var arView = CustomARView(frame: .zero)
-//        arView.enableGestures()
-//        self.mainContext.subscriber = arView.scene.subscribe(to: SceneEvents.Update.self, { (event) in
-//            self.updateScene(for: arView)
-//        })
-//        return arView
-//    }
-//
-//
-//    func updateScene(for arView:CustomARView){
-//        arView.focusEntity?.isEnabled = self.mainContext.selectedModel != nil
-//
-//        if let confirmed = self.mainContext.confirmedModel, let modelEntity = confirmed.model, let position = arView.focusEntity?.position,let scale = arView.focusEntity?.scale{
-//
-//            arView.addModel(scale:scale,_modelEntity: modelEntity, position: position)
-//            self.mainContext.allModelinView[modelEntity.name] = confirmed
-//            self.mainContext.confirmedModel = nil
-//        }
-//
-//        if let delete = self.mainContext.modelToDelete, let modelEntity = delete.model, let entity = arView.scene.findEntity(named: modelEntity.name), let anchor = entity.anchor{
-//            arView.scene.removeAnchor(anchor)
-//            self.mainContext.modelToDelete = nil
-//            print("Successfully deleted the model with name : \(modelEntity.name)")
-//            self.mainContext.allModelinView.removeValue(forKey: modelEntity.name)
-//        }
-//    }
-//
-//    func updateUIView(_ uiView: CustomARView, context: Context) {
+//struct ARView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ARMainView()
 //    }
 //}
-

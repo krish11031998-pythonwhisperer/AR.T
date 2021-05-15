@@ -71,7 +71,7 @@ struct TabBarView: View {
                 SystemButton(b_name: icon, b_content: "", color: isSelected ? .black : .white, haveBG: false, action: {
                     withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.6, blendDuration: 0.5)) {
                         self.mainStates.tab = name
-//                        self.mainStates.loading = true
+                        self.mainStates.loading = true
                     }
                 })
                 .padding(2.5)
