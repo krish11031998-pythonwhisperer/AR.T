@@ -59,9 +59,9 @@ struct TrendingMainCard:View{
                     if !self.showVideo{
                         self.showVideo = true
                     }
-                    if self.playerObj.videoState != .play{
-                        self.playerObj.videoState = .play
-                    }
+//                    if self.playerObj.videoState != .play{
+//                        self.playerObj.videoState = .play
+//                    }
                 }
             }
         }
@@ -188,9 +188,9 @@ struct TrendingMainCard:View{
             let minY = g.frame(in: .global).minY
             ZStack{
                 self.imageView(minY: minY)
-                if self.showVideo && self.playerObj.player != nil{
-                    SimpleVideoPlayer(player: self.playerObj.player!, videoState: $playerObj.videoState, frame: .init(x: 0, y: 0, width: totalWidth, height: totalHeight))
-                }
+//                if self.showVideo && self.playerObj.player != nil{
+//                    SimpleVideoPlayer(player: self.playerObj.player!, videoState: $playerObj.videoState, frame: .init(x: 0, y: 0, width: totalWidth, height: totalHeight))
+//                }
                 bottomShadow.opacity(detailOpacity)
                 self.infoView()
                 .padding(.horizontal,25).padding(.bottom,100).opacity(self.detailOpacity)

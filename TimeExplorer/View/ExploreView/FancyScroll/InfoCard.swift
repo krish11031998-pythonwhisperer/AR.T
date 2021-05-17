@@ -14,10 +14,12 @@ struct InfoCard: View {
     var width:CGFloat = totalWidth
     var height:CGFloat = totalHeight
     @Binding var selectedCard:Int
+    @Binding var showArt:Bool
     
-    init(data:ExploreData,selectedCard:Binding<Int>){
+    init(data:ExploreData,selectedCard:Binding<Int>,showArt:Binding<Bool>){
         self.data = data
         self._selectedCard = selectedCard
+        self._showArt = showArt
     }
     
     var info:(heading:String,subheadline:String,name:String,description:String)?{
@@ -37,11 +39,9 @@ struct InfoCard: View {
         return AnyView(Color.clear.frame(width: 1, height: 1, alignment: .center))
     }
     
-    var card: some View{
-        VStack(alignment: .leading, spacing: 10) {
-            HStack{
-                self.validText(str: self.info!.heading, options: (design: .serif, size: 20, weight: .regular))
-//                BasicText(content: self.info!.heading, fontDesign: .serif, size: 20, weight: .regular)
+    var closeButton:some View{
+        VStack(alignment: .trailing, spacing: 10) {
+            HStack(alignment: .center, spacing: 10){
                 Spacer()
                 SystemButton(b_name: "xmark", b_content: "", color: .white, haveBG: true, bgcolor: .black) {
                     if self.selectedCard != -1{
@@ -49,15 +49,28 @@ struct InfoCard: View {
                     }
                 }
             }
+            Spacer()
+        }
+    }
+    
+    var card: some View{
+        VStack(alignment: .leading, spacing: 10) {
+            self.validText(str: self.info!.heading, options: (design: .serif, size: 20, weight: .regular))
+                .frame(width: width - 20, alignment: .leading)
             self.validText(str: self.info!.subheadline, options: (design: .rounded, size: 15, weight: .regular))
             self.validText(str: "by \(self.info!.name)", options: (design: .serif, size: 10, weight: .medium))
             self.validText(str: self.info!.description, options: (design: .rounded, size: 12, weight: .regular))
             Spacer()
+            SystemButton(b_name: "arrow.right", b_content: "View", color: .white, haveBG: true, bgcolor: .black) {
+                self.showArt = true
+            }
         }
         .padding()
+        .padding(.top,10)
         .frame(width: width, height: height * 0.325, alignment: .center)
-        .background(BlurView(style: .regular))
-        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .background(Color.white)
+        .clipShape(ArcCorners(corner: .topRight, curveFactor: 0.05, cornerRadius: 10, roundedCorner: [.topRight,.topLeft]))
+        .overlay(self.closeButton)
     }
     
     var body: some View {

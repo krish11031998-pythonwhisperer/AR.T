@@ -97,7 +97,7 @@ extension UIImage{
         return image
     }
     
-    func cropToBounds(width: CGFloat, height: CGFloat) -> UIImage {
+    func cropToBounds(width: CGFloat, height: CGFloat,alignment:Alignment? = nil) -> UIImage {
         
         let image = self
         let cgimage = image.cgImage!
@@ -105,10 +105,11 @@ extension UIImage{
         let contextSize: CGSize = contextImage.size
         var posX: CGFloat = 0.0
         var posY: CGFloat = 0.0
-        var cgwidth: CGFloat = CGFloat(width)
-        var cgheight: CGFloat = CGFloat(height)
+        var cgwidth: CGFloat = width
+        var cgheight: CGFloat = height
 
         // See what size is longer and create the center off of that
+        
         if contextSize.width > contextSize.height {
             posX = ((contextSize.width - contextSize.height) / 2)
             posY = 0
@@ -120,6 +121,7 @@ extension UIImage{
             cgwidth = contextSize.width
             cgheight = contextSize.width
         }
+                
 
         let rect: CGRect = CGRect(x: posX, y: posY, width: cgwidth, height: cgheight)
 
@@ -132,6 +134,7 @@ extension UIImage{
         return cropped_image
     }
     
+
     static func loadImageFromCache(_ url:String?) -> UIImage?{
         var image:UIImage? = nil
         if let url = url,let _url = URL(string: url),let cachedImage = ImageCache.cache[_url]{
@@ -255,6 +258,9 @@ class ImageDownloader:ObservableObject{
                     if let err = err{
                         print(err)
                     }
+//                    DispatchQueue.main.async {
+//                        self.loading.toggle()
+//                    }
                     return
                     
                 }

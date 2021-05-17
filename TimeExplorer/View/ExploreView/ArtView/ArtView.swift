@@ -192,7 +192,11 @@ struct ArtView: View {
     }
     
     func onAppear(){
-        self.mainStates.showTab = false
+//        if self.mainStates.showTab{
+//            self.mainStates.showTab = false
+//        }
+        self.mainStates.toggleTab()
+//        self.mainStates.showTab = false
 //        let loaded = self.viewStates.annotations.isEmpty && self.viewStates.annotationInfos.isEmpty && self.viewStates.annotationVideo.isEmpty
         
         if let annotations = self.data.annotations{
@@ -392,7 +396,10 @@ struct ArtView: View {
         .background(Color.white)
 //        .onAppear(perform: self.onAppear)
         .onDisappear(perform: {
-            self.mainStates.showTab = true
+            if !self.mainStates.showTab && self.mainStates.tab != "attractions"{
+                self.mainStates.showTab = true
+            }
+            
         })
         .onChange(of: self.viewStates.selectedAnnotation, perform: { annotation in
             if self.showInfoCard{

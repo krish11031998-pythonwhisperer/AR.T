@@ -21,7 +21,7 @@ struct ImageView:View{
     
     
     
-    init(url:String?,heading:String? = nil,width:CGFloat = 300,height:CGFloat = 300,contentMode:ContentMode = .fill,alignment:Alignment = .center,_ testMode:Bool = false,autoHeight:Bool = false){
+    init(url:String?,heading:String? = nil,width:CGFloat = 300,height:CGFloat = 300,contentMode:ContentMode = .fill,alignment:Alignment = .center,testMode:Bool = false,autoHeight:Bool = false){
         self.url = url ?? ""
         self.width = width
         self.height = height
@@ -33,7 +33,7 @@ struct ImageView:View{
     }
     
     
-    init(img:UIImage? = nil,width:CGFloat = 300,height:CGFloat = 300,contentMode:ContentMode = .fill,alignment:Alignment = .center,_ testMode:Bool = false){
+    init(img:UIImage? = nil,width:CGFloat = 300,height:CGFloat = 300,contentMode:ContentMode = .fill,alignment:Alignment = .center,testMode:Bool = false){
         self.img = img
         self.width = width
         self.height = height
@@ -43,31 +43,28 @@ struct ImageView:View{
     }
     
     func onAppear(){
-        if self.img == nil && self.url != ""{
-            self.IMD.getImage(url: self.url)
+        if self.img == nil && self.url != "" && !self.testMode{
+            self.IMD.getImage(url: self.url,bounds: .init(width: self.width, height: self.height))
         }
     }
     
     func imgView(w _w:CGFloat? = nil,h _h:CGFloat? = nil) -> some View{
         let w = _w == nil ? self.width : _w
         var h = _h == nil ? self.height : _h
-        let img = (self.img != nil ? self.img! : self.IMD.image).cropToBounds(width: self.width, height: self.height)
+        let img = (self.img != nil ? self.img! : self.IMD.image)
         let ar = UIImage.aspectRatio(img: img)
         h = self.autoHeight ? self.width/ar : h
 //        h = h < 175 && self.autoHeight ? 175 : h
         return ZStack(alignment: .center) {
             Image(uiImage: img)
                 .resizable()
-//                .aspectRatio(ar,contentMode: self.contentMode)
-                .aspectRatio(contentMode: self.contentMode)
-                .frame(width: self.width, height: h, alignment: alignment)
-            
+                .aspectRatio(ar,contentMode: self.contentMode)
             if self.IMD.loading && self.img == nil{
                 Color.black
                 BlurView(style: .regular)
             }
             
-        }.frame(width: self.width,height: h, alignment: alignment)
+        }.frame(width: self.width,height: h)
         .onAppear(perform: self.onAppear)
     }
     
@@ -85,18 +82,18 @@ struct ImageView:View{
         .shadow(radius: 5)
     }
     
+    var mainIMGView:AnyView{
+        var view = AnyView(self.imgView())
+        if self.heading != nil{
+            view = AnyView(self.imgView_w_caption.transition(.opacity))
+        }
+        return view
+    }
+    
     var body: some View{
         ZStack{
-            if self.heading != nil{
-                self.imgView_w_caption
-                    .transition(.opacity)
-            }
-            
-            if self.heading == nil{
-                self.imgView()
-                    .transition(.opacity)
-            }
-        }.animation(.default)
+            self.mainIMGView
+        }
         
     }
     
