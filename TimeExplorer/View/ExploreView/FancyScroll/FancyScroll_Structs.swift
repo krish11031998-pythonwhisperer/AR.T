@@ -15,6 +15,7 @@ class FancyScrollStates:ObservableObject{
     @Published var selectedCard:Int = -1
     @Published var changeIdx:Bool = false
     @Published var dragging:Bool = false
+    @Published var showArt:Bool = false
     
     var cardSize:CGSize = .zero
     

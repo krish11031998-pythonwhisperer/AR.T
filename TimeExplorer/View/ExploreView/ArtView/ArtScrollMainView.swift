@@ -29,14 +29,14 @@ struct ArtScrollMainView: View {
     
     func onChanged(value:DragGesture.Value){
         let height = value.translation.height
-        self.offset = height
+        self.offset = height * 1.5
     }
     
     func onEnded(value:DragGesture.Value){
-        let height = value.translation.height
+        let height = value.translation.height  * 1.5
         var off:CGFloat = 0
         var val:Int = 0
-        if abs(height) > 100{
+        if abs(height) > totalHeight * 0.15{
             val = height > 0 ? -1 : 1
             if self.swiped + val <= self.no_cards - 1 && self.swiped + val >= 0{
                 self.swiped += val
@@ -54,32 +54,47 @@ struct ArtScrollMainView: View {
         return totalHeight * 0.1
     }
     
-    func activeViews(idx:Int) -> some View{
+    func activeViews(idx:Int,onChanged:((DragGesture.Value) -> Void)? = nil,onEnded:((DragGesture.Value) -> Void)? = nil) -> AnyView{
         var view:AnyView = .init(Color.clear)
         switch(idx){
         case 0:
-            view = AnyView(ScrollInfoCard(data: data,minY: $minY,showArt: $showArt,onChanged: self.onChanged(value:),onEnded: self.onEnded(value:)))
+            view = AnyView(ScrollInfoCard(data: data,minY: $minY,showArt: $showArt,onChanged: onChanged ?? self.onChanged(value:),onEnded: onEnded ?? self.onEnded(value:)))
         case 1:
-            view = AnyView(ArtView(data: data,onChanged: self.onChanged(value:),onEnded: self.onEnded(value:)))
+            view = AnyView(ArtView(data: data,onChanged:onChanged ?? self.onChanged(value:),onEnded: onEnded ?? self.onEnded(value:)))
         case 2:
-            view = AnyView(ArtTopFactView(data: self.data,ver_onChanged: self.onChanged(value:),ver_onEnded:self.onEnded(value:)))
+            view = AnyView(ArtTopFactView(data: self.data,ver_onChanged:onChanged ?? self.onChanged(value:),ver_onEnded:onEnded ?? self.onEnded(value:)))
         case 3:
-            view = AnyView(ArtPageView(data: self.data,onChanged: self.onChanged(value:),onEnded: self.onEnded(value:)))
+            view = AnyView(ArtPageView(data: self.data,onChanged:onChanged ?? self.onChanged(value:),onEnded: onEnded ?? self.onEnded(value:)))
         default:
             break
         }
         return view
     }
     
+    var scrollController:FeedVerticalScroll{
+        var controller = FeedVerticalScroll(view: [])
+        
+        controller.views = views
+        return controller
+    }
+    
+    var views:[AnyView]{
+        let views = Array(0..<self.no_cards).map({self.activeViews(idx: $0)})
+        return views
+    }
+    
     var body:some View{
         return VStack(alignment: .center, spacing: 0) {
-            ForEach(Array(0..<self.no_cards),id:\.self){idx in
-                self.activeViews(idx: idx)
+            ForEach(Array(self.views.enumerated()),id:\.offset){ _view in
+//                self.activeViews(idx: idx)
+                let view = _view.element
+                view
             }
         }.edgesIgnoringSafeArea(.all)
         .frame(width: totalWidth, height: totalHeight, alignment: .top)
         .offset(y: self.swipedOffset + self.offset)
         .animation(.easeInOut)
+
         .onChange(of: self.minY, perform: { value in
             if self.swiped == 0 && self.minY == totalHeight && self.showArt{
                 DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
@@ -90,17 +105,18 @@ struct ArtScrollMainView: View {
         })
         .onAppear(perform: {
             if self.mainStates.showTab{
-                self.mainStates.showTab = false
+                self.mainStates.toggleTab()
             }
+            
             if self.mainStates.loading{
                 self.mainStates.loading = false
             }
         })
-        .onDisappear(perform: {
-            if !self.mainStates.showTab{
-                self.mainStates.showTab = true
-            }
-        })
+//        .onDisappear(perform: {
+//            if !self.mainStates.showTab && self.mainStates.tab != "attractions"{
+//                self.mainStates.showTab = true
+//            }
+//        })
         
     }
 }

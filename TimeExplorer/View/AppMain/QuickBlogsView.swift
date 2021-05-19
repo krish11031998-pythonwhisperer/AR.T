@@ -75,7 +75,7 @@ struct QuickBlogsView: View {
                 .navigationBarHidden(true)
                 .navigationBarBackButtonHidden(true)
         }
-        .clipShape(RoundedRectangle(cornerRadius: 25))
+//        .clipShape(RoundedRectangle(cornerRadius: 25))
         .onAppear {
             if self.BlogManager.blogs.isEmpty{
                 self.BlogManager.getTopBlogs(limit: 4)
@@ -110,16 +110,8 @@ struct BlogCard:View{
     func cardHeight(_ minX:CGFloat, _ percent:CGFloat, _ type:String, _ h:CGFloat) -> CGFloat{
         let targetHeight = h * (type == "caption" ? 0.3 : 0.7)
         var result:CGFloat = 0
-        var factor:CGFloat = 0
+        var factor:CGFloat = type == "image" ?  1 - (0.2 * (1 - percent)) : 0.2 * (1 - percent)
         if (minX >= self.thresWidth && minX <= self.targetWidth){
-            switch (type){
-            case "image":
-                factor = 1 - (0.2 * (1 - percent))
-            case "caption":
-                factor = 0.2 * (1 - percent)
-            default:
-                break
-            }
             result = h * factor
             result = type == "caption" ? result > targetHeight ? targetHeight : result : result < targetHeight ? result : targetHeight
         }
@@ -132,6 +124,31 @@ struct BlogCard:View{
         return result
     }
     
+    
+    
+    func infoSection(width w:CGFloat, height h :CGFloat,percent: CGFloat) -> some View{
+        let bg = ZStack(alignment: .center){
+            Image(uiImage: .loadImageFromCache(self.blog.image?.first))
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: w, height: h, alignment: .bottomLeading)
+            BlurView(style: .regular)
+        }
+        return HStack{
+            VStack(alignment: .leading, spacing: 10) {
+                MainText(content: self.blog.user ?? "User", fontSize: 12, color: .white, fontWeight: .regular)
+                BasicText(content: self.blog.headline ?? "Title", fontDesign: .serif, size: 20, weight: .semibold)
+                    .foregroundColor(.white)
+            }
+            Spacer()
+            MainText(content: "#\(self.number + 1)", fontSize: 15, color: Color.white, fontWeight: .bold, style: .normal)
+                .padding()
+                .background(Circle().fill(Color.black))
+        }.padding()
+        .frame(width:w,height:h)
+        .background(bottomShadow)
+    }
+    
     var body:some View{
         GeometryReader{g in
             let h = g.frame(in: .local).height
@@ -139,40 +156,21 @@ struct BlogCard:View{
             let minX = g.frame(in: .global).minX
             let activate = minX <= self.thresWidth
             let percent =  (minX - self.targetWidth)/(self.thresWidth - self.targetWidth)
-            let imgHeight = self.cardHeight(minX, percent, "image",h * 0.9)
+//            let imgHeight = self.cardHeight(minX, percent, "image",h * 0.9)
             let contentHeight = self.cardHeight(minX, percent, "caption",h * 0.9)
             
-            ZStack(alignment: .top) {
+            ZStack(alignment: .bottom) {
+                ImageView(url: self.blog.image?.first, width: w, height: h, contentMode: .fill)
+                    .clipped()
+                if activate{
+                    self.infoSection(width: w, height: contentHeight, percent: percent)
+                        .transition(.move(edge: .bottom))
+                }
                 
-                VStack{
-                    ImageView(url: self.blog.image?.first, width: w, height: imgHeight, contentMode: .fill)
-                        .clipped()
-                    if activate{
-                        VStack(alignment: .leading){
-                            Spacer()
-                            VStack(alignment: .leading, spacing: 10){
-                                HStack{
-                                    VStack(alignment: .leading, spacing: 10) {
-                                        MainText(content: self.blog.user ?? "User", fontSize: 12, color: .gray, fontWeight: .regular)
-                                        MainText(content: self.blog.headline ?? "Title", fontSize: 15, color: .black, fontWeight: .semibold)
-                                    }
-                                    Spacer()
-                                    MainText(content: "#\(self.number + 1)", fontSize: 15, color: Color.white, fontWeight: .bold, style: .normal)
-                                        .padding()
-                                        .background(Circle().fill(Color.black))
-                                }
-                            }.opacity(Double(1 - percent) * 1).padding(10)
-                            Spacer()
-                        }.frame(width:w,height:contentHeight).background(Color.white)
-                    }
-                    
-                }.frame(width: w, height: h * 0.9, alignment: .center)
-                .clipShape(RoundedRectangle(cornerRadius: 30))
             }.frame(width: w, height: h, alignment: .center)
-            
-            
         }
         .frame(width: self.width, height: self.height, alignment: .center)
+        .clipShape(RoundedRectangle(cornerRadius: 20))
     }
     
 }

@@ -64,7 +64,7 @@ struct SceneModelView: View {
     }
     
     func onAppear(){
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .milliseconds(500)) {
             self.mdD.loadModel(name: self.name, url_string: self.url_str)
         }
         

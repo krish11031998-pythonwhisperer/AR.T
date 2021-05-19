@@ -4,7 +4,6 @@
 //
 //  Created by Krishna Venkatramani on 13/05/2021.
 //
-
 import SwiftUI
 
 struct FancyCardView:View{
@@ -13,10 +12,12 @@ struct FancyCardView:View{
 //    var img:String
     var idx:Int
     let cardSize:CGSize = .init(width: totalHeight * 0.3, height: totalHeight * 0.5)
+    var onTap:((CGRect) -> Void)? = nil
     
-    init(data:ExploreData,idx:Int){
+    init(data:ExploreData,idx:Int,onTap : ((CGRect) -> Void)? = nil){
         self.data = data
         self.idx = idx
+        self.onTap = onTap
     }
     
     
@@ -52,9 +53,10 @@ struct FancyCardView:View{
     
     func onTap(global:CGRect){
         if self.scrollStates.selectedCard != self.idx{
-            self.scrollStates.selectedCard = self.idx
             self.scrollStates.centralize_card(res: global.centralize())
-            
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)){
+                self.scrollStates.selectedCard = self.idx
+            }
         }
     }
     
@@ -62,24 +64,8 @@ struct FancyCardView:View{
     func cardView(local:CGRect,global:CGRect) -> some View{
         let w = local.width
         let h = local.height
-//        let view = ZStack(alignment: .center){
-//            ImageView(url: self.data.img, width: w, height: h, contentMode: .fill, alignment: .center)
-//                .clipShape(Rectangle())
-//        }.frame(width: w, height: h, alignment: .center)
-//        .clipShape(RoundedRectangle(cornerRadius: 10))
-//        .animation(.easeInOut(duration: 1))
-//        .onTapGesture(perform: {
-//            self.onTap(global:global)
-//        })
-//        .gesture(DragGesture().onChanged(self.scrollStates.onChanged).onEnded(self.scrollStates.onEnded))
-        
-        let view = ImageView(url: self.data.img, width: w, height: h, contentMode: .fill, alignment: .center)
+        let view = ImageView(url: self.data.img, width: w, height: h, contentMode: .fill, alignment: .center,testMode: false)
             .clipShape(RoundedRectangle(cornerRadius: 10))
-            .onTapGesture(perform: {
-                self.onTap(global:global)
-            })
-            .animation(.easeInOut(duration: 1))
-            
             .gesture(DragGesture().onChanged(self.scrollStates.onChanged).onEnded(self.scrollStates.onEnded))
         
         return view
@@ -99,28 +85,14 @@ struct FancyCardView:View{
             
             return AnyView(
                 self.cardView(local: local, global: global)
+                    .onTapGesture(perform: {
+                        self.onTap(global: global)
+                    })
             )
         }.padding(20)
         .frame(width:cardSize.width ,height: cardSize.height, alignment: .center)
-        .animation(.easeInOut)
+//        .animation(.easeInOut)
         
         
     }
 }
-
-//struct FancyScrollCard_Previews: PreviewProvider {
-//
-//    static func onChanged(value:DragGesture.Value){
-//        print("onChanged")
-//    }
-//
-//    static func onEnded(value:DragGesture.Value){
-//        print("onEnded")
-//    }
-//
-//    static var previews: some View {
-//        FancyCardView(img: "img1", idx: 1, isViewing: .constant(0), selectedCard: .constant(0), onChanged: self.onChanged(value:), onEnded: self.onEnded(value:)) { rect in
-//            print(rect)
-//        }
-//    }
-//}

@@ -10,9 +10,12 @@ import SwiftUI
 struct FancyScrollMain: View {
     @EnvironmentObject var mainStates:AppStates
     @State var exploreList : [ExploreData] = []
+    @State var art:ArtData? = nil
+    @State var showArt:Bool = false
     var dispatchGroup:DispatchGroup = .init()
     
     func onAppear(){
+        self.mainStates.toggleTab()
         if self.exploreList.isEmpty{
             print("calling on Appear")
             self.getTrendingItems()
@@ -41,7 +44,7 @@ struct FancyScrollMain: View {
                                     self.exploreList.append(data)
                                 }
                             }
-                            print("posts:  ",self.exploreList[0...2])
+//                            print("posts:  ",self.exploreList[0...2])
                         }
                     }
                 case "blogs":
@@ -62,16 +65,43 @@ struct FancyScrollMain: View {
         }
         dispatchGroup.leave()
     }
+    
+    func updateShowArt(art: ArtData?){
+        if art != nil{
+            self.showArt = true
+        }else if self.showArt{
+            self.showArt = false
+        }
+    }
+    
+    var header:some View{
+        HStack(alignment: .center, spacing: 10){
+            MainText(content: "Discover", fontSize: 30, color: .white, fontWeight: .bold, style: .heading)
+            Spacer()
+            SystemButton(b_name: "homekit", b_content: "",color: .white) {
+                self.mainStates.tab = "home"
+            }
+        }.padding()
+        .padding(.top,35)
+        .frame(width: totalWidth, alignment: .leading)
+        .background(bottomShadow.rotationEffect(.init(degrees: .init(180))))
+    }
 
     var body: some View {
-        ZStack(alignment: .center) {
-            VStack(alignment: .leading, spacing: 10) {
-                MainText(content: "Discover", fontSize: 30, color: .black, fontWeight: .bold, style: .heading)
-                    .background(lightbottomShadow.rotationEffect(.init(degrees: 180)))
-                Spacer()
+        ZStack(alignment: .top) {
+            
+            FancyScroll(selectedArt: $art,showArt:$showArt,data: self.exploreList)
+            self.header
+            if self.showArt{
+                ArtScrollMainView(data: test, showArt: $showArt)
+                    .transition(.move(edge: .bottom).combined(with: .identity))
             }
-            FancyScroll(data: self.exploreList)
-        }.onAppear(perform: self.onAppear)
+        }.edgesIgnoringSafeArea(.all)
+        .onAppear(perform: self.onAppear)
+        .onChange(of: self.art, perform: self.updateShowArt(art:))
+        .onDisappear(perform: self.mainStates.toggleTab)
+        .animation(.easeInOut)
+
     }
 }
 

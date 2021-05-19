@@ -125,12 +125,8 @@ struct TourVerticalCardView: View {
         }
         .frame(width: totalWidth, height: totalHeight)
         .animation(.easeInOut)
-        .onAppear {
-            self.mainStates.showTab = false
-        }
-        .onDisappear(perform: {
-            self.mainStates.showTab = true
-        })
+        .onAppear(perform: self.mainStates.toggleTab)
+        .onDisappear(perform: self.mainStates.toggleTab)
         .edgesIgnoringSafeArea(.all)
         .navigationBarBackButtonHidden(true)
         .navigationBarHidden(true)

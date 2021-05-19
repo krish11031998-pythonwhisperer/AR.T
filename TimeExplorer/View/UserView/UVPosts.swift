@@ -167,7 +167,7 @@ struct PostCard:View{
         self._showPost = showPost
     }
     var mainPostCard:some View{
-        ImageView(url: self.post.image?.first, width: self.width, height: 175, contentMode: .fill, false,autoHeight: true)
+        ImageView(url: self.post.image?.first, width: self.width, height: 175, contentMode: .fill,autoHeight: true)
             .clipped()
             .cornerRadius(25.0)
             .overlay(

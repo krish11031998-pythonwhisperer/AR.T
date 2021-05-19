@@ -45,7 +45,7 @@ struct VideoCache:VideoDict{
         }
         
         set{
-            guard let asset = newValue as? AVAsset else {return}
+            guard let asset = newValue else {return}
             self.cache.setObject(asset, forKey: vid as NSString)
         }
     }

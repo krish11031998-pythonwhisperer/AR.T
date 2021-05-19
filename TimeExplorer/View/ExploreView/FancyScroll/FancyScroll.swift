@@ -29,18 +29,18 @@ extension CGRect{
 
 
 struct FancyScroll: View {
+    @Namespace var animation
     @StateObject var scrollStates:FancyScrollStates
+    @Binding var selectedArt:ArtData?
+    @Binding var showArt:Bool
     var data:[ExploreData]
-
     
-    var selectedArtData:ExploreData?{
-        print("selectedCard : ",self.scrollStates.selectedCard)
-        return self.scrollStates.selectedCard != -1 ? self.data[self.scrollStates.selectedCard] : nil
-    }
-    let cardSize:CGSize =  .init(width: totalHeight * 0.3, height: totalHeight * 0.4)
+    let cardSize:CGSize = .init(width: totalHeight * 0.3, height: totalHeight * 0.5)
     
-    init(data:[ExploreData]){
+    init(selectedArt: Binding<ArtData?>? = nil,showArt: Binding<Bool>? = nil,data:[ExploreData]){
         self.data = data
+        self._selectedArt = selectedArt ?? .constant(test)
+        self._showArt = showArt ?? .constant(false)
         self._scrollStates = StateObject(wrappedValue: .init(size: .init(width: totalHeight * 0.3, height: totalHeight * 0.4)))
     }
     
@@ -49,6 +49,14 @@ struct FancyScroll: View {
     }
     
     let col = [GridItem.init(.adaptive(minimum: totalHeight * 0.3,maximum: totalHeight * 0.3), spacing: 0, alignment: .center)]
+    
+    func showArt(value : Bool){
+        if value && self.selectedArt == nil{
+            self.selectedArt = test
+        }else if !value && self.selectedArt != nil{
+            self.selectedArt = nil
+        }
+    }
     
     func grid() -> some View{
         return GeometryReader{g -> AnyView in
@@ -71,9 +79,9 @@ struct FancyScroll: View {
                         let viewing = self.scrollStates.isViewing == idx && self.scrollStates.selectedCard == -1
                         let selected = self.scrollStates.selectedCard == idx
                         FancyCardView(data: data, idx: idx)
+                            .matchedGeometryEffect(id: idx, in: self.animation,isSource:true)
                             .environmentObject(self.scrollStates)
-                            .scaleEffect(viewing || selected ? 1 : 0.9)
-
+                            .scaleEffect(viewing ? 1 : 0.9)
                     }
                 }
                 .onChange(of: self.scrollStates.selectedCard, perform: { value in
@@ -86,23 +94,33 @@ struct FancyScroll: View {
         }.edgesIgnoringSafeArea(.all)
         .frame(width: totalHeight * 1.5,height: totalHeight * 5)
         .offset(self.off_size)
-        .animation(.easeIn(duration: 0.75))
+        .animation(.easeInOut(duration: 0.75))
     }
     
     var body: some View {
         ZStack(alignment: .center) {
+            let selectedArtData = self.scrollStates.selectedCard != -1 ? self.data[self.scrollStates.selectedCard] : nil
             self.grid()
-            if self.scrollStates.selectedCard != -1 && self.selectedArtData != nil{
-                InfoCard(data:self.selectedArtData!,selectedCard: $scrollStates.selectedCard)
+            if self.scrollStates.selectedCard != -1 && selectedArtData != nil{
+                BlurView(style: .dark)
+//                ImageView(url: selectedArtData!.img, width: self.cardSize.width, height: self.cardSize.height, contentMode: .fill, alignment: .topLeading)
+                ImageView(img: .loadImageFromCache(selectedArtData!.img), width: cardSize.width, height: cardSize.height, contentMode: .fill, alignment: .topLeading)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .matchedGeometryEffect(id: self.scrollStates.selectedCard, in: self.animation,isSource:false)
+                    .scaleEffect(1)
+                    .zIndex(10)
+                InfoCard(data:selectedArtData!,selectedCard: $scrollStates.selectedCard,showArt:self.$showArt)
             }
+            
         }.frame(width: totalWidth, height: totalHeight, alignment: .center)
+        .onChange(of: self.showArt, perform: self.showArt(value:))
 
     }
 }
 
 
-struct FancyScroll_Previews: PreviewProvider {
-    static var previews: some View {
-        FancyScroll(data: [])
-    }
-}
+//struct FancyScroll_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FancyScroll(data: [])
+//    }
+//}

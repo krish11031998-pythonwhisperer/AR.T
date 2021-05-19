@@ -9,6 +9,7 @@
 import Foundation
 import SwiftUI
 import Photos
+import Combine
 //var ImageCache = NSCache<NSString,NSData>()
 
 protocol DictCache{
@@ -97,7 +98,7 @@ extension UIImage{
         return image
     }
     
-    func cropToBounds(width: CGFloat, height: CGFloat) -> UIImage {
+    func cropToBounds(width: CGFloat, height: CGFloat,alignment:Alignment? = nil) -> UIImage {
         
         let image = self
         let cgimage = image.cgImage!
@@ -105,10 +106,11 @@ extension UIImage{
         let contextSize: CGSize = contextImage.size
         var posX: CGFloat = 0.0
         var posY: CGFloat = 0.0
-        var cgwidth: CGFloat = CGFloat(width)
-        var cgheight: CGFloat = CGFloat(height)
+        var cgwidth: CGFloat = width
+        var cgheight: CGFloat = height
 
         // See what size is longer and create the center off of that
+        
         if contextSize.width > contextSize.height {
             posX = ((contextSize.width - contextSize.height) / 2)
             posY = 0
@@ -120,6 +122,7 @@ extension UIImage{
             cgwidth = contextSize.width
             cgheight = contextSize.width
         }
+                
 
         let rect: CGRect = CGRect(x: posX, y: posY, width: cgwidth, height: cgheight)
 
@@ -132,6 +135,7 @@ extension UIImage{
         return cropped_image
     }
     
+
     static func loadImageFromCache(_ url:String?) -> UIImage?{
         var image:UIImage? = nil
         if let url = url,let _url = URL(string: url),let cachedImage = ImageCache.cache[_url]{
@@ -174,15 +178,15 @@ extension UIImage{
     }
     
     func resizeImage() -> UIImage?{
-        var image = self
-        var dimensions = UIImage.dimension(img: image)
-        var ARatio:CGFloat = dimensions.width/dimensions.height
-        var maxWidth:CGFloat = 1024
-        var maxHeight = ARatio * maxWidth
-        var compressedQuality: CGFloat = 0.75
+        let image = self
+        let dimensions = UIImage.dimension(img: image)
+        let ARatio:CGFloat = dimensions.width/dimensions.height
+        let maxWidth:CGFloat = 1024
+        let maxHeight = ARatio * maxWidth
+        let compressedQuality: CGFloat = 0.75
         
-        var diffWidth = dimensions.width <= maxWidth ? 0 : dimensions.width - maxWidth
-        var diffHeight = dimensions.height <= maxHeight ? 0 : dimensions.height - maxHeight
+        _ = dimensions.width <= maxWidth ? 0 : dimensions.width - maxWidth
+        _ = dimensions.height <= maxHeight ? 0 : dimensions.height - maxHeight
         let rect : CGRect = .init(x: 0, y: 0, width: maxWidth, height: maxHeight)
         UIGraphicsBeginImageContext(rect.size)
         image.draw(in: rect)
@@ -219,14 +223,10 @@ class ImageDownloader:ObservableObject{
     @Published var image:UIImage = UIImage(named: "AttractionStockImage")!
     @Published var images:[String : UIImage] = [:]
     @Published var loading:Bool = true
+    @Published var mode:String = "single"
+    var cancellable = Set<AnyCancellable>()
     static var shared:ImageDownloader = .init()
     
-//    init(url:String? = nil){
-//        if let url = url{
-//            self.getImage(url: url)
-//        }
-//
-//    }
     
     var aspectRatio:CGFloat{
         get{
@@ -235,8 +235,43 @@ class ImageDownloader:ObservableObject{
     }
     
     
+    func parseImage(data: Data,url safeURL:URL){
+        guard let safeImage = UIImage(data: data) else {return}
+        ImageCache.cache[URL(string: safeURL.absoluteString)!] = safeImage
+        if mode == "single"{
+            self.image = safeImage
+            
+        }else if mode == "multiple"{
+            self.images[safeURL.absoluteString] = safeImage
+        }
+        self.loading = false
+    }
+    
+    func checkData(output: URLSession.DataTaskPublisher.Output) throws -> Data{
+        let (data,response) = output
+        guard let resp = response as? HTTPURLResponse, resp.statusCode >= 200 && resp.statusCode < 300 else{
+            throw URLError(.badServerResponse)
+        }
+        return data
+    }
+    
+    func downloadImg(url safeURL:URL,mode:String = "single",crop:Bool=false,bounds:CGSize? = nil){
+        guard let img = UIImage.stockImage.pngData() else {return}
+        URLSession.shared.dataTaskPublisher(for: safeURL)
+//            .subscribe(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
+            .tryMap(self.checkData(output:))
+            .sink(receiveCompletion: { completion in
+            }, receiveValue: { [weak self] data in
+                self?.parseImage(data: data, url: safeURL)
+            })
+            .store(in: &self.cancellable)
+            
+    }
+    
     func getImage(url:String,mode:String = "single",crop:Bool=false,bounds:CGSize? = nil){
         self.url = url
+        self.mode = mode
         if let _url = URL(string: url),let cachedImage = ImageCache.cache[_url]{
 //        if let cachedData = ImageCache.object(forKey: url as NSString), let cachedImage = UIImage(data: cachedData as Data){
             DispatchQueue.main.async {
@@ -249,39 +284,13 @@ class ImageDownloader:ObservableObject{
 //                print("Loaded from the cache")
             }
         }else{
+            
             guard let safeURL = URL(string:url) else {print("Something wrong with the url : \(url)");return}
-            URLSession.shared.dataTask(with: safeURL) { (data, resp, err) in
-                guard let safeData = data , var safeImage = UIImage(data:safeData), let response = resp else {
-                    if let err = err{
-                        print(err)
-                    }
-                    return
-                    
-                }
-                
-//                print("response : ",response)
-                
-                if let bounds = bounds , crop {
-                    safeImage = safeImage.cropToBounds(width: bounds.width, height: bounds.height)
-                }
+//            DispatchQueue.global().async {
+            self.downloadImg(url: safeURL, mode: mode, crop: crop, bounds: bounds)
+//            }
 
-                ImageCache.cache[URL(string: url)!] = safeImage
-                DispatchQueue.main.async {
-                    
-                    if mode == "single"{
-                        self.image = safeImage
-                        
-                    }else if mode == "multiple"{
-                        self.images[url] = safeImage
-                    }
-                    self.loading = false
-//                    print("Loaded from the url")
-                    
-                }
-                
-            }.resume()
         }
-        //        return image
     }
     
     func getImages(urls:[String]){

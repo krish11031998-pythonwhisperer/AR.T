@@ -56,35 +56,6 @@ struct ChapterView: View {
     }
     
     // MARK: - Scene View
-//    func loadScene() -> SCNScene?{
-//        var scene:SCNScene? = nil
-//        if let model = self.loadModel(name: "Fragment_of_Milan_Cathedral"){
-//            scene = . init(mdlAsset: model)
-//        }
-//        return scene
-//    }
-//
-//    func loadModel(name:String) -> MDLAsset?{
-//        var mdl:MDLAsset? = nil
-//        if let url = Bundle.main.url(forResource: name, withExtension: "usdz"){
-//            mdl = MDLAsset(url: url)
-//            mdl?.loadTextures()
-//        }
-//        return mdl
-//    }
-//
-//
-//    func modelView(w:CGFloat,_h:CGFloat? = nil) -> some View{
-//        let h =  _h != nil ? _h : totalHeight * (!self.showTranscript ? 0.6 : 0.5)
-//        var scene = SCNScene.downloadModel(name: "Mona Lisa", url:"https://firebasestorage.googleapis.com/v0/b/trippin-89b8b.appspot.com/o/models%2FMona_Lisa_PBR_hires_model.usdz?alt=media&token=506bb277-8a3a-4b64-8ec8-4fd42d1c81e1")
-////        var sceneView = SceneView(scene: SCNScene(named: "Fragment_of_Milan_Cathedral.usdz"), options: [.allowsCameraControl,.autoenablesDefaultLighting])
-//        var sceneView = SceneView(scene: scene, options: [.allowsCameraControl,.autoenablesDefaultLighting])
-//        return sceneView
-//            .aspectRatio(contentMode: .fit)
-//            .clipShape(RoundedRectangle(cornerRadius: 30))
-//            .frame(width: w, height: h, alignment: .center)
-//
-//    }
     
     var speechData:[String]{
         get{
@@ -98,7 +69,9 @@ struct ChapterView: View {
     
     func header(w:CGFloat,h:CGFloat) -> some View{
         HStack{
-            TabBarButtons(bindingState: self.$viewChapter)
+            SystemButton(b_name: "arrow.turn.up.left", b_content: "", color: .white, haveBG: true, bgcolor: .black) {
+                self.viewChapter.toggle()
+            }
             Spacer()
             MainText(content: self.tourChapter.title ?? "Title", fontSize: 15, color: .white, fontWeight: .semibold, style: .normal)
                 .padding()
@@ -106,14 +79,12 @@ struct ChapterView: View {
                 .background(BlurView(style: .dark).clipShape(RoundedRectangle(cornerRadius: 20)))
                 .frame(height:h * 0.05)
             Spacer()
-            Button {
-                
+            SystemButton(b_name: "cube", b_content: "", color: .white, haveBG: true, bgcolor: .black) {
                 self.showARModel.toggle()
-            } label: {
-                MainText(content: "AR", fontSize: 15).padding().background(BlurView(style: .dark)).clipShape(RoundedRectangle(cornerRadius: 20))
             }
 
         }.padding().padding(.top,25)
+        .zIndex(100)
     }
     
     // MARK: - Image View
@@ -123,14 +94,12 @@ struct ChapterView: View {
             let h = g.frame(in: .local).height
             ZStack(alignment:.top){
                 if !showARModel{
-                    ImageView(url: self.img, width: w, height: h, contentMode: .fill, false)
+                    ImageView(url: self.img, width: w, height: h, contentMode: .fill)
                         .clipShape(RoundedRectangle(cornerRadius: radius))
                         .frame(width: w, height: h, alignment: .center)
                 }
                 
                 if self.showARModel && self.viewChapter{
-//                    self.modelView(w: w, _h: h)
-//                    SceneModelView(name: "Śmierć_eng.usdz", url_str: "https://firebasestorage.googleapis.com/v0/b/trippin-89b8b.appspot.com/o/models%2FS%CC%81mierc%CC%81_eng.usdz?alt=media&token=8828b4eb-2177-4e22-9033-2d1b5b67ad36", w: w, h: h)
                     SceneModelView(w: w, h: h, name: "Śmierć_eng.usdz", url_str: "https://firebasestorage.googleapis.com/v0/b/trippin-89b8b.appspot.com/o/models%2FS%CC%81mierc%CC%81_eng.usdz?alt=media&token=8828b4eb-2177-4e22-9033-2d1b5b67ad36")
                         .clipShape(RoundedRectangle(cornerRadius: radius))
                 }
@@ -146,8 +115,8 @@ struct ChapterView: View {
     
     var v2:some View{
         GeometryReader{g in
-            var w = g.frame(in: .local).width
-            var h = g.frame(in: .local).height
+            let w = g.frame(in: .local).width
+            let h = g.frame(in: .local).height
             
             var model_h = h * (self.showTranscript ? 0.475 : 0.7)
             let (imgSize,cap_Size,radius) = self.modalParams(w: w)
