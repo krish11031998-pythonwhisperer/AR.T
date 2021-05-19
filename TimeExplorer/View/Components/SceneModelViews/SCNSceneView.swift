@@ -25,6 +25,7 @@ struct SCNSceneView:UIViewRepresentable{
     
     @EnvironmentObject var arViewStates:ArtViewStates
 
+    @State var showingFeatures:Bool = false
     @Binding var model:SCNScene?
     @Binding var idx:Int
     @Binding var player:AVPlayer?
@@ -61,17 +62,25 @@ struct SCNSceneView:UIViewRepresentable{
             })
             .forEach { (key: String, value: SCNVector3) in
                 let plane = self.view.createPlaneNode(location: value, name: key, idx: idx)
-                plane.isHidden = self.arViewStates.showFeatures
+                plane.isHidden = !self.arViewStates.showFeatures
                 annotations[key] = plane
                 self.view.createAnnotation(node: plane)
                 idx+=1
             }
-            DispatchQueue.main.async {
-                self.sceneStates.annotationNode = annotations
-                self.idx = self.arViewStates.annotations.count + 1
-            }
         }
     }
+    
+    func toggleShowStates(view:SCNView){
+        print(view.scene?.rootNode.childNodes.count ?? -1)
+        guard let childnodes = view.scene?.rootNode.childNodes else {return}
+        childnodes.forEach { node in
+            if node.name!.contains("annotation"){
+                node.isHidden = !self.arViewStates.showFeatures
+            }
+            
+        }
+    }
+    
     
     func makeCoordinator() -> SCNSceneView.Coordinator {
          return Coordinator(parent: self) { (name,vector) in
@@ -104,31 +113,24 @@ struct SCNSceneView:UIViewRepresentable{
         guard let node = uiView.scene?.rootNode else {return}
         self.resetSceneView(node: node)
     }
-    
-    
+
     func updateUIView(_ uiView: SCNView, context: Context) {
-        if let scene = self.model{
+        if let scene = self.model, !self.sceneStates.firstLoad{
+            print("Calledd ....")
             uiView.scene = scene
-            guard let node = uiView.scene?.rootNode else {return}
-            if let sceneNode = node.childNodes.first{
-                DispatchQueue.main.async {
-                    self.sceneStates.mainSceneNode = sceneNode
-                }
+            if !self.arViewStates.annotations.isEmpty{
+                self.loadAnnotations()
             }
-        }
-        
-        if !self.sceneStates.firstLoad && !self.arViewStates.annotations.isEmpty && self.model != nil{
             DispatchQueue.main.async {
                 self.sceneStates.firstLoad = true
             }
-            self.loadAnnotations()
         }
+        
         
         if self.arViewStates.isEditting{
             self.resetSceneView(node: uiView.scene?.rootNode ?? .init())
         }
         
-//        self.resetSceneView(node: uiView.scene?.rootNode ?? .init())
         
         if !self.arViewStates.inspect{
             DispatchQueue.main.async {
@@ -136,9 +138,14 @@ struct SCNSceneView:UIViewRepresentable{
             }
         }
         
-        if !self.sceneStates.annotationNode.isEmpty{
-            self.sceneStates.annotationNode.values.forEach { (node) in
-                node.isHidden = !self.arViewStates.showFeatures
+        if self.arViewStates.showFeatures != self.showingFeatures{
+//            print("Called..... \(self.arViewStates.showFeatures) != \(self.showingFeatures)")
+//            self.sceneStates.annotationNode.values.forEach { (node) in
+//                node.isHidden = !self.arViewStates.showFeatures
+//            }
+            self.toggleShowStates(view:uiView)
+            DispatchQueue.main.async {
+                self.showingFeatures = self.arViewStates.showFeatures
             }
         }
         
@@ -159,6 +166,10 @@ struct SCNSceneView:UIViewRepresentable{
             self.parent = parent
         }
         
+        var childNodes:[SCNNode]{
+            guard let childNodes = self.view.scene?.rootNode.childNodes else {return []}
+            return childNodes.filter({$0.name?.contains("annotation") ?? false})
+        }
         
         var view:SCNView{
             get{
@@ -207,8 +218,8 @@ struct SCNSceneView:UIViewRepresentable{
         
         func isViewing(location:CGPoint){
             guard let firstNode = self.view.hitTest(location, options: nil).first?.node,let name = firstNode.name,self.annotations.keys.contains(name) else {return}
-            print(name)
             self.parent.sceneStates.annotationNode.values.forEach { (node) in
+                
                 if node.name != name{
                     node.opacity = 0.5
                 }else{
@@ -221,8 +232,7 @@ struct SCNSceneView:UIViewRepresentable{
             self.parent.sceneStates.location = firstNode.worldPosition
             self.view.deleteNode(name: "playerNode")
             
-            handleTap(name,firstNode.worldPosition)
-            
+            handleTap(name,firstNode.worldPosition)            
         }
         
         func attachPlayer(avplayer:AVPlayer,node:SCNNode?,location:SCNVector3?){

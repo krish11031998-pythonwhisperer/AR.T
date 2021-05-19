@@ -37,7 +37,7 @@ struct ScrollInfoCard:View{
     func introInfoSection(w:CGFloat,h:CGFloat) -> some View{
         HStack(alignment: .center, spacing: 10) {
             VStack(alignment: .center, spacing: 10){
-                ImageView(url: self.data.painterImg, width: w * 0.45, height: h, contentMode: .fill)
+                ImageView(url: self.data.painterImg, width: w * 0.45, height: h, contentMode: .fill,alignment: .top)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                 Text(self.data.painterName ?? "Artisan")
                     .font(.system(size: 20, weight: .bold, design: .serif))
@@ -76,9 +76,7 @@ struct ScrollInfoCard:View{
             let h = g.frame(in: .local).height
             let minY = g.frame(in: .global).minY
             DispatchQueue.main.async {
-//                if minY == totalHeight{
-                    self.minY = minY
-//                }
+                self.minY = minY
             }
             return AnyView(
                 VStack(alignment: .leading, spacing: 20){

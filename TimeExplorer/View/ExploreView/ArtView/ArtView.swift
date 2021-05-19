@@ -192,12 +192,9 @@ struct ArtView: View {
     }
     
     func onAppear(){
-//        if self.mainStates.showTab{
-//            self.mainStates.showTab = false
-//        }
-        self.mainStates.toggleTab()
-//        self.mainStates.showTab = false
-//        let loaded = self.viewStates.annotations.isEmpty && self.viewStates.annotationInfos.isEmpty && self.viewStates.annotationVideo.isEmpty
+        if self.mainStates.showTab{
+            self.mainStates.toggleTab()
+        }
         
         if let annotations = self.data.annotations{
             let (infos,coords,video) = ArtViewStates.updateAnnotations(annotations: annotations)
@@ -205,15 +202,6 @@ struct ArtView: View {
                 self.viewStates.annotations = coords
                 self.viewStates.annotationInfos = infos
                 self.viewStates.annotationVideo = video
-//                if let topFacts = self.data.top_facts{
-//                    self.tabData = topFacts.map({ (el) -> (heading:String,detail:String,key:String?) in
-//                        return (heading:el.key,detail:el.value,key:nil)
-//                    })
-//                }
-//                tabData?.append(contentsOf: infos.map { (el) -> (heading:String,detail:String,key:String?) in
-//                    return (heading:el.value.heading ?? "Heading",detail: el.value.detail ?? "Detail",key:el.key)
-//                })
-//                print("tabData is loaded : \(String(describing: tabData?.count))")
             }
         }
         
@@ -341,6 +329,7 @@ struct ArtView: View {
     
     func mainBody(w:CGFloat,h:CGFloat) -> some View{
         ZStack(alignment: .center){
+            Color.black
             self.mainScene(w: totalWidth, h: totalHeight)
             if !self.viewStates.inspect{
                 VStack(alignment: .leading, spacing: 10){
@@ -363,9 +352,11 @@ struct ArtView: View {
                 )
             }
             
+            if self.viewAR{
+                ARMainView(name: self.name, url: self.data.model_url ?? "", show: $viewAR)
+            }
             
-            
-        }
+        }.frame(width: w, height: h, alignment: .center)
     }
     
     var body: some View {
@@ -382,13 +373,12 @@ struct ArtView: View {
                 }
             }
             return AnyView (
-                ZStack(alignment: .center) {
-                    Color.black
-                    self.mainBody(w: w, h: h)
-                    if self.viewAR{
-                        ARMainView(name: self.name, url: self.data.model_url ?? "", show: $viewAR)
-                    }
-                }.frame(width: w, height: h, alignment: .center)
+//                ZStack(alignment: .center) {
+//
+//                    self.mainBody(w: w, h: h)
+//
+//                }.frame(width: w, height: h, alignment: .center)
+                self.mainBody(w: w, h: h)
             )
             
         }

@@ -104,7 +104,10 @@ struct ArtScrollMainView: View {
             }
         })
         .onAppear(perform: {
-            self.mainStates.toggleTab()
+            if self.mainStates.showTab{
+                self.mainStates.toggleTab()
+            }
+            
             if self.mainStates.loading{
                 self.mainStates.loading = false
             }

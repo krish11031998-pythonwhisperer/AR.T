@@ -83,9 +83,9 @@ struct FactCard: View{
     
     func onAppear(){
         if let url_str = self.vid_url, let url = URL(string: url_str){
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(600)) {
+//            DispatchQueue.global(qos:.background).async {
                 self.playerObj.video_url = url_str
-            }
+//            }
         }
     }
     
@@ -160,6 +160,14 @@ struct FactCard: View{
         default:
             self.playerObj.pause()
         }
+    }
+    
+    func getCurrentSentence(word : String){
+        let count = self.currentSentCount/10
+        if self.currentSentCount%10 == 0 && count < self.sentence.count{
+            self.currentSentence = self.sentence[count]
+        }
+        self.currentSentCount += 1
     }
     
     var videoPlayerControls:some View{
@@ -250,14 +258,15 @@ struct FactCard: View{
         .animation(.easeInOut)
         .onAppear(perform: self.onAppear)
         .onChange(of: self.playerObj.videoState, perform: self.onChangeVideoState(state:))
-        .onReceive(self.synthesizer.$currentWord) { word in
-            let count = self.currentSentCount/10
-            if self.currentSentCount%10 == 0 && count < self.sentence.count{
-                self.currentSentence = self.sentence[count]
-            }
-            self.currentSentCount += 1
-        }
+//        .onReceive(self.synthesizer.$currentWord) { word in
+//            let count = self.currentSentCount/10
+//            if self.currentSentCount%10 == 0 && count < self.sentence.count{
+//                self.currentSentence = self.sentence[count]
+//            }
+//            self.currentSentCount += 1
+//        }
 
+        .onReceive(self.synthesizer.$currentWord, perform: self.getCurrentSentence(word:))
         
     }
 }
