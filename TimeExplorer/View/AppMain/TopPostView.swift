@@ -121,19 +121,17 @@ struct PostCardView:View{
     }
     
     
-    func ImageCaptionView(width:CGFloat,height:CGFloat) -> some View{
-        return GeometryReader{g in
-            var w = g.frame(in: .local).width
-            var h = g.frame(in: .local).height
-            VStack(alignment: .leading, spacing: 5){
-//                ImageView(self.postImage, w, h * 0.7, .fill,true)
-                ImageView(url:self.postImage,width: w,height: h * 0.9,contentMode:.fill)
-                    .clipShape(RoundedRectangle(cornerRadius: 30))
-                MainText(content: self.post.caption, fontSize: 14, color: .black, fontWeight: .regular)
+    func ImageCaptionView(width w:CGFloat,height h:CGFloat) -> some View{
+            return ZStack(alignment: .bottom){
+                ImageView(url:self.postImage,width: w,height: h,contentMode:.fill,alignment: .center,testMode: false)
+                bottomShadow.aspectRatio(contentMode: .fill)
+                BasicText(content: self.post.caption, fontDesign: .serif, size: 15, weight: .semibold)
+                    .foregroundColor(.white)
                     .padding()
-                    .frame(width: w , height: h * 0.1, alignment: .leading)
+                    .frame(width: w, alignment: .leading)
             }
-        }.frame(width: width, height: height, alignment: .center)
+            .frame(width: w, height: h, alignment: .center)
+            .clipShape(RoundedRectangle(cornerRadius: 30))
     }
     
     func onChanged(value:DragGesture.Value){
@@ -167,12 +165,13 @@ struct PostCardView:View{
             
             self.ImageCaptionView(width: w, height: h)
                 
-            
-        }.padding(.horizontal,10)
-        .padding(.top,10)
-        .padding(.bottom,20)
+//
+        }
+//        .padding(.horizontal,10)
+//        .padding(.top,10)
+//        .padding(.bottom,20)
         .frame(width: totalWidth * 0.75, height: totalHeight * 0.5, alignment: .center)
-        .background(Color.white.clipShape(RoundedRectangle(cornerRadius: 30)).shadow(radius: 1.5))
+//        .background(Color.white.clipShape(RoundedRectangle(cornerRadius: 30)).shadow(radius: 1.5))
         .offset(x: self.offset)
         .gesture(DragGesture()
                     .onChanged(self.onChanged)

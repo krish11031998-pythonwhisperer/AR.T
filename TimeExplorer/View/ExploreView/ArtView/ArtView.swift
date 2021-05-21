@@ -354,6 +354,7 @@ struct ArtView: View {
             
             if self.viewAR{
                 ARMainView(name: self.name, url: self.data.model_url ?? "", show: $viewAR)
+                    .environmentObject(viewStates)
             }
             
         }.frame(width: w, height: h, alignment: .center)

@@ -38,6 +38,7 @@ struct ARViewContainer:UIViewRepresentable{
     @Binding var url:URL?
     @Binding var place:Bool
     @State var attachedModel:Bool = false
+    var annotations:[SCNVector3] = []
     
     func makeUIView(context: Context) -> FocusARView {
         let view = FocusARView(frame: .zero)
@@ -48,7 +49,6 @@ struct ARViewContainer:UIViewRepresentable{
     func updateModel(view: FocusARView, url:URL){
         guard let focusEntity = view.focusEntity else {return}
         view.addModel(url: url, position: focusEntity.position, scale: focusEntity.scale)
-//        view.focusEntity?.isEnabled = false
     }
     
     func deleteModel(view: FocusARView){
@@ -78,6 +78,12 @@ struct ARViewContainer:UIViewRepresentable{
         if let focusEntity = uiView.focusEntity,self.attachedModel && focusEntity.isEnabled{
 //            uiView.focusEntity?.isEnabled = false
             focusEntity.isEnabled = false
+        }
+        
+        if !self.annotations.isEmpty{
+            self.annotations.forEach { vector in
+                uiView.scene.
+            }
         }
         
     }

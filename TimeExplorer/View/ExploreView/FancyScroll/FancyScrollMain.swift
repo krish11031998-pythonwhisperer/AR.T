@@ -89,7 +89,7 @@ struct FancyScrollMain: View {
 
     var body: some View {
         ZStack(alignment: .top) {
-            
+            Color.black
             FancyScroll(selectedArt: $art,showArt:$showArt,data: self.exploreList)
             self.header
             if self.showArt{

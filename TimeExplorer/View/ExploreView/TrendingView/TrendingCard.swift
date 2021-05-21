@@ -151,7 +151,7 @@ struct TrendingMainCard:View{
     }
     
     func infoView() -> some View{
-        return VStack(alignment:.leading){
+        return VStack(alignment:.leading,spacing: 15){
             HStack{
                 MainText(content: "Tours", fontSize: 40, color: .white, fontWeight: .black, style: .heading)
                 Spacer()

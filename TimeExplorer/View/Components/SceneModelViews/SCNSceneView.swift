@@ -219,9 +219,8 @@ struct SCNSceneView:UIViewRepresentable{
         func isViewing(location:CGPoint){
             guard let firstNode = self.view.hitTest(location, options: nil).first?.node,let name = firstNode.name,self.annotations.keys.contains(name) else {return}
             self.parent.sceneStates.annotationNode.values.forEach { (node) in
-                
                 if node.name != name{
-                    node.opacity = 0.5
+                    node.opacity = 0.15
                 }else{
                     node.opacity = 1
                     print("closest \(node.position) : \(String(describing: node.name))")

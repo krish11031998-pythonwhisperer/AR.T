@@ -51,7 +51,6 @@
 		BC645DE225951D0B0054F2FE /* MessageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC645DE125951D0B0054F2FE /* MessageList.swift */; };
 		BC67C27025307BAC00F1FC3C /* SVStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC67C26F25307BAC00F1FC3C /* SVStory.swift */; };
 		BC69478A264DCB7000FE5FF1 /* ARHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC694789264DCB7000FE5FF1 /* ARHelpers.swift */; };
-		BC69478D264DE1B800FE5FF1 /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = BC69478C264DE1B800FE5FF1 /* FocusEntity */; };
 		BC69478F264DE6D500FE5FF1 /* ARViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC69478E264DE6D500FE5FF1 /* ARViewHelper.swift */; };
 		BC694791264E5DF400FE5FF1 /* ARMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC694790264E5DF400FE5FF1 /* ARMainView.swift */; };
 		BC78837E2637FC9A00511836 /* SwipedParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78837D2637FC9A00511836 /* SwipedParams.swift */; };
@@ -64,6 +63,8 @@
 		BC915754254389540089CD3D /* PPVMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC915753254389540089CD3D /* PPVMain.swift */; };
 		BC915766254390530089CD3D /* InstaImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC915765254390530089CD3D /* InstaImagePicker.swift */; };
 		BC93935625A3B15600057F03 /* HorizontalCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93935525A3B15600057F03 /* HorizontalCarousel.swift */; };
+		BC95150E2655A37000FFE1A1 /* AVScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95150D2655A37000FFE1A1 /* AVScrollView.swift */; };
+		BC9515112655AAA000FFE1A1 /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = BC9515102655AAA000FFE1A1 /* FocusEntity */; };
 		BC96B6712615C41B0062B905 /* NormalGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC96B6702615C41B0062B905 /* NormalGrid.swift */; };
 		BC96B6762615C44B0062B905 /* FancyGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC96B6752615C44B0062B905 /* FancyGrid.swift */; };
 		BC96B67B2615C4B90062B905 /* ExploreColCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC96B67A2615C4B90062B905 /* ExploreColCard.swift */; };
@@ -226,6 +227,7 @@
 		BC915753254389540089CD3D /* PPVMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PPVMain.swift; sourceTree = "<group>"; };
 		BC915765254390530089CD3D /* InstaImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstaImagePicker.swift; sourceTree = "<group>"; };
 		BC93935525A3B15600057F03 /* HorizontalCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCarousel.swift; sourceTree = "<group>"; };
+		BC95150D2655A37000FFE1A1 /* AVScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVScrollView.swift; sourceTree = "<group>"; };
 		BC96B6702615C41B0062B905 /* NormalGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalGrid.swift; sourceTree = "<group>"; };
 		BC96B6752615C44B0062B905 /* FancyGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyGrid.swift; sourceTree = "<group>"; };
 		BC96B67A2615C4B90062B905 /* ExploreColCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreColCard.swift; sourceTree = "<group>"; };
@@ -316,7 +318,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC69478D264DE1B800FE5FF1 /* FocusEntity in Frameworks */,
+				BC9515112655AAA000FFE1A1 /* FocusEntity in Frameworks */,
 				C6F159552BE8EAE85855D645 /* Pods_TimeExplorer.framework in Frameworks */,
 				BC618C5425A5D5C100377140 /* Charts in Frameworks */,
 			);
@@ -418,6 +420,7 @@
 				BC37DE45251506B9000BC15E /* AVQuickMenu.swift */,
 				BCAD91092517966E0019C1F5 /* AVMain.swift */,
 				BC7B173A2519698E0043FFCE /* AVDetail.swift */,
+				BC95150D2655A37000FFE1A1 /* AVScrollView.swift */,
 			);
 			path = AttractionView;
 			sourceTree = "<group>";
@@ -864,7 +867,7 @@
 			name = TimeExplorer;
 			packageProductDependencies = (
 				BC618C5325A5D5C100377140 /* Charts */,
-				BC69478C264DE1B800FE5FF1 /* FocusEntity */,
+				BC9515102655AAA000FFE1A1 /* FocusEntity */,
 			);
 			productName = TimeExplorer;
 			productReference = BCAFD4BE2514C5170072F161 /* TimeExplorer.app */;
@@ -942,7 +945,7 @@
 			mainGroup = BCAFD4B52514C5160072F161;
 			packageReferences = (
 				BC618C5225A5D5C100377140 /* XCRemoteSwiftPackageReference "swiftui-charts" */,
-				BC69478B264DE1B800FE5FF1 /* XCRemoteSwiftPackageReference "FocusEntity" */,
+				BC95150F2655AAA000FFE1A1 /* XCRemoteSwiftPackageReference "FocusEntity" */,
 			);
 			productRefGroup = BCAFD4BF2514C5170072F161 /* Products */;
 			projectDirPath = "";
@@ -1190,6 +1193,7 @@
 				BC645DDD2595124A0054F2FE /* MessageData.swift in Sources */,
 				BC37DE4F2516041F000BC15E /* TabBarView.swift in Sources */,
 				BCAFD5042514C70B0072F161 /* InstagramData.swift in Sources */,
+				BC95150E2655A37000FFE1A1 /* AVScrollView.swift in Sources */,
 				BCA038C22579318A00C6713C /* DateFormatter.swift in Sources */,
 				BC1BDDD4264D4928005B2C8A /* FancyScrollMain.swift in Sources */,
 				BCB22A63251E929B00F5926C /* AMMain.swift in Sources */,
@@ -1556,7 +1560,7 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		BC69478B264DE1B800FE5FF1 /* XCRemoteSwiftPackageReference "FocusEntity" */ = {
+		BC95150F2655AAA000FFE1A1 /* XCRemoteSwiftPackageReference "FocusEntity" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/maxxfrazer/FocusEntity.git";
 			requirement = {
@@ -1572,9 +1576,9 @@
 			package = BC618C5225A5D5C100377140 /* XCRemoteSwiftPackageReference "swiftui-charts" */;
 			productName = Charts;
 		};
-		BC69478C264DE1B800FE5FF1 /* FocusEntity */ = {
+		BC9515102655AAA000FFE1A1 /* FocusEntity */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BC69478B264DE1B800FE5FF1 /* XCRemoteSwiftPackageReference "FocusEntity" */;
+			package = BC95150F2655AAA000FFE1A1 /* XCRemoteSwiftPackageReference "FocusEntity" */;
 			productName = FocusEntity;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ARMainView: View {
+    @EnvironmentObject var sceneState: ArtViewStates
     @StateObject var mdlDM:ARModelDownloader = .init()
     var name:String
     var url:String
@@ -20,6 +21,11 @@ struct ARMainView: View {
         self.url = url
         self._show = show
     }
+    
+//    func addAnnotations(){
+//        
+//        
+//    }
     
     func togglePlace(){
         self.placeModel.toggle()
