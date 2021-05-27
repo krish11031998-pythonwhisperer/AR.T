@@ -49,27 +49,11 @@ struct AppView: View {
     var _activeView:AnyView{
         var view:AnyView = AnyView(AMMain())
         switch(self.tab){
-            case "feed":
-                view = AnyView(ExploreViewMain())
-                break;
-            case "post":
-               view = AnyView(CameraView()
-                    .onAppear {
-                        if self.mainStates.showTab{
-                            self.mainStates.showTab = false
-                        }
-                    }.onDisappear {
-                        if !self.mainStates.showTab{
-                            self.mainStates.showTab = true
-                        }
-                    })
-                break;
-            case "attractions":
-                view = AnyView(FancyScrollMain())
-                break;
-            case "profile":
-                view = AnyView(UVMain().frame(height:totalHeight))
-                break;
+            case "feed": view = AnyView(ExploreViewMain())
+            case "post": view = AnyView(CameraView().onAppear {self.mainStates.toggleTab()}.onDisappear {self.mainStates.toggleTab()})
+            case "blogs": view = AnyView(ArtStoreMain())
+            case "attractions": view = AnyView(FancyScrollMain())
+            case "profile": view = AnyView(UVMain().frame(height:totalHeight))
             default:
                 break
         }

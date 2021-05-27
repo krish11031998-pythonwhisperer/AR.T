@@ -35,7 +35,9 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>BungeeOutline-Regular.ttf</string>
+		<string>ZillaSlab-Regular.tff</string>
 		<string>BungeeShade-Regular.ttf</string>
+		<string>PlayfairDisplay-VariableFont_wght.tff</string>
 		<string>GreatVibes-Regular.ttf</string>
 		<string>SortsMillGoudy-Regular.ttf</string>
 		<string>NeueMachina-Regular.otf</string>

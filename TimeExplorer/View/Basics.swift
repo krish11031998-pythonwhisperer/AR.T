@@ -14,7 +14,8 @@ enum TextStyle:String{
     case heading = "BungeeShade-Regular"
     case title = "SortsMillGoudy-Regular"
 //    case normal = "NeueMachina-Regular"
-    case normal = "Avenir Next Medium"
+//    case normal = "Avenir Next Medium"
+    case normal = "ZillaSlab-Regular"
 //    case normal = "SF Pro"
 //    case normal = "Raleway-VariableFont_wght"
 }

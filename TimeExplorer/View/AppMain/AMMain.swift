@@ -158,7 +158,7 @@ struct AMMain: View {
             }
             if(type == "Landmarks"){
 //                self.attractionCategory()
-                AVScrollView(attractions: self.attractions.map({$0.attraction}))
+                AVScrollView(attractions: self.attractions.map({AVSData(img: $0.attraction.photo?.images?.original?.url, title: $0.attraction.name, subtitle: $0.attraction.geo_description, data: $0)}))
             }
             
         }

@@ -80,11 +80,11 @@ struct ARViewContainer:UIViewRepresentable{
             focusEntity.isEnabled = false
         }
         
-        if !self.annotations.isEmpty{
-            self.annotations.forEach { vector in
-                uiView.scene.
-            }
-        }
+//        if !self.annotations.isEmpty{
+//            self.annotations.forEach { vector in
+//                uiView.scene.
+//            }
+//        }
         
     }
     

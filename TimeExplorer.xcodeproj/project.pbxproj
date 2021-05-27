@@ -86,6 +86,9 @@
 		BCA038D1257931D300C6713C /* Loopable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA038D0257931D300C6713C /* Loopable.swift */; };
 		BCA038D6257931F100C6713C /* RefreshingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA038D5257931F100C6713C /* RefreshingScrollView.swift */; };
 		BCA038DB2579326900C6713C /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = BCA038DA2579326900C6713C /* loading.json */; };
+		BCA1840A265EDCBA007C3845 /* ZillaSlab-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCA18409265EDCBA007C3845 /* ZillaSlab-Regular.ttf */; };
+		BCA1840C265EDCC4007C3845 /* PlayfairDisplay-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCA1840B265EDCC4007C3845 /* PlayfairDisplay-VariableFont_wght.ttf */; };
+		BCA1840F265EDF6F007C3845 /* ArtStoreMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1840E265EDF6F007C3845 /* ArtStoreMain.swift */; };
 		BCA1AD192602779D009C31A4 /* TopPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1AD182602779D009C31A4 /* TopPostView.swift */; };
 		BCAD90FD251660DE0019C1F5 /* PVMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAD90FC251660DE0019C1F5 /* PVMain.swift */; };
 		BCAD9105251661C80019C1F5 /* PVPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAD9104251661C80019C1F5 /* PVPost.swift */; };
@@ -141,7 +144,6 @@
 		BCF1934D2549F45D0080DDCE /* UVDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF1934C2549F45D0080DDCE /* UVDetail.swift */; };
 		BCF486482627782D001A28E9 /* ArtViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF486472627782D001A28E9 /* ArtViewHelper.swift */; };
 		BCF4864D26277855001A28E9 /* ArtViewElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF4864C26277855001A28E9 /* ArtViewElements.swift */; };
-		BCF48653262780CE001A28E9 /* sample.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = BCF48652262780CE001A28E9 /* sample.mp4 */; };
 		BCFAF93C2548AD9100392163 /* UVPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFAF93B2548AD9100392163 /* UVPosts.swift */; };
 		C3B796F7C0AADC51EA420CE3 /* Pods_TimeExplorer_TimeExplorerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6655C8DB5E8432C375F6F710 /* Pods_TimeExplorer_TimeExplorerUITests.framework */; };
 		C6F159552BE8EAE85855D645 /* Pods_TimeExplorer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48B7826299716B621E89AED8 /* Pods_TimeExplorer.framework */; };
@@ -249,6 +251,9 @@
 		BCA038D0257931D300C6713C /* Loopable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loopable.swift; sourceTree = "<group>"; };
 		BCA038D5257931F100C6713C /* RefreshingScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshingScrollView.swift; sourceTree = "<group>"; };
 		BCA038DA2579326900C6713C /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
+		BCA18409265EDCBA007C3845 /* ZillaSlab-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ZillaSlab-Regular.ttf"; path = "../../../../../../Downloads/Zilla_Slab 2/ZillaSlab-Regular.ttf"; sourceTree = "<group>"; };
+		BCA1840B265EDCC4007C3845 /* PlayfairDisplay-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PlayfairDisplay-VariableFont_wght.ttf"; path = "../../../../../../Downloads/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf"; sourceTree = "<group>"; };
+		BCA1840E265EDF6F007C3845 /* ArtStoreMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtStoreMain.swift; sourceTree = "<group>"; };
 		BCA1AD182602779D009C31A4 /* TopPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopPostView.swift; sourceTree = "<group>"; };
 		BCAD90FC251660DE0019C1F5 /* PVMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMain.swift; sourceTree = "<group>"; };
 		BCAD9104251661C80019C1F5 /* PVPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPost.swift; sourceTree = "<group>"; };
@@ -308,7 +313,6 @@
 		BCF1934C2549F45D0080DDCE /* UVDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVDetail.swift; sourceTree = "<group>"; };
 		BCF486472627782D001A28E9 /* ArtViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtViewHelper.swift; sourceTree = "<group>"; };
 		BCF4864C26277855001A28E9 /* ArtViewElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtViewElements.swift; sourceTree = "<group>"; };
-		BCF48652262780CE001A28E9 /* sample.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = sample.mp4; sourceTree = "<group>"; };
 		BCFAF93B2548AD9100392163 /* UVPosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVPosts.swift; sourceTree = "<group>"; };
 		D21C6C833AA25BBD2A543CED /* Pods-TimeExplorer-TimeExplorerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TimeExplorer-TimeExplorerUITests.release.xcconfig"; path = "Target Support Files/Pods-TimeExplorer-TimeExplorerUITests/Pods-TimeExplorer-TimeExplorerUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -584,6 +588,14 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		BCA1840D265EDF5B007C3845 /* ArtStore */ = {
+			isa = PBXGroup;
+			children = (
+				BCA1840E265EDF6F007C3845 /* ArtStoreMain.swift */,
+			);
+			path = ArtStore;
+			sourceTree = "<group>";
+		};
 		BCAD90FB251660D30019C1F5 /* Posts */ = {
 			isa = PBXGroup;
 			children = (
@@ -616,7 +628,6 @@
 		BCAFD4C02514C5170072F161 /* TimeExplorer */ = {
 			isa = PBXGroup;
 			children = (
-				BCF48651262780C3001A28E9 /* Video */,
 				BCC4E0632619DACF00988164 /* Extensions */,
 				BC06C57E25FEA718003BCA99 /* ARModels */,
 				BCA038A7257930D800C6713C /* Helpers */,
@@ -676,6 +687,7 @@
 		BCAFD5142514C7160072F161 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BCA1840D265EDF5B007C3845 /* ArtStore */,
 				BC694788264DCB6200FE5FF1 /* ARMainView */,
 				BC694787264DCB4200FE5FF1 /* Blogs */,
 				BC694786264DCA7000FE5FF1 /* Post */,
@@ -782,6 +794,8 @@
 		BCD6F90B2592290100FACEF8 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				BCA1840B265EDCC4007C3845 /* PlayfairDisplay-VariableFont_wght.ttf */,
+				BCA18409265EDCBA007C3845 /* ZillaSlab-Regular.ttf */,
 				BCD6F90C2592290D00FACEF8 /* BungeeOutline-Regular.ttf */,
 				BCD6F91125922F0200FACEF8 /* BungeeShade-Regular.ttf */,
 				BCD6F9162592311F00FACEF8 /* GreatVibes-Regular.ttf */,
@@ -824,14 +838,6 @@
 				BCCDBE3E2587B28700E6A2C1 /* CustomCameraViewMain.swift */,
 			);
 			path = CustomCameraView;
-			sourceTree = "<group>";
-		};
-		BCF48651262780C3001A28E9 /* Video */ = {
-			isa = PBXGroup;
-			children = (
-				BCF48652262780CE001A28E9 /* sample.mp4 */,
-			);
-			path = Video;
 			sourceTree = "<group>";
 		};
 		D366001FC5681DFA06CF2A9F /* Pods */ = {
@@ -967,13 +973,14 @@
 				BC96B68026171BE90062B905 /* César_-_Louvre_Museum.usdz in Resources */,
 				BC80F6AF25ACDCB100F8E450 /* Raleway-VariableFont_wght.ttf in Resources */,
 				BCAFD4C92514C5190072F161 /* Preview Assets.xcassets in Resources */,
+				BCA1840C265EDCC4007C3845 /* PlayfairDisplay-VariableFont_wght.ttf in Resources */,
 				BC07C110253859F700FD399A /* GoogleService-Info.plist in Resources */,
 				BCAFD4C62514C5190072F161 /* Assets.xcassets in Resources */,
-				BCF48653262780CE001A28E9 /* sample.mp4 in Resources */,
 				BC2B4371258C777800854668 /* timer.json in Resources */,
 				BCD6F91225922F0200FACEF8 /* BungeeShade-Regular.ttf in Resources */,
 				BC06C58025FEA727003BCA99 /* Fragment_of_Milan_Cathedral.usdz in Resources */,
 				BC618C5925A6FCA300377140 /* NeueMachina-Regular.otf in Resources */,
+				BCA1840A265EDCBA007C3845 /* ZillaSlab-Regular.ttf in Resources */,
 				BC1410F52585E0A100AAA0B4 /* heart.json in Resources */,
 				BCA038DB2579326900C6713C /* loading.json in Resources */,
 				BC1F8407259B76AB003E2CA8 /* SortsMillGoudy-Regular.ttf in Resources */,
@@ -1157,6 +1164,7 @@
 				BCAFD4C42514C5170072F161 /* ContentView.swift in Sources */,
 				BC3DD52D253A301D00596F8F /* UVMain.swift in Sources */,
 				BCAFD5402514D81B0072F161 /* WVHeader.swift in Sources */,
+				BCA1840F265EDF6F007C3845 /* ArtStoreMain.swift in Sources */,
 				BC37DE46251506B9000BC15E /* AVQuickMenu.swift in Sources */,
 				BCA038D1257931D300C6713C /* Loopable.swift in Sources */,
 				BC67C27025307BAC00F1FC3C /* SVStory.swift in Sources */,
