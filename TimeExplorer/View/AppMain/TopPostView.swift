@@ -16,7 +16,7 @@ struct TopPostView: View {
     @State var rotationAngles:[Double] = []
     var animation:Namespace.ID
     
-    init(animation:Namespace.ID,_ viewMore:@escaping (() -> Void)){
+    init(animation:Namespace.ID,_ viewMore: @escaping (() -> Void)){
         self.animation = animation
         self.viewMore = viewMore
     }
@@ -60,7 +60,7 @@ struct TopPostView: View {
                 }
             })
             .onReceive(self.PAPI.$posts) { (posts) in
-                self.rotationAngles = Array(repeating: 1, count: posts.count).map({$0 * Double.random(in: -10.0...10.0)})
+                self.rotationAngles = Array(repeating: 1, count: posts.count).map({$0 * Double.random(in: -3.0...3.0)})
             }
     }
 }
@@ -124,10 +124,10 @@ struct PostCardView:View{
     func ImageCaptionView(width w:CGFloat,height h:CGFloat) -> some View{
             return ZStack(alignment: .bottom){
                 ImageView(url:self.postImage,width: w,height: h,contentMode:.fill,alignment: .center,testMode: false)
-                bottomShadow.aspectRatio(contentMode: .fill)
+                lightbottomShadow.aspectRatio(contentMode: .fill)
                 BasicText(content: self.post.caption, fontDesign: .serif, size: 15, weight: .semibold)
                     .foregroundColor(.white)
-                    .padding()
+                    .padding(20)
                     .frame(width: w, alignment: .leading)
             }
             .frame(width: w, height: h, alignment: .center)
@@ -136,7 +136,7 @@ struct PostCardView:View{
     
     func onChanged(value:DragGesture.Value){
         if self.isTop{
-            var width = value.translation.width
+            let width = value.translation.width
             self.offset = width
         }
         
@@ -144,12 +144,11 @@ struct PostCardView:View{
     
     func onEnded(value:DragGesture.Value){
         if self.isTop{
-            var width = value.translation.width
-            var dir = CGFloat(width > 0 ? 1 : -1)
+            let width = value.translation.width
+            let dir = CGFloat(width > 0 ? 1 : -1)
             if abs(width) > 75{
                 self.offset = totalWidth * 1.5 * dir
                 self.current += 1
-                print("current : ",current)
             }else{
                 self.offset = 0
             }
@@ -160,18 +159,12 @@ struct PostCardView:View{
     
     var body: some View{
         GeometryReader{g in
-            var w = g.frame(in: .local).width
-            var h = g.frame(in: .local).height
+            let w = g.frame(in: .local).width
+            let h = g.frame(in: .local).height
             
             self.ImageCaptionView(width: w, height: h)
-                
-//
         }
-//        .padding(.horizontal,10)
-//        .padding(.top,10)
-//        .padding(.bottom,20)
         .frame(width: totalWidth * 0.75, height: totalHeight * 0.5, alignment: .center)
-//        .background(Color.white.clipShape(RoundedRectangle(cornerRadius: 30)).shadow(radius: 1.5))
         .offset(x: self.offset)
         .gesture(DragGesture()
                     .onChanged(self.onChanged)

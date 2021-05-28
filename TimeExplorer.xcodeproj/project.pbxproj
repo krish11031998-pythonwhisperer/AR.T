@@ -24,6 +24,7 @@
 		BC1BDDD2264D46A9005B2C8A /* FancyScroll_Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1BDDD1264D46A9005B2C8A /* FancyScroll_Structs.swift */; };
 		BC1BDDD4264D4928005B2C8A /* FancyScrollMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1BDDD3264D4928005B2C8A /* FancyScrollMain.swift */; };
 		BC1F8407259B76AB003E2CA8 /* SortsMillGoudy-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC1F8406259B76AB003E2CA8 /* SortsMillGoudy-Regular.ttf */; };
+		BC2875B626611A1400902C6A /* TopArtCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2875B526611A1400902C6A /* TopArtCard.swift */; };
 		BC2AD920261F071C007F5921 /* SCNSceneHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2AD91F261F071C007F5921 /* SCNSceneHelper.swift */; };
 		BC2AD925261F0778007F5921 /* URLHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2AD924261F0778007F5921 /* URLHelper.swift */; };
 		BC2AD92A261F1584007F5921 /* SceneModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2AD929261F1584007F5921 /* SceneModelView.swift */; };
@@ -37,6 +38,9 @@
 		BC37DE4F2516041F000BC15E /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC37DE4E2516041F000BC15E /* TabBarView.swift */; };
 		BC3DD5272539BE6900596F8F /* FireStoreAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DD5262539BE6900596F8F /* FireStoreAPI.swift */; };
 		BC3DD52D253A301D00596F8F /* UVMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DD52C253A301D00596F8F /* UVMain.swift */; };
+		BC52DEAD265FD5B3009D7A4E /* ZillaSlab-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC52DEAC265FD5B3009D7A4E /* ZillaSlab-Regular.ttf */; };
+		BC52DEB0265FDDC3009D7A4E /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DEAF265FDDC3009D7A4E /* HomePageView.swift */; };
+		BC52DEB2265FEC98009D7A4E /* FeaturedArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DEB1265FEC98009D7A4E /* FeaturedArt.swift */; };
 		BC561D23261B9AD100130428 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC561D22261B9AD100130428 /* ImageView.swift */; };
 		BC561D28261C2F9000130428 /* BVMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC561D27261C2F9000130428 /* BVMain.swift */; };
 		BC561D2D261C411400130428 /* ImageCaptionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC561D2C261C411400130428 /* ImageCaptionCard.swift */; };
@@ -86,7 +90,6 @@
 		BCA038D1257931D300C6713C /* Loopable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA038D0257931D300C6713C /* Loopable.swift */; };
 		BCA038D6257931F100C6713C /* RefreshingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA038D5257931F100C6713C /* RefreshingScrollView.swift */; };
 		BCA038DB2579326900C6713C /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = BCA038DA2579326900C6713C /* loading.json */; };
-		BCA1840A265EDCBA007C3845 /* ZillaSlab-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCA18409265EDCBA007C3845 /* ZillaSlab-Regular.ttf */; };
 		BCA1840C265EDCC4007C3845 /* PlayfairDisplay-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCA1840B265EDCC4007C3845 /* PlayfairDisplay-VariableFont_wght.ttf */; };
 		BCA1840F265EDF6F007C3845 /* ArtStoreMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1840E265EDF6F007C3845 /* ArtStoreMain.swift */; };
 		BCA1AD192602779D009C31A4 /* TopPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1AD182602779D009C31A4 /* TopPostView.swift */; };
@@ -191,6 +194,7 @@
 		BC1BDDD1264D46A9005B2C8A /* FancyScroll_Structs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyScroll_Structs.swift; sourceTree = "<group>"; };
 		BC1BDDD3264D4928005B2C8A /* FancyScrollMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyScrollMain.swift; sourceTree = "<group>"; };
 		BC1F8406259B76AB003E2CA8 /* SortsMillGoudy-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SortsMillGoudy-Regular.ttf"; sourceTree = "<group>"; };
+		BC2875B526611A1400902C6A /* TopArtCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopArtCard.swift; sourceTree = "<group>"; };
 		BC2AD91F261F071C007F5921 /* SCNSceneHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNSceneHelper.swift; sourceTree = "<group>"; };
 		BC2AD924261F0778007F5921 /* URLHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLHelper.swift; sourceTree = "<group>"; };
 		BC2AD929261F1584007F5921 /* SceneModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneModelView.swift; sourceTree = "<group>"; };
@@ -204,6 +208,9 @@
 		BC37DE4E2516041F000BC15E /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		BC3DD5262539BE6900596F8F /* FireStoreAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreAPI.swift; sourceTree = "<group>"; };
 		BC3DD52C253A301D00596F8F /* UVMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVMain.swift; sourceTree = "<group>"; };
+		BC52DEAC265FD5B3009D7A4E /* ZillaSlab-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ZillaSlab-Regular.ttf"; path = "../../../../../../Downloads/Zilla_Slab/ZillaSlab-Regular.ttf"; sourceTree = "<group>"; };
+		BC52DEAF265FDDC3009D7A4E /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
+		BC52DEB1265FEC98009D7A4E /* FeaturedArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedArt.swift; sourceTree = "<group>"; };
 		BC561D22261B9AD100130428 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		BC561D27261C2F9000130428 /* BVMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BVMain.swift; sourceTree = "<group>"; };
 		BC561D2C261C411400130428 /* ImageCaptionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCaptionCard.swift; sourceTree = "<group>"; };
@@ -251,7 +258,6 @@
 		BCA038D0257931D300C6713C /* Loopable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loopable.swift; sourceTree = "<group>"; };
 		BCA038D5257931F100C6713C /* RefreshingScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshingScrollView.swift; sourceTree = "<group>"; };
 		BCA038DA2579326900C6713C /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
-		BCA18409265EDCBA007C3845 /* ZillaSlab-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ZillaSlab-Regular.ttf"; path = "../../../../../../Downloads/Zilla_Slab 2/ZillaSlab-Regular.ttf"; sourceTree = "<group>"; };
 		BCA1840B265EDCC4007C3845 /* PlayfairDisplay-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PlayfairDisplay-VariableFont_wght.ttf"; path = "../../../../../../Downloads/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 		BCA1840E265EDF6F007C3845 /* ArtStoreMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtStoreMain.swift; sourceTree = "<group>"; };
 		BCA1AD182602779D009C31A4 /* TopPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopPostView.swift; sourceTree = "<group>"; };
@@ -446,6 +452,16 @@
 				BCC224E925528ED800AE6769 /* TabBarButtons.swift */,
 			);
 			path = UserView;
+			sourceTree = "<group>";
+		};
+		BC52DEAE265FDDB5009D7A4E /* HomePage */ = {
+			isa = PBXGroup;
+			children = (
+				BC52DEAF265FDDC3009D7A4E /* HomePageView.swift */,
+				BC52DEB1265FEC98009D7A4E /* FeaturedArt.swift */,
+				BC2875B526611A1400902C6A /* TopArtCard.swift */,
+			);
+			path = HomePage;
 			sourceTree = "<group>";
 		};
 		BC5AFFFC25FB9FFA00A9E202 /* ExplorationTabView */ = {
@@ -687,6 +703,7 @@
 		BCAFD5142514C7160072F161 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BC52DEAE265FDDB5009D7A4E /* HomePage */,
 				BCA1840D265EDF5B007C3845 /* ArtStore */,
 				BC694788264DCB6200FE5FF1 /* ARMainView */,
 				BC694787264DCB4200FE5FF1 /* Blogs */,
@@ -795,7 +812,7 @@
 			isa = PBXGroup;
 			children = (
 				BCA1840B265EDCC4007C3845 /* PlayfairDisplay-VariableFont_wght.ttf */,
-				BCA18409265EDCBA007C3845 /* ZillaSlab-Regular.ttf */,
+				BC52DEAC265FD5B3009D7A4E /* ZillaSlab-Regular.ttf */,
 				BCD6F90C2592290D00FACEF8 /* BungeeOutline-Regular.ttf */,
 				BCD6F91125922F0200FACEF8 /* BungeeShade-Regular.ttf */,
 				BCD6F9162592311F00FACEF8 /* GreatVibes-Regular.ttf */,
@@ -980,8 +997,8 @@
 				BCD6F91225922F0200FACEF8 /* BungeeShade-Regular.ttf in Resources */,
 				BC06C58025FEA727003BCA99 /* Fragment_of_Milan_Cathedral.usdz in Resources */,
 				BC618C5925A6FCA300377140 /* NeueMachina-Regular.otf in Resources */,
-				BCA1840A265EDCBA007C3845 /* ZillaSlab-Regular.ttf in Resources */,
 				BC1410F52585E0A100AAA0B4 /* heart.json in Resources */,
+				BC52DEAD265FD5B3009D7A4E /* ZillaSlab-Regular.ttf in Resources */,
 				BCA038DB2579326900C6713C /* loading.json in Resources */,
 				BC1F8407259B76AB003E2CA8 /* SortsMillGoudy-Regular.ttf in Resources */,
 				BC06C58525FEA72C003BCA99 /* St.usdz in Resources */,
@@ -1128,6 +1145,7 @@
 				BC9102BC253198830016E8B1 /* SVRows.swift in Sources */,
 				BC89632825A0C17200E1AE82 /* BlogViewCarousel.swift in Sources */,
 				BC561D32261C61A800130428 /* TrendingBlogs.swift in Sources */,
+				BC52DEB0265FDDC3009D7A4E /* HomePageView.swift in Sources */,
 				BCAFD53B2514D75C0072F161 /* Basics.swift in Sources */,
 				BCAD910A2517966E0019C1F5 /* AVMain.swift in Sources */,
 				BC027B2E25A05F6F00CB58B5 /* ExploreViewMain.swift in Sources */,
@@ -1228,9 +1246,11 @@
 				BCCD303A256AF8A200F663CC /* BlogsCarousel.swift in Sources */,
 				BCC4E0682619DACF00988164 /* Animations.swift in Sources */,
 				BCE0B9E325398B9A0043EDEF /* LVLogin.swift in Sources */,
+				BC52DEB2265FEC98009D7A4E /* FeaturedArt.swift in Sources */,
 				BCECE8C02555674700DB2EB6 /* CustomCameraView.swift in Sources */,
 				BC2AD930261FAEA7007F5921 /* ArtView.swift in Sources */,
 				BCCDBE3A2587B04900E6A2C1 /* CMBufferHelper.swift in Sources */,
+				BC2875B626611A1400902C6A /* TopArtCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

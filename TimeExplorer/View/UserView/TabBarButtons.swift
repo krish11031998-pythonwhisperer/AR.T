@@ -16,9 +16,10 @@ struct TabBarButtons: View {
     }
     var button:some View{
         Button {
-            print("Clicked the back button")
+            
             withAnimation(.easeInOut) {
                 self.bindingState.toggle()
+                print("Clicked the back button")
             }
         } label: {
             Image(systemName: self.buttonName)

@@ -47,7 +47,8 @@ struct AppView: View {
     }
     
     var _activeView:AnyView{
-        var view:AnyView = AnyView(AMMain())
+//        var view:AnyView = AnyView(AMMain())
+        var view:AnyView = AnyView(HomePageView())
         switch(self.tab){
             case "feed": view = AnyView(ExploreViewMain())
             case "post": view = AnyView(CameraView().onAppear {self.mainStates.toggleTab()}.onDisappear {self.mainStates.toggleTab()})
@@ -62,27 +63,7 @@ struct AppView: View {
     
     var activeView: some View{
             VStack{
-//                if self.tab == "home"{
-//                    AMMain()
-//                }
-//                if self.tab == "feed"{
-//                    ExploreViewMain()
-//                }
-//                if self.tab == "post"{
-//
-//                }
-//                if self.tab == "blogs"{
-//                    BVMain()
-//                }
-//                if self.tab == "attractions"{
-////                    AVMain().frame(height:totalHeight)
-////                    ExploreTabView()
-//                    FancyScrollMain()
-//                }
-//                if self.tab == "profile"{
-//                    UVMain().frame(height:totalHeight)
                 self._activeView
-//                }
             }.frame(width: totalWidth,height:totalHeight).animation(.default)
             .background(Color.mainBG)
     }

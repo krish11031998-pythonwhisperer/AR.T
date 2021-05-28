@@ -154,8 +154,6 @@ struct PVMain: View {
         
         let final_w = width + diff.width * pct
         let final_h = height + diff.height * pct
-        
-        print("PVMain pct :",pct)
         return .init(width: final_w, height: final_h)
     }
     

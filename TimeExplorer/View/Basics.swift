@@ -13,11 +13,9 @@ enum TextStyle:String{
     case main = "NeueMachina-Regular"
     case heading = "BungeeShade-Regular"
     case title = "SortsMillGoudy-Regular"
-//    case normal = "NeueMachina-Regular"
 //    case normal = "Avenir Next Medium"
-    case normal = "ZillaSlab-Regular"
-//    case normal = "SF Pro"
-//    case normal = "Raleway-VariableFont_wght"
+    case normal = "Cochin"
+//    case normal = "ZillaSlab-Regular"
 }
 struct BasicText: View {
     
@@ -52,7 +50,7 @@ struct MainText: View {
     var style:TextStyle
     var addBG:Bool
     init(content:String,fontSize:CGFloat,color:Color = .white, fontWeight:Font.Weight = .medium,style:TextStyle = .normal,addBG:Bool = false){
-        self.content = content
+        self.content = content.stripSpaces().removeEndLine()
         self.fontSize = fontSize
         self.color = color
         self.style = style
@@ -66,10 +64,19 @@ struct MainText: View {
         return self.color == .black ? .white : .black
     }
      
+    var textBody:AnyView{
+        if style == .normal{
+            return AnyView(BasicText(content: self.content, fontDesign: .serif, size: self.fontSize, weight: self.fontWeight))
+        }else{
+            return AnyView(Text(self.content).font(self.font)
+                            .fontWeight(self.fontWeight)
+                            
+            )
+        }
+    }
+    
     var body: some View {
-        Text(self.content.stripSpaces().removeEndLine())
-            .font(self.font)
-            .fontWeight(self.fontWeight)
+        self.textBody
             .foregroundColor(self.color)
             .frame(alignment:.topLeading)
             .padding(.horizontal,addBG ? 15 : 0)

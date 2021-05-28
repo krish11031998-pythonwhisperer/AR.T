@@ -29,6 +29,7 @@ struct StickyHeaderImage: View {
     }
     
     
+
     var body: some View {
         GeometryReader{g in
             let w = g.frame(in: .local).width
@@ -39,7 +40,7 @@ struct StickyHeaderImage: View {
             let y_off = -((minY > 0 ? minY : 0) + 20)
             let curve = self.curvedCorner ? 30 : 0
             
-            ImageView(url: self.img_url, width: w, height: imgHeight, contentMode: .fill)
+            ImageView(img: img, width: w, height: imgHeight, contentMode: .fill)
                 .clipShape(Corners(rect:[.bottomLeft,.bottomRight],size: .init(width: curve, height:curve)))
 //                .matchedGeometryEffect(id: self.id, in: self.animation)
                 .offset(y: y_off)

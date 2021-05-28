@@ -47,11 +47,11 @@ struct AVScrollView: View {
                 let scale:CGFloat = self.scroll == idx ? 1 : 0.9
                 
                 let view = ZStack(alignment: .bottom) {
-                    ImageView(url: data.img,width: w, height: h, contentMode: .fill, alignment: .center,testMode: false)
+                    ImageView(url: data.img,width: w, height: h, contentMode: .fill, alignment: .center,testMode: true)
                     
                     if selected{
                         ZStack(alignment: .bottom){
-                            bottomShadow.frame(width: w, alignment: .center)
+                            lightbottomShadow.frame(width: w + 1, alignment: .center)
                             BasicText(content: data.title ?? "No Heading", fontDesign: .serif, size: 15, weight: .semibold)
                                 .foregroundColor(.white)
                                 .padding()
@@ -74,7 +74,7 @@ struct AVScrollView: View {
     
 
     var scrolledOffset:CGFloat{
-        let off =  CGFloat(self.scroll >= 2 ? 2 : self.scroll < 0 ? 0 : self.scroll) * -(self.cardSize.width)
+        let off =  CGFloat(self.scroll >= 2 ? 2 : self.scroll < 0 ? 0 : self.scroll) * -(self.cardSize.width) - 10
 //        let off =  CGFloat(self.scroll >= 1 ? 1 : 0) * -(self.cardSize.width)
 //        let off = -CGFloat(self.scroll) * self.cardSize.width
         return off
