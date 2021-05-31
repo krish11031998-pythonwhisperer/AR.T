@@ -10,6 +10,7 @@ import SwiftUI
 struct HomePageView: View {
 
     @EnvironmentObject var mainStates:AppStates
+    @StateObject var PAPI:PostAPI = .init()
     @Namespace var animation
     @State var chosenSection:String = ""
     @State var showSection:Bool = false
@@ -46,7 +47,7 @@ struct HomePageView: View {
         case "Trending Art": view = AnyView(AVScrollView(attractions: Array.init(repeating: asm, count: 10)))
         case "Featured Art": view = AnyView(FeaturedArt(art: test))
 //        case "Recent" : view = AnyView(TopPostView (animation: self.animation, self.topPostAction).padding(.top,50).frame(width: totalWidth, alignment: .center))
-        case "Recent" : view = AnyView(TopArtScroll(data: Array.init(repeating: asm, count: 10)))
+        case "Recent" : view = AnyView(TopArtScroll(data: self.PAPI.posts.filter({!($0.isVideo ?? false)}).map({AVSData(img: $0.image?.first, title: $0.caption, data: $0)})))
         default:
             break
         }
@@ -64,8 +65,9 @@ struct HomePageView: View {
         VStack(alignment: .leading, spacing: 10){
             self.subView(title: "Featured Art")
             self.subView(title: "Trending Art")
-            self.subView(title: "Recent")
-//            self.subView(title: "Recent")
+            if !self.PAPI.posts.isEmpty{
+                self.subView(title: "Recent")
+            }
         }
     }
     
@@ -93,6 +95,9 @@ struct HomePageView: View {
         .edgesIgnoringSafeArea(.all)
         .onAppear(perform: {
             self.mainStates.loading = false
+            if self.PAPI.posts.isEmpty{
+                self.PAPI.getTopPosts(limit: 20)
+            }
         })
         .onChange(of: self.showArt, perform: { value in
             print("Art Value : ",value)

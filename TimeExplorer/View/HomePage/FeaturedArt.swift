@@ -17,7 +17,7 @@ struct FeaturedArt: View {
             
             ZStack(alignment: .bottom){
                 Color.black
-                ImageView(url: self.art.thumbnail, width: w, height: h, contentMode: .fill, alignment: .top, testMode: true)
+                ImageView(url: self.art.thumbnail, width: w, height: h, contentMode: .fill, alignment: .top, testMode: false)
                     
                 lightbottomShadow
                     .frame(width: w, height: h, alignment: .center)

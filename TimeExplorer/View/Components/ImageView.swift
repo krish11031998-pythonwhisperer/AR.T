@@ -30,7 +30,7 @@ struct ImageView:View{
         self.autoHeight = autoHeight
         self.heading = heading
         self.alignment = alignment
-        self.onAppear()
+//        self.onAppear()
     }
     
     
@@ -41,7 +41,7 @@ struct ImageView:View{
         self.contentMode = contentMode
         self.testMode = testMode
         self.alignment = alignment
-        self.onAppear()
+//        self.onAppear()
     }
     
     func onAppear(){
@@ -67,7 +67,7 @@ struct ImageView:View{
             }
             
         }.frame(width: self.width,height: h)
-//        .onAppear(perform: self.onAppear)
+        .onAppear(perform: self.onAppear)
     }
     
     
@@ -95,6 +95,7 @@ struct ImageView:View{
     var body: some View{
         ZStack{
             self.mainIMGView
+                .contentShape(RoundedRectangle(cornerRadius: 10))
         }
         
     }
