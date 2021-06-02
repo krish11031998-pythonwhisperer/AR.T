@@ -89,12 +89,16 @@ struct FancyScroll: View {
                         self.scrollStates.centralizeContainer(rect: global)
                     }
                 })
+                .gesture(DragGesture().onChanged(self.scrollStates.onChanged).onEnded(self.scrollStates.onEnded))
+                
             )
             
         }.edgesIgnoringSafeArea(.all)
         .frame(width: totalHeight * 1.5,height: totalHeight * 5)
+        
         .offset(self.off_size)
-        .animation(.easeInOut(duration: 0.75))
+        .animation(.easeInOut(duration: 1))
+        
     }
     
     var body: some View {

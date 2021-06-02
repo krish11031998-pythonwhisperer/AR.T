@@ -41,7 +41,6 @@ struct ImageView:View{
         self.contentMode = contentMode
         self.testMode = testMode
         self.alignment = alignment
-//        self.onAppear()
     }
     
     func onAppear(){
@@ -51,12 +50,10 @@ struct ImageView:View{
     }
     
     func imgView(w _w:CGFloat? = nil,h _h:CGFloat? = nil) -> some View{
-        let w = _w == nil ? self.width : _w
-        var h = _h == nil ? self.height : _h
         let img = (self.img != nil ? self.img! : self.IMD.image)
         let ar = UIImage.aspectRatio(img: img)
-        h = self.autoHeight ? self.width/ar : h
-//        h = h < 175 && self.autoHeight ? 175 : h
+        var h = self.autoHeight ? self.width/ar : _h == nil ? self.height : _h!
+        h = h < 175 ? 175 : h
         return ZStack(alignment: .center) {
             Image(uiImage: img)
                 .resizable()
@@ -65,7 +62,6 @@ struct ImageView:View{
                 Color.black
                 BlurView(style: .regular)
             }
-            
         }.frame(width: self.width,height: h)
         .onAppear(perform: self.onAppear)
     }

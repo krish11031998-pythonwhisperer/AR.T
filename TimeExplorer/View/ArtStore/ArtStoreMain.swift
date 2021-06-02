@@ -102,17 +102,12 @@ struct ArtStoreMain: View {
     
     
     
-    public var lineChart:some View{
-        let myStyle = ChartStyle(backgroundColor: .clear, accentColor: .red, secondGradientColor: .red.opacity(0.5), textColor: .black, legendTextColor: .gray, dropShadowColor: .red)
-        return LineChartView(data: [8,23,54,32,12,37,7,23,43], title: "Title")
-    }
     
     var body: some View {
         ZStack(alignment: .center) {
             ScrollView(.vertical, showsIndicators: false) {
                 Spacer().frame(height: 75)
                 self.auctionBuyView
-//                self.lineChart
                 Spacer().frame(height: totalHeight * 0.3)
             }
         }

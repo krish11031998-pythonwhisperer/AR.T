@@ -94,11 +94,11 @@ struct TopArtScroll: View {
                 let data = _data.element
                 let idx = _data.offset
                 let (isViewing,_,x_off,zInd) = self.computeParams(idx: idx)
-//                if idx >= self.swiped - 3 && idx <= self.swiped + 3{
+                if idx >= self.swiped - 4 && idx <= self.swiped + 4{
                     self.imgCard(data: data,idx: idx)
                         .offset(x: isViewing ? self.dy_off : x_off)
                         .zIndex(isViewing ? 1 : zInd > 0 ? -zInd : zInd)
-//                }
+                }
                 
             }
         }

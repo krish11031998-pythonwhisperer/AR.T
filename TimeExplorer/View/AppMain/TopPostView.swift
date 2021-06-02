@@ -8,22 +8,26 @@
 import SwiftUI
 
 struct TopPostView: View {
+    @EnvironmentObject var mainStates:AppStates
     @StateObject var PAPI:PostAPI = .init()
     @State var currentIdx : Int = 0
     @State var selectedPost:PostData? = nil
+    var _posts:[PostData]
     var viewMore:() -> Void
     @State var resetStack:Bool = false
     @State var rotationAngles:[Double] = []
     var animation:Namespace.ID
     
-    init(animation:Namespace.ID,_ viewMore: @escaping (() -> Void)){
+    init(posts:[PostData] = [],animation:Namespace.ID,_ viewMore: @escaping (() -> Void)){
         self.animation = animation
         self.viewMore = viewMore
+        self._posts = posts
+//        self._rotationAngles = .init(wrappedValue: !posts.isEmpty ? Array(repeating: 1, count: posts.count).map({$0 * Double.random(in: -3.0...3.0)}) : [])
     }
     
     var posts:[PostData]{
         get{
-            return self.PAPI.posts.filter({!($0.isVideo ?? false)})
+            return self._posts.isEmpty ? self.PAPI.posts.filter({!($0.isVideo ?? false)}) : self._posts
         }
     }
     
@@ -41,13 +45,12 @@ struct TopPostView: View {
                 let current = idx == self.currentIdx
                 let diff = abs(idx - self.currentIdx)
                 let scale = 1 - CGFloat(diff <= 2 ? diff : 2) * 0.01
-                let isVideo = !(post.isVideo ?? false)
-//                if isVideo{
+                if idx <= self.currentIdx + 2{
                     PostCardView(post: post, selectedPost: self.$selectedPost, current: self.$currentIdx, reset:self.$resetStack,isTop:current)
-                            .scaleEffect(scale)
-                            .rotationEffect(.init(degrees: self.rotationAngles[idx]))
-//                }
-                
+                        .scaleEffect(scale)
+                        .rotationEffect(.init(degrees: idx < self.rotationAngles.count ? self.rotationAngles[idx] : 0))
+                }
+                    
             }
         }.animation(.interactiveSpring(response: 0.5, dampingFraction: 0.5, blendDuration: 0.5))
     }
@@ -55,8 +58,10 @@ struct TopPostView: View {
     var body: some View {
         self.PolaroidStack
             .onAppear(perform: {
-                if self.PAPI.posts.isEmpty{
+                if self.posts.isEmpty{
                     self.PAPI.getTopPosts(limit: 10)
+                }else{
+                    self.rotationAngles = Array(repeating: 1, count: posts.count).map({$0 * Double.random(in: -3.0...3.0)})
                 }
             })
             .onReceive(self.PAPI.$posts) { (posts) in

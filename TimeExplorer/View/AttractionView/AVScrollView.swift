@@ -32,7 +32,7 @@ struct AVScrollView: View {
         self.cardView = cardView
     }
     
-    let cardSize:CGSize = .init(width: totalWidth * 0.65, height: totalHeight * 0.45)
+    let cardSize:CGSize = .init(width: totalWidth * 0.6, height: totalHeight * 0.5)
     
     
     func imgView(idx:Int,data:AVSData) -> AnyView{
@@ -60,6 +60,7 @@ struct AVScrollView: View {
                     }
                 }
                 .clipShape(RoundedRectangle(cornerRadius: selected ? 20 : 10))
+                .shadow(radius: selected ? 10 : 0)
                 .scaleEffect(scale)
                 
                 return AnyView(view)
@@ -107,13 +108,14 @@ struct AVScrollView: View {
                 
                 if idx >= self.scroll - 2 && idx <= self.scroll + 2{
                     self.imgView(idx:idx,data: attr)
+                        
                 }
             }
             Spacer().frame(width: (totalWidth - self.cardSize.width) * 0.5)
         }
         .edgesIgnoringSafeArea(.horizontal)
         .padding(.leading,10)
-        .frame(width:totalWidth,height: totalHeight * 0.5,alignment: .leading)
+        .frame(width:totalWidth,height: cardSize.height * 1.15 ,alignment: .leading)
         .offset(x: self.scrolledOffset)
         .offset(x: self.offset)
         .gesture(DragGesture().onChanged(self.onChanged(value:)).onEnded(self.onEnded(value:)))

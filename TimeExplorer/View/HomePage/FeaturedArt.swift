@@ -33,6 +33,7 @@ struct FeaturedArt: View {
             
         }.padding()
         .frame(width: totalWidth, height: totalHeight * 0.5, alignment: .center)
+        .shadow(radius: 10)
         
     }
 }

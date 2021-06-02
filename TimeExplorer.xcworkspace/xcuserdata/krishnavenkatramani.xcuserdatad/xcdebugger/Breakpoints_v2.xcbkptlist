@@ -3,4 +3,70 @@
    uuid = "13E8C019-CB6D-4B42-814A-50278EFAD420"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CC32A5D4-3C81-40A9-B3F1-0C561B15A626"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TimeExplorer/View/AppMain/TopPostView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D3941538-A4AF-474F-9C2E-05CB916F5EA4"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TimeExplorer/View/AppMain/TopPostView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "D3941538-A4AF-474F-9C2E-05CB916F5EA4 - b945ae49712d071b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in TimeExplorer.TopPostView.body.getter : some"
+                  moduleName = "TimeExplorer"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/krishnavenkatramani/Desktop/Personal%20Folder/AR.T/TimeExplorer/View/AppMain/TopPostView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "388">
+               </Location>
+               <Location
+                  uuid = "D3941538-A4AF-474F-9C2E-05CB916F5EA4 - bffeabeb6ae3cd4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Double) -&gt; Swift.Double in closure #1 () -&gt; () in TimeExplorer.TopPostView.body.getter : some"
+                  moduleName = "TimeExplorer"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/krishnavenkatramani/Desktop/Personal%20Folder/AR.T/TimeExplorer/View/AppMain/TopPostView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "32">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

@@ -48,6 +48,8 @@
 		BC561D40261DF3DE00130428 /* SystemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC561D3F261DF3DE00130428 /* SystemButton.swift */; };
 		BC5AFFF825FA3D0100A9E202 /* TrendingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5AFFF725FA3D0100A9E202 /* TrendingCard.swift */; };
 		BC5AFFFE25FBA01700A9E202 /* ExploreTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5AFFFD25FBA01700A9E202 /* ExploreTabView.swift */; };
+		BC5D47DE26667AC800C55A3F /* AllArtView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5D47DD26667AC800C55A3F /* AllArtView.swift */; };
+		BC5D47E026667F5700C55A3F /* PinterestScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5D47DF26667F5700C55A3F /* PinterestScroll.swift */; };
 		BC618C5425A5D5C100377140 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = BC618C5325A5D5C100377140 /* Charts */; };
 		BC618C5925A6FCA300377140 /* NeueMachina-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = BC618C5825A6FCA300377140 /* NeueMachina-Regular.otf */; };
 		BC618C6325A9F3C000377140 /* YoutubePlayerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC618C6225A9F3C000377140 /* YoutubePlayerHelper.swift */; };
@@ -219,6 +221,8 @@
 		BC561D3F261DF3DE00130428 /* SystemButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemButton.swift; sourceTree = "<group>"; };
 		BC5AFFF725FA3D0100A9E202 /* TrendingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingCard.swift; sourceTree = "<group>"; };
 		BC5AFFFD25FBA01700A9E202 /* ExploreTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreTabView.swift; sourceTree = "<group>"; };
+		BC5D47DD26667AC800C55A3F /* AllArtView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllArtView.swift; sourceTree = "<group>"; };
+		BC5D47DF26667F5700C55A3F /* PinterestScroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinterestScroll.swift; sourceTree = "<group>"; };
 		BC618C5825A6FCA300377140 /* NeueMachina-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NeueMachina-Regular.otf"; sourceTree = "<group>"; };
 		BC618C6225A9F3C000377140 /* YoutubePlayerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubePlayerHelper.swift; sourceTree = "<group>"; };
 		BC645DDC2595124A0054F2FE /* MessageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageData.swift; sourceTree = "<group>"; };
@@ -462,6 +466,7 @@
 				BC52DEAF265FDDC3009D7A4E /* HomePageView.swift */,
 				BC52DEB1265FEC98009D7A4E /* FeaturedArt.swift */,
 				BC2875B526611A1400902C6A /* TopArtScroll.swift */,
+				BC5D47DD26667AC800C55A3F /* AllArtView.swift */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -747,6 +752,7 @@
 				BC561D22261B9AD100130428 /* ImageView.swift */,
 				BC561D2C261C411400130428 /* ImageCaptionCard.swift */,
 				BC561D3F261DF3DE00130428 /* SystemButton.swift */,
+				BC5D47DF26667F5700C55A3F /* PinterestScroll.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1174,6 +1180,7 @@
 				BCCDBE492587EC6100E6A2C1 /* VideoPlayer.swift in Sources */,
 				BC561D40261DF3DE00130428 /* SystemButton.swift in Sources */,
 				BC915766254390530089CD3D /* InstaImagePicker.swift in Sources */,
+				BC5D47DE26667AC800C55A3F /* AllArtView.swift in Sources */,
 				BC561D2D261C411400130428 /* ImageCaptionCard.swift in Sources */,
 				BCB25F1325B0C17900290E18 /* TrendingMainView.swift in Sources */,
 				BCE95E862624E73800B04852 /* SCNSceneView.swift in Sources */,
@@ -1237,6 +1244,7 @@
 				BCA038AE2579312D00C6713C /* ImagePicker.swift in Sources */,
 				BC06C58A25FEA7A9003BCA99 /* ChaptersView.swift in Sources */,
 				BC96B68826175DAE0062B905 /* SpeechModel.swift in Sources */,
+				BC5D47E026667F5700C55A3F /* PinterestScroll.swift in Sources */,
 				BC9F13E52580A37E00F5BE45 /* StringHelper.swift in Sources */,
 				BC915754254389540089CD3D /* PPVMain.swift in Sources */,
 				BC96B6762615C44B0062B905 /* FancyGrid.swift in Sources */,

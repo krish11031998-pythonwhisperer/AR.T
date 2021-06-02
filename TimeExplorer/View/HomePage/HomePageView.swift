@@ -41,15 +41,20 @@ struct HomePageView: View {
         
     }
     
+//    var posts:[PostData]{
+//        return self.PAPI.posts.isEmpty ? []
+//    }
+    
     func subView(title:String) -> some View{
         var view = AnyView(Color.clear)
         switch (title) {
         case "Trending Art": view = AnyView(AVScrollView(attractions: Array.init(repeating: asm, count: 10)))
         case "Featured Art": view = AnyView(FeaturedArt(art: test))
-//        case "Recent" : view = AnyView(TopPostView (animation: self.animation, self.topPostAction).padding(.top,50).frame(width: totalWidth, alignment: .center))
-        case "Recent" : view = AnyView(TopArtScroll(data: self.PAPI.posts.filter({!($0.isVideo ?? false)}).map({AVSData(img: $0.image?.first, title: $0.caption, data: $0)})))
-        default:
-            break
+        case "Recent" : view = AnyView(TopPostView (posts: self.PAPI.posts,animation: self.animation, self.topPostAction).padding(.top,50).frame(width: totalWidth, alignment: .center))
+        case "Genres" : view = AnyView(AllArtView())
+        case "All" : view = AnyView(PinterestScroll(data: self.PAPI.posts.map({AVSData(img: $0.image?.first, title: $0.caption, subtitle: $0.user, data: $0)})))
+//        case "Recent" : view = AnyView(TopArtScroll(data: self.mainStates.PAPI.posts.filter({!($0.isVideo ?? false)}).map({AVSData(img: $0.image?.first, title: $0.caption, data: $0)})))
+        default: break;
         }
         
         return VStack(alignment: .leading, spacing: 5){
@@ -68,6 +73,11 @@ struct HomePageView: View {
             if !self.PAPI.posts.isEmpty{
                 self.subView(title: "Recent")
             }
+            self.subView(title: "Genres")
+            if !self.PAPI.posts.isEmpty{
+                self.subView(title: "All")
+            }
+            
         }
     }
     

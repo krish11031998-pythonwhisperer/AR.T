@@ -57,19 +57,18 @@ class FancyScrollStates:ObservableObject{
     
     func onChanged(value:DragGesture.Value){
         if self.selectedCard != -1{
-//            self.selectedCard = -1
+            //            self.selectedCard = -1
             return
         }
         
         if !self.dragging{
             self.dragging = true
         }
-        let factor:CGFloat = 1.75
+        let factor:CGFloat = 1.5
         let h = value.translation.height * factor
         let w = value.translation.width * factor
         let delta:CGSize = .init(width: w, height: h)
         self.dynamic_off = delta
-        
     }
     
     func onEnded(value:DragGesture.Value){

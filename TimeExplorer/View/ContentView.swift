@@ -104,6 +104,7 @@ struct AppView: View {
             if let coord = self.locationManager.location?.coordinate{
                 self.mainStates.coordinates = coord
                 self.mainStates.LS.getCityName(coordinates: coord)
+                self.mainStates.PAPI.getTopPosts(limit: 10)
                 self.locationManager.locationUpdated = false
             }
             
