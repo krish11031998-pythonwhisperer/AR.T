@@ -55,8 +55,10 @@ struct PinterestScrollCard: View{
         ZStack(alignment: .bottom) {
             ImageView(url: self.data.img, width: self.width, contentMode: .fill, alignment: .center, autoHeight: true)
             lightbottomShadow
-            MainText(content: self.data.title ?? "", fontSize: 15, color: .white, fontWeight: .semibold, style: .normal)
+            MainText(content: self.data.title ?? "", fontSize: 13, color: .white, fontWeight: .regular, style: .normal)
                 .padding()
+                .frame(width: self.width, alignment: .leading)
+                .fixedSize(horizontal: false, vertical: true)
         }
         .aspectRatio(contentMode: .fit)
         .frame(width: self.width)

@@ -103,11 +103,13 @@ struct TrendingMainView: View {
     
     func onChanged(value:DragGesture.Value){
         let height = value.translation.height
-        self.offset = height
+        let val = value.location.y - value.startLocation.y
+        self.offset = val
     }
     
     func onEnded(value:DragGesture.Value){
-        let height = value.translation.height
+//        let height = value.translation.height
+        let height = self.offset
         var val:Int = 0
         if abs(height) > 100{
             val = height > 0 ? -1 : 1
@@ -230,15 +232,11 @@ struct TrendingMainView: View {
             ForEach(Array(self.data.enumerated()),id:\.offset){_data in
                 let idx = _data.offset
                 let data = _data.element
+//                if idx >= self.swiped - 1 && idx <= self.swiped + 1{
                 if idx >= self.swiped - 1 && idx <= self.swiped + 1{
                     TrendingMainCard(idx, data, w, h,handler: self.updateViewState)
-                        .gesture(DragGesture()
-                                    .onChanged(self.onChanged(value:))
-                                    .onEnded(self.onEnded(value:))
-                        )
+                        .gesture(DragGesture().onChanged(self.onChanged(value:)).onEnded(self.onEnded(value:)))
                 }
-                
-//                    .offset(y: self.swipedOffset + self.offset)
             }
         }.edgesIgnoringSafeArea(.all)
         .frame(width: totalWidth, height: totalHeight, alignment: .top)

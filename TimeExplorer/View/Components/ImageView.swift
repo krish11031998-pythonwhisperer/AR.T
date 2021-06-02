@@ -53,7 +53,7 @@ struct ImageView:View{
         let img = (self.img != nil ? self.img! : self.IMD.image)
         let ar = UIImage.aspectRatio(img: img)
         var h = self.autoHeight ? self.width/ar : _h == nil ? self.height : _h!
-        h = h < 175 ? 175 : h
+        h = self.autoHeight && h < 250 ? 250 : self.autoHeight && h > 350 ? 350 : h
         return ZStack(alignment: .center) {
             Image(uiImage: img)
                 .resizable()

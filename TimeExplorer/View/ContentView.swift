@@ -95,8 +95,11 @@ struct AppView: View {
             .navigationBarBackButtonHidden(true)
         }.frame(width: totalWidth,height:totalHeight).edgesIgnoringSafeArea(.all)
         .onAppear(perform: {
-            self.mainStates.userAcc.autoLogIn(){value in
-                self.showLoginPage = !value
+            self.mainStates.userAcc.autoLogIn(){success in
+                self.showLoginPage = !success
+                if success{
+                    self.mainStates.PAPI.getTopPosts(limit: 10)
+                }
             }
             self.locationManager.updateLocation()
         })

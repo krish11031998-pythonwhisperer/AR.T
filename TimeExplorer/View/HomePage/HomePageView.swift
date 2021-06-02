@@ -10,11 +10,12 @@ import SwiftUI
 struct HomePageView: View {
 
     @EnvironmentObject var mainStates:AppStates
-    @StateObject var PAPI:PostAPI = .init()
+//    @StateObject var PAPI:PostAPI = .init()
     @Namespace var animation
     @State var chosenSection:String = ""
     @State var showSection:Bool = false
     @State var showArt:Bool = false
+    @State var posts:[AVSData] = []
     
     func header(dim:CGSize) -> some View{
         ZStack(alignment: .center){
@@ -35,24 +36,25 @@ struct HomePageView: View {
     
     func topPostAction(){
         withAnimation(.hero) {
-//            self.chosenSection = "posts"
             self.showArt = true
         }
         
     }
     
-//    var posts:[PostData]{
-//        return self.PAPI.posts.isEmpty ? []
-//    }
+    func parsePosts(posts: [PostData]){
+        DispatchQueue.main.async {
+            self.posts = posts.compactMap({!($0.isVideo ?? false) ? AVSData(img: $0.image?.first, title: $0.caption, subtitle: $0.user, data: $0) : nil})
+        }
+    }
     
     func subView(title:String) -> some View{
         var view = AnyView(Color.clear)
         switch (title) {
         case "Trending Art": view = AnyView(AVScrollView(attractions: Array.init(repeating: asm, count: 10)))
         case "Featured Art": view = AnyView(FeaturedArt(art: test))
-        case "Recent" : view = AnyView(TopPostView (posts: self.PAPI.posts,animation: self.animation, self.topPostAction).padding(.top,50).frame(width: totalWidth, alignment: .center))
+//        case "Recent" : view = AnyView(TopPostView (posts: self.PAPI.posts,animation: self.animation, self.topPostAction).padding(.top,50).frame(width: totalWidth, alignment: .center))
         case "Genres" : view = AnyView(AllArtView())
-        case "All" : view = AnyView(PinterestScroll(data: self.PAPI.posts.map({AVSData(img: $0.image?.first, title: $0.caption, subtitle: $0.user, data: $0)})))
+        case "Recent" : view = AnyView(PinterestScroll(data: self.posts))
 //        case "Recent" : view = AnyView(TopArtScroll(data: self.mainStates.PAPI.posts.filter({!($0.isVideo ?? false)}).map({AVSData(img: $0.image?.first, title: $0.caption, data: $0)})))
         default: break;
         }
@@ -70,12 +72,12 @@ struct HomePageView: View {
         VStack(alignment: .leading, spacing: 10){
             self.subView(title: "Featured Art")
             self.subView(title: "Trending Art")
-            if !self.PAPI.posts.isEmpty{
-                self.subView(title: "Recent")
-            }
+//            if !self.PAPI.posts.isEmpty{
+//                self.subView(title: "Recent")
+//            }
             self.subView(title: "Genres")
-            if !self.PAPI.posts.isEmpty{
-                self.subView(title: "All")
+            if !self.posts.isEmpty{
+                self.subView(title: "Recent")
             }
             
         }
@@ -105,10 +107,11 @@ struct HomePageView: View {
         .edgesIgnoringSafeArea(.all)
         .onAppear(perform: {
             self.mainStates.loading = false
-            if self.PAPI.posts.isEmpty{
-                self.PAPI.getTopPosts(limit: 20)
-            }
+//            if self.mainStates.PAPI.posts.isEmpty{
+//                self.mainStates.PAPI.getTopPosts(limit: 10)
+//            }
         })
+        .onReceive(self.mainStates.PAPI.$posts, perform: self.parsePosts(posts:))
         .onChange(of: self.showArt, perform: { value in
             print("Art Value : ",value)
         })

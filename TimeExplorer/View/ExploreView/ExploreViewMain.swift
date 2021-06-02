@@ -81,20 +81,8 @@ struct ExploreViewMain: View {
     
     func recentTabView(width:CGFloat, height:CGFloat) -> some View{
         
-        var view =
-//            ScrollView{
-//                TabView(selection:self.$selectedTab){
-//                    ExploreTabView()
-//                        .tag("explore")
-//                        .padding(.top,50)
-//                    TrendingMainView(tab:$selectedTab,tabstate: self.$loadTours, showTrending: Binding.constant(false),type: "tours")
-                    TrendingMainView(tab:$selectedTab,tabstate: self.$loadTours, showTrending: Binding.constant(false),types: ["tours","paintings"])
+        var view =  TrendingMainView(tab:$selectedTab,tabstate: self.$loadTours, showTrending: Binding.constant(false),types: ["tours","paintings"])
                         .tag("tours")
-//                }.frame(width: totalWidth, height: totalHeight, alignment: .center)
-//                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-//            }.edgesIgnoringSafeArea(.top)
-        
-        
         return view
     }
     

@@ -29,11 +29,13 @@ struct ArtScrollMainView: View {
     
     func onChanged(value:DragGesture.Value){
         let height = value.translation.height
-        self.offset = height * 1.5
+        let val = value.location.y - value.startLocation.y
+        self.offset = val
     }
     
     func onEnded(value:DragGesture.Value){
-        let height = value.translation.height  * 1.5
+//        let height = value.translation.height  * 1.5
+        let height = self.offset
         var off:CGFloat = 0
         var val:Int = 0
         if abs(height) > totalHeight * 0.15{
