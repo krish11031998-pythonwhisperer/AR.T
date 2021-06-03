@@ -94,12 +94,12 @@ struct TopArtScroll: View {
                 let data = _data.element
                 let idx = _data.offset
                 let (isViewing,_,x_off,zInd) = self.computeParams(idx: idx)
-                if idx >= self.swiped - 4 && idx <= self.swiped + 4{
-                    self.imgCard(data: data,idx: idx)
-                        .offset(x: isViewing ? self.dy_off : x_off)
-                        .zIndex(isViewing ? 1 : zInd > 0 ? -zInd : zInd)
-                }
-                
+//                if idx >= self.swiped - 4 && idx <= self.swiped + 4{
+                self.imgCard(data: data,idx: idx)
+                    .offset(x: isViewing ? self.dy_off : x_off)
+                    .zIndex(isViewing ? 1 : zInd > 0 ? -zInd : zInd)
+//                }
+//                
             }
         }
         .frame(width: totalWidth, alignment: .leading)
@@ -112,12 +112,12 @@ struct TopArtScroll: View {
     
     
     var body: some View {
-//        VStack(alignment: .leading, spacing: 10){
-//            Spacer()
-        self.FancyHStack.padding(.vertical,25)
-//            Spacer()
+//        LazyVStack(alignment: .leading, spacing: 10){
+            //            Spacer()
+            self.FancyHStack.padding(.vertical,25)
+            //            Spacer()
 //        }
-//        .padding(.top,20)
+        .padding(.vertical,50)
         
     }
 }

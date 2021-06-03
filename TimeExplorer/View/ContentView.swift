@@ -12,7 +12,7 @@ import MapKit
 class AppStates:ObservableObject{
     @Published var coordinates:CLLocationCoordinate2D = .init()
     @Published var loading:Bool = true
-    @Published var tab:String = "blogs"
+    @Published var tab:String = "home"
     @Published var showTab:Bool = true
     @Published var userAcc:Account = .init()
     @Published var photosManager:PhotoImages = .init()
@@ -98,7 +98,7 @@ struct AppView: View {
             self.mainStates.userAcc.autoLogIn(){success in
                 self.showLoginPage = !success
                 if success{
-                    self.mainStates.PAPI.getTopPosts(limit: 10)
+                    self.mainStates.PAPI.getTopPosts(limit: 50)
                 }
             }
             self.locationManager.updateLocation()
@@ -107,7 +107,7 @@ struct AppView: View {
             if let coord = self.locationManager.location?.coordinate{
                 self.mainStates.coordinates = coord
                 self.mainStates.LS.getCityName(coordinates: coord)
-                self.mainStates.PAPI.getTopPosts(limit: 10)
+//                self.mainStates.PAPI.getTopPosts(limit: 50)
                 self.locationManager.locationUpdated = false
             }
             

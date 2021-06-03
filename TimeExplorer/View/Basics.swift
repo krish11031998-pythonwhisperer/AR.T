@@ -79,8 +79,9 @@ struct MainText: View {
         self.textBody
             .foregroundColor(self.color)
             .frame(alignment:.topLeading)
-            .padding(.horizontal,addBG ? 15 : 0)
-            .padding(.vertical,addBG ? 7.5 : 0)
+//            .padding(.horizontal,addBG ? 15 : 0)
+//            .padding(.vertical,addBG ? 15 : 0)
+            .padding(.all,addBG ? 10 : 0)
             .background(addBG ? self.oppColor : .clear)
             .clipShape(RoundedRectangle(cornerRadius: addBG ? 20 : 0))
 //            .multilineTextAlignment(.leading)

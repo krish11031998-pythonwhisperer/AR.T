@@ -27,13 +27,13 @@ struct ArtStoreMain: View {
     var auctionBuyView:some View{
         VStack(alignment: .leading, spacing: 15){
             MainText(content: "Auction", fontSize: 35, color: .black, fontWeight: .bold, style: .heading, addBG: false)
-            TopArtScroll(data: self.data)
-                .padding(.top,30)
+//            TopArtScroll(data: self.mainStates.PAPI.posts.compactMap({!($0.isVideo ?? false) ? AVSData(img: $0.image?.first, title: $0.caption, subtitle: $0.user, data: $0) : nil}))
+            AVScrollView(attractions: self.mainStates.PAPI.posts.compactMap({!($0.isVideo ?? false) ? AVSData(img: $0.image?.first, title: $0.caption, subtitle: $0.user, data: $0) : nil}))
+//                .padding(.top,30)
             self.infoView
             Spacer()
         }
         .padding()
-        .padding(.top,50)
         .frame(width: totalWidth, height: totalHeight, alignment: .center)
     }
     
@@ -105,14 +105,14 @@ struct ArtStoreMain: View {
     
     var body: some View {
         ZStack(alignment: .center) {
+            Color.white
             ScrollView(.vertical, showsIndicators: false) {
-                Spacer().frame(height: 75)
+                Spacer().frame(height: 100)
                 self.auctionBuyView
                 Spacer().frame(height: totalHeight * 0.3)
             }
-        }
+        }.edgesIgnoringSafeArea(.top)
         .frame(width: totalWidth,height: totalHeight, alignment: .center)
-        .edgesIgnoringSafeArea(.all)
         .onAppear(perform: {
             self.mainStates.loading = false
         })

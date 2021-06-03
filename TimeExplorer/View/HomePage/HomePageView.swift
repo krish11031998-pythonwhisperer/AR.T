@@ -19,8 +19,7 @@ struct HomePageView: View {
     
     func header(dim:CGSize) -> some View{
         ZStack(alignment: .center){
-//            ImageView(img: .init(named: "user_bg"),width: dim.width,height: dim.height, contentMode: .fill, alignment: .bottom, testMode: true)
-            StickyHeaderImage(w: dim.width, h: dim.height, image: .init(named: "user_bg"), curvedCorner: true)
+            StickyHeaderImage(w: dim.width, h: dim.height, curvedCorner: true)
             HStack(alignment: .center, spacing: 10) {
                 VStack(alignment: .leading, spacing: 10, content: {
                     MainText(content: "Hi,", fontSize: 30, color: .white, fontWeight: .semibold, style: .normal)
@@ -50,18 +49,17 @@ struct HomePageView: View {
     func subView(title:String) -> some View{
         var view = AnyView(Color.clear)
         switch (title) {
-        case "Trending Art": view = AnyView(AVScrollView(attractions: Array.init(repeating: asm, count: 10)))
-        case "Featured Art": view = AnyView(FeaturedArt(art: test))
-//        case "Recent" : view = AnyView(TopPostView (posts: self.PAPI.posts,animation: self.animation, self.topPostAction).padding(.top,50).frame(width: totalWidth, alignment: .center))
-        case "Genres" : view = AnyView(AllArtView())
-        case "Recent" : view = AnyView(PinterestScroll(data: self.posts))
-//        case "Recent" : view = AnyView(TopArtScroll(data: self.mainStates.PAPI.posts.filter({!($0.isVideo ?? false)}).map({AVSData(img: $0.image?.first, title: $0.caption, data: $0)})))
-        default: break;
+//            case "Trending Art": view = AnyView(AVScrollView(attractions: Array.init(repeating: asm, count: 10)))
+            case "Trending Art": view = AnyView(TopArtScroll(data: self.mainStates.PAPI.posts.compactMap({ !($0.isVideo ?? false) ? AVSData(img: $0.image?.first, title: $0.caption, subtitle: $0.user, data: $0) : nil})))
+            case "Featured Art": view = AnyView(FeaturedArt(art: test))
+            case "Genres" : view = AnyView(AllArtView())
+            case "Recent" : view = AnyView(PinterestScroll(data: self.posts))
+            default: break;
         }
         
-        return VStack(alignment: .leading, spacing: 5){
+        return VStack(alignment: .leading, spacing: 10){
             MainText(content: title, fontSize: 30, color: .black, fontWeight: .bold, style: .normal)
-                .padding()
+                .padding(.horizontal)
             view
         }
         
@@ -72,9 +70,6 @@ struct HomePageView: View {
         VStack(alignment: .leading, spacing: 10){
             self.subView(title: "Featured Art")
             self.subView(title: "Trending Art")
-//            if !self.PAPI.posts.isEmpty{
-//                self.subView(title: "Recent")
-//            }
             self.subView(title: "Genres")
             if !self.posts.isEmpty{
                 self.subView(title: "Recent")

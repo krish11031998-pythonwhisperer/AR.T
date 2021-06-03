@@ -44,7 +44,7 @@ struct AVScrollView: View {
                 let selected = self.scroll == idx
                 let w = local.width
                 let h = local.height
-                let scale:CGFloat = self.scroll == idx ? 1 : 0.9
+                let scale:CGFloat = selected ? 1 : 0.9
                 
                 let view = ZStack(alignment: .bottom) {
                     ImageView(url: data.img,width: w, height: h, contentMode: .fill, alignment: .center,testMode: false)
@@ -62,6 +62,7 @@ struct AVScrollView: View {
                 .clipShape(RoundedRectangle(cornerRadius: selected ? 20 : 10))
                 .shadow(radius: selected ? 10 : 0)
                 .scaleEffect(scale)
+                .opacity(selected ? 1 : 0.2)
                 
                 return AnyView(view)
                 
@@ -76,8 +77,6 @@ struct AVScrollView: View {
 
     var scrolledOffset:CGFloat{
         let off =  CGFloat(self.scroll >= 2 ? 2 : self.scroll < 0 ? 0 : self.scroll) * -(self.cardSize.width) - 10
-//        let off =  CGFloat(self.scroll >= 1 ? 1 : 0) * -(self.cardSize.width)
-//        let off = -CGFloat(self.scroll) * self.cardSize.width
         return off
     }
     
@@ -114,8 +113,8 @@ struct AVScrollView: View {
             Spacer().frame(width: (totalWidth - self.cardSize.width) * 0.5)
         }
         .edgesIgnoringSafeArea(.horizontal)
-        .padding(.leading,10)
         .frame(width:totalWidth,height: cardSize.height * 1.15 ,alignment: .leading)
+        .padding(.leading,10)
         .offset(x: self.scrolledOffset)
         .offset(x: self.offset)
         .gesture(DragGesture().onChanged(self.onChanged(value:)).onEnded(self.onEnded(value:)))
@@ -123,7 +122,13 @@ struct AVScrollView: View {
     }
     
     var body: some View{
-        self.v2
+//        GeometryReader{g in
+//
+//            let w = g.frame(in: .local).width
+//            let h = g.frame(in: .local).height
+            self.v2
+//        }
+//        .frame(width: totalWidth, height: cardSize.height * 1.15, alignment: .center)
     }
 }
 

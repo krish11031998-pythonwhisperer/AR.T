@@ -114,17 +114,5 @@ struct ArtScrollMainView: View {
                 self.mainStates.loading = false
             }
         })
-//        .onDisappear(perform: {
-//            if !self.mainStates.showTab && self.mainStates.tab != "attractions"{
-//                self.mainStates.showTab = true
-//            }
-//        })
-        
     }
 }
-
-//struct VScrollView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ArtScrollMainView()
-//    }
-//}
