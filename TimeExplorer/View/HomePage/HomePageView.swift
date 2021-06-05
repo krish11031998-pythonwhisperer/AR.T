@@ -46,14 +46,16 @@ struct HomePageView: View {
         }
     }
     
+    
     func subView(title:String) -> some View{
         var view = AnyView(Color.clear)
         switch (title) {
 //            case "Trending Art": view = AnyView(AVScrollView(attractions: Array.init(repeating: asm, count: 10)))
-            case "Trending Art": view = AnyView(TopArtScroll(data: self.mainStates.PAPI.posts.compactMap({ !($0.isVideo ?? false) ? AVSData(img: $0.image?.first, title: $0.caption, subtitle: $0.user, data: $0) : nil})))
+            case "Trending Art": view = AnyView(TopArtScroll(data: self.posts.count > 20 ? Array(self.posts[0...20]) : self.posts))
             case "Featured Art": view = AnyView(FeaturedArt(art: test))
             case "Genres" : view = AnyView(AllArtView())
             case "Recent" : view = AnyView(PinterestScroll(data: self.posts))
+            case "Recommended" : view = AnyView(RecommendArt(data: Array(repeating: asm, count: 10)))
             default: break;
         }
         
@@ -67,8 +69,11 @@ struct HomePageView: View {
     
     
     var mainBody:some View{
-        VStack(alignment: .leading, spacing: 10){
+        VStack(alignment: .leading, spacing: 15){
             self.subView(title: "Featured Art")
+            if !self.posts.isEmpty{
+                self.subView(title: "Recommended")
+            }
             self.subView(title: "Trending Art")
             self.subView(title: "Genres")
             if !self.posts.isEmpty{
@@ -100,16 +105,8 @@ struct HomePageView: View {
             
         }.frame(width: totalWidth, alignment: .center)
         .edgesIgnoringSafeArea(.all)
-        .onAppear(perform: {
-            self.mainStates.loading = false
-//            if self.mainStates.PAPI.posts.isEmpty{
-//                self.mainStates.PAPI.getTopPosts(limit: 10)
-//            }
-        })
+        .onAppear(perform: {self.mainStates.loading = false})
         .onReceive(self.mainStates.PAPI.$posts, perform: self.parsePosts(posts:))
-        .onChange(of: self.showArt, perform: { value in
-            print("Art Value : ",value)
-        })
         .background(Color.white)
        
     }

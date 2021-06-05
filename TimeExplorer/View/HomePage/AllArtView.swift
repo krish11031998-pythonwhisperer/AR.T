@@ -24,6 +24,7 @@ struct AllArtView: View {
                         .padding(.leading,_art.offset == 0 ? 10 : 0)
                 }
             }.padding(.vertical)
+            .frame(height: totalHeight * 0.4, alignment: .center)
         }
     }
     

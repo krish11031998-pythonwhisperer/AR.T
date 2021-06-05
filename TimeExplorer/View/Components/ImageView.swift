@@ -30,7 +30,6 @@ struct ImageView:View{
         self.autoHeight = autoHeight
         self.heading = heading
         self.alignment = alignment
-//        self.onAppear()
     }
     
     

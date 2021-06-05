@@ -24,19 +24,6 @@ struct ArtStoreMain: View {
         self.data = data
     }
     
-    var auctionBuyView:some View{
-        VStack(alignment: .leading, spacing: 15){
-            MainText(content: "Auction", fontSize: 35, color: .black, fontWeight: .bold, style: .heading, addBG: false)
-//            TopArtScroll(data: self.mainStates.PAPI.posts.compactMap({!($0.isVideo ?? false) ? AVSData(img: $0.image?.first, title: $0.caption, subtitle: $0.user, data: $0) : nil}))
-            AVScrollView(attractions: self.mainStates.PAPI.posts.compactMap({!($0.isVideo ?? false) ? AVSData(img: $0.image?.first, title: $0.caption, subtitle: $0.user, data: $0) : nil}))
-//                .padding(.top,30)
-            self.infoView
-            Spacer()
-        }
-        .padding()
-        .frame(width: totalWidth, height: totalHeight, alignment: .center)
-    }
-    
 //    func ValueBlob(heading:String,value:String,color:Color,width w:CGFloat, height h:CGFloat,s1:CGFloat = 14,s2:CGFloat = 25,img_name:BlobIcons = .btc) -> some View{
     func ValueBlob(info:(String,String),color:Color,size:CGSize,font_size:(CGFloat,CGFloat) = (18,28),percent:(Int,Int)? = nil,img_name:BlobIcons = .btc) -> some View{
         let (heading,value) = info
@@ -107,8 +94,13 @@ struct ArtStoreMain: View {
         ZStack(alignment: .center) {
             Color.white
             ScrollView(.vertical, showsIndicators: false) {
-                Spacer().frame(height: 100)
-                self.auctionBuyView
+                Spacer().frame(height: 25)
+                VStack(alignment: .leading, spacing: 10){
+                    MainText(content: "Auction", fontSize: 35, color: .black, fontWeight: .bold, style: .heading, addBG: false)
+                        .frame(alignment: .leading)
+                    AVScrollView(attractions: self.mainStates.PAPI.posts.compactMap({!($0.isVideo ?? false) ? AVSData(img: $0.image?.first, title: $0.caption, subtitle: $0.user, data: $0) : nil}))
+                    self.infoView
+                }.padding()
                 Spacer().frame(height: totalHeight * 0.3)
             }
         }.edgesIgnoringSafeArea(.top)

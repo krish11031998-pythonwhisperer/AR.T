@@ -30,6 +30,7 @@ struct TopArtScroll: View {
         if abs(dragValue) > 50 && self.swiped + incre >= 0 && self.swiped + incre <= self.data.count - 1{
             self.swiped += incre
             self.st_off += CGFloat(-incre) * cardSize.width * 0.6
+//            self.st_off = -CGFloat(self.swiped < 5 ? self.swiped : 5) * cardSize.width * 0.6
         }
         self.dy_off = 0
     }
@@ -40,9 +41,7 @@ struct TopArtScroll: View {
             let global = g.frame(in: .global)
             let w = local.width
             let h = local.height
-//            let minX = global.minX
             let midX = global.midX
-//            let skewX:Double = minX > 10 ? -10 : 0
             let mid_diff = midX - totalWidth * 0.5
             let skewX:Double = idx == self.swiped ? 0 : (mid_diff < 0 ? 1 : -1) * 10
             
@@ -64,7 +63,6 @@ struct TopArtScroll: View {
 //                .contentShape(RoundedRectangle(cornerRadius: 20))
                 .scaleEffect(idx == self.swiped ? 1.2 : 1)
                 .rotation3DEffect(.init(degrees: .init(skewX)),axis: (x: 0.0, y: 1.0, z: 0.0))
-                
                 .gesture(DragGesture().onChanged(self.onChanged(value:)).onEnded(self.onEnded(value:)))
                 .transition(.move(edge: .leading))
             )
@@ -89,20 +87,20 @@ struct TopArtScroll: View {
 
 
     var FancyHStack:some View{
-        HStack(alignment: .center, spacing: 0){
+        LazyHStack(alignment: .center, spacing: 0){
             ForEach(Array(self.data.enumerated()),id: \.offset) {_data in
                 let data = _data.element
                 let idx = _data.offset
                 let (isViewing,_,x_off,zInd) = self.computeParams(idx: idx)
-//                if idx >= self.swiped - 4 && idx <= self.swiped + 4{
+                //                if idx <= self.swiped + 4{
                 self.imgCard(data: data,idx: idx)
                     .offset(x: isViewing ? self.dy_off : x_off)
                     .zIndex(isViewing ? 1 : zInd > 0 ? -zInd : zInd)
-//                }
-//                
+                //                }
+                    
             }
         }
-        .frame(width: totalWidth, alignment: .leading)
+        .frame(width: totalWidth,height: cardSize.height + 10, alignment: .leading)
         .animation(.easeInOut(duration: 0.5))
         .offset(x: self.st_off)
         .onAppear(perform: {
@@ -112,12 +110,11 @@ struct TopArtScroll: View {
     
     
     var body: some View {
-//        LazyVStack(alignment: .leading, spacing: 10){
-            //            Spacer()
+//        LazyVStack{
             self.FancyHStack.padding(.vertical,25)
-            //            Spacer()
 //        }
-        .padding(.vertical,50)
+    .padding(.vertical,50)
+        
         
     }
 }

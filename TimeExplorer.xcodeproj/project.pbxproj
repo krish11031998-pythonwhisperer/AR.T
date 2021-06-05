@@ -96,6 +96,7 @@
 		BCA1840F265EDF6F007C3845 /* ArtStoreMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1840E265EDF6F007C3845 /* ArtStoreMain.swift */; };
 		BCA18415266265F1007C3845 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = BCA18414266265F1007C3845 /* SwiftUICharts */; };
 		BCA1AD192602779D009C31A4 /* TopPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1AD182602779D009C31A4 /* TopPostView.swift */; };
+		BCA52ABD266A54BD00817307 /* RecommendArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA52ABC266A54BD00817307 /* RecommendArt.swift */; };
 		BCAD90FD251660DE0019C1F5 /* PVMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAD90FC251660DE0019C1F5 /* PVMain.swift */; };
 		BCAD9105251661C80019C1F5 /* PVPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAD9104251661C80019C1F5 /* PVPost.swift */; };
 		BCAD910A2517966E0019C1F5 /* AVMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAD91092517966E0019C1F5 /* AVMain.swift */; };
@@ -266,6 +267,7 @@
 		BCA1840B265EDCC4007C3845 /* PlayfairDisplay-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PlayfairDisplay-VariableFont_wght.ttf"; path = "../../../../../../Downloads/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 		BCA1840E265EDF6F007C3845 /* ArtStoreMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtStoreMain.swift; sourceTree = "<group>"; };
 		BCA1AD182602779D009C31A4 /* TopPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopPostView.swift; sourceTree = "<group>"; };
+		BCA52ABC266A54BD00817307 /* RecommendArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendArt.swift; sourceTree = "<group>"; };
 		BCAD90FC251660DE0019C1F5 /* PVMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMain.swift; sourceTree = "<group>"; };
 		BCAD9104251661C80019C1F5 /* PVPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPost.swift; sourceTree = "<group>"; };
 		BCAD91092517966E0019C1F5 /* AVMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVMain.swift; sourceTree = "<group>"; };
@@ -467,6 +469,7 @@
 				BC52DEB1265FEC98009D7A4E /* FeaturedArt.swift */,
 				BC2875B526611A1400902C6A /* TopArtScroll.swift */,
 				BC5D47DD26667AC800C55A3F /* AllArtView.swift */,
+				BCA52ABC266A54BD00817307 /* RecommendArt.swift */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -1230,6 +1233,7 @@
 				BC645DDD2595124A0054F2FE /* MessageData.swift in Sources */,
 				BC37DE4F2516041F000BC15E /* TabBarView.swift in Sources */,
 				BCAFD5042514C70B0072F161 /* InstagramData.swift in Sources */,
+				BCA52ABD266A54BD00817307 /* RecommendArt.swift in Sources */,
 				BC95150E2655A37000FFE1A1 /* AVScrollView.swift in Sources */,
 				BCA038C22579318A00C6713C /* DateFormatter.swift in Sources */,
 				BC1BDDD4264D4928005B2C8A /* FancyScrollMain.swift in Sources */,

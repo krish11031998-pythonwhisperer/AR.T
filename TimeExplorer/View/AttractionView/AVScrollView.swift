@@ -122,13 +122,7 @@ struct AVScrollView: View {
     }
     
     var body: some View{
-//        GeometryReader{g in
-//
-//            let w = g.frame(in: .local).width
-//            let h = g.frame(in: .local).height
             self.v2
-//        }
-//        .frame(width: totalWidth, height: cardSize.height * 1.15, alignment: .center)
     }
 }
 

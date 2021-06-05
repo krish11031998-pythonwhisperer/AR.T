@@ -228,6 +228,10 @@ class ImageDownloader:ObservableObject{
     static var shared:ImageDownloader = .init()
     
     
+    init(url:String? = nil){
+        self.url = url ?? ""
+    }
+    
     var aspectRatio:CGFloat{
         get{
             return UIImage.aspectRatio(img: self.image)
