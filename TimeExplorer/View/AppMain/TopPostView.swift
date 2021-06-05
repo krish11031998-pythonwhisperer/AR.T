@@ -128,7 +128,7 @@ struct PostCardView:View{
     
     func ImageCaptionView(width w:CGFloat,height h:CGFloat) -> some View{
             return ZStack(alignment: .bottom){
-                ImageView(url:self.postImage,width: w,height: h,contentMode:.fill,alignment: .center,testMode: false)
+                ImageView(url:self.postImage,width: w,height: h,contentMode:.fill,alignment: .center)
                 lightbottomShadow.aspectRatio(contentMode: .fill)
                 BasicText(content: self.post.caption, fontDesign: .serif, size: 15, weight: .semibold)
                     .foregroundColor(.white)

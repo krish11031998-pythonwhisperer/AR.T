@@ -26,7 +26,7 @@ struct HomePageView: View {
                     MainText(content: "Krishna", fontSize: 45, color: .white, fontWeight: .semibold, style: .normal)
                 })
                 Spacer()
-                ImageView(img: nil, width: totalWidth * 0.2, height: totalWidth * 0.2, contentMode: .fill, alignment: .center, testMode: false)
+                ImageView(img: nil, width: totalWidth * 0.2, height: totalWidth * 0.2, contentMode: .fill, alignment: .center)
                     .clipShape(Circle())
             }.padding()
             

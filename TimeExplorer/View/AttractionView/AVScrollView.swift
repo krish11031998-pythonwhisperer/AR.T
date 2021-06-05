@@ -47,7 +47,7 @@ struct AVScrollView: View {
                 let scale:CGFloat = selected ? 1 : 0.9
                 
                 let view = ZStack(alignment: .bottom) {
-                    ImageView(url: data.img,width: w, height: h, contentMode: .fill, alignment: .center,testMode: false)
+                    ImageView(url: data.img,width: w, height: h, contentMode: .fill, alignment: .center)
                     
                     if selected{
                         ZStack(alignment: .bottom){

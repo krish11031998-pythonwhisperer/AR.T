@@ -21,7 +21,7 @@ class AppStates:ObservableObject{
     @Published var PAPI:PostAPI = .init()
     @Published var ToAPI:TourAPI = .init()
     @Published var AAPI:ArtAPI = .init()
-    
+    @Published var testMode:Bool = false
     var uniqueTabs = ["attractions"]
     
     

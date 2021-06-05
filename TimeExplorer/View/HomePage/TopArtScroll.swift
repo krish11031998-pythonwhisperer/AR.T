@@ -28,9 +28,10 @@ struct TopArtScroll: View {
         let dragValue = value.translation.width
         let incre = dragValue < 0 ? 1 : -1
         if abs(dragValue) > 50 && self.swiped + incre >= 0 && self.swiped + incre <= self.data.count - 1{
+            if self.swiped < 3{
+                self.st_off += -CGFloat(incre) * cardSize.width
+            }
             self.swiped += incre
-            self.st_off += CGFloat(-incre) * cardSize.width * 0.6
-//            self.st_off = -CGFloat(self.swiped < 5 ? self.swiped : 5) * cardSize.width * 0.6
         }
         self.dy_off = 0
     }
@@ -45,22 +46,15 @@ struct TopArtScroll: View {
             let mid_diff = midX - totalWidth * 0.5
             let skewX:Double = idx == self.swiped ? 0 : (mid_diff < 0 ? 1 : -1) * 10
             
-            DispatchQueue.main.async {
-                if idx == self.swiped && mid_diff != 5 && self.dy_off == 0{
-                    self.st_off += -mid_diff
-                }
-            }
-            
-            
             return AnyView(
                 ZStack(alignment: .center) {
-                    ImageView(url: data.img, width: w, height: h, contentMode: .fill, alignment: .center, testMode: false)
+                    ImageView(url: data.img,heading: data.title, width: w, height: h, contentMode: .fill, alignment: .center,headingSize: 14)
                     if self.swiped != idx{
                         BlurView(style: .regular)
                     }
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 20))
-//                .contentShape(RoundedRectangle(cornerRadius: 20))
+                .contentShape(RoundedRectangle(cornerRadius: 20))
                 .scaleEffect(idx == self.swiped ? 1.2 : 1)
                 .rotation3DEffect(.init(degrees: .init(skewX)),axis: (x: 0.0, y: 1.0, z: 0.0))
                 .gesture(DragGesture().onChanged(self.onChanged(value:)).onEnded(self.onEnded(value:)))
@@ -87,17 +81,16 @@ struct TopArtScroll: View {
 
 
     var FancyHStack:some View{
-        LazyHStack(alignment: .center, spacing: 0){
+        HStack(alignment: .center, spacing: 0){
             ForEach(Array(self.data.enumerated()),id: \.offset) {_data in
                 let data = _data.element
                 let idx = _data.offset
                 let (isViewing,_,x_off,zInd) = self.computeParams(idx: idx)
-                //                if idx <= self.swiped + 4{
-                self.imgCard(data: data,idx: idx)
-                    .offset(x: isViewing ? self.dy_off : x_off)
-                    .zIndex(isViewing ? 1 : zInd > 0 ? -zInd : zInd)
-                //                }
-                    
+                if idx >= self.swiped - 3 && idx <= self.swiped + 3{
+                    self.imgCard(data: data,idx: idx)
+                        .offset(x: isViewing ? self.dy_off : x_off)
+                        .zIndex(isViewing ? 1 : zInd > 0 ? -zInd : zInd)
+                }
             }
         }
         .frame(width: totalWidth,height: cardSize.height + 10, alignment: .leading)
@@ -110,17 +103,9 @@ struct TopArtScroll: View {
     
     
     var body: some View {
-//        LazyVStack{
             self.FancyHStack.padding(.vertical,25)
-//        }
     .padding(.vertical,50)
         
         
     }
 }
-
-//struct SideScroll_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SideScroll()
-//    }
-//}

@@ -64,7 +64,7 @@ struct FancyCardView:View{
     func cardView(local:CGRect,global:CGRect) -> some View{
         let w = local.width
         let h = local.height
-        let view = ImageView(url: self.data.img, width: w, height: h, contentMode: .fill, alignment: .center,testMode: false)
+        let view = ImageView(url: self.data.img, width: w, height: h, contentMode: .fill, alignment: .center)
             .clipShape(RoundedRectangle(cornerRadius: 10))
 //            .contentShape(RoundedRectangle(cornerRadius: 10))
 //            .gesture(DragGesture().onChanged(self.scrollStates.onChanged).onEnded(self.scrollStates.onEnded))

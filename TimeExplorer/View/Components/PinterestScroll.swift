@@ -52,17 +52,8 @@ struct PinterestScrollCard: View{
     }
     
     var body: some View{
-        ZStack(alignment: .bottom) {
-            ImageView(url: self.data.img, width: self.width, contentMode: .fill, alignment: .center, autoHeight: true)
-            lightbottomShadow
-            MainText(content: self.data.title ?? "", fontSize: 13, color: .white, fontWeight: .regular, style: .normal)
-                .padding()
-                .frame(width: self.width, alignment: .leading)
-                .fixedSize(horizontal: false, vertical: true)
-        }
-        .aspectRatio(contentMode: .fit)
-        .frame(width: self.width)
-        .clipShape(RoundedRectangle(cornerRadius: 20))
+        ImageView(url: self.data.img,heading: self.data.title, width: self.width, contentMode: .fill, alignment: .center, autoHeight: true,isPost: true,headingSize: 13)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
     }
     
 }

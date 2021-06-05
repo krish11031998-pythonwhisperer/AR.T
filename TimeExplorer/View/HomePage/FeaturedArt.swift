@@ -17,15 +17,15 @@ struct FeaturedArt: View {
             
             ZStack(alignment: .bottom){
                 Color.black
-                ImageView(url: self.art.thumbnail, width: w, height: h, contentMode: .fill, alignment: .top, testMode: false)
-                    
-                lightbottomShadow
-                    .frame(width: w, height: h, alignment: .center)
-                MainText(content: self.art.title, fontSize: 35, color: .white, fontWeight: .semibold, style: .normal)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(.horizontal)
-                    .padding(.bottom,30)
-                    .frame(width: w, alignment: .leading)
+                ImageView(url: self.art.thumbnail,heading: self.art.title, width: w, height: h, contentMode: .fill, alignment: .top,isPost: true)
+//
+//                lightbottomShadow
+//                    .frame(width: w, height: h, alignment: .center)
+//                MainText(content: self.art.title, fontSize: 35, color: .white, fontWeight: .semibold, style: .normal)
+//                    .fixedSize(horizontal: false, vertical: true)
+//                    .padding(.horizontal)
+//                    .padding(.bottom,30)
+//                    .frame(width: w, alignment: .leading)
                 
             }
             .clipShape(RoundedRectangle(cornerRadius: 20))
