@@ -47,15 +47,7 @@ struct ArtViewCard:View{
     }
     
     var body: some View{
-//        ZStack(alignment: .center) {
             ImageView(url: self.cardData.img,heading: self.cardData.title, width: self.cardSize.width, height: self.cardSize.height, contentMode: .fill, alignment: .center, autoHeight: false,headingSize: 25)
-//            lightbottomShadow
-//            VStack(alignment: .leading, spacing: 10) {
-//                Spacer()
-//                MainText(content: self.cardData.title ?? "", fontSize: 20, color: .white, fontWeight: .semibold)
-//            }.padding()
-//            .frame(width: self.cardSize.width, height: self.cardSize.height, alignment: .leading)
-//        }.frame(width: self.cardSize.width, height: self.cardSize.height, alignment: .center)
         .clipShape(RoundedRectangle(cornerRadius: 20))
     }
     

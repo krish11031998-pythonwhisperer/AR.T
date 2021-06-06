@@ -14,14 +14,16 @@ struct TopPostView: View {
     @State var selectedPost:PostData? = nil
     var _posts:[PostData]
     var viewMore:() -> Void
+    var cardView: ((AVSData,Binding<Int>,Binding<Bool>,Bool) -> AnyView)?
     @State var resetStack:Bool = false
     @State var rotationAngles:[Double] = []
     var animation:Namespace.ID
     
-    init(posts:[PostData] = [],animation:Namespace.ID,_ viewMore: @escaping (() -> Void)){
+    init(posts:[PostData] = [],animation:Namespace.ID,cardView:((AVSData,Binding<Int>,Binding<Bool>,Bool) -> AnyView)? = nil,_ viewMore: @escaping (() -> Void)){
         self.animation = animation
         self.viewMore = viewMore
         self._posts = posts
+        self.cardView = cardView
 //        self._rotationAngles = .init(wrappedValue: !posts.isEmpty ? Array(repeating: 1, count: posts.count).map({$0 * Double.random(in: -3.0...3.0)}) : [])
     }
     
@@ -30,6 +32,7 @@ struct TopPostView: View {
             return self._posts.isEmpty ? self.PAPI.posts.filter({!($0.isVideo ?? false)}) : self._posts
         }
     }
+    
     
     var PolaroidStack:some View{
         ZStack(alignment:.center){
@@ -40,7 +43,7 @@ struct TopPostView: View {
             .matchedGeometryEffect(id: "postsViewMain", in: self.animation,properties: .frame,anchor: .top)
             .transition(.invisible)
             ForEach(Array(self.posts.enumerated()).reversed(),id:\.offset){ _post in
-                let post = _post.element
+                let post = _post.element as PostData
                 let idx = _post.offset
                 let current = idx == self.currentIdx
                 let diff = abs(idx - self.currentIdx)

@@ -30,9 +30,9 @@ struct RecommendArt: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 20))
 //                            .shadow(color: .black.opacity(0.5), radius: 10, x: 0, y: 2)
                         VStack(alignment: .leading, spacing: 10) {
-                            MainText(content: data.title ?? "", fontSize: 15, color: .black,fontWeight: .regular, style: .normal)
+                            MainText(content: data.title ?? "", fontSize: 15, color: .white,fontWeight: .regular, style: .normal)
                             MainText(content: "Bidding Price", fontSize: 12.5, color: .gray,fontWeight: .semibold, style: .normal)
-                            MainText(content: "3 BTC", fontSize: 13, color: .black,fontWeight: .bold, style: .normal)
+                            MainText(content: "3 BTC", fontSize: 13, color: .white,fontWeight: .bold, style: .normal)
                         }.padding(.vertical)
                         Spacer()
                     }.frame(width: w, height: h, alignment: .center)

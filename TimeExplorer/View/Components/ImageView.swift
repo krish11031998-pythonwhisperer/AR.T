@@ -78,7 +78,7 @@ struct ImageView:View{
                 let w = g.frame(in: .local).width
                 VStack(alignment: .leading, spacing: 10) {
                     Spacer()
-                    MainText(content: self.heading!, fontSize: self.headingSize, color: .white, fontWeight: .semibold)
+                    MainText(content: self.heading!, fontSize: self.headingSize, color: .white, fontWeight: .regular)
                     if self.isPost{
                         self.buttons(w: w, h: h)
                     }

@@ -78,7 +78,7 @@ struct FancyScrollMain: View {
         HStack(alignment: .center, spacing: 10){
             MainText(content: "Discover", fontSize: 30, color: .white, fontWeight: .bold, style: .heading)
             Spacer()
-            SystemButton(b_name: "homekit", b_content: "",color: .white) {
+            SystemButton(b_name: "homekit", b_content: "",color: .white, size: .init(width: 20, height: 20)) {
                 self.mainStates.tab = "home"
             }
         }.padding()

@@ -10,7 +10,6 @@ import SwiftUI
 struct HomePageView: View {
 
     @EnvironmentObject var mainStates:AppStates
-//    @StateObject var PAPI:PostAPI = .init()
     @Namespace var animation
     @State var chosenSection:String = ""
     @State var showSection:Bool = false
@@ -18,8 +17,6 @@ struct HomePageView: View {
     @State var posts:[AVSData] = []
     
     func header(dim:CGSize) -> some View{
-        ZStack(alignment: .center){
-            StickyHeaderImage(w: dim.width, h: dim.height, curvedCorner: true)
             HStack(alignment: .center, spacing: 10) {
                 VStack(alignment: .leading, spacing: 10, content: {
                     MainText(content: "Hi,", fontSize: 30, color: .white, fontWeight: .semibold, style: .normal)
@@ -28,9 +25,7 @@ struct HomePageView: View {
                 Spacer()
                 ImageView(img: nil, width: totalWidth * 0.2, height: totalWidth * 0.2, contentMode: .fill, alignment: .center)
                     .clipShape(Circle())
-            }.padding()
-            
-        }.frame(width: dim.width, height: dim.height, alignment: .center)
+            }.padding().frame(width: dim.width, height: dim.height * 0.75, alignment: .center)
     }
     
     func topPostAction(){
@@ -49,9 +44,9 @@ struct HomePageView: View {
     
     func subView(title:String) -> some View{
         var view = AnyView(Color.clear)
+        let posts = self.posts.count > 20 ? Array(self.posts[0...20]) : self.posts
         switch (title) {
-//            case "Trending Art": view = AnyView(AVScrollView(attractions: Array.init(repeating: asm, count: 10)))
-            case "Trending Art": view = AnyView(TopArtScroll(data: self.posts.count > 20 ? Array(self.posts[0...20]) : self.posts))
+            case "Trending Art": view = AnyView(TopArtScroll(data: posts))
             case "Featured Art": view = AnyView(FeaturedArt(art: test))
             case "Genres" : view = AnyView(AllArtView())
             case "Recent" : view = AnyView(PinterestScroll(data: self.posts))
@@ -60,7 +55,7 @@ struct HomePageView: View {
         }
         
         return VStack(alignment: .leading, spacing: 10){
-            MainText(content: title, fontSize: 30, color: .black, fontWeight: .bold, style: .normal)
+            MainText(content: title, fontSize: 30, color: .white, fontWeight: .bold, style: .normal)
                 .padding(.horizontal)
             view
         }
@@ -107,7 +102,8 @@ struct HomePageView: View {
         .edgesIgnoringSafeArea(.all)
         .onAppear(perform: {self.mainStates.loading = false})
         .onReceive(self.mainStates.PAPI.$posts, perform: self.parsePosts(posts:))
-        .background(Color.white)
+//        .background(Color.white)
+        .background(Color.primaryColor)
        
     }
 }

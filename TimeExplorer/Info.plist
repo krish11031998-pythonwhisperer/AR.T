@@ -34,6 +34,7 @@
 	<string>Please grant access to your photo Library</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>NetflixSansThin.tff</string>
 		<string>BungeeOutline-Regular.ttf</string>
 		<string>ZillaSlab-Regular.tff</string>
 		<string>BungeeShade-Regular.ttf</string>

@@ -18,21 +18,11 @@ struct FeaturedArt: View {
             ZStack(alignment: .bottom){
                 Color.black
                 ImageView(url: self.art.thumbnail,heading: self.art.title, width: w, height: h, contentMode: .fill, alignment: .top,isPost: true)
-//
-//                lightbottomShadow
-//                    .frame(width: w, height: h, alignment: .center)
-//                MainText(content: self.art.title, fontSize: 35, color: .white, fontWeight: .semibold, style: .normal)
-//                    .fixedSize(horizontal: false, vertical: true)
-//                    .padding(.horizontal)
-//                    .padding(.bottom,30)
-//                    .frame(width: w, alignment: .leading)
                 
             }
             .clipShape(RoundedRectangle(cornerRadius: 20))
-//            .clipShape(ArcCorners(corner: .bottomRight, curveFactor: 0.025, cornerRadius: 20, roundedCorner: .allCorners))
-            
         }.padding()
-        .frame(width: totalWidth, height: totalHeight * 0.5, alignment: .center)
+        .frame(width: totalWidth, height: totalHeight * 0.35, alignment: .center)
         .shadow(radius: 10)
         
     }

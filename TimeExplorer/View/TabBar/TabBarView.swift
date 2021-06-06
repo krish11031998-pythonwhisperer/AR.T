@@ -68,24 +68,29 @@ struct TabBarView: View {
             }
             
             return AnyView(
-                SystemButton(b_name: icon, b_content: "", color: isSelected ? .black : .white, haveBG: false, action: {
+                Button(action: {
                     withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.6, blendDuration: 0.5)) {
                         self.mainStates.tab = name
                         self.mainStates.loading = true
                     }
+                }, label: {
+                    Image(systemName: icon)
+                        .foregroundColor(isSelected ? .black : .white)
+                        .frame(width: 10, height: 10, alignment: .center)
+                        .padding()
+                        .background(
+                            ZStack{
+                                Color.clear
+                                if isSelected{
+                                    Circle()
+                                        .fill(Color.white)
+                                        .matchedGeometryEffect(id: "highlight" , in: self.animation,properties: .position)
+                                        .aspectRatio(contentMode: .fit)
+                                }
+                            }
+                        )
                 })
-                .padding(2.5)
-                .background(
-                    ZStack{
-                        Color.clear
-                        if isSelected{
-                            Circle()
-                                .fill(Color.white)
-                                .matchedGeometryEffect(id: "highlight" , in: self.animation,properties: .position)
-                                .aspectRatio(contentMode: .fit)
-                        }
-                    }
-                )
+                
                 
             )
             

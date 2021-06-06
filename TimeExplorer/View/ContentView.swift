@@ -21,7 +21,7 @@ class AppStates:ObservableObject{
     @Published var PAPI:PostAPI = .init()
     @Published var ToAPI:TourAPI = .init()
     @Published var AAPI:ArtAPI = .init()
-    @Published var testMode:Bool = false
+    var testMode:Bool = false
     var uniqueTabs = ["attractions"]
     
     
@@ -68,10 +68,30 @@ struct AppView: View {
             .background(Color.mainBG)
     }
     
+    func onAppear(){
+        self.mainStates.userAcc.autoLogIn(){success in
+            self.showLoginPage = !success
+            if success{
+                self.mainStates.PAPI.getTopPosts(limit: 50)
+            }
+        }
+        self.locationManager.updateLocation()
+    }
+    
+    func locationUpdate(update:Bool){
+        if let coord = self.locationManager.location?.coordinate{
+            self.mainStates.coordinates = coord
+            self.mainStates.LS.getCityName(coordinates: coord)
+//                self.mainStates.PAPI.getTopPosts(limit: 50)
+            self.locationManager.locationUpdated = false
+        }
+
+    }
+    
     var body: some View {
         NavigationView{
             ZStack(alignment: .bottom){
-                Color.black
+                Color.primaryColor
                 if self.showLoginPage{
                     LVLogin(){value in
                         self.showLoginPage = !value
@@ -94,24 +114,9 @@ struct AppView: View {
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
         }.frame(width: totalWidth,height:totalHeight).edgesIgnoringSafeArea(.all)
-        .onAppear(perform: {
-            self.mainStates.userAcc.autoLogIn(){success in
-                self.showLoginPage = !success
-                if success{
-                    self.mainStates.PAPI.getTopPosts(limit: 50)
-                }
-            }
-            self.locationManager.updateLocation()
-        })
-        .onChange(of: self.locationManager.locationUpdated, perform: { value in
-            if let coord = self.locationManager.location?.coordinate{
-                self.mainStates.coordinates = coord
-                self.mainStates.LS.getCityName(coordinates: coord)
-//                self.mainStates.PAPI.getTopPosts(limit: 50)
-                self.locationManager.locationUpdated = false
-            }
-            
-        })
+        .onAppear(perform: self.onAppear)
+        .onChange(of: self.locationManager.locationUpdated, perform: self.locationUpdate(update:))
+        
     }
 }
 

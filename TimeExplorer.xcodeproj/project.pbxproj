@@ -147,6 +147,7 @@
 		BCE6FB8625EF911B00944D32 /* AVCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE6FB8525EF911B00944D32 /* AVCarousel.swift */; };
 		BCE6FB8B25EF914000944D32 /* BlogViewMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE6FB8A25EF914000944D32 /* BlogViewMain.swift */; };
 		BCE95E862624E73800B04852 /* SCNSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE95E852624E73800B04852 /* SCNSceneView.swift */; };
+		BCEA9736266BFE8900ADBF14 /* NetflixSansThin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCEA9735266BFE8900ADBF14 /* NetflixSansThin.ttf */; };
 		BCECE8C02555674700DB2EB6 /* CustomCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCECE8BF2555674700DB2EB6 /* CustomCameraView.swift */; };
 		BCF1934D2549F45D0080DDCE /* UVDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF1934C2549F45D0080DDCE /* UVDetail.swift */; };
 		BCF486482627782D001A28E9 /* ArtViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF486472627782D001A28E9 /* ArtViewHelper.swift */; };
@@ -322,6 +323,7 @@
 		BCE6FB8525EF911B00944D32 /* AVCarousel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVCarousel.swift; sourceTree = "<group>"; };
 		BCE6FB8A25EF914000944D32 /* BlogViewMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlogViewMain.swift; sourceTree = "<group>"; };
 		BCE95E852624E73800B04852 /* SCNSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNSceneView.swift; sourceTree = "<group>"; };
+		BCEA9735266BFE8900ADBF14 /* NetflixSansThin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NetflixSansThin.ttf; sourceTree = "<group>"; };
 		BCECE8BF2555674700DB2EB6 /* CustomCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCameraView.swift; sourceTree = "<group>"; };
 		BCF1934C2549F45D0080DDCE /* UVDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVDetail.swift; sourceTree = "<group>"; };
 		BCF486472627782D001A28E9 /* ArtViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtViewHelper.swift; sourceTree = "<group>"; };
@@ -830,6 +832,7 @@
 				BC80F6AE25ACDCB100F8E450 /* Raleway-VariableFont_wght.ttf */,
 				BC1F8406259B76AB003E2CA8 /* SortsMillGoudy-Regular.ttf */,
 				BC618C5825A6FCA300377140 /* NeueMachina-Regular.otf */,
+				BCEA9735266BFE8900ADBF14 /* NetflixSansThin.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -1000,6 +1003,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCD6F90D2592290D00FACEF8 /* BungeeOutline-Regular.ttf in Resources */,
+				BCEA9736266BFE8900ADBF14 /* NetflixSansThin.ttf in Resources */,
 				BC96B68026171BE90062B905 /* César_-_Louvre_Museum.usdz in Resources */,
 				BC80F6AF25ACDCB100F8E450 /* Raleway-VariableFont_wght.ttf in Resources */,
 				BCAFD4C92514C5190072F161 /* Preview Assets.xcassets in Resources */,

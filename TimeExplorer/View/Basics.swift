@@ -15,7 +15,6 @@ enum TextStyle:String{
     case title = "SortsMillGoudy-Regular"
 //    case normal = "Avenir Next Medium"
     case normal = "Cochin"
-//    case normal = "ZillaSlab-Regular"
 }
 struct BasicText: View {
     
