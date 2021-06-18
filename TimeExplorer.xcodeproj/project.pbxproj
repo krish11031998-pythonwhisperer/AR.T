@@ -36,6 +36,13 @@
 		BC37DE3D2514DFD7000BC15E /* WVCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC37DE3C2514DFD7000BC15E /* WVCenter.swift */; };
 		BC37DE46251506B9000BC15E /* AVQuickMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC37DE45251506B9000BC15E /* AVQuickMenu.swift */; };
 		BC37DE4F2516041F000BC15E /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC37DE4E2516041F000BC15E /* TabBarView.swift */; };
+		BC3D4B922677F54900D16257 /* WeekBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D4B8D2677F54900D16257 /* WeekBarChart.swift */; };
+		BC3D4B932677F54900D16257 /* LocView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D4B8E2677F54900D16257 /* LocView.swift */; };
+		BC3D4B942677F54900D16257 /* ChartCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D4B8F2677F54900D16257 /* ChartCard.swift */; };
+		BC3D4B952677F54900D16257 /* PriceTimeChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D4B902677F54900D16257 /* PriceTimeChart.swift */; };
+		BC3D4B962677F54900D16257 /* CircleChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D4B912677F54900D16257 /* CircleChart.swift */; };
+		BC3D4BA1267C9CC000D16257 /* CurvedChartHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D4B9F267C9CC000D16257 /* CurvedChartHelpers.swift */; };
+		BC3D4BA2267C9CC000D16257 /* CurveChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D4BA0267C9CC000D16257 /* CurveChart.swift */; };
 		BC3DD5272539BE6900596F8F /* FireStoreAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DD5262539BE6900596F8F /* FireStoreAPI.swift */; };
 		BC3DD52D253A301D00596F8F /* UVMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DD52C253A301D00596F8F /* UVMain.swift */; };
 		BC52DEAD265FD5B3009D7A4E /* ZillaSlab-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC52DEAC265FD5B3009D7A4E /* ZillaSlab-Regular.ttf */; };
@@ -211,6 +218,13 @@
 		BC37DE3C2514DFD7000BC15E /* WVCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WVCenter.swift; sourceTree = "<group>"; };
 		BC37DE45251506B9000BC15E /* AVQuickMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVQuickMenu.swift; sourceTree = "<group>"; };
 		BC37DE4E2516041F000BC15E /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		BC3D4B8D2677F54900D16257 /* WeekBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeekBarChart.swift; sourceTree = "<group>"; };
+		BC3D4B8E2677F54900D16257 /* LocView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocView.swift; sourceTree = "<group>"; };
+		BC3D4B8F2677F54900D16257 /* ChartCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartCard.swift; sourceTree = "<group>"; };
+		BC3D4B902677F54900D16257 /* PriceTimeChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriceTimeChart.swift; sourceTree = "<group>"; };
+		BC3D4B912677F54900D16257 /* CircleChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleChart.swift; sourceTree = "<group>"; };
+		BC3D4B9F267C9CC000D16257 /* CurvedChartHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurvedChartHelpers.swift; sourceTree = "<group>"; };
+		BC3D4BA0267C9CC000D16257 /* CurveChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurveChart.swift; sourceTree = "<group>"; };
 		BC3DD5262539BE6900596F8F /* FireStoreAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreAPI.swift; sourceTree = "<group>"; };
 		BC3DD52C253A301D00596F8F /* UVMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVMain.swift; sourceTree = "<group>"; };
 		BC52DEAC265FD5B3009D7A4E /* ZillaSlab-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ZillaSlab-Regular.ttf"; path = "../../../../../../Downloads/Zilla_Slab/ZillaSlab-Regular.ttf"; sourceTree = "<group>"; };
@@ -451,6 +465,28 @@
 				BC37DE4E2516041F000BC15E /* TabBarView.swift */,
 			);
 			path = TabBar;
+			sourceTree = "<group>";
+		};
+		BC3D4B8C2677F54900D16257 /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+				BC3D4B9E267C9CC000D16257 /* CurvedChart */,
+				BC3D4B8D2677F54900D16257 /* WeekBarChart.swift */,
+				BC3D4B8E2677F54900D16257 /* LocView.swift */,
+				BC3D4B8F2677F54900D16257 /* ChartCard.swift */,
+				BC3D4B902677F54900D16257 /* PriceTimeChart.swift */,
+				BC3D4B912677F54900D16257 /* CircleChart.swift */,
+			);
+			path = Charts;
+			sourceTree = "<group>";
+		};
+		BC3D4B9E267C9CC000D16257 /* CurvedChart */ = {
+			isa = PBXGroup;
+			children = (
+				BC3D4B9F267C9CC000D16257 /* CurvedChartHelpers.swift */,
+				BC3D4BA0267C9CC000D16257 /* CurveChart.swift */,
+			);
+			path = CurvedChart;
 			sourceTree = "<group>";
 		};
 		BC3DD52B253A2FF300596F8F /* UserView */ = {
@@ -750,6 +786,7 @@
 		BCAFD51B2514C74E0072F161 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				BC3D4B8C2677F54900D16257 /* Charts */,
 				BCE95E842624E6D700B04852 /* SceneModelViews */,
 				BCAFD51C2514C74E0072F161 /* LineChart.swift */,
 				BCC4E05E2619C59C00988164 /* FancyCard.swift */,
@@ -1166,11 +1203,14 @@
 				BCAFD53B2514D75C0072F161 /* Basics.swift in Sources */,
 				BCAD910A2517966E0019C1F5 /* AVMain.swift in Sources */,
 				BC027B2E25A05F6F00CB58B5 /* ExploreViewMain.swift in Sources */,
+				BC3D4B942677F54900D16257 /* ChartCard.swift in Sources */,
 				BCAD9105251661C80019C1F5 /* PVPost.swift in Sources */,
 				BCAFD50F2514C70F0072F161 /* TripAdvisorAPI.swift in Sources */,
 				BCE6FB7325EF902500944D32 /* LandMarkMainView.swift in Sources */,
+				BC3D4B932677F54900D16257 /* LocView.swift in Sources */,
 				BC1410F02585E05900AAA0B4 /* LikeView.swift in Sources */,
 				BCF486482627782D001A28E9 /* ArtViewHelper.swift in Sources */,
+				BC3D4B952677F54900D16257 /* PriceTimeChart.swift in Sources */,
 				BCA038B32579314A00C6713C /* Account.swift in Sources */,
 				BCAD90FD251660DE0019C1F5 /* PVMain.swift in Sources */,
 				BCC4E0672619DACF00988164 /* EnvironmentValues.swift in Sources */,
@@ -1189,10 +1229,12 @@
 				BC915766254390530089CD3D /* InstaImagePicker.swift in Sources */,
 				BC5D47DE26667AC800C55A3F /* AllArtView.swift in Sources */,
 				BC561D2D261C411400130428 /* ImageCaptionCard.swift in Sources */,
+				BC3D4BA2267C9CC000D16257 /* CurveChart.swift in Sources */,
 				BCB25F1325B0C17900290E18 /* TrendingMainView.swift in Sources */,
 				BCE95E862624E73800B04852 /* SCNSceneView.swift in Sources */,
 				BC7B173B2519698F0043FFCE /* AVDetail.swift in Sources */,
 				BCF4864D26277855001A28E9 /* ArtViewElements.swift in Sources */,
+				BC3D4B962677F54900D16257 /* CircleChart.swift in Sources */,
 				BCA038BD2579317000C6713C /* CLLocation.swift in Sources */,
 				BCC4E05F2619C59C00988164 /* FancyCard.swift in Sources */,
 				BC645DE225951D0B0054F2FE /* MessageList.swift in Sources */,
@@ -1235,6 +1277,7 @@
 				BC7D02372645DF12002D2E9D /* ArtIntroMainView.swift in Sources */,
 				BC93935625A3B15600057F03 /* HorizontalCarousel.swift in Sources */,
 				BC645DDD2595124A0054F2FE /* MessageData.swift in Sources */,
+				BC3D4BA1267C9CC000D16257 /* CurvedChartHelpers.swift in Sources */,
 				BC37DE4F2516041F000BC15E /* TabBarView.swift in Sources */,
 				BCAFD5042514C70B0072F161 /* InstagramData.swift in Sources */,
 				BCA52ABD266A54BD00817307 /* RecommendArt.swift in Sources */,
@@ -1256,6 +1299,7 @@
 				BC9F13E52580A37E00F5BE45 /* StringHelper.swift in Sources */,
 				BC915754254389540089CD3D /* PPVMain.swift in Sources */,
 				BC96B6762615C44B0062B905 /* FancyGrid.swift in Sources */,
+				BC3D4B922677F54900D16257 /* WeekBarChart.swift in Sources */,
 				BC5AFFF825FA3D0100A9E202 /* TrendingCard.swift in Sources */,
 				BCCD303F256BF6CE00F663CC /* BlogPostView.swift in Sources */,
 				BC618C6325A9F3C000377140 /* YoutubePlayerHelper.swift in Sources */,

@@ -24,7 +24,6 @@ struct ArtStoreMain: View {
         self.data = data
     }
     
-//    func ValueBlob(heading:String,value:String,color:Color,width w:CGFloat, height h:CGFloat,s1:CGFloat = 14,s2:CGFloat = 25,img_name:BlobIcons = .btc) -> some View{
     func ValueBlob(info:(String,String),color:Color,size:CGSize,font_size:(CGFloat,CGFloat) = (18,28),percent:(Int,Int)? = nil,img_name:BlobIcons = .btc) -> some View{
         let (heading,value) = info
         let w = size.width
@@ -65,30 +64,23 @@ struct ArtStoreMain: View {
     }
     
     var infoView:some View{
-        let w = totalWidth - 20
-        let h = totalHeight - 20
+        VStack(alignment: .center, spacing: 15){
+            LocView(header: "Summary")
+            HStack {
+                WeekBarChart(header: "Views",values: [25,45,60,10,30,79,91].shuffled())
+                CircleChart(percent: 35, header: "Likes")
+            }
+            //                PriceTimeChart(header: "Price Timeline",data:[45,25,10,60,30,79,91,25,45,25,10,60,30,79,91,25,45,25,10,60,30,79,91,25])
+            CurveChart(data: [45,25,10,60,30,79].shuffled())
+            Spacer().frame(height: 200, alignment: .center)
+        }.frame(width:totalWidth)
         
-        let cols = [GridItem(.flexible(minimum: w * 0.5), spacing: 10, alignment: .center),GridItem(.flexible(minimum: w * 0.5), spacing: 10, alignment: .center)]
-        
-        var view =
-            VStack(alignment: .leading, spacing: 10) {
-                BasicText(content: "Mona Lisa", fontDesign: .serif, size: 25, weight: .semibold)
-                    .foregroundColor(.black)
-                    .padding()
-                    .frame(width: w, alignment: .leading)
-                LazyVGrid(columns: cols, alignment: .center, spacing: 15) {
-                    self.ValueBlob(info: ("Current","\(25.0)"), color: .white,size: .init(width: w * 0.5, height: h * 0.125))
-                    self.ValueBlob(info: ("Difference","-\(0.025)"), color: .white,size: .init(width: w * 0.5, height: h * 0.125))
-                    self.ValueBlob(info: ("Views","\(25000)"), color: .white,size: .init(width: w * 0.5, height: h * 0.2),font_size: (18,28),percent: (2,-1),img_name: .view)
-                    self.ValueBlob(info: ("Likes","\(20000)"), color: .white,size: .init(width: w * 0.5, height: h * 0.2),font_size: (18,28),percent: (1,1),img_name: .likes)
-                }
-            }.padding()
-            .frame(width: totalWidth)
-        return view
     }
     
     
-    
+    var posts:[AVSData]{
+        return self.mainStates.PAPI.posts.compactMap({!($0.isVideo ?? false) ? AVSData(img: $0.image?.first, title: $0.caption, subtitle: $0.user, data: $0) : nil})
+    }
     
     var body: some View {
         ZStack(alignment: .center) {
@@ -98,9 +90,9 @@ struct ArtStoreMain: View {
                 VStack(alignment: .leading, spacing: 10){
                     MainText(content: "Auction", fontSize: 35, color: .black, fontWeight: .bold, style: .heading, addBG: false)
                         .frame(alignment: .leading)
-                    AVScrollView(attractions: self.mainStates.PAPI.posts.compactMap({!($0.isVideo ?? false) ? AVSData(img: $0.image?.first, title: $0.caption, subtitle: $0.user, data: $0) : nil}))
+                    TopArtScroll(data: self.posts)
                     self.infoView
-                }.padding()
+                }
                 Spacer().frame(height: totalHeight * 0.3)
             }
         }.edgesIgnoringSafeArea(.top)

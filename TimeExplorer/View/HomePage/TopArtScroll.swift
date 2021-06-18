@@ -7,11 +7,16 @@
 
 import SwiftUI
 
+class TASScrollParams:ObservableObject{
+    @Published var dy_off:CGFloat = 0.0
+    @Published var st_off:CGFloat = 0.0
+    @Published var swiped:Int = 0
+    
+}
+
 struct TopArtScroll: View {
     var cardSize:CGSize = .init(width: totalWidth * 0.45, height: totalHeight * 0.4)
-    @State var dy_off:CGFloat = 0.0
-    @State var st_off:CGFloat = 0.0
-    @State var swiped:Int = 0
+    @StateObject var SP:TASScrollParams = .init()
     var data:[AVSData] = []
     
     init(data:[AVSData]){
@@ -20,20 +25,20 @@ struct TopArtScroll: View {
     
     
     func onChanged(value:DragGesture.Value){
-        self.dy_off = value.translation.width
+        self.SP.dy_off = value.translation.width
     }
     
     
     func onEnded(value:DragGesture.Value){
         let dragValue = value.translation.width
         let incre = dragValue < 0 ? 1 : -1
-        if abs(dragValue) > 50 && self.swiped + incre >= 0 && self.swiped + incre <= self.data.count - 1{
-            if self.swiped < 3{
-                self.st_off += -CGFloat(incre) * cardSize.width
-            }
-            self.swiped += incre
+        if abs(dragValue) > 50 && self.SP.swiped + incre >= 0 && self.SP.swiped + incre <= self.data.count - 1{
+//            if self.SP.swiped < 3{
+                self.SP.st_off += -CGFloat(incre) * cardSize.width
+//            }
+            self.SP.swiped += incre
         }
-        self.dy_off = 0
+        self.SP.dy_off = 0
     }
     
     func imgCard(data:AVSData,idx: Int) -> some View{
@@ -44,21 +49,27 @@ struct TopArtScroll: View {
             let h = local.height
             let midX = global.midX
             let mid_diff = midX - totalWidth * 0.5
-            let skewX:Double = idx == self.swiped ? 0 : (mid_diff < 0 ? 1 : -1) * 10
+            let skewX:Double = idx == self.SP.swiped ? 0 : (mid_diff < 0 ? 1 : -1) * 10
+            
+//            DispatchQueue.main.async {
+//                if idx == self.SP.swiped &&  self.SP.dy_off == 0 && mid_diff != 0{
+//                    self.SP.st_off -= mid_diff
+//                }
+//            }
             
             return AnyView(
                 ZStack(alignment: .center) {
                     ImageView(url: data.img,heading: data.title, width: w, height: h, contentMode: .fill, alignment: .center,headingSize: 14)
-                    if self.swiped != idx{
+                    if self.SP.swiped != idx{
                         BlurView(style: .regular)
                     }
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .contentShape(RoundedRectangle(cornerRadius: 20))
-                .scaleEffect(idx == self.swiped ? 1.2 : 1)
+                .scaleEffect(idx == self.SP.swiped ? 1.2 : 1)
                 .rotation3DEffect(.init(degrees: .init(skewX)),axis: (x: 0.0, y: 1.0, z: 0.0))
                 .gesture(DragGesture().onChanged(self.onChanged(value:)).onEnded(self.onEnded(value:)))
-                .transition(.move(edge: .leading))
+//                .transition(.move(edge: .leading))
             )
                 
         }
@@ -67,16 +78,16 @@ struct TopArtScroll: View {
     
     
     func computeParams(idx:Int) -> (Bool,CGFloat,CGFloat,Double){
-        let isViewing = idx == self.swiped
-        let diff = CGFloat(idx - self.swiped)
-        let x_off:CGFloat = isViewing ? self.dy_off : -cardSize.width * (isViewing && diff == 0 ? 0 : diff * 0.6)
+        let isViewing = idx == self.SP.swiped
+        let diff = CGFloat(idx - self.SP.swiped)
+        let x_off:CGFloat = isViewing ? self.SP.dy_off : -cardSize.width * (isViewing && diff == 0 ? 0 : diff * 0.6)
         let zInd:Double = -Double(diff)
         return (isViewing,diff,x_off,zInd)
     }
     
     var spacerWidth:CGFloat{
-        let w = (totalWidth - cardSize.width) * 0.5
-        return self.swiped < 2 ? CGFloat(2 - self.swiped) * w * 0.5 : 0
+        let w = (totalWidth - self.cardSize.width) * 0.5
+        return self.SP.swiped < 2 ? CGFloat(2 - self.SP.swiped) * w * 0.5 : 0
     }
 
 
@@ -86,26 +97,30 @@ struct TopArtScroll: View {
                 let data = _data.element
                 let idx = _data.offset
                 let (isViewing,_,x_off,zInd) = self.computeParams(idx: idx)
-                if idx >= self.swiped - 3 && idx <= self.swiped + 3{
+                if idx >= self.SP.swiped - 3 && idx <= self.SP.swiped + 3{
                     self.imgCard(data: data,idx: idx)
-                        .offset(x: isViewing ? self.dy_off : x_off)
+                        .offset(x: isViewing ? self.SP.dy_off : x_off)
+                        .zIndex(isViewing ? 1 : zInd > 0 ? -zInd : zInd)
+                }else{
+                    Color.clear
+                        .frame(width: self.cardSize.width, height: self.cardSize.height, alignment: .center)
+                        .offset(x: isViewing ? self.SP.dy_off : x_off)
                         .zIndex(isViewing ? 1 : zInd > 0 ? -zInd : zInd)
                 }
+                    
             }
         }
         .frame(width: totalWidth,height: cardSize.height + 10, alignment: .leading)
         .animation(.easeInOut(duration: 0.5))
-        .offset(x: self.st_off)
+        .offset(x: self.SP.st_off)
         .onAppear(perform: {
-            self.st_off = self.spacerWidth
+            self.SP.st_off = self.spacerWidth
         })
     }
     
     
     var body: some View {
-            self.FancyHStack.padding(.vertical,25)
-    .padding(.vertical,50)
-        
-        
+            self.FancyHStack
+                .padding(.vertical,75)
     }
 }

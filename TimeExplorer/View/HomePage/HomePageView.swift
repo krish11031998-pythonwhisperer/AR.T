@@ -43,10 +43,11 @@ struct HomePageView: View {
     
     
     func subView(title:String) -> some View{
-        var view = AnyView(Color.clear)
+        var view = AnyView(Color.clear.frame(width: 0, height: 0, alignment: .center))
         let posts = self.posts.count > 20 ? Array(self.posts[0...20]) : self.posts
         switch (title) {
-            case "Trending Art": view = AnyView(TopArtScroll(data: posts))
+//            case "Trending Art": view = AnyView(TopArtScroll(data: posts))
+            case "Trending Art": view = AnyView(AVScrollView(attractions: self.mainStates.PAPI.posts.compactMap({!($0.isVideo ?? false) ? AVSData(img: $0.image?.first, title: $0.caption, subtitle: $0.user, data: $0) : nil})))
             case "Featured Art": view = AnyView(FeaturedArt(art: test))
             case "Genres" : view = AnyView(AllArtView())
             case "Recent" : view = AnyView(PinterestScroll(data: self.posts))
@@ -66,14 +67,14 @@ struct HomePageView: View {
     var mainBody:some View{
         VStack(alignment: .leading, spacing: 15){
             self.subView(title: "Featured Art")
-            if !self.posts.isEmpty{
-                self.subView(title: "Recommended")
-            }
+//            if !self.posts.isEmpty{
+            self.subView(title: "Recommended")
+//            }
             self.subView(title: "Trending Art")
             self.subView(title: "Genres")
-            if !self.posts.isEmpty{
-                self.subView(title: "Recent")
-            }
+//            if !self.posts.isEmpty{
+            self.subView(title: "Recent")
+//            }
             
         }
     }
@@ -85,10 +86,11 @@ struct HomePageView: View {
             let h = local.height
             ZStack(alignment: .center){
                 ScrollView(.vertical, showsIndicators: false){
-                    self.header(dim: .init(width: w, height: h * 0.35))
-                    self.mainBody
-                   
-                    Spacer().frame(height: 200)
+//                    LazyVStack{
+                        self.header(dim: .init(width: w, height: h * 0.35))
+                        self.mainBody
+                        Spacer().frame(height: 200)
+//                    }
                 }
                 if self.showArt{
                     Color.clear.overlay(

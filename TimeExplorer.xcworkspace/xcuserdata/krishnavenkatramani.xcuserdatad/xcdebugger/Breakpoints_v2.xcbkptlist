@@ -16,8 +16,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "65"
             endingLineNumber = "65"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "body"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -32,37 +32,37 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "67"
             endingLineNumber = "67"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "body"
+            landmarkType = "24">
             <Locations>
                <Location
-                  uuid = "D3941538-A4AF-474F-9C2E-05CB916F5EA4 - b945ae49712d071b"
+                  uuid = "D3941538-A4AF-474F-9C2E-05CB916F5EA4 - b5e4ef9344755c0a"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "closure #1 () -&gt; () in TimeExplorer.TopPostView.body.getter : some"
                   moduleName = "TimeExplorer"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/krishnavenkatramani/Desktop/Personal%20Folder/AR.T/TimeExplorer/View/AppMain/TopPostView.swift"
+                  urlString = "file:///Users/krishnavenkatramani/Desktop/Trippin/AR.T/TimeExplorer/View/AppMain/TopPostView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "64"
-                  endingLineNumber = "64"
+                  startingLineNumber = "67"
+                  endingLineNumber = "67"
                   offsetFromSymbolStart = "388">
                </Location>
                <Location
-                  uuid = "D3941538-A4AF-474F-9C2E-05CB916F5EA4 - bffeabeb6ae3cd4"
+                  uuid = "D3941538-A4AF-474F-9C2E-05CB916F5EA4 - 75eab6483f667c5"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "closure #1 (Swift.Double) -&gt; Swift.Double in closure #1 () -&gt; () in TimeExplorer.TopPostView.body.getter : some"
                   moduleName = "TimeExplorer"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/krishnavenkatramani/Desktop/Personal%20Folder/AR.T/TimeExplorer/View/AppMain/TopPostView.swift"
+                  urlString = "file:///Users/krishnavenkatramani/Desktop/Trippin/AR.T/TimeExplorer/View/AppMain/TopPostView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "64"
-                  endingLineNumber = "64"
+                  startingLineNumber = "67"
+                  endingLineNumber = "67"
                   offsetFromSymbolStart = "32">
                </Location>
             </Locations>

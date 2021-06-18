@@ -107,6 +107,7 @@ struct ImageView:View{
 //        ZStack{
         self.imgView()
             .contentShape(RoundedRectangle(cornerRadius: 10))
+//            .animation(.easeInOut)
 //        }
         
     }

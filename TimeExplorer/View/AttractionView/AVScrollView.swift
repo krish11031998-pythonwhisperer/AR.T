@@ -107,7 +107,6 @@ struct AVScrollView: View {
                 
                 if idx >= self.scroll - 2 && idx <= self.scroll + 2{
                     self.imgView(idx:idx,data: attr)
-                        
                 }
             }
             Spacer().frame(width: (totalWidth - self.cardSize.width) * 0.5)

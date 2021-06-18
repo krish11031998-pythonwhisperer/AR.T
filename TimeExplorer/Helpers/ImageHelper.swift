@@ -230,6 +230,9 @@ class ImageDownloader:ObservableObject{
     
     init(url:String? = nil){
         self.url = url ?? ""
+        if let safeURL = url{
+            self.getImage(url: safeURL)
+        }
     }
     
     var aspectRatio:CGFloat{

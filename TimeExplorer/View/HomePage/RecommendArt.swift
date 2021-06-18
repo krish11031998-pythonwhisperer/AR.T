@@ -46,21 +46,12 @@ struct RecommendArt: View {
     
     
     var grid:some View{
-        HStack(spacing: 10) {
+        let row = [GridItem(.adaptive(minimum: tabSize.height * 0.5, maximum: tabSize.height * 0.5), spacing: 0)]
+        return LazyHGrid(rows: row, alignment: .center, spacing: 10) {
             ForEach(Array(self.data.enumerated()),id:\.offset) { _data in
-                let idx = _data.offset
-                
-                if idx%2 == 0{
-                    VStack(alignment: .leading, spacing: 0) {
-                        self.card(idx: idx)
-                        self.card(idx: idx + 1)
-                    }.frame(width: tabSize.width, height: tabSize.height, alignment: .center)
-                    .padding(.leading, idx == 0 ? 10 : 0)
-                }
+                self.card(idx: idx)
             }
-        }
-        .frame(height: tabSize.height + 10, alignment: .center)
-        
+        }.frame(height: tabSize.height + 10, alignment: .center)
     }
     
     
