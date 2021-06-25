@@ -66,7 +66,8 @@ struct ArtScrollMainView: View {
         case 2:
             view = AnyView(ArtTopFactView(data: self.data,ver_onChanged:onChanged ?? self.onChanged(value:),ver_onEnded:onEnded ?? self.onEnded(value:)))
         case 3:
-            view = AnyView(ArtPageView(data: self.data,onChanged:onChanged ?? self.onChanged(value:),onEnded: onEnded ?? self.onEnded(value:)))
+//            view = AnyView(ArtPageView(data: self.data,onChanged:onChanged ?? self.onChanged(value:),onEnded: onEnded ?? self.onEnded(value:)))
+            view = AnyView(ArtStockView(data: .init(img: self.data.thumbnail, title: self.data.title, subtitle: self.data.painterName, data: self.data),close: self.$showArt))
         default:
             break
         }

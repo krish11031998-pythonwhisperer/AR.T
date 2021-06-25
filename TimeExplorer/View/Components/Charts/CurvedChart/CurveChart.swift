@@ -14,6 +14,7 @@ struct CurveChart: View {
     @State var selected:Int = -1
     @State var location:CGPoint = .zero
     @State var points:[CGPoint] = []
+    @State var firstView:Bool = false
     let header:String = "Price"
     init(data:[Float],size:CGSize? = nil){
         self.data = data
@@ -21,9 +22,11 @@ struct CurveChart: View {
 
     
     func onAppear(){
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
-            withAnimation(.linear(duration: 0.75)) {
-                self.load = true
+        if !self.firstView{
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
+                withAnimation(.linear(duration: 0.75)) {
+                    self.load = true
+                }
             }
         }
     }
@@ -70,30 +73,40 @@ struct CurveChart: View {
         
     }
     
-    func chart(width:CGFloat, height:CGFloat) -> AnyView{
-        return AnyView(GeometryReader{g in
+    func chart(width:CGFloat, height:CGFloat) -> some View{
+        return GeometryReader{g -> AnyView in
             
             let w = g.size.width
             let h = g.size.height
+            let minY = g.frame(in: .global).minY
+            
+            DispatchQueue.main.async {
+                if minY <= totalHeight * 0.7{
+                    self.onAppear()
+                }
+            }
+            
             let stepWidth = w / CGFloat(self.data.count - 1)
             let stepHeight = self.calcStepHeight(h: h * 0.5)
-            VStack(alignment: .leading, spacing: 0){
-                BasicText(content: self.header, fontDesign: .serif, size: 20, weight: .bold)
-                    .padding()
-                    .frame(width: w,height: h * 0.3 - 35,alignment: .leading)
-                self.valueInfo(width: w * 0.3, height: h * 0.2)
-                    .opacity(self.selected != -1 ? 1 : 0)
-                self.path(size:.init(width: w, height: h * 0.5 + 15),step: .init(width: stepWidth, height: stepHeight))
-                    
-            }
-            .frame(width: w, height: h, alignment: .center)
-            .background(Color.white)
-            .clipShape(RoundedRectangle(cornerRadius: 20))
-            .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 0)
-            .onAppear(perform: self.onAppear)
+            
+            return AnyView(
+                VStack(alignment: .leading, spacing: 0){
+                    BasicText(content: self.header, fontDesign: .serif, size: 20, weight: .bold)
+                        .padding()
+                        .frame(width: w,height: h * 0.3 - 35,alignment: .leading)
+                    self.valueInfo(width: w * 0.3, height: h * 0.2)
+                        .opacity(self.selected != -1 ? 1 : 0)
+                    self.path(size:.init(width: w, height: h * 0.5 + 15),step: .init(width: stepWidth, height: stepHeight))
+                        
+                }
+                .frame(width: w, height: h, alignment: .center)
+                .background(Color.white)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 0)
+            )
         }
         .padding()
-        .frame(width: width, height: height, alignment: .center))
+        .frame(width: width, height: height, alignment: .center)
     }
     
     

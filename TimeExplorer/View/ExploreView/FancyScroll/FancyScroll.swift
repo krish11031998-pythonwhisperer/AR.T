@@ -77,11 +77,10 @@ struct FancyScroll: View {
                         let data = _data.element
                         let idx = _data.offset
                         let viewing = self.scrollStates.isViewing == idx && self.scrollStates.selectedCard == -1
-                        let selected = self.scrollStates.selectedCard == idx
                         FancyCardView(data: data, idx: idx)
                             .matchedGeometryEffect(id: idx, in: self.animation,isSource:true)
                             .environmentObject(self.scrollStates)
-                            .scaleEffect(viewing ? 1 : 0.9)
+                            .scaleEffect(viewing ? 1.1 : 0.9)
                     }
                 }
                 .onChange(of: self.scrollStates.selectedCard, perform: { value in
@@ -107,8 +106,7 @@ struct FancyScroll: View {
             self.grid()
             if self.scrollStates.selectedCard != -1 && selectedArtData != nil{
                 BlurView(style: .dark)
-//                ImageView(url: selectedArtData!.img, width: self.cardSize.width, height: self.cardSize.height, contentMode: .fill, alignment: .topLeading)
-                ImageView(img: .loadImageFromCache(selectedArtData!.img), width: cardSize.width, height: cardSize.height, contentMode: .fill, alignment: .topLeading)
+                ImageView(url: selectedArtData!.img, width: cardSize.width, height: cardSize.height, contentMode: .fill, alignment: .topLeading)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .matchedGeometryEffect(id: self.scrollStates.selectedCard, in: self.animation,isSource:false)
                     .scaleEffect(1)

@@ -20,9 +20,9 @@ struct ImageView:View{
     var alignment:Alignment
     var isPost:Bool
     var headingSize:CGFloat
+    var isHidden:Bool
     
-    
-    init(url:String?,heading:String? = nil,width:CGFloat = 300,height:CGFloat = 300,contentMode:ContentMode = .fill,alignment:Alignment = .center,autoHeight:Bool = false,isPost:Bool = false,headingSize:CGFloat = 35){
+    init(url:String?,heading:String? = nil,width:CGFloat = 300,height:CGFloat = 300,contentMode:ContentMode = .fill,alignment:Alignment = .center,autoHeight:Bool = false,isPost:Bool = false,headingSize:CGFloat = 35,isHidden:Bool = false){
         self.url = url ?? ""
         self.width = width
         self.height = height
@@ -32,10 +32,11 @@ struct ImageView:View{
         self.alignment = alignment
         self.isPost = isPost
         self.headingSize = headingSize
+        self.isHidden = isHidden
     }
     
     
-    init(img:UIImage? = nil,width:CGFloat = 300,height:CGFloat = 300,contentMode:ContentMode = .fill,alignment:Alignment = .center,isPost:Bool = false,headingSize:CGFloat = 35){
+    init(img:UIImage? = nil,width:CGFloat = 300,height:CGFloat = 300,contentMode:ContentMode = .fill,alignment:Alignment = .center,isPost:Bool = false,headingSize:CGFloat = 35,isHidden:Bool = false){
         self.img = img
         self.width = width
         self.height = height
@@ -43,6 +44,7 @@ struct ImageView:View{
         self.alignment = alignment
         self.isPost = isPost
         self.headingSize = headingSize
+        self.isHidden = isHidden
     }
     
     func onAppear(){
@@ -53,15 +55,20 @@ struct ImageView:View{
     
     func imgView(w _w:CGFloat? = nil,h _h:CGFloat? = nil) -> some View{
         let img = (self.img != nil ? self.img! : self.IMD.image)
+        let loading = self.img != nil ? false : self.IMD.loading
         let ar = UIImage.aspectRatio(img: img)
         var h = self.autoHeight ? self.width/ar : _h == nil ? self.height : _h!
-        h = self.autoHeight && h < 250 ? 250 : self.autoHeight && h > 350 ? 350 : h
+        h = self.autoHeight && h < 275 ? 275 : self.autoHeight && h > 300 ? 300 : h
         return ZStack(alignment: .center) {
-            Image(uiImage: img)
-                .resizable()
-                .aspectRatio(ar,contentMode: self.contentMode)
-            if self.IMD.loading && self.img == nil{
                 Color.black
+                BlurView(style: .regular)
+                Image(uiImage: img)
+                    .resizable()
+                    .aspectRatio(ar,contentMode: self.contentMode)
+                    .frame(width: self.width,height: h)
+                    .scaleEffect(loading ? 1.25 : 1)
+                    .opacity(loading ? 0 : 1)
+            if self.isHidden && !self.IMD.loading{
                 BlurView(style: .regular)
             }
             if self.heading != nil{
@@ -104,11 +111,8 @@ struct ImageView:View{
     }
     
     var body: some View{
-//        ZStack{
         self.imgView()
             .contentShape(RoundedRectangle(cornerRadius: 10))
-//            .animation(.easeInOut)
-//        }
         
     }
     

@@ -24,6 +24,11 @@
 		BC1BDDD2264D46A9005B2C8A /* FancyScroll_Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1BDDD1264D46A9005B2C8A /* FancyScroll_Structs.swift */; };
 		BC1BDDD4264D4928005B2C8A /* FancyScrollMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1BDDD3264D4928005B2C8A /* FancyScrollMain.swift */; };
 		BC1F8407259B76AB003E2CA8 /* SortsMillGoudy-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC1F8406259B76AB003E2CA8 /* SortsMillGoudy-Regular.ttf */; };
+		BC1FD16B2684E28800177E1A /* ArtStockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1FD16A2684E28800177E1A /* ArtStockView.swift */; };
+		BC1FD16D2686137A00177E1A /* ArtistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1FD16C2686137900177E1A /* ArtistView.swift */; };
+		BC2743AB267E80D9007960E9 /* PersonalBidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2743A8267E80D9007960E9 /* PersonalBidView.swift */; };
+		BC2743AC267E80D9007960E9 /* AuctionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2743A9267E80D9007960E9 /* AuctionCard.swift */; };
+		BC2743AD267E80D9007960E9 /* AuctionScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2743AA267E80D9007960E9 /* AuctionScrollView.swift */; };
 		BC2875B626611A1400902C6A /* TopArtScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2875B526611A1400902C6A /* TopArtScroll.swift */; };
 		BC2AD920261F071C007F5921 /* SCNSceneHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2AD91F261F071C007F5921 /* SCNSceneHelper.swift */; };
 		BC2AD925261F0778007F5921 /* URLHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2AD924261F0778007F5921 /* URLHelper.swift */; };
@@ -37,7 +42,7 @@
 		BC37DE46251506B9000BC15E /* AVQuickMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC37DE45251506B9000BC15E /* AVQuickMenu.swift */; };
 		BC37DE4F2516041F000BC15E /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC37DE4E2516041F000BC15E /* TabBarView.swift */; };
 		BC3D4B922677F54900D16257 /* WeekBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D4B8D2677F54900D16257 /* WeekBarChart.swift */; };
-		BC3D4B932677F54900D16257 /* LocView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D4B8E2677F54900D16257 /* LocView.swift */; };
+		BC3D4B932677F54900D16257 /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D4B8E2677F54900D16257 /* SummaryView.swift */; };
 		BC3D4B942677F54900D16257 /* ChartCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D4B8F2677F54900D16257 /* ChartCard.swift */; };
 		BC3D4B952677F54900D16257 /* PriceTimeChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D4B902677F54900D16257 /* PriceTimeChart.swift */; };
 		BC3D4B962677F54900D16257 /* CircleChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D4B912677F54900D16257 /* CircleChart.swift */; };
@@ -206,6 +211,11 @@
 		BC1BDDD1264D46A9005B2C8A /* FancyScroll_Structs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyScroll_Structs.swift; sourceTree = "<group>"; };
 		BC1BDDD3264D4928005B2C8A /* FancyScrollMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyScrollMain.swift; sourceTree = "<group>"; };
 		BC1F8406259B76AB003E2CA8 /* SortsMillGoudy-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SortsMillGoudy-Regular.ttf"; sourceTree = "<group>"; };
+		BC1FD16A2684E28800177E1A /* ArtStockView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtStockView.swift; sourceTree = "<group>"; };
+		BC1FD16C2686137900177E1A /* ArtistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistView.swift; sourceTree = "<group>"; };
+		BC2743A8267E80D9007960E9 /* PersonalBidView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonalBidView.swift; sourceTree = "<group>"; };
+		BC2743A9267E80D9007960E9 /* AuctionCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuctionCard.swift; sourceTree = "<group>"; };
+		BC2743AA267E80D9007960E9 /* AuctionScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuctionScrollView.swift; sourceTree = "<group>"; };
 		BC2875B526611A1400902C6A /* TopArtScroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopArtScroll.swift; sourceTree = "<group>"; };
 		BC2AD91F261F071C007F5921 /* SCNSceneHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNSceneHelper.swift; sourceTree = "<group>"; };
 		BC2AD924261F0778007F5921 /* URLHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLHelper.swift; sourceTree = "<group>"; };
@@ -219,7 +229,7 @@
 		BC37DE45251506B9000BC15E /* AVQuickMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVQuickMenu.swift; sourceTree = "<group>"; };
 		BC37DE4E2516041F000BC15E /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		BC3D4B8D2677F54900D16257 /* WeekBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeekBarChart.swift; sourceTree = "<group>"; };
-		BC3D4B8E2677F54900D16257 /* LocView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocView.swift; sourceTree = "<group>"; };
+		BC3D4B8E2677F54900D16257 /* SummaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
 		BC3D4B8F2677F54900D16257 /* ChartCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartCard.swift; sourceTree = "<group>"; };
 		BC3D4B902677F54900D16257 /* PriceTimeChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriceTimeChart.swift; sourceTree = "<group>"; };
 		BC3D4B912677F54900D16257 /* CircleChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleChart.swift; sourceTree = "<group>"; };
@@ -433,6 +443,24 @@
 			path = FancyScroll;
 			sourceTree = "<group>";
 		};
+		BC1FD1692684E28800177E1A /* ArtStockView */ = {
+			isa = PBXGroup;
+			children = (
+				BC1FD16A2684E28800177E1A /* ArtStockView.swift */,
+			);
+			path = ArtStockView;
+			sourceTree = "<group>";
+		};
+		BC2743A7267E80D9007960E9 /* AuctionScroll */ = {
+			isa = PBXGroup;
+			children = (
+				BC2743A8267E80D9007960E9 /* PersonalBidView.swift */,
+				BC2743A9267E80D9007960E9 /* AuctionCard.swift */,
+				BC2743AA267E80D9007960E9 /* AuctionScrollView.swift */,
+			);
+			path = AuctionScroll;
+			sourceTree = "<group>";
+		};
 		BC2AD92E261FAE8E007F5921 /* ArtView */ = {
 			isa = PBXGroup;
 			children = (
@@ -472,7 +500,7 @@
 			children = (
 				BC3D4B9E267C9CC000D16257 /* CurvedChart */,
 				BC3D4B8D2677F54900D16257 /* WeekBarChart.swift */,
-				BC3D4B8E2677F54900D16257 /* LocView.swift */,
+				BC3D4B8E2677F54900D16257 /* SummaryView.swift */,
 				BC3D4B8F2677F54900D16257 /* ChartCard.swift */,
 				BC3D4B902677F54900D16257 /* PriceTimeChart.swift */,
 				BC3D4B912677F54900D16257 /* CircleChart.swift */,
@@ -508,6 +536,7 @@
 				BC2875B526611A1400902C6A /* TopArtScroll.swift */,
 				BC5D47DD26667AC800C55A3F /* AllArtView.swift */,
 				BCA52ABC266A54BD00817307 /* RecommendArt.swift */,
+				BC1FD16C2686137900177E1A /* ArtistView.swift */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -655,6 +684,7 @@
 		BCA1840D265EDF5B007C3845 /* ArtStore */ = {
 			isa = PBXGroup;
 			children = (
+				BC1FD1692684E28800177E1A /* ArtStockView */,
 				BCA1840E265EDF6F007C3845 /* ArtStoreMain.swift */,
 			);
 			path = ArtStore;
@@ -786,6 +816,7 @@
 		BCAFD51B2514C74E0072F161 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				BC2743A7267E80D9007960E9 /* AuctionScroll */,
 				BC3D4B8C2677F54900D16257 /* Charts */,
 				BCE95E842624E6D700B04852 /* SceneModelViews */,
 				BCAFD51C2514C74E0072F161 /* LineChart.swift */,
@@ -1187,6 +1218,7 @@
 			files = (
 				BCFAF93C2548AD9100392163 /* UVPosts.swift in Sources */,
 				BC2AD920261F071C007F5921 /* SCNSceneHelper.swift in Sources */,
+				BC2743AB267E80D9007960E9 /* PersonalBidView.swift in Sources */,
 				BC1BDDCF264D45EB005B2C8A /* FancyScrollCard.swift in Sources */,
 				BCE6FB8B25EF914000944D32 /* BlogViewMain.swift in Sources */,
 				BCA1AD192602779D009C31A4 /* TopPostView.swift in Sources */,
@@ -1195,11 +1227,13 @@
 				BCE6FB8125EF90EB00944D32 /* StickyHeaderImage.swift in Sources */,
 				BC96B67B2615C4B90062B905 /* ExploreColCard.swift in Sources */,
 				BC1BDDCD264D45EB005B2C8A /* FancyScroll.swift in Sources */,
+				BC1FD16B2684E28800177E1A /* ArtStockView.swift in Sources */,
 				BCA038D6257931F100C6713C /* RefreshingScrollView.swift in Sources */,
 				BC9102BC253198830016E8B1 /* SVRows.swift in Sources */,
 				BC89632825A0C17200E1AE82 /* BlogViewCarousel.swift in Sources */,
 				BC561D32261C61A800130428 /* TrendingBlogs.swift in Sources */,
 				BC52DEB0265FDDC3009D7A4E /* HomePageView.swift in Sources */,
+				BC1FD16D2686137A00177E1A /* ArtistView.swift in Sources */,
 				BCAFD53B2514D75C0072F161 /* Basics.swift in Sources */,
 				BCAD910A2517966E0019C1F5 /* AVMain.swift in Sources */,
 				BC027B2E25A05F6F00CB58B5 /* ExploreViewMain.swift in Sources */,
@@ -1207,10 +1241,11 @@
 				BCAD9105251661C80019C1F5 /* PVPost.swift in Sources */,
 				BCAFD50F2514C70F0072F161 /* TripAdvisorAPI.swift in Sources */,
 				BCE6FB7325EF902500944D32 /* LandMarkMainView.swift in Sources */,
-				BC3D4B932677F54900D16257 /* LocView.swift in Sources */,
+				BC3D4B932677F54900D16257 /* SummaryView.swift in Sources */,
 				BC1410F02585E05900AAA0B4 /* LikeView.swift in Sources */,
 				BCF486482627782D001A28E9 /* ArtViewHelper.swift in Sources */,
 				BC3D4B952677F54900D16257 /* PriceTimeChart.swift in Sources */,
+				BC2743AD267E80D9007960E9 /* AuctionScrollView.swift in Sources */,
 				BCA038B32579314A00C6713C /* Account.swift in Sources */,
 				BCAD90FD251660DE0019C1F5 /* PVMain.swift in Sources */,
 				BCC4E0672619DACF00988164 /* EnvironmentValues.swift in Sources */,
@@ -1241,6 +1276,7 @@
 				BC9A324B2643137500882AB1 /* ArtTopFactView.swift in Sources */,
 				BCAFD4C42514C5170072F161 /* ContentView.swift in Sources */,
 				BC3DD52D253A301D00596F8F /* UVMain.swift in Sources */,
+				BC2743AC267E80D9007960E9 /* AuctionCard.swift in Sources */,
 				BCAFD5402514D81B0072F161 /* WVHeader.swift in Sources */,
 				BCA1840F265EDF6F007C3845 /* ArtStoreMain.swift in Sources */,
 				BC37DE46251506B9000BC15E /* AVQuickMenu.swift in Sources */,

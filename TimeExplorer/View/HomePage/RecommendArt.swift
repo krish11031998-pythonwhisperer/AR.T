@@ -25,7 +25,7 @@ struct RecommendArt: View {
                 GeometryReader{g in
                     let w = g.frame(in: .local).width
                     let h = g.frame(in: .local).height
-                    HStack(alignment: .bottom, spacing: 10){
+                    HStack(alignment: .bottom, spacing: 15){
                         ImageView(url: data.img, width: w * 0.4, height: h , contentMode: .fill, alignment: .bottom)
                                 .clipShape(RoundedRectangle(cornerRadius: 20))
 //                            .shadow(color: .black.opacity(0.5), radius: 10, x: 0, y: 2)

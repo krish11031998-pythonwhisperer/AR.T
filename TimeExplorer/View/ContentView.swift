@@ -21,6 +21,7 @@ class AppStates:ObservableObject{
     @Published var PAPI:PostAPI = .init()
     @Published var ToAPI:TourAPI = .init()
     @Published var AAPI:ArtAPI = .init()
+    var imageQuality:JPEGQuality = .medium
     var testMode:Bool = false
     var uniqueTabs = ["attractions"]
     
@@ -65,7 +66,7 @@ struct AppView: View {
             VStack{
                 self._activeView
             }.frame(width: totalWidth,height:totalHeight)
-//            .animation(.default)
+//            .animation(.linear)
             .background(Color.mainBG)
     }
     

@@ -48,7 +48,7 @@ struct MainText: View {
     var fontWeight:Font.Weight
     var style:TextStyle
     var addBG:Bool
-    init(content:String,fontSize:CGFloat,color:Color = .white, fontWeight:Font.Weight = .medium,style:TextStyle = .normal,addBG:Bool = false){
+    init(content:String,fontSize:CGFloat,color:Color = .white, fontWeight:Font.Weight = .thin,style:TextStyle = .normal,addBG:Bool = false){
         self.content = content.stripSpaces().removeEndLine()
         self.fontSize = fontSize
         self.color = color
@@ -65,26 +65,30 @@ struct MainText: View {
      
     var textBody:AnyView{
         if style == .normal{
-            return AnyView(BasicText(content: self.content, fontDesign: .serif, size: self.fontSize, weight: self.fontWeight))
+            return AnyView(BasicText(content: self.content, fontDesign: .serif, size: self.fontSize, weight: self.fontWeight).foregroundColor(self.color))
         }else{
-            return AnyView(Text(self.content).font(self.font)
+            return AnyView(
+
+                Text(self.content)
+                    .font(self.style == .normal ? self.font : Font.system(.body, design: .serif))
                             .fontWeight(self.fontWeight)
-                            
+                            .foregroundColor(self.color)
             )
         }
     }
     
     var body: some View {
-        self.textBody
+        Text(self.content)
+            .font(self.style == .normal ? self.font : Font.system(.body, design: .serif))
+            .fontWeight(self.fontWeight)
             .foregroundColor(self.color)
-            .frame(alignment:.topLeading)
             .padding(.all,addBG ? 10 : 0)
             .background(addBG ? self.oppColor : .clear)
             .clipShape(RoundedRectangle(cornerRadius: addBG ? 20 : 0))
-//            .multilineTextAlignment(.leading)
             
     }
 }
+
 
 
 struct HeadingInfoText:View{

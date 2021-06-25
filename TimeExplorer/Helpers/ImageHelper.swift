@@ -12,6 +12,14 @@ import Photos
 import Combine
 //var ImageCache = NSCache<NSString,NSData>()
 
+enum JPEGQuality: CGFloat {
+    case lowest  = 0
+    case low     = 0.25
+    case medium  = 0.5
+    case high    = 0.75
+    case highest = 1
+}
+
 protocol DictCache{
     subscript(_ url:URL) -> UIImage? { get set }
 }
@@ -196,6 +204,9 @@ extension UIImage{
         
     }
     
+    func jpeg(_ jpegQuality: JPEGQuality) -> Data? {
+        return jpegData(compressionQuality: jpegQuality.rawValue)
+    }
     
     static func thumbnailImage(videoURL:URL?,completion: @escaping ((UIImage?) -> Void)){
         guard let url = videoURL else {return}
@@ -241,9 +252,16 @@ class ImageDownloader:ObservableObject{
         }
     }
     
+    func toggleLoading(){
+        if self.loading{
+            withAnimation(.linear(duration: 0.75)) {
+                self.loading = false
+            }
+        }
+    }
     
     func parseImage(data: Data,url safeURL:URL){
-        guard let safeImage = UIImage(data: data) else {return}
+        guard let safeData = UIImage(data: data)?.jpeg(.medium), let safeImage = UIImage(data: safeData) else {return}
         ImageCache.cache[URL(string: safeURL.absoluteString)!] = safeImage
         if mode == "single"{
             self.image = safeImage
@@ -251,7 +269,7 @@ class ImageDownloader:ObservableObject{
         }else if mode == "multiple"{
             self.images[safeURL.absoluteString] = safeImage
         }
-        self.loading = false
+        self.toggleLoading()
     }
     
     func checkData(output: URLSession.DataTaskPublisher.Output) throws -> Data{
@@ -287,7 +305,8 @@ class ImageDownloader:ObservableObject{
                 }else if mode == "multiple"{
                     self.images[url] = cachedImage
                 }
-                self.loading = false
+//                self.loading = false
+                self.toggleLoading()
 //                print("Loaded from the cache")
             }
         }else{

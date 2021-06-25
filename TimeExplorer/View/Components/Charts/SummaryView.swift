@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LocView: View {
+struct SummaryView: View {
     var header:String
     var size:CGSize = .init(width: totalWidth * 0.9, height: totalHeight * 0.45)
     var data:[String:Int]
@@ -47,6 +47,6 @@ struct LocView: View {
 
 struct LocView_Previews: PreviewProvider {
     static var previews: some View {
-        LocView(header: "Stats")
+        SummaryView(header: "Stats")
     }
 }

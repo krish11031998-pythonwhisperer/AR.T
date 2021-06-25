@@ -52,7 +52,6 @@ struct ArtStoreMain: View {
             ImageView(img: .init(named: img_name.rawValue), width: w * 0.3,height: h * 0.3, contentMode: .fill, alignment: .center)
                 .offset(x: w * 0.7)
                 .opacity(0.3)
-            
         }
         .padding()
         .frame(width: w, height: h, alignment: .leading)
@@ -63,43 +62,27 @@ struct ArtStoreMain: View {
         return view
     }
     
-    var infoView:some View{
-        VStack(alignment: .center, spacing: 15){
-            LocView(header: "Summary")
-            HStack {
-                WeekBarChart(header: "Views",values: [25,45,60,10,30,79,91].shuffled())
-                CircleChart(percent: 35, header: "Likes")
-            }
-            //                PriceTimeChart(header: "Price Timeline",data:[45,25,10,60,30,79,91,25,45,25,10,60,30,79,91,25,45,25,10,60,30,79,91,25])
-            CurveChart(data: [45,25,10,60,30,79].shuffled())
-            Spacer().frame(height: 200, alignment: .center)
-        }.frame(width:totalWidth)
-        
-    }
-    
+//    var infoView:some View{
+//        VStack(alignment: .center, spacing: 15){
+//            SummaryView(header: "Summary")
+//            HStack {
+//                WeekBarChart(header: "Views",values: [25,45,60,10,30,79,91].shuffled())
+//                CircleChart(percent: 35, header: "Likes")
+//            }
+//            CurveChart(data: [45,25,10,60,30,79].shuffled())
+//            Spacer().frame(height: 200, alignment: .center)
+//        }.frame(width:totalWidth)
+//        
+//    }
     
     var posts:[AVSData]{
         return self.mainStates.PAPI.posts.compactMap({!($0.isVideo ?? false) ? AVSData(img: $0.image?.first, title: $0.caption, subtitle: $0.user, data: $0) : nil})
     }
     
     var body: some View {
-        ZStack(alignment: .center) {
-            Color.white
-            ScrollView(.vertical, showsIndicators: false) {
-                Spacer().frame(height: 25)
-                VStack(alignment: .leading, spacing: 10){
-                    MainText(content: "Auction", fontSize: 35, color: .black, fontWeight: .bold, style: .heading, addBG: false)
-                        .frame(alignment: .leading)
-                    TopArtScroll(data: self.posts)
-                    self.infoView
-                }
-                Spacer().frame(height: totalHeight * 0.3)
-            }
-        }.edgesIgnoringSafeArea(.top)
-        .frame(width: totalWidth,height: totalHeight, alignment: .center)
-        .onAppear(perform: {
-            self.mainStates.loading = false
-        })
+        AuctionArtView(data: self.posts)
+        .onAppear(perform: { self.mainStates.loading = false})
+        .onReceive(self.mainStates.PAPI.$posts, perform: { _ in self.mainStates.loading = false})
     }
 }
 

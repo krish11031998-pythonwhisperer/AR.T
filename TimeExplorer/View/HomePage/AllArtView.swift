@@ -17,21 +17,22 @@ struct AllArtView: View {
     
     var artGenres:some View{
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(alignment: .center, spacing: 10) {
+            LazyHStack(alignment: .center, spacing: 10) {
                 ForEach(Array(self.genreCards.enumerated()), id: \.offset){ _art in
                     ArtViewCard(data: _art.element)
                         .shadow(radius: 5)
                         .padding(.leading,_art.offset == 0 ? 10 : 0)
                 }
-            }.padding(.vertical)
+            }
+                .padding(.vertical)
             .frame(height: totalHeight * 0.4, alignment: .center)
         }
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+//        VStack(alignment: .leading, spacing: 10) {
             self.artGenres
-        }
+//        }
     }
 }
 

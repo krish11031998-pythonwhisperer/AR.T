@@ -63,32 +63,6 @@ struct ArtView: View {
         }
     }
     
-    //MARK: - Footer
-//    func footer(w:CGFloat) -> some View{
-//        return HStack(alignment: .top, spacing: 20){
-//            if self.viewStates.mainTab > 0{
-//                SystemButton(b_name: "arrow.left", b_content: self.tabs[self.viewStates.mainTab - 1],color: .black) {
-//                    print("left button")
-//                    self.viewStates.mainTab -= 1
-//                }
-//            }else{
-//                Spacer()
-//            }
-//            MainText(content: self.tabs[self.viewStates.mainTab] , fontSize: 12.5,color: .black,fontWeight: .semibold,addBG: true)
-//                .padding()
-//            if self.viewStates.mainTab < self.tabs.count - 1{
-//                SystemButton(b_name: "arrow.right", b_content: self.tabs[self.viewStates.mainTab + 1],color: .black) {
-//                    print("right button")
-//                    self.viewStates.mainTab += 1
-//                }
-//            }else{
-//                Spacer()
-//            }
-//
-//        }.padding(.horizontal).frame(width: w, alignment: .center)
-//    }
-    
-    
     //MARK: - Sidebars
     
     func sideBar(w:CGFloat) -> some View{
@@ -374,11 +348,6 @@ struct ArtView: View {
                 }
             }
             return AnyView (
-//                ZStack(alignment: .center) {
-//
-//                    self.mainBody(w: w, h: h)
-//
-//                }.frame(width: w, height: h, alignment: .center)
                 self.mainBody(w: w, h: h)
             )
             

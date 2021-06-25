@@ -14,7 +14,8 @@ struct WeekBarChart: View {
     var header:String
     var weekData:[Int]
     var size:CGSize
-    
+    @State var firstView:Bool = false
+    @State var load:Bool = false
 //    let days:[String] = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
     let days:[String] = ["S","M","T","W","T","F","S"]
     init(header:String,values:[Int],size:CGSize = .init(width: totalWidth * 0.45, height: 300)){
@@ -37,38 +38,73 @@ struct WeekBarChart: View {
         return Double(y > x  ? 1 : Float(y)/Float(x))
     }
     
-    func barForBarChart(w:CGFloat,h:CGFloat,color:Color = .green,val:String? = nil) -> AnyView{
-        let view = VStack {
-            RoundedRectangle(cornerRadius: 20)
-                .foregroundColor(color)
-                .frame(width: w, height: h, alignment: .center)
-                .padding(.all,0.5)
-                .background(Color.clear)
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-                .shadow(color: color.opacity(0.5), radius: 3, x: 2.5, y: 5)
-            if val != nil{
-                BasicText(content: val!, fontDesign: .monospaced, size: 9.5, weight: .regular)
+    func onAppear(){
+        if !self.firstView{
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
+                withAnimation(.easeInOut) {
+                    self.load = true
+                }
             }
         }
-        return AnyView(view)
+    }
+    
+    func barForBarChart(w:CGFloat,h:CGFloat,og_h:CGFloat,color:Color = .green,val:String? = nil) -> some View{
+        let view = GeometryReader {g -> AnyView in
+            let minY = g.frame(in: .global).minY
+            
+            DispatchQueue.main.async {
+                if minY <= totalHeight * 0.7{
+                    self.onAppear()
+                }
+                
+            }
+            
+            return AnyView(VStack {
+                RoundedRectangle(cornerRadius: 20)
+                    .foregroundColor(color)
+                    .frame(width: w, height: self.load ? h:  0, alignment: .center)
+                    .padding(.all,0.5)
+                    .background(Color.clear)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .shadow(color: color.opacity(0.5), radius: 3, x: 2.5, y: 5)
+                if val != nil{
+                    BasicText(content: val!, fontDesign: .monospaced, size: 9.5, weight: .regular)
+                }
+            }.frame(width: w, height: og_h, alignment: .bottom))
+        }
+        return view
     }
     
     func barChart(w:CGFloat,h:CGFloat) -> AnyView{
         let min = 0
         let max = self.weekData.max() ?? 1
         
-        let view = HStack(alignment: .bottom, spacing: 4) {
-            ForEach(0..<self.weekData.count,id: \.self) { i in
-                let data = self.weekData[i]
-                let bar_h = normalize(min: min, max: max, val: data) * h
-                let opacity:Double = i == 0 ? 1 : bar_op(x: self.weekData[i - 1], y: self.weekData[i])
-                let color = Color.green.opacity(opacity)
-                let bar_w = (w/7) - 8
+        let view =
+            
+            GeometryReader {g -> AnyView in
+                let minY = g.frame(in: .global).minY
                 
-                self.barForBarChart(w:bar_w, h: bar_h,color: color,val: self.days[i])
-//                self.barForBarChart(w:bar_w, h: bar_h,color: color,val: "\(opacity)")
+                DispatchQueue.main.async {
+                    if minY <= totalHeight * 0.4{
+                        self.onAppear()
+                    }
+                }
+                
+                return AnyView (
+                    HStack(alignment: .bottom, spacing: 4) {
+                        ForEach(0..<self.weekData.count,id: \.self) { i in
+                            let data = self.weekData[i]
+                            let bar_h = normalize(min: min, max: max, val: data) * h
+                            let opacity:Double = i == 0 ? 1 : bar_op(x: self.weekData[i - 1], y: self.weekData[i])
+                            let color = Color.green.opacity(opacity)
+                            let bar_w = (w/7) - 8
+                            
+                            self.barForBarChart(w:bar_w, h: bar_h,og_h: h,color: color,val: self.days[i])
+                            //                self.barForBarChart(w:bar_w, h: bar_h,color: color,val: "\(opacity)")
+                        }
+                    }.frame(width: w, height: h, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                )
             }
-        }.frame(width: w, height: h, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
         
         return AnyView(view)
         

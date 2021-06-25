@@ -17,7 +17,7 @@ extension String{
     func stripSpaces() -> String{
         let text = self
         let finalText = text.components(separatedBy: " ").reduce("") { (res, x) -> String in
-            return x != "" ? res + " " + x : res
+            return res == "" ? x : res + " " + x
         }
         return finalText
     }
