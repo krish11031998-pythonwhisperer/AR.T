@@ -50,7 +50,7 @@ struct HomePageView: View {
             case "Featured Art": view = AnyView(FeaturedArt(art: test))
             case "Genres" : view = AnyView(AllArtView())
 //            case "Recent" : view = AnyView(PinterestScroll(data: posts))
-        case "Recent" : view = AnyView(RecentArtView(data: posts))
+            case "Recent" : view = AnyView(RecentArtView(data: posts))
             case "Recommended", "Ones to Check Out" : view = AnyView(RecommendArt(data: Array(repeating: asm, count: 10)))
             case "Artists" : view = AnyView(ArtistView(data: Array(repeating: asm, count: 10)))
             default: break;

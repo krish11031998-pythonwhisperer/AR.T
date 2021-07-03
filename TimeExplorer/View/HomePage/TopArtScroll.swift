@@ -15,22 +15,15 @@ class TASScrollParams:ObservableObject{
 }
 
 struct TopArtScroll: View {
-    var cardSize:CGSize = .init(width: totalWidth * 0.45, height: totalHeight * 0.4)
+    var cardSize:CGSize = .init(width: totalWidth * 0.5, height: totalHeight * 0.4)
     @StateObject var SP:TASScrollParams = .init()
-    @StateObject var IMD:ImageDownloader = .init()
-    let cards:Int = 3
+    let cards:Int = 2
     var data:[AVSData] = []
     
     init(data:[AVSData]){
         self.data = data
     }
     
-    func onAppear(){
-        let imgs = self.data.compactMap({$0.img})
-        if imgs.count > 0{
-            self.IMD.getImages(urls: imgs)
-        }
-    }
     
     func imgCard(data:AVSData,idx: Int) -> some View{
         let viewing = idx == self.SP.swiped
@@ -38,7 +31,6 @@ struct TopArtScroll: View {
         return ImageView(url: data.img, width: cardSize.width, height: cardSize.height, contentMode: .fill, alignment: .center,isHidden: !viewing)
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .scaleEffect(idx == self.SP.swiped ? 1.2 : 1)
-            .gesture(DragGesture().onChanged(self.onChanged(value:)).onEnded(self.onEnded(value:)))
             .frame(width: cardSize.width, height: cardSize.height, alignment: .center)
             .rotation3DEffect(.init(degrees: .init(skewX)),axis: (x: 0.0, y: 1.0, z: 0.0))
     }
@@ -60,14 +52,15 @@ struct TopArtScroll: View {
         .frame(width:totalWidth,height: cardSize.height + 10, alignment: .leading)
         .offset(x: self.SP.st_off)
         .animation(.easeInOut(duration: 0.5))
+        .gesture(DragGesture().onChanged(self.onChanged(value:)).onEnded(self.onEnded(value:)))
     }
     
     
     var body: some View {
-//        LazyVStack{
+        LazyVStack{
             self.FancyHStack
             .padding(.vertical,50)
-//        }
+        }
     }
 }
 
@@ -82,7 +75,6 @@ extension TopArtScroll{
         let incre = dragValue < 0 ? 1 : -1
         if abs(dragValue) > 50 && self.SP.swiped + incre >= 0 && self.SP.swiped + incre <= self.data.count - 1{
             self.SP.st_off += -CGFloat(incre) * cardSize.width
-//            self.SP.st_off += -CGFloat(incre) * totalWidth * 0.2
             self.SP.swiped += incre
         }
         self.SP.dy_off = 0
@@ -96,7 +88,7 @@ extension TopArtScroll{
     func computeParams(idx:Int) -> (Bool,CGFloat,CGFloat,Double){
         let isViewing = idx == self.SP.swiped
         let diff = CGFloat(idx - self.SP.swiped)
-        let x_off:CGFloat = isViewing ? self.SP.dy_off : -cardSize.width * (isViewing && diff == 0 ? 0 : diff * 0.6)
+        let x_off:CGFloat = isViewing ? self.SP.dy_off : -cardSize.width * (isViewing && diff == 0 ? 0 : diff * 0.65)
         let zInd:Double = -Double(diff)
         return (isViewing,diff,x_off,zInd)
     }
