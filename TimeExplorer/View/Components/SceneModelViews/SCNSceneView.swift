@@ -21,15 +21,20 @@ class SceneViewStates:ObservableObject{
     @Published var prevLoc:CGPoint = .init(x: 0,y:0)
 }
 
+enum ModelType{
+    case model
+    case image
+}
+
 struct SCNSceneView:UIViewRepresentable{
     
     @EnvironmentObject var arViewStates:ArtViewStates
-
+    var type:ModelType = .model
     @State var showingFeatures:Bool = false
+    @Binding var modelImg:UIImage?
     @Binding var model:SCNScene?
     @Binding var idx:Int
     @Binding var player:AVPlayer?
-    
     @StateObject var sceneStates:SceneViewStates = .init()
     
     var width:CGFloat
@@ -38,14 +43,26 @@ struct SCNSceneView:UIViewRepresentable{
     var handleTap: (String,SCNVector3?) -> Void
     
     
+    init(size:CGSize = .init(width: totalWidth, height: totalHeight),type:ModelType = .model,modelImg:Binding<UIImage?> = .constant(nil),model:Binding<SCNScene?> = .constant(nil),idx:Binding<Int> = .constant(0),player:Binding<AVPlayer?> = .constant(nil),taphandler: @escaping ((String,SCNVector3?) -> Void)){
+        self.type = type
+        self._modelImg = modelImg
+        self._model = model
+        self._idx = idx
+        self._player = player
+        self.width = size.width
+        self.height = size.height
+        self.handleTap = taphandler
+    }
+    
+    
     var cameraController:SCNCameraController{
         return self.view.defaultCameraController
     }
     
     func makeUIView(context: Context) -> SCNView {
         view.frame = .init(x: 0, y: 0, width: self.width, height: self.height)
-//        view.allowsCameraControl = true
         view.autoenablesDefaultLighting = true
+//        view.allowsCameraControl = true
         view.enableTapRecognizer(target: context.coordinator,selector: #selector(context.coordinator.onTapHandler(recognizer:)))
         view.enablePanGesture(target: context.coordinator, selector: #selector(context.coordinator.onSwipe(recognizer:)))
         view.enablePinchGesture(target: context.coordinator, selector: #selector(context.coordinator.onPinch(recognizer:)))
@@ -71,7 +88,7 @@ struct SCNSceneView:UIViewRepresentable{
     }
     
     func toggleShowStates(view:SCNView){
-        print(view.scene?.rootNode.childNodes.count ?? -1)
+//        print(view.scene?.rootNode.childNodes.count ?? -1)
         guard let childnodes = view.scene?.rootNode.childNodes else {return}
         childnodes.forEach { node in
             if node.name!.contains("annotation"){
@@ -93,30 +110,43 @@ struct SCNSceneView:UIViewRepresentable{
         if self.sceneStates.prevLoc != .zero{
             node.position = .init(0, 0, 0)
             self.sceneStates.prevLoc = .zero
-            print("node Position : ",node.position)
+//            print("node Position : ",node.position)
         }
-        
-        if node.scale.x != 1.5 && node.scale.y != 1.5 && node.scale.z != 1.5 && !self.arViewStates.isEditting{
-            node.scale = .init(1.5, 1.5, 1.5)
-            print("node Scale : ",node.scale)
-        }else if self.arViewStates.isEditting && node.scale.x != 1 && node.scale.y != 1 && node.scale.z != 1{
-            node.scale = .init(1, 1 , 1)
-            print("node Scale : ",node.scale)
-        }
+        node.scale = .init(1, 1, 1)
+//        if node.scale.x != 1.5 && node.scale.y != 1.5 && node.scale.z != 1.5 && !self.arViewStates.isEditting{
+//            node.scale = .init(1.5, 1.5, 1.5)
+//            print("node Scale : ",node.scale)
+//        }else if self.arViewStates.isEditting && node.scale.x != 1 && node.scale.y != 1 && node.scale.z != 1{
+//            node.scale = .init(1, 1 , 1)
+//            print("node Scale : ",node.scale)
+//        }
     }
     
     func updateInspect(uiView:SCNView){
         if self.arViewStates.showFeatures{
             self.arViewStates.showFeatures = false
         }
-//        
-        guard let node = uiView.scene?.rootNode else {return}
+//
+        let _node =  self.type == .model ? uiView.scene?.rootNode : uiView.scene?.rootNode.childNode(withName: "mainNode", recursively: true)
+        guard let node = _node else {return}
         self.resetSceneView(node: node)
+    }
+    
+    
+    func makeImageNode() -> SCNNode?{
+        guard let img = self.modelImg else {return nil}
+        let ar = UIImage.aspectRatio(img: img)
+        let plane = SCNPlane(width: self.width, height: self.width/ar)
+        plane.cornerRadius = 15
+        let node = SCNNode(geometry: plane)
+        node.name = "mainNode"
+        node.geometry?.firstMaterial?.diffuse.contents = img
+        return node
     }
 
     func updateUIView(_ uiView: SCNView, context: Context) {
-        if let scene = self.model, !self.sceneStates.firstLoad{
-            print("Calledd ....")
+        if let scene = self.model, self.type == .model, !self.sceneStates.firstLoad{
+//            print("Calledd ....")
             uiView.scene = scene
             if !self.arViewStates.annotations.isEmpty{
                 self.loadAnnotations()
@@ -126,9 +156,19 @@ struct SCNSceneView:UIViewRepresentable{
             }
         }
         
+        if let _ = self.modelImg, !self.sceneStates.firstLoad, self.type == .image, let node = self.makeImageNode(){
+            if uiView.scene == nil{
+                uiView.scene = SCNScene()
+            }
+            uiView.scene?.rootNode.addChildNode(node)
+            DispatchQueue.main.async {
+                self.sceneStates.firstLoad = true
+            }
+        }
+        
         
         if self.arViewStates.isEditting{
-            self.resetSceneView(node: uiView.scene?.rootNode ?? .init())
+            self.resetSceneView(node: self.type == .model ? uiView.scene?.rootNode ?? .init() : uiView.scene?.rootNode.childNode(withName: "mainNode", recursively: true) ?? .init())
         }
         
         
@@ -139,10 +179,6 @@ struct SCNSceneView:UIViewRepresentable{
         }
         
         if self.arViewStates.showFeatures != self.showingFeatures{
-//            print("Called..... \(self.arViewStates.showFeatures) != \(self.showingFeatures)")
-//            self.sceneStates.annotationNode.values.forEach { (node) in
-//                node.isHidden = !self.arViewStates.showFeatures
-//            }
             self.toggleShowStates(view:uiView)
             DispatchQueue.main.async {
                 self.showingFeatures = self.arViewStates.showFeatures
@@ -177,6 +213,10 @@ struct SCNSceneView:UIViewRepresentable{
             }
         }
         
+        var mainNode:SCNNode?{
+            return self.parent.type == .model ? self.view.scene?.rootNode : self.view.scene?.rootNode.childNode(withName: "mainNode", recursively: true)
+        }
+        
         var annotations:[String:SCNVector3]{
             get{
                 return self.parent.arViewStates.annotations
@@ -188,13 +228,22 @@ struct SCNSceneView:UIViewRepresentable{
         }
         
         func isEditting(location:CGPoint){
-            if let first = self.view.getClosestNode(location: location){
+            func helper(location:SCNVector3,name:String){
+                self.parent.idx += 1
+                self.parent.arViewStates.annotations[name] = location
+                self.handleTap(name, location)
+
+            }
+            
+            if let first = self.view.getClosestNode(location: location),let node = self.mainNode{
                 let worldCoord = first.worldCoordinates
-                self.view.createAnnotation(location: worldCoord, idx: self.parent.idx) { (location, name) in
-                    self.parent.idx += 1
-                    self.parent.arViewStates.annotations[name] = location
-                    self.handleTap(name, location)
-                }
+                node.createAnnotation(location: worldCoord, idx: self.parent.idx, handler: helper(location:name:))
+//                if self.parent.type == .model{
+//                    self.view.createAnnotation(location: worldCoord, idx: self.parent.idx, handler: helper(location:name:))
+//                }else if self.parent.type == .image{
+//                    let node = first.node
+//                    node.createAnnotation(location: worldCoord, idx: self.parent.idx, handler: helper(location:name:))
+//                }
             }
         }
         
@@ -217,13 +266,14 @@ struct SCNSceneView:UIViewRepresentable{
         }
         
         func isViewing(location:CGPoint){
-            guard let firstNode = self.view.hitTest(location, options: nil).first?.node,let name = firstNode.name,self.annotations.keys.contains(name) else {return}
-            self.parent.sceneStates.annotationNode.values.forEach { (node) in
+            guard let firstNode = self.view.hitTest(location, options: nil).first?.node,let mainNode = self.mainNode,let name = firstNode.name,self.annotations.keys.contains(name) else {return}
+            
+            mainNode.childNodes.forEach { node in
+                if node.name == "scene"{return}
                 if node.name != name{
-                    node.opacity = 0.15
+                    node.opacity = 0.5
                 }else{
                     node.opacity = 1
-                    print("closest \(node.position) : \(String(describing: node.name))")
                 }
             }
             self.parent.sceneStates.playerNode = nil
@@ -231,7 +281,7 @@ struct SCNSceneView:UIViewRepresentable{
             self.parent.sceneStates.location = firstNode.worldPosition
             self.view.deleteNode(name: "playerNode")
             
-            handleTap(name,firstNode.worldPosition)            
+            handleTap(name,firstNode.worldPosition)
         }
         
         func attachPlayer(avplayer:AVPlayer,node:SCNNode?,location:SCNVector3?){
@@ -242,9 +292,9 @@ struct SCNSceneView:UIViewRepresentable{
                 DispatchQueue.main.async {
                     self.parent.sceneStates.playerNode  = self.view.addVideoScreenFrame(screenLocation: screenLocation, card: card)
                     self.parent.sceneStates.playerNode?.geometry?.firstMaterial?.diffuse.contents = avplayer
-                } 
+                }
             }
-// 
+//
             DispatchQueue.main.async {
                 self.parent.sceneStates.addedPlayer = true
             }
@@ -252,8 +302,13 @@ struct SCNSceneView:UIViewRepresentable{
         }
     
         func removeNode(location:CGPoint){
-            guard let vector_loc = self.view.getClosestNode(location: location)?.worldCoordinates else{return}
-            self.view.scene?.rootNode.childNodes.forEach({ (node) in
+            guard let vector_loc = self.view.getClosestNode(location: location)?.worldCoordinates, let node = self.mainNode else{return}
+//            self.view.scene?.rootNode.childNodes.forEach({ (node) in
+//                if node.position == vector_loc{
+//                    node.removeFromParentNode()
+//                }
+//            })
+            node.childNodes.forEach({ (node) in
                 if node.position == vector_loc{
                     node.removeFromParentNode()
                 }
@@ -276,14 +331,17 @@ struct SCNSceneView:UIViewRepresentable{
         }
         
         @objc func onSwipe(recognizer: UIPanGestureRecognizer){
-            guard let mainNode = self.view.scene?.rootNode else {return}
+            guard let mainNode = self.mainNode, !self.parent.arViewStates.isEditting else {return}
             var delta = recognizer.translation(in: self.view)
             let loc = recognizer.location(in: self.view)
             let previousLoc = self.parent.sceneStates.prevLoc
-            let cameraLoc = mainNode.position ?? .init(0, 0, 0)
+            let scale = mainNode.scale
+//            print(scale)
+            let scale_factor = scale.x > 2 ? scale.x > 4 ? 4 : scale.x : 2
             if recognizer.state == .changed {
-                delta = CGPoint.init(x: 2 * (loc.x - previousLoc.x), y: 2 * (loc.y - previousLoc.y))
-                mainNode.position = SCNVector3.init(cameraLoc.x + Float(delta.x * 0.25), cameraLoc.y + Float(-delta.y * 0.25), mainNode.position.z)
+                delta = CGPoint.init(x: (loc.x - previousLoc.x), y: (loc.y - previousLoc.y))
+                mainNode.position.x += Float(delta.x)/scale_factor
+                mainNode.position.y += Float(-delta.y)/scale_factor
             }
             self.parent.sceneStates.prevLoc = loc
         }
@@ -292,13 +350,14 @@ struct SCNSceneView:UIViewRepresentable{
             if !self.parent.arViewStates.inspect{
                 return
             }
-            guard let node = self.view.scene?.rootNode else {return}
+//            let _node = self.parent.type == .model ? self.view.scene?.rootNode : self.view.scene?.rootNode.childNode(withName: "mainNode", recursively: true)
+            guard let node = self.mainNode else {return}
             switch (recognizer.state) {
             case .began:
                 break
             case .changed:
                 DispatchQueue.main.async {
-                    print("recognizer.scale : ",recognizer.scale)
+//                    print("recognizer.scale : ",recognizer.scale)
                     let pinchScaleX = Float(recognizer.scale) * node.scale.x
                     let pinchScaleY =  Float(recognizer.scale) * node.scale.y
                     let pinchScaleZ =  Float(recognizer.scale) * node.scale.z

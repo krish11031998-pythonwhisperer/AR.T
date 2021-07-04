@@ -48,13 +48,16 @@ struct ImageView:View{
     }
     
     func onAppear(){
-        if self.img == nil && self.url != "" && !self.mainStates.testMode{
+//        DispatchQueue.global(qos: .background).async {
             self.IMD.getImage(url: self.url,bounds: .init(width: self.width, height: self.height))
-        }
+//        }
+//        if self.img == nil && self.url != "" && !self.mainStates.testMode{
+//
+//        }
     }
     
     func imgView(w _w:CGFloat? = nil,h _h:CGFloat? = nil) -> some View{
-        let img = (self.img != nil ? self.img! : self.IMD.image)
+        let img = (self.img != nil ? self.img : self.IMD.image)
         let loading = self.img != nil ? false : self.IMD.loading
         let ar = UIImage.aspectRatio(img: img)
         var h = self.autoHeight ? self.width/ar : _h == nil ? self.height : _h!
@@ -62,12 +65,14 @@ struct ImageView:View{
         return ZStack(alignment: .center) {
                 Color.black
                 BlurView(style: .regular)
-                Image(uiImage: img)
+            if let safeImg = img{
+                Image(uiImage: safeImg)
                     .resizable()
                     .aspectRatio(ar,contentMode: self.contentMode)
                     .frame(width: self.width,height: h)
                     .scaleEffect(loading ? 1.25 : 1)
                     .opacity(loading ? 0 : 1)
+            }
             if self.isHidden && !self.IMD.loading{
                 BlurView(style: .regular)
             }

@@ -100,7 +100,8 @@ struct ChapterView: View {
                 }
                 
                 if self.showARModel && self.viewChapter{
-                    SceneModelView(w: w, h: h, name: "Śmierć_eng.usdz", url_str: "https://firebasestorage.googleapis.com/v0/b/trippin-89b8b.appspot.com/o/models%2FS%CC%81mierc%CC%81_eng.usdz?alt=media&token=8828b4eb-2177-4e22-9033-2d1b5b67ad36")
+//                    SceneModelView(w: w, h: h, name: "Śmierć_eng.usdz", url_str: "https://firebasestorage.googleapis.com/v0/b/trippin-89b8b.appspot.com/o/models%2FS%CC%81mierc%CC%81_eng.usdz?alt=media&token=8828b4eb-2177-4e22-9033-2d1b5b67ad36")
+                    SceneModelView(w: w, h: h, name: "Śmierć_eng.usdz", model_url_str: "https://firebasestorage.googleapis.com/v0/b/trippin-89b8b.appspot.com/o/models%2FS%CC%81mierc%CC%81_eng.usdz?alt=media&token=8828b4eb-2177-4e22-9033-2d1b5b67ad36")
                         .clipShape(RoundedRectangle(cornerRadius: radius))
                 }
             }.overlay(

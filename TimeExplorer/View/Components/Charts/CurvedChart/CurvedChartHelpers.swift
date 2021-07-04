@@ -31,6 +31,23 @@ extension Path{
         }
         return  path
     }
+    
+    static func drawCurvedChart(dataPoints:[CGFloat],step:CGPoint) -> Path{
+        var path = Path()
+        if dataPoints.count < 2 {return path}
+        
+        var p1 = CGPoint(x: 0, y: dataPoints[0] * step.y)
+        path.move(to: p1)
+        for idx in 1..<dataPoints.count{
+            let data = dataPoints[idx]
+            let p2 = CGPoint(x: step.x * CGFloat(idx), y: step.y * data)
+            let midPoint = CGPoint.midPoint(p1: p1, p2: p2)
+            path.addQuadCurve(to: midPoint, control: .controlPointForPoints(p1: midPoint, p2: p1))
+            path.addQuadCurve(to: p2, control: .controlPointForPoints(p1: midPoint, p2: p2))
+            p1 = p2
+        }
+        return  path
+    }
 }
 
 

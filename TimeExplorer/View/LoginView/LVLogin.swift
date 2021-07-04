@@ -154,7 +154,7 @@ struct LVLogin_Previews: PreviewProvider {
     static var previews: some View {
         //        LVLogin(userAuthenicated: LVLogin_Previews.$uA)
         LVLogin(){value in
-            print(value)
+//            print(value)
             
         }
     }

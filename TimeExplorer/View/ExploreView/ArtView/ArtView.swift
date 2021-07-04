@@ -210,13 +210,24 @@ struct ArtView: View {
     }
 
     //MARK: - SceneView
-    func sceneView(w:CGFloat,h:CGFloat) -> some View{
+    func sceneView(w:CGFloat,h:CGFloat) -> AnyView?{
+        var view:AnyView? = nil
         let radius = self.viewStates.inspect ? 0 : 15
-        return SceneModelView(w: w, h: h, name: self.name, url_str: self.data.model_url ?? "", player: nil, handler: self.updateAfterSceneInteraction(name:vector:))
-            .environmentObject(viewStates)
-            .background(BlurView(style: .dark))
-            .animation(.easeInOut)
-            .clipShape(Corners(rect: .bottomRight,size: .init(width: radius, height: radius)))
+        if let model_url  = self.data.model_url{
+            view =  AnyView(SceneModelView(w: w, h: h, name: self.name, model_url_str: model_url, player: nil, handler: self.updateAfterSceneInteraction(name:vector:))
+                .environmentObject(viewStates)
+                .background(BlurView(style: .dark))
+                .animation(.easeInOut)
+                .clipShape(Corners(rect: .bottomRight,size: .init(width: radius, height: radius))))
+        }else if let img = self.data.thumbnail{
+            view =  AnyView(SceneModelView(w: w, h: h, name: self.name, img_url_str: img, player: nil, handler: self.updateAfterSceneInteraction(name:vector:))
+                .environmentObject(viewStates)
+                .background(BlurView(style: .dark))
+                .animation(.easeInOut)
+                .clipShape(Corners(rect: .bottomRight,size: .init(width: radius, height: radius))))
+        }
+        return view
+        
     }
     
     func addAnnotationButton(w:CGFloat,h:CGFloat) -> some View{
@@ -279,7 +290,9 @@ struct ArtView: View {
     
     func mainScene(w:CGFloat = totalWidth,h:CGFloat = totalHeight) -> some View{
         return ZStack(alignment: .top){
-            self.sceneView(w: w, h: h)
+            if let safeSceneView = self.sceneView(w: w, h: h){
+                safeSceneView
+            }
             self.infoBody(w: w, h: h)
             if self.viewStates.inspect{
                 if self.viewStates.isEditting &&  self.viewStates.openModal{

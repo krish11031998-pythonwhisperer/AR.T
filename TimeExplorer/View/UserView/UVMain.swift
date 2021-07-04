@@ -27,7 +27,7 @@ struct UVMain: View {
         if let url = self.mainStates.userAcc.user.photoURL, url != self.IMD.url{
             self.IMD.getImage(url: url)
         }
-        return self.IMD.image
+        return self.IMD.image ?? .stockImage
     }
     
     var trailingNVButton: some View{
@@ -110,7 +110,7 @@ struct UVMain: View {
             ZStack{
                 self.mainBody
                 NavigationLink(
-                    destination: EditForm(currentUser: self.mainStates.userAcc.user, editForm: self.$editForm, img: self.IMD.image,imagePicker: self.$imagePicker){(latestImage,user) in
+                    destination: EditForm(currentUser: self.mainStates.userAcc.user, editForm: self.$editForm, img: self.IMD.image ?? .stockImage,imagePicker: self.$imagePicker){(latestImage,user) in
                         self.updateAfterEdit(latestImage, user)
                     },
                     isActive: self.$editForm,

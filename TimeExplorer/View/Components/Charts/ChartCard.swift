@@ -11,44 +11,43 @@ struct ChartCard: View {
     var header:String
     var size:CGSize
     var insideView:((CGFloat,CGFloat) -> AnyView)? = nil
+    var aR:ContentMode
     
-    
-    init(header:String = "Header",size:CGSize  = .init(width: totalWidth * 0.5, height: totalHeight * 0.5),insideView:((CGFloat,CGFloat) -> AnyView)? = nil){
+    init(header:String = "Header",size:CGSize  = .init(width: totalWidth * 0.5, height: totalHeight * 0.5),insideView:((CGFloat,CGFloat) -> AnyView)? = nil,aR:ContentMode = .fill){
         self.header = header
         self.size = size
         if let safeView = insideView{
             self.insideView = safeView
         }
+        self.aR = aR
     }
 
+    func infoView(w:CGFloat,h:CGFloat) -> some View{
+        return ZStack(alignment: .center){
+            Color.gray.opacity(0.5)
+            
+        }.frame(width: w, height: h, alignment: .center)
+    }
     
     var body: some View {
         GeometryReader{g in
             let local = g.frame(in: .local)
             let w = local.width
             let h = local.height
-            
-            
             VStack(alignment: .center, spacing: 10){
-                BasicText(content: self.header, fontDesign: .serif, size: 20, weight: .semibold)
+                MainText(content: self.header, fontSize: 20, color: .white, fontWeight: .regular)
+                    .padding(5)
                     .frame(width: w,alignment: .leading)
-//                VStack(spacing: 10){
-//                    BasicText(content: "Total Views", fontDesign: .serif, size: 10, weight: .thin)
-//                    BasicText(content: "\(self.total)k", fontDesign: .serif, size: 35, weight: .bold)
-//                }.padding(.vertical,10)
-//                self.barChart(w: w, h: h * 0.45)
                 if let safeIS = self.insideView{
-                    safeIS(w,h)
+                    safeIS(w,h * 0.95)
                 }
-                
             }
-            
-            
-        }.padding()
+        }
+        .padding(self.aR == .fill ? 10 : 0)
         .frame(width: self.size.width, height: self.size.height, alignment: .center)
-        .background(Color.white)
+        .background(Color.black)
         .clipShape(RoundedRectangle(cornerRadius: 20))
-        .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 2)
+        .shadow(color: .white.opacity(0.15), radius: 10, x: 0, y: 2)
     }
 }
 

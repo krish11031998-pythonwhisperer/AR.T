@@ -14,20 +14,24 @@ struct SceneModelView: View {
     var w:CGFloat
     var h:CGFloat
     var name:String
-    var url_str:String
+    var model_url_str:String?
+    var img_url_str:String?
     @EnvironmentObject var viewStates:ArtViewStates
     @StateObject var mdD:ARModelDownloader = .init()
+    @StateObject var IMD:ImageDownloader = .init()
     @State var scene:SCNScene? = nil
     @Binding var player:AVPlayer?
     @State var idx:Int = 1
+    @State var img:UIImage? = nil
     var sendAnnotation: ((String,SCNVector3?) -> Void)? = nil
     
     
-    init(w:CGFloat,h:CGFloat,name:String,url_str:String,player:Binding<AVPlayer?>? = nil,handler:((String,SCNVector3?) -> Void)? = nil){
+    init(w:CGFloat,h:CGFloat,name:String,model_url_str:String? = nil,img_url_str:String? = nil,player:Binding<AVPlayer?>? = nil,handler:((String,SCNVector3?) -> Void)? = nil){
         self.w = w
         self.h = h
         self.name = name
-        self.url_str = url_str
+        self.model_url_str = model_url_str
+        self.img_url_str = img_url_str
         self._player = player ?? .constant(nil)
         self.sendAnnotation = handler
     }
@@ -37,13 +41,36 @@ struct SceneModelView: View {
         print(name)
     }
     
-    func sceneView() -> some View{
-        let sceneView = SCNSceneView(model: $scene, idx: $idx, player: $player, width: w, height: h) { (name,vector) in
-            if self.sendAnnotation != nil{
-                self.sendAnnotation!(name,vector)
+    func onAppear(){
+         if let model = self.model_url_str{
+            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .milliseconds(500)) {
+                self.mdD.loadModel(name: self.name, url_string: model)
             }
-        }.environmentObject(self.viewStates)
-        return sceneView
+        }else if let img = self.img_url_str{
+            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .milliseconds(500)) {
+                self.IMD.getImage(url: img)
+            }
+            
+        }
+    }
+    
+    
+    func sceneView() -> AnyView{
+        var view = AnyView(Color.clear.frame(width: 0, height: 0, alignment: .center))
+        if let _ = self.model_url_str{
+            view = AnyView(SCNSceneView(type: .model, model: $scene, idx: $idx, player: $player) { name, vector in
+                if self.sendAnnotation != nil{
+                    self.sendAnnotation!(name,vector)
+                }
+            }.environmentObject(self.viewStates))
+        }else if let _ = self.img_url_str{
+            view =  AnyView(SCNSceneView(type: .image,modelImg: $IMD.image, idx: $idx, player: $player) { name, vector in
+                if self.sendAnnotation != nil{
+                    self.sendAnnotation!(name,vector)
+                }
+            }.environmentObject(self.viewStates))
+        }
+        return view
     }
     
     func onReceive(url:URL?){
@@ -62,13 +89,7 @@ struct SceneModelView: View {
             }
         }
     }
-    
-    func onAppear(){
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .milliseconds(500)) {
-            self.mdD.loadModel(name: self.name, url_string: self.url_str)
-        }
-        
-    }
+
     var body: some View {
         GeometryReader{g  -> AnyView in
             let minY = g.frame(in: .global).minY
@@ -85,7 +106,7 @@ struct SceneModelView: View {
                         BlurView(style: .dark)
                     }
                     
-                    if self.scene != nil{
+                    if self.scene != nil || self.IMD.image != nil{
                         self.sceneView()
                     }
                 }

@@ -57,10 +57,10 @@ struct TopArtScroll: View {
     
     
     var body: some View {
-        LazyVStack{
+//        LazyVStack{
             self.FancyHStack
             .padding(.vertical,50)
-        }
+//        }
     }
 }
 

@@ -89,7 +89,7 @@ extension UIImage{
             URLSession.shared.dataTask(with: safeURL) { (data, resp, err) in
                 guard let safeData = data , let safeImage = UIImage(data:safeData) else {
                     if let err = err{
-                        print(err)
+//                        print(err)
                     }
                     return
                     
@@ -231,7 +231,8 @@ extension UIImage{
 class ImageDownloader:ObservableObject{
     var url:String = ""
     var asset:PHAsset? = nil
-    @Published var image:UIImage = UIImage(named: "AttractionStockImage")!
+//    @Published var image:UIImage = .stockImage
+    @Published var image:UIImage?
     @Published var images:[String : UIImage] = [:]
     @Published var loading:Bool = true
     @Published var mode:String = "single"
@@ -239,11 +240,12 @@ class ImageDownloader:ObservableObject{
     static var shared:ImageDownloader = .init()
     
     
-    init(url:String? = nil){
+    init(url:String? = nil,mode:String = "single"){
         self.url = url ?? ""
         if let safeURL = url{
             self.getImage(url: safeURL)
         }
+        self.mode = mode
     }
     
     var aspectRatio:CGFloat{
@@ -252,24 +254,20 @@ class ImageDownloader:ObservableObject{
         }
     }
     
-    func toggleLoading(){
-        if self.loading{
-            withAnimation(.linear(duration: 0.75)) {
-                self.loading = false
-            }
-        }
-    }
     
     func parseImage(data: Data,url safeURL:URL){
         guard let safeData = UIImage(data: data)?.jpeg(.medium), let safeImage = UIImage(data: safeData) else {return}
         ImageCache.cache[URL(string: safeURL.absoluteString)!] = safeImage
-        if mode == "single"{
-            self.image = safeImage
-            
-        }else if mode == "multiple"{
-            self.images[safeURL.absoluteString] = safeImage
+        DispatchQueue.main.async {
+            if self.mode == "single"{
+                self.image = safeImage
+                
+            }else if self.mode == "multiple"{
+                self.images[safeURL.absoluteString] = safeImage
+            }
+            self.loading = false
         }
-        self.toggleLoading()
+        
     }
     
     func checkData(output: URLSession.DataTaskPublisher.Output) throws -> Data{
@@ -281,10 +279,10 @@ class ImageDownloader:ObservableObject{
     }
     
     func downloadImg(url safeURL:URL,mode:String = "single",crop:Bool=false,bounds:CGSize? = nil){
-        guard let img = UIImage.stockImage.pngData() else {return}
+//        guard let img = UIImage.stockImage.pngData() else {return}
         URLSession.shared.dataTaskPublisher(for: safeURL)
 //            .subscribe(on: DispatchQueue.global())
-            .receive(on: DispatchQueue.main)
+            .receive(on: DispatchQueue.global(qos:.userInteractive))
             .tryMap(self.checkData(output:))
             .sink(receiveCompletion: { completion in
             }, receiveValue: { [weak self] data in
@@ -295,27 +293,19 @@ class ImageDownloader:ObservableObject{
     }
     
     func getImage(url:String,mode:String = "single",crop:Bool=false,bounds:CGSize? = nil){
-        self.url = url
-        self.mode = mode
         if let _url = URL(string: url),let cachedImage = ImageCache.cache[_url]{
-//        if let cachedData = ImageCache.object(forKey: url as NSString), let cachedImage = UIImage(data: cachedData as Data){
             DispatchQueue.main.async {
                 if mode == "single"{
                     self.image = cachedImage
                 }else if mode == "multiple"{
                     self.images[url] = cachedImage
                 }
-//                self.loading = false
-                self.toggleLoading()
+                self.loading = false
 //                print("Loaded from the cache")
             }
         }else{
-            
             guard let safeURL = URL(string:url) else {print("Something wrong with the url : \(url)");return}
-//            DispatchQueue.global().async {
             self.downloadImg(url: safeURL, mode: mode, crop: crop, bounds: bounds)
-//            }
-
         }
     }
     

@@ -1,20 +1,15 @@
-//
-//  HomePageView.swift
-//  TimeExplorer
-//
-//  Created by Krishna Venkatramani on 27/05/2021.
-//
-
 import SwiftUI
 
 struct HomePageView: View {
-
     @EnvironmentObject var mainStates:AppStates
+//    @StateObject var IMD:ImageDownloader = .init(mode: "multiple")
+    @StateObject var CAPI:CAAPI = .init()
     @Namespace var animation
     @State var chosenSection:String = ""
     @State var showSection:Bool = false
     @State var showArt:Bool = false
     @State var posts:[AVSData] = []
+//    @State var loading:Bool = true
     
     func header(dim:CGSize) -> some View{
             HStack(alignment: .center, spacing: 10) {
@@ -29,30 +24,45 @@ struct HomePageView: View {
     }
     
     func topPostAction(){
-        withAnimation(.hero) {
+        withAnimation(.easeInOut) {
             self.showArt = true
         }
         
     }
+
     
-    func parsePosts(posts: [PostData]){
-        DispatchQueue.main.async {
-            self.posts = posts.compactMap({!($0.isVideo ?? false) ? AVSData(img: $0.image?.first, title: $0.caption, subtitle: $0.user, data: $0) : nil})
+    func onAppear(){
+        if !self.mainStates.CAAPI.artDatas.isEmpty{
+            self.parseData(self.mainStates.CAAPI.artDatas)
+        }else{
+            self.mainStates.CAAPI.getBatchArt()
         }
+    }
+    
+    func parseData(_ data:[CAData]){
+        if !data.isEmpty{
+            let _data = data.compactMap({$0.images?.web?.url != nil ? AVSData(img: $0.images?.web?.url, title: $0.title, data: $0) : nil})
+            DispatchQueue.main.async {
+                self.posts = _data
+                withAnimation(.easeInOut) {
+                    self.mainStates.loading = false
+                }
+            }
+        }
+       
     }
     
     
     func subView(title:String) -> some View{
         var view = AnyView(Color.clear.frame(width: 0, height: 0, alignment: .center))
-        let posts = (self.mainStates.PAPI.posts.count > 10 ? Array(self.mainStates.PAPI.posts[0...9]) : self.mainStates.PAPI.posts).compactMap({!($0.isVideo ?? false) ? AVSData(img: $0.image?.first, title: $0.caption, subtitle: $0.user, data: $0) : nil})
+        let posts = self.posts.count < 10 ? self.posts : Array(self.posts[0...9])
         switch (title) {
-        case "Trending Art": view = AnyView(TopArtScroll(data: posts))
-            case "Featured Art": view = AnyView(FeaturedArt(art: test))
-            case "Genres" : view = AnyView(AllArtView())
-//            case "Recent" : view = AnyView(PinterestScroll(data: posts))
-            case "Recent" : view = AnyView(RecentArtView(data: posts))
-            case "Recommended", "Ones to Check Out" : view = AnyView(RecommendArt(data: Array(repeating: asm, count: 10)))
-            case "Artists" : view = AnyView(ArtistView(data: Array(repeating: asm, count: 10)))
+            case "Trending Art": view = AnyView(TopArtScroll(data: Array(self.posts[1..<10])))
+            case "Featured Art": view = AnyView(FeaturedArt(art: posts.first ?? asm))
+            case "Highlights" : view = AnyView(AllArtView(genreData:  Array(self.posts[10..<20])))
+            case "Recent" : view = AnyView(PinterestScroll(data: Array(self.posts[20..<30]),equalSize: true))
+            case "Recommended", "Ones to Check Out" : view = AnyView(RecommendArt(data: Array(self.posts[30..<40])))
+            case "Artists" : view = AnyView(ArtistView(data: posts))
             default: break;
         }
         return Group{
@@ -67,32 +77,26 @@ struct HomePageView: View {
     
     
     var body: some View {
-                ScrollView(.vertical, showsIndicators: false){
-//                    LazyVStack{
-                        self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
-                        self.subView(title: "Featured Art")
-//                        self.subView(title: "Recommended")
-                        self.subView(title: "Trending Art")
-//                        self.subView(title: "Genres")
-                        self.subView(title: "Recent")
-                        self.subView(title: "Ones to Check Out")
-                        self.subView(title: "Artists")
-                        Spacer().frame(height: 200)
-//                }
-//                if self.showArt{
-//                    Color.clear
-//                    .overlay(
-//                        PVMain(cityName: "", showPost: .constant(false), tabstate: .constant(false), show: $showArt).matchedGeometryEffect(id: "postsViewMain", in: self.animation,properties: .position,anchor: .top)
-//                    )
-//                    .transition(.modal)
-//                }
-//            }
-                }
+        ScrollView(.vertical, showsIndicators: false){
+            //                    LazyVStack{
+            self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
+            if !self.mainStates.loading && !self.posts.isEmpty{
+                self.subView(title: "Featured Art")
+                self.subView(title: "Recommended")
+                self.subView(title: "Trending Art")
+                self.subView(title: "Highlights")
+                self.subView(title: "Recent")
+                self.subView(title: "Ones to Check Out")
+                self.subView(title: "Artists")
+            }
+            Spacer().frame(height: 200)
+        }
+        .background(Color.black)
         .edgesIgnoringSafeArea(.all)
-        .onAppear(perform: {self.mainStates.loading = false})
-        .onReceive(self.mainStates.PAPI.$posts, perform: self.parsePosts(posts:))
-        .background(Color.primaryColor)
-       
+        .onAppear(perform: self.onAppear)
+        .onReceive(self.mainStates.CAAPI.$artDatas, perform: self.parseData)
+//        .onChange(of: self.posts, perform: self.getImages(posts:))
+
     }
 }
 
@@ -100,6 +104,7 @@ extension HomePageView{
     
     func RecentArtView(data:[AVSData]) ->some View{
         let w = totalWidth * 0.5 - 10
+        
         return LazyVGrid(columns: [GridItem(.adaptive(minimum: w, maximum: w), spacing: 10, alignment: .center)], alignment: .center, spacing: 10) {
             ForEach(Array(data.enumerated()),id: \.offset) { _data in
                 let d = _data.element
@@ -110,6 +115,8 @@ extension HomePageView{
     }
     
 }
+
+
 
 struct HomePageView_Previews: PreviewProvider {
     static var previews: some View {

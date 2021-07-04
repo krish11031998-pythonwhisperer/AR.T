@@ -155,7 +155,7 @@ struct CarouselSliderCard:View{
                 .background(BlurView(style: .systemThinMaterialDark).clipShape(RoundedRectangle(cornerRadius: 25 + 1)))
             if self.data.username != nil && self.data.userImg != nil{
                 HStack{
-                    Image(uiImage: ImageDownloader.shared.image)
+                    Image(uiImage: ImageDownloader.shared.image ?? .stockImage)
                         .resizable()
                         .frame(width: 15, height: 15, alignment: .center)
                         .clipShape(Circle())

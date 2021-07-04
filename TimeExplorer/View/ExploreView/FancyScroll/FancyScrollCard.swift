@@ -66,8 +66,6 @@ struct FancyCardView:View{
         let h = local.height
         let view = ImageView(url: self.data.img, width: w, height: h, contentMode: .fill, alignment: .center)
             .clipShape(RoundedRectangle(cornerRadius: 10))
-//            .contentShape(RoundedRectangle(cornerRadius: 10))
-//            .gesture(DragGesture().onChanged(self.scrollStates.onChanged).onEnded(self.scrollStates.onEnded))
         
         return view
             
@@ -85,15 +83,10 @@ struct FancyCardView:View{
             }
             
             return AnyView(
-//                Button(action: {
-//                    self.onTap(global: global)
-//                }, label: {
                     self.cardView(local: local, global: global)
                         .onTapGesture {
                             self.onTap(global: global)
                         }
-//                })
-//                .buttonStyle(PlainButtonStyle())
             )
         }.padding(20)
         .frame(width:cardSize.width ,height: cardSize.height, alignment: .center)

@@ -27,6 +27,8 @@ struct InfoCard: View {
             return (heading:blog.headline ?? "No Headline",subheadline:"",name:blog.user ?? "No User",description: blog.articleText ?? "NO text")
         }else if let post = self.data.data as? PostData{
             return (heading: post.caption,subheadline:"",name:post.user ?? "", description: "")
+        }else if let art = self.data.data as? CAData{
+            return (heading: art.title ?? "No Name",subheadline:art.creation_date ??  "",name:art.creators?.first?.description ?? "No Name",description:art.wall_description ?? "No Description")
         }else{
             return nil
         }

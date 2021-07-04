@@ -185,7 +185,7 @@ struct BMView:UIViewRepresentable{
     init(title:String,coordinate:CLLocationCoordinate2D){
         self.title = title
         self.coordinate = coordinate
-        print(self.coordinate)
+//        print(self.coordinate)
     }
     
     func makeUIView(context: UIViewRepresentableContext<BMView>) -> MKMapView {

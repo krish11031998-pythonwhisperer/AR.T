@@ -10,9 +10,11 @@ import SwiftUI
 struct ArtStockView: View {
     var data:AVSData
     @Binding var close:Bool
-    init(data:AVSData,close:Binding<Bool>){
+    var closeFn: (() -> Void)? = nil
+    init(data:AVSData,close:Binding<Bool>,closeFn: @escaping () -> Void){
         self.data = data
         self._close = close
+        self.closeFn = closeFn
     }
     
     var body: some View {
@@ -20,12 +22,13 @@ struct ArtStockView: View {
         ScrollView(.vertical, showsIndicators: false){
             self.mainImage
             self.IntroSection
-            self.ChartView
+//            self.ChartView
+            ChartMainView()
             self.PurchaseView
 //            Spacer()
         }.edgesIgnoringSafeArea(.all)
         .frame(width: totalWidth, height: totalHeight, alignment: .center)
-        .background(Color.white)
+        .background(Color.black)
     }
 }
 
@@ -34,7 +37,11 @@ extension ArtStockView{
     
     func backButton(){
         print("Back button pressed")
-        self.close.toggle()
+        if let fn = self.closeFn{
+            fn()
+        }else{
+            self.close.toggle()
+        }
     }
     
     func optionButton(){
@@ -48,6 +55,7 @@ extension ArtStockView{
             let h = g.frame(in: .local).height
             ZStack(alignment: .top){
                 ImageView(url: self.data.img, width: w, height: h, contentMode: .fill, alignment: .top)
+                    .clipped()
                 HStack(alignment: .center, spacing: 10){
                     SystemButton(b_name: "arrow.left", b_content: "", action: self.backButton)
                     Spacer()
@@ -55,7 +63,6 @@ extension ArtStockView{
                 }.padding()
                 .padding(.top)
                 .frame(width: w, alignment: .center)
-                
             }.frame(width: w, height: h, alignment: .center)
         }.frame(width: totalWidth, height: totalHeight * 0.45, alignment: .center)
     }
@@ -70,7 +77,7 @@ extension ArtStockView{
         }.aspectRatio(contentMode: .fill)
         .padding(.vertical)
         .frame(width: totalWidth, alignment: .center)
-        .background(Color.black)
+//        .background(Color.black)
     }
     
 // MARK:- Bidder View
@@ -130,7 +137,6 @@ extension ArtStockView{
             }.frame(width: w, height: h, alignment: .leading)
         }.padding()
         .frame(width: totalWidth, height: totalHeight * 0.5, alignment: .center)
-        .background(Color.black)
     }
     
     
@@ -155,23 +161,26 @@ extension ArtStockView{
 // MARK:- Chart View
     
     var ChartView: some View{
-        GeometryReader {g in
-            let w = g.frame(in: .local).width
-            let h = g.frame(in: .local).height
-            VStack(alignment: .center, spacing: 10){
-                MainText(content: "Statistics", fontSize: 25, color: .black, fontWeight: .regular)
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: w,height: h * 0.05, alignment: .leading)
-                SummaryView(header: "Summary",size: .init(width: w, height: h * 0.3))
-                HStack(alignment: .center){
-                    WeekBarChart(header: "Views",values: [25,45,60,10,30,79,91],size: .init(width: w * 0.475, height: h*0.3))
-                    CircleChart(percent: 35, header: "Likes",size: .init(width: w * 0.5, height: h*0.3))
-                }
-                CurveChart(data: [45,25,10,60,30,79],size: .init(width: w, height: h * 0.35))
-                Spacer()
-            }.frame(width: w, height: h, alignment: .center)
-        }.padding(10).frame(width: totalWidth, height: totalHeight * 1.2, alignment: .center)
-        .background(Color.white)
+//        let w = totalWidth - 20
+//        let h = totalHeight * 1.2 - 20
+////        GeometryReader {g in
+////            let w = g.frame(in: .local).width
+////            let h = g.frame(in: .local).height
+////        return VStack(alignment: .center, spacing: 10){
+//        return VStack{
+//                MainText(content: "Statistics", fontSize: 25, color: .white, fontWeight: .regular)
+//                    .aspectRatio(contentMode: .fit)
+//                    .frame(width: w,height: h * 0.05, alignment: .leading)
+////                SummaryView(header: "Summary",size: .init(width: w, height: h * 0.3))
+//                HStack(alignment: .center){
+//                    WeekBarChart(header: "Views",values: [25,45,60,10,30,79,91],size: .init(width: w * 0.475, height: h*0.3))
+//                    CircleChart(percent: 35, header: "Likes",size: .init(width: w * 0.5, height: h*0.3))
+//                }
+//                CurveChart(data: [45,25,10,60,30,79],size: .init(width: w, height: h * 0.85))
+//                Spacer()
+////            }.frame(width: w, height: h, alignment: .center)
+//        }.padding(10).frame(width: totalWidth, height: totalHeight * 0.5, alignment: .center)
+        return ChartMainView()
     }
 }
 

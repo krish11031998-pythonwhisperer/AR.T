@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct FeaturedArt: View {
-    var art:ArtData = test
+//    var art:ArtData = test
+    var art:AVSData = .init(img: test.thumbnail, title: test.title, data: test)
     var body: some View {
         GeometryReader{g in
             let local = g.frame(in: .local)
@@ -17,7 +18,7 @@ struct FeaturedArt: View {
             
             ZStack(alignment: .bottom){
                 Color.black
-                ImageView(url: self.art.thumbnail,heading: self.art.title, width: w, height: h, contentMode: .fill, alignment: .top,isPost: true)
+                ImageView(url: self.art.img,heading: self.art.title, width: w, height: h, contentMode: .fill, alignment: .top,isPost: true)
                 
             }
             .clipShape(RoundedRectangle(cornerRadius: 20))
