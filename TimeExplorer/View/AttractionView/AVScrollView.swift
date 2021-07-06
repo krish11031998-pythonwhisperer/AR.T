@@ -97,7 +97,7 @@ struct AVScrollView: View {
         }
         self.offset = 0
     }
-        
+    
     var v2:some View{
         HStack(alignment: .center, spacing: 0){
             Spacer().frame(width: (totalWidth - self.cardSize.width) * 0.5)

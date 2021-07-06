@@ -57,7 +57,6 @@ struct TrendingData{
 }
 struct TrendingMainView: View {
     @Binding var changeTab:String
-    @StateObject var ToAPI:TourAPI = .init()
     @State var data:[TrendingCardData] = []
     @Binding var showTrending:Bool
     @EnvironmentObject var mainStates:AppStates
@@ -92,9 +91,8 @@ struct TrendingMainView: View {
 
     var currentCard:TrendingCardData{
         get{
-            let swiped = self.swiped ?? 0
-            if swiped >= 0 && swiped < self.data.count{
-                return self.data[swiped]
+            if self.swiped >= 0 && self.swiped < self.data.count{
+                return self.data[self.swiped]
             }
             return self.selectedcard
         }
@@ -124,48 +122,30 @@ struct TrendingMainView: View {
         return -CGFloat(self.swiped > 0 ? 1 : 0) * totalHeight
     }
 
-    func getTrendingItems(){
-        dispatchGroup.enter()
-        let targetCollection = self.types.isEmpty ? ["posts","tours","blogs","paintings"].filter({self.type == "all" ? true : $0 == self.type}) : self.types
-        for collection in targetCollection{
-            FirebaseAPI.firebase_shared.getTopItems(limit: 5, collectionName: collection) { (qs, err) in
-                guard let qs = qs else {return}
-                print("qs (\(collection)) : ",qs.documents.count)
-                switch(collection){
-                case "posts":
-                    if let posts = PostAPI.shared.parseQueryDocuments(q: qs)?.compactMap({$0.parseVisualData()}){
-                        DispatchQueue.main.async {
-                            self.data.append(contentsOf: posts)
-                        }
-                    }
-                case "tours":
-                    let tours = TourAPI.shared.parseTours(qs: qs).compactMap({$0.parseVisualData()})
-                    DispatchQueue.main.async {
-                        self.data.append(contentsOf: tours)
-                    }
-
-                case "blogs":
-                    if let blogs = BlogAPI.shared.parseQueryDocuments(q: qs)?.compactMap({$0.parseVisualData()}){
-                        DispatchQueue.main.async {
-                            self.data.append(contentsOf: blogs)
-                        }
-                    }
-                case "paintings":
-                    if let arts = ArtAPI.shared.parseQueryDocuments(q: qs)?.compactMap({$0.parseVisualData()})
-                    {
-                        DispatchQueue.main.async {
-                            self.data.append(contentsOf: arts)
-                        }
-                    }
-                default:
-                    break
+    func onAppear(){
+        self.mainStates.toggleTab()
+        if !self.mainStates.CAAPI.artDatas.isEmpty{
+            self.parseData(self.mainStates.CAAPI.artDatas)
+        }else{
+            self.mainStates.CAAPI.getBatchArt()
+        }
+    }
+    
+    
+    
+    func parseData(_ data:[CAData]){
+        if !data.isEmpty{
+            let _data = data.compactMap({ TrendingCardData(image: $0.images?.web?.url, username: $0.artistName, mainText: $0.title, type: .art, data: ArtData(date: Date(), title:$0.title ?? "No Title", introduction: $0.wall_description ?? "Description",infoSnippets: $0.PaintingInfo, painterName: $0.artistName, thumbnail: $0.thumbnail), date: Date())})
+            DispatchQueue.main.async {
+                self.data = _data
+                withAnimation(.easeInOut) {
+                    self.mainStates.loading = false
                 }
             }
         }
-        dispatchGroup.leave()
-
+       
     }
-
+    
     var navigationLinktoTour:some View{
         get{
             let data = self.currentCard.data as? TourData
@@ -176,35 +156,6 @@ struct TrendingMainView: View {
         }
     }
 
-    var navigationLinkToPost:some View{
-        get{
-            let data = self.currentCard.data as? PostData ?? .init(caption: "")
-            let image:UIImage = UIImage.loadImageFromCache(data.image?.first)
-            return UVDetail(profilePic: .stockImage, userName: data.user ?? "", post: data, showPost: $showPost,postImg: image)
-        }
-    }
-
-    var navigationLinkToBlog:some View{
-        get{
-            let data = self.currentCard.data as? BlogData ?? .init()
-            let image:UIImage = UIImage.loadImageFromCache(data.image?.first)
-            let blogViewContainer = LargeBlogCard(blog: data, firstImage: image, showBlogPost: $showBlog)
-            return blogViewContainer
-        }
-    }
-
-    func onAppear(){
-        if self.data.isEmpty && !self.loadTours && !self.oneCall{
-            self.getTrendingItems()
-            self.oneCall.toggle()
-            dispatchGroup.notify(queue: .main) {
-                print("self.data.count : ",self.data.count)
-                if self.mainStates.loading{
-                    self.mainStates.loading.toggle()
-                }
-            }
-        }
-    }
 
     func updateViewState(){
         switch(self.currentCard.type){
@@ -232,7 +183,6 @@ struct TrendingMainView: View {
             ForEach(Array(self.data.enumerated()),id:\.offset){_data in
                 let idx = _data.offset
                 let data = _data.element
-//                if idx >= self.swiped - 1 && idx <= self.swiped + 1{
                 if idx >= self.swiped - 1 && idx <= self.swiped + 1{
                     TrendingMainCard(idx, data, w, h,handler: self.updateViewState)
                         .gesture(DragGesture().onChanged(self.onChanged(value:)).onEnded(self.onEnded(value:)))
@@ -247,27 +197,22 @@ struct TrendingMainView: View {
 
     var body: some View {
         ZStack(alignment:.top){
-            self.ContentScroll(w: totalWidth, h: totalHeight)
-            if self.showTour{
-                TourVerticalCardView(self.currentCard.data as? TourData ?? .init(), self.$showTour)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
+            if !self.data.isEmpty{
+                self.ContentScroll(w: totalWidth, h: totalHeight)
+                if self.showTour{
+                    TourVerticalCardView(self.currentCard.data as? TourData ?? .init(), self.$showTour)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
+                if let data = self.currentCard.data as? ArtData,self.showArt{å
+                    ArtScrollMainView(data: data,showArt: $showArt)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                        .environmentObject(self.mainStates)
+                }
             }
-            if self.showPost{
-                self.navigationLinkToPost
-            }
-            if self.showBlog{
-                self.navigationLinkToBlog
-            }
-            if self.showArt{
-//                ArtView(data: self.currentCard.data as? ArtData ?? test, showArt: $showArt)
-                ArtScrollMainView(data: self.currentCard.data as? ArtData ?? test,showArt: $showArt)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
-                    .environmentObject(self.mainStates)
-            }
-            
         }
         .frame(width: totalWidth, height: totalHeight, alignment: .top)
         .onAppear(perform: self.onAppear)
+        .onReceive(self.mainStates.CAAPI.$artDatas, perform: self.parseData)
         .navigationTitle("")
         .navigationBarHidden(true)
     }

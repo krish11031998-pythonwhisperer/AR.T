@@ -97,13 +97,32 @@ struct PinterestScroll: View {
         }
     }
     
+    
+    func CollectiveImageView(w:CGFloat) -> AnyView{
+        if self.equalSize{
+            return AnyView(LazyVGrid(columns: [GridItem(.adaptive(minimum: (w * 0.5 - 5), maximum: (w * 0.5 - 5)), spacing: 10, alignment: .center)], alignment: .center, spacing: 10) {
+                ForEach(Array(self.data.enumerated()),id: \.offset) { _data in
+                    let card = _data.element
+                    PinterestScrollCard(data: card, width: (w * 0.5 - 5),height: totalHeight * 0.3,equalSize: true)
+                }
+            })
+        }else{
+            return AnyView(LazyHStack(alignment: .top, spacing: 10) {
+                self.singleCol(col_dir: "left", width: (w * 0.5 - 5))
+                self.singleCol(col_dir: "right", width: (w * 0.5 - 5))
+            }.padding()
+            .frame(width: totalWidth, alignment: .center))
+        }
+    }
+    
     var body: some View {
         let w = totalWidth - 20
-        LazyHStack(alignment: .top, spacing: 10) {
-            self.singleCol(col_dir: "left", width: (w * 0.5 - 5))
-            self.singleCol(col_dir: "right", width: (w * 0.5 - 5))
-        }.padding()
-        .frame(width: totalWidth, alignment: .center)
+//        LazyHStack(alignment: .top, spacing: 10) {
+//            self.singleCol(col_dir: "left", width: (w * 0.5 - 5))
+//            self.singleCol(col_dir: "right", width: (w * 0.5 - 5))
+//        }.padding()
+//        .frame(width: totalWidth, alignment: .center)
+        self.CollectiveImageView(w: w)
     }
 }
 

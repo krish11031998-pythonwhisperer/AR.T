@@ -9,19 +9,21 @@ import SwiftUI
 
 struct ImageView:View{
     @EnvironmentObject var mainStates:AppStates
+    @State var image:UIImage?
+//    @ObservedObject var IMD:ImageDownloader = .init()
     @StateObject var IMD:ImageDownloader = .init()
     var url:String = ""
     var width:CGFloat
     var height:CGFloat
     var contentMode:ContentMode
-    var img:UIImage? = nil
+//    var img:UIImage? = nil
     var autoHeight:Bool = false
     var heading:String? = nil
     var alignment:Alignment
     var isPost:Bool
     var headingSize:CGFloat
     var isHidden:Bool
-    
+    let testMode:Bool = false
     init(url:String?,heading:String? = nil,width:CGFloat = 300,height:CGFloat = 300,contentMode:ContentMode = .fill,alignment:Alignment = .center,autoHeight:Bool = false,isPost:Bool = false,headingSize:CGFloat = 35,isHidden:Bool = false){
         self.url = url ?? ""
         self.width = width
@@ -37,7 +39,8 @@ struct ImageView:View{
     
     
     init(img:UIImage? = nil,width:CGFloat = 300,height:CGFloat = 300,contentMode:ContentMode = .fill,alignment:Alignment = .center,isPost:Bool = false,headingSize:CGFloat = 35,isHidden:Bool = false){
-        self.img = img
+//        self.img = img
+        self._image = State(wrappedValue: img)
         self.width = width
         self.height = height
         self.contentMode = contentMode
@@ -45,20 +48,24 @@ struct ImageView:View{
         self.isPost = isPost
         self.headingSize = headingSize
         self.isHidden = isHidden
+//        self.onAppear()
     }
     
     func onAppear(){
-//        DispatchQueue.global(qos: .background).async {
+        if self.IMD.image == nil{
             self.IMD.getImage(url: self.url,bounds: .init(width: self.width, height: self.height))
-//        }
-//        if self.img == nil && self.url != "" && !self.mainStates.testMode{
-//
-//        }
+        }
     }
     
+//    func onReceive(img:UIImage?){
+//        guard let safeImage = img else {return}
+//        self.image = safeImage
+//
+//    }
+    
     func imgView(w _w:CGFloat? = nil,h _h:CGFloat? = nil) -> some View{
-        let img = (self.img != nil ? self.img : self.IMD.image)
-        let loading = self.img != nil ? false : self.IMD.loading
+        let img = (self.image != nil ? self.image : self.IMD.image)
+        let loading = self.image != nil ? false : self.IMD.loading
         let ar = UIImage.aspectRatio(img: img)
         var h = self.autoHeight ? self.width/ar : _h == nil ? self.height : _h!
         h = self.autoHeight && h < 275 ? 275 : self.autoHeight && h > 300 ? 300 : h
@@ -81,7 +88,7 @@ struct ImageView:View{
                 self.overlayView(h: h)
             }
         }.frame(width: self.width,height: h)
-        .onAppear(perform: self.onAppear)
+//        .onAppear(perform: self.onAppear)
     }
     
     func overlayView(h : CGFloat) -> some View{
@@ -95,7 +102,8 @@ struct ImageView:View{
                         self.buttons(w: w, h: h)
                     }
                 }
-            }.padding().frame(width: self.width, height: h, alignment: .center)
+            }.padding()
+            .frame(width: self.width, height: h, alignment: .center)
     }
     
     
@@ -118,6 +126,8 @@ struct ImageView:View{
     var body: some View{
         self.imgView()
             .contentShape(RoundedRectangle(cornerRadius: 10))
+            .onAppear(perform: self.onAppear)
+//            .onReceive(self.IMD.$image, perform: self.onReceive(img:))
         
     }
     

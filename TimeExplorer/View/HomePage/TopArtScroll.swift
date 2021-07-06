@@ -17,6 +17,7 @@ class TASScrollParams:ObservableObject{
 struct TopArtScroll: View {
     var cardSize:CGSize = .init(width: totalWidth * 0.5, height: totalHeight * 0.4)
     @StateObject var SP:TASScrollParams = .init()
+    @StateObject var IMD:ImageDownloader = .init(mode:"multiple")
     let cards:Int = 2
     var data:[AVSData] = []
     
@@ -24,16 +25,13 @@ struct TopArtScroll: View {
         self.data = data
     }
     
-    
-    func imgCard(data:AVSData,idx: Int) -> some View{
-        let viewing = idx == self.SP.swiped
-        let skewX:Double = viewing ? 0 : (idx < self.SP.swiped ? 1 : -1) * 10
-        return ImageView(url: data.img, width: cardSize.width, height: cardSize.height, contentMode: .fill, alignment: .center,isHidden: !viewing)
-            .clipShape(RoundedRectangle(cornerRadius: 20))
-            .scaleEffect(idx == self.SP.swiped ? 1.2 : 1)
-            .frame(width: cardSize.width, height: cardSize.height, alignment: .center)
-            .rotation3DEffect(.init(degrees: .init(skewX)),axis: (x: 0.0, y: 1.0, z: 0.0))
-    }
+//    func onAppear(){
+//        if !self.data.isEmpty && self.IMD.loading{
+//            let urls = self.data.compactMap({$0.img})
+//            print("TopScroll urls : ",urls)
+//            self.IMD.getImages(urls: urls)
+//        }
+//    }
     
     var FancyHStack:some View{
         HStack(alignment: .center, spacing: 0){
@@ -42,10 +40,20 @@ struct TopArtScroll: View {
                 let data = _data.element
                 let idx = _data.offset
                 let (isViewing,_,x_off,zInd) = self.computeParams(idx: idx)
-                if idx >= self.SP.swiped - cards  && idx <= self.SP.swiped + cards{
-                    self.imgCard(data: data,idx: idx)
+                let viewing = idx == self.SP.swiped
+                let skewX:Double = viewing ? 0 : (idx < self.SP.swiped ? 1 : -1) * 10
+                
+                if let img_url = data.img,idx >= self.SP.swiped - cards  && idx <= self.SP.swiped + cards{
+                    let img = self.IMD.images[img_url]
+                    ImageView(url: data.img, width: cardSize.width, height: cardSize.height, contentMode: .fill, alignment: .center,isHidden: !viewing)
+//                    ImageView(img:img, width: cardSize.width, height: cardSize.height, contentMode: .fill, alignment: .center,isHidden: !viewing)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .scaleEffect(idx == self.SP.swiped ? 1.2 : 1)
+                        .frame(width: cardSize.width, height: cardSize.height, alignment: .center)
+                        .rotation3DEffect(.init(degrees: .init(skewX)),axis: (x: 0.0, y: 1.0, z: 0.0))
                         .offset(x: isViewing ? self.SP.dy_off : x_off)
                         .zIndex(isViewing ? 1 : zInd > 0 ? -zInd : zInd)
+//                        .opacity(abs(self.SP.swiped - idx) > 2 ? 0  : 1)
                 }
             }
         }
@@ -53,6 +61,7 @@ struct TopArtScroll: View {
         .offset(x: self.SP.st_off)
         .animation(.easeInOut(duration: 0.5))
         .gesture(DragGesture().onChanged(self.onChanged(value:)).onEnded(self.onEnded(value:)))
+//        .onAppear(perform:self.onAppear)
     }
     
     

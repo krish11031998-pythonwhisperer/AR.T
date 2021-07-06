@@ -231,6 +231,7 @@ extension UIImage{
 class ImageDownloader:ObservableObject{
     var url:String = ""
     var asset:PHAsset? = nil
+    var b_images:[String:UIImage] = [:]
 //    @Published var image:UIImage = .stockImage
     @Published var image:UIImage?
     @Published var images:[String : UIImage] = [:]
@@ -254,19 +255,24 @@ class ImageDownloader:ObservableObject{
         }
     }
     
+    func publishImage(url:String,safeImage:UIImage){
+        if self.mode == "single"{
+            DispatchQueue.main.async {
+                self.image = safeImage
+                self.loading = false
+            }
+        }else if self.mode == "multiple"{
+//            self.b_images[url] = safeImage
+            DispatchQueue.main.async {
+                self.images[url] = safeImage
+            }
+        }
+    }
     
     func parseImage(data: Data,url safeURL:URL){
-        guard let safeData = UIImage(data: data)?.jpeg(.medium), let safeImage = UIImage(data: safeData) else {return}
+        guard let safeData = UIImage(data: data)?.jpeg(.low), let safeImage = UIImage(data: safeData) else {return}
         ImageCache.cache[URL(string: safeURL.absoluteString)!] = safeImage
-        DispatchQueue.main.async {
-            if self.mode == "single"{
-                self.image = safeImage
-                
-            }else if self.mode == "multiple"{
-                self.images[safeURL.absoluteString] = safeImage
-            }
-            self.loading = false
-        }
+        self.publishImage(url: safeURL.absoluteString, safeImage: safeImage)
         
     }
     
@@ -279,9 +285,8 @@ class ImageDownloader:ObservableObject{
     }
     
     func downloadImg(url safeURL:URL,mode:String = "single",crop:Bool=false,bounds:CGSize? = nil){
-//        guard let img = UIImage.stockImage.pngData() else {return}
         URLSession.shared.dataTaskPublisher(for: safeURL)
-//            .subscribe(on: DispatchQueue.global())
+            .subscribe(on: DispatchQueue.global(qos: .userInteractive))
             .receive(on: DispatchQueue.global(qos:.userInteractive))
             .tryMap(self.checkData(output:))
             .sink(receiveCompletion: { completion in
@@ -292,27 +297,31 @@ class ImageDownloader:ObservableObject{
             
     }
     
-    func getImage(url:String,mode:String = "single",crop:Bool=false,bounds:CGSize? = nil){
-        if let _url = URL(string: url),let cachedImage = ImageCache.cache[_url]{
-            DispatchQueue.main.async {
-                if mode == "single"{
-                    self.image = cachedImage
-                }else if mode == "multiple"{
-                    self.images[url] = cachedImage
-                }
-                self.loading = false
-//                print("Loaded from the cache")
-            }
+    func getImage(url:String,crop:Bool=false,bounds:CGSize? = nil){
+        guard let _url = URL(string:url) else  {print("Something wrong with the url : \(url)");return}
+        if let cachedImage = ImageCache.cache[_url]{
+            self.publishImage(url: _url.absoluteString, safeImage: cachedImage)
         }else{
-            guard let safeURL = URL(string:url) else {print("Something wrong with the url : \(url)");return}
-            self.downloadImg(url: safeURL, mode: mode, crop: crop, bounds: bounds)
+            self.downloadImg(url: _url, mode: mode, crop: crop, bounds: bounds)
         }
     }
     
     func getImages(urls:[String]){
-        urls.forEach { (url) in
-            self.getImage(url: url, mode: "multiple")
+        let last = urls.count - 1
+        for i in 0...last{
+            self.getImage(url: urls[i])
+//            if i == last{
+//                DispatchQueue.main.async {
+//                    self.images = self.b_images
+//                    self.loading = false
+//                }
+//            }
+            
         }
+//        urls.forEach { (url) in
+//            self.getImage(url: url)
+//        }
+        
     }
     
 }

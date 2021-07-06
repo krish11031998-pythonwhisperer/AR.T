@@ -326,19 +326,23 @@ class PostAPI:FirebaseAPI,ObservableObject{
         self.lastDoc = lastDoc
         
         if let posts = self.parseQueryDocuments(q: q){
+//            let parsedPosts
+            let newPosts = self.posts.isEmpty ? posts : posts.filter({$0.id != nil ? !self.loadedPosts.contains($0.id!) : false})
+            self.loadedPosts.append(contentsOf: newPosts.compactMap({$0.id}))
             DispatchQueue.main.async {
-                if self.posts.isEmpty{
-                    self.posts = posts
-                }else{
-                    var newPosts = posts.filter({$0.id != nil ? !self.loadedPosts.contains($0.id!) : false})
-                    if !newPosts.isEmpty{
-                        self.posts.append(contentsOf: newPosts)
-                    }
-                }
-                self.loadedPosts = self.posts.compactMap({ (post) -> String? in
-                    return post.id
-                })
-                
+//                if self.posts.isEmpty{
+//                    self.posts = posts
+//                }else{
+//                    var newPosts = posts.filter({$0.id != nil ? !self.loadedPosts.contains($0.id!) : false})
+//                    if !newPosts.isEmpty{
+//                        self.posts.append(contentsOf: newPosts)
+//                    }
+//                }
+//                self.loadedPosts = self.posts.compactMap({ (post) -> String? in
+//                    return post.id
+//                })
+//
+                self.posts = newPosts
 //                self.posts.sorted { (a, b) -> Bool in
 //                    a.date?.compare(b.date ?? Date()) == .orderedDescending
 //                }

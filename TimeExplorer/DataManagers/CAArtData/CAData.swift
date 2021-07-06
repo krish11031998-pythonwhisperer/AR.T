@@ -58,6 +58,36 @@ class CAData:Codable{
     var thumbnail:String{
         return self.images?.web?.url ?? ""
     }
+    var PaintingInfo:[String:String]?{
+        let data = self
+        var details:[String:String] = [:]
+        
+        if let department = data.department{
+            details["Department"] = department
+        }
+        
+        if let culture = data.culture?.first{
+            details["Culture"] = culture
+        }
+        
+        
+        if let technique = data.technique{
+            details["Technique"] = technique.capitalized
+        }
+            
+        if let dim = data.dimensions{
+            if let framed = dim.framed{
+                details["Framed"] = "\(framed.height ?? 0)m x \(framed.width ?? 0)m"
+            }
+            
+//            if let unframed = dim.unframed{
+//                details["unframed"] = "\(unframed.height ?? 0)m x \(unframed.width ?? 0)m"
+//            }
+        }
+        
+        return details.keys.count == 0 ? nil : details
+}
+
 }
 
 

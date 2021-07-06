@@ -12,7 +12,7 @@ import MapKit
 class AppStates:ObservableObject{
     @Published var coordinates:CLLocationCoordinate2D = .init()
     @Published var loading:Bool = true
-    @Published var tab:String = "feed"
+    @Published var tab:String = "home"
     @Published var showTab:Bool = true
     @Published var userAcc:Account = .init()
     @Published var photosManager:PhotoImages = .init()
@@ -74,9 +74,9 @@ struct AppView: View {
     func onAppear(){
         self.mainStates.userAcc.autoLogIn(){success in
             self.showLoginPage = !success
-            if success{
-                self.mainStates.PAPI.getTopPosts(limit: 50)
-            }
+//            if success{
+//                self.mainStates.PAPI.getTopPosts(limit: 50)
+//            }
         }
         self.locationManager.updateLocation()
     }
@@ -92,31 +92,32 @@ struct AppView: View {
     }
     
     var body: some View {
-        NavigationView{
-            ZStack(alignment: .bottom){
-                Color.primaryColor
-                if self.showLoginPage{
-                    LVLogin(){value in
-                        self.showLoginPage = !value
-                    }
+        //        NavigationView{
+        ZStack(alignment: .bottom){
+            Color.primaryColor
+            if self.showLoginPage{
+                LVLogin(){value in
+                    self.showLoginPage = !value
                 }
-                if !self.showLoginPage{
-                    self.activeView
-                    if self.mainStates.showTab{
-                        TabBarView()
-                    }
-                    
-                    if self.mainStates.loading{
-                        LoadingView()
-                    }
+            }
+            if !self.showLoginPage{
+                self.activeView
+                if self.mainStates.showTab{
+                    TabBarView()
                 }
                 
-            }.edgesIgnoringSafeArea(.all)
-
-            .navigationTitle("")
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden(true)
-        }.frame(width: totalWidth,height:totalHeight).edgesIgnoringSafeArea(.all)
+                if self.mainStates.loading{
+                    LoadingView()
+                }
+            }
+            
+        }.edgesIgnoringSafeArea(.all)
+        
+        //            .navigationTitle("")
+        //            .navigationBarHidden(true)
+        //            .navigationBarBackButtonHidden(true)
+        //        }
+        .frame(width: totalWidth,height:totalHeight).edgesIgnoringSafeArea(.all)
         .onAppear(perform: self.onAppear)
         .onChange(of: self.locationManager.locationUpdated, perform: self.locationUpdate(update:))
         

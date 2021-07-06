@@ -48,23 +48,24 @@ struct ArtViewCard:View{
     }
     
     var body: some View{
-        GeometryReader{g in
-            let minX = g.frame(in: .global).minX
-            let maxX = g.frame(in: .global).maxX
-            let w = g.frame(in: .local).width
-            let h = g.frame(in: .local).height
-            
-            if minX <= totalWidth && maxX >= 0{
-                ImageView(url: self.cardData.img,heading: self.cardData.title, width: w, height: h, contentMode: .fill, alignment: .center, autoHeight: false,headingSize: 25)
-            }else{
-                Color.clear
-                    .frame(width: w, height: h, alignment: .center)
-            }
+//        GeometryReader{g in
+//            let minX = g.frame(in: .global).minX
+//            let maxX = g.frame(in: .global).maxX
+//            let w = g.frame(in: .local).width
+//            let h = g.frame(in: .local).height
+//
+//            if minX <= totalWidth && maxX >= 0{
+        ImageView(url: self.cardData.img,heading: self.cardData.title, width: cardSize.width, height: cardSize.height, contentMode: .fill, alignment: .center, autoHeight: false,headingSize: 25)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+//            }else{
+//                Color.clear
+//                    .frame(width: w, height: h, alignment: .center)
+//            }
             
         
-            
-        }.frame(width: self.cardSize.width, height: self.cardSize.height, alignment: .center)
-        .clipShape(RoundedRectangle(cornerRadius: 20))
+//
+//        }.frame(width: self.cardSize.width, height: self.cardSize.height, alignment: .center)
+//        .clipShape(RoundedRectangle(cornerRadius: 20))
             
     }
     
