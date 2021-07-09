@@ -17,19 +17,15 @@ struct AVSData{
 
 struct AVScrollView: View {
     var data:[AVSData] = []
-    @State var scroll:Int = 0
-    @State var offset:CGFloat = 0.0
+    @StateObject var IMD:ImageDownloader
+    @StateObject var SP:swipeParams
     var cardView:AnyView? = nil
 
-    init(attractions attr:[AVSData]? = nil,cardView:AnyView? = nil){
-        if let attr = attr{
-            self.data = attr
-        }else{
-            let test = attractionExample.map({AVSData(img: $0.photo?.images?.original?.url, title: $0.name, subtitle: nil, data: $0 as Any?)})
-            self.data = test
-            self.data.append(contentsOf: test)
-        }
+    init(attractions attr:[AVSData],cardView:AnyView? = nil){
+        self.data = attr
         self.cardView = cardView
+        self._IMD = StateObject(wrappedValue: .init(urls: attr.compactMap({$0.img}), mode: "multiple", quality: .low))
+        self._SP = StateObject(wrappedValue: .init(0, attr.count, 100))
     }
     
     let cardSize:CGSize = .init(width: totalWidth * 0.6, height: totalHeight * 0.5)
@@ -41,13 +37,14 @@ struct AVScrollView: View {
             GeometryReader{ g -> AnyView in
                 let local = g.frame(in: .local)
 //                let global = g.frame(in: .global)
-                let selected = self.scroll == idx
+                let selected = self.SP.swiped == idx
                 let w = local.width
                 let h = local.height
-                let scale:CGFloat = selected ? 1 : 0.9
+                let scale:CGFloat = selected ? 1.05 : 0.9
                 
                 let view = ZStack(alignment: .bottom) {
-                    ImageView(url: data.img,width: w, height: h, contentMode: .fill, alignment: .center)
+//                    ImageView(img: self.IMD.images[data.img ?? ""],width: w, height: h, contentMode: .fill, alignment: .center)
+                    ImageView(url: data.img, width: w, height: h, contentMode: .fill, alignment: .center)
                     
                     if selected{
                         ZStack(alignment: .bottom){
@@ -63,6 +60,10 @@ struct AVScrollView: View {
                 .shadow(radius: selected ? 10 : 0)
                 .scaleEffect(scale)
                 .opacity(selected ? 1 : 0.2)
+                .gesture(DragGesture().onChanged(self.SP.onChanged(ges_value:)).onEnded(self.SP.onEnded(ges_value:)))
+                .onTapGesture {
+                    self.SP.swiped = idx
+                }
                 
                 return AnyView(view)
                 
@@ -76,27 +77,29 @@ struct AVScrollView: View {
     
 
     var scrolledOffset:CGFloat{
-        let off =  CGFloat(self.scroll >= 2 ? 2 : self.scroll < 0 ? 0 : self.scroll) * -(self.cardSize.width) - 10
+        let off =  CGFloat(self.SP.swiped >= 2 ? 2 : self.SP.swiped < 0 ? 0 : self.SP.swiped) * -(self.cardSize.width) - 10
         return off
     }
     
     
-    
-    func onChanged(value:DragGesture.Value){
-        self.offset = value.translation.width
-    }
-    
-    func onEnded(value:DragGesture.Value){
-        let condition = self.scroll >= 0 && self.scroll <= self.data.count - 1
-        let w = value.translation.width
-        let add = self.scroll + (w < 0 ? 1 : -1)
-        if condition{
-            if abs(w) > 100 && add >= 0 && add <= self.data.count - 1{
-                self.scroll = add
-            }
-        }
-        self.offset = 0
-    }
+//
+//    func onChanged(value:DragGesture.Value){
+//        self.SP.extraOffset = value.translation.width
+//    }
+//
+//    func onEnded(value:DragGesture.Value){
+//        let condition = self.SP.swiped >= 0 && self.SP.swiped <= self.data.count - 1
+//        let w = value.translation.width
+//        let add = self.SP.swiped + (w < 0 ? 1 : -1)
+//        //        DispatchQueue.main.async {
+//        if condition{
+//            if abs(w) > 100 && add >= 0 && add <= self.data.count - 1{
+//                self.SP.swiped = add
+//            }
+//        }
+//        self.SP.extraOffset = 0
+//        //        }
+//    }
     
     var v2:some View{
         HStack(alignment: .center, spacing: 0){
@@ -105,7 +108,7 @@ struct AVScrollView: View {
                 let attr = _attr.element
                 let idx = _attr.offset
                 
-                if idx >= self.scroll - 2 && idx <= self.scroll + 2{
+                if idx >= self.SP.swiped - 2 && idx <= self.SP.swiped + 2{
                     self.imgView(idx:idx,data: attr)
                 }
             }
@@ -115,8 +118,7 @@ struct AVScrollView: View {
         .frame(width:totalWidth,height: cardSize.height * 1.15 ,alignment: .leading)
         .padding(.leading,10)
         .offset(x: self.scrolledOffset)
-        .offset(x: self.offset)
-        .gesture(DragGesture().onChanged(self.onChanged(value:)).onEnded(self.onEnded(value:)))
+        .offset(x: self.SP.extraOffset)
         .animation(.easeInOut(duration: 0.65))
     }
     
@@ -125,8 +127,8 @@ struct AVScrollView: View {
     }
 }
 
-struct AVScrollView_Previews: PreviewProvider {
-    static var previews: some View {
-        AVScrollView()
-    }
-}
+//struct AVScrollView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AVScrollView()
+//    }
+//}

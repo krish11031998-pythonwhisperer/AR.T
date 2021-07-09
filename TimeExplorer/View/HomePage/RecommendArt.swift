@@ -10,11 +10,12 @@ import SwiftUI
 struct RecommendArt: View {
     var data:[AVSData] = []
     @EnvironmentObject var mainStates:AppStates
-    
+    @StateObject var IMD:ImageDownloader
     var tabSize:CGSize = .init(width: totalWidth * 0.7, height: totalHeight * 0.3)
     
     init(data:[AVSData]){
         self.data = data
+        self._IMD = StateObject(wrappedValue: .init(urls: data.compactMap({$0.img}), mode: "multiple", quality: .low))
     }
     
     func card(idx:Int) -> AnyView{
@@ -26,7 +27,9 @@ struct RecommendArt: View {
                     let w = g.frame(in: .local).width
                     let h = g.frame(in: .local).height
                     HStack(alignment: .bottom, spacing: 15){
-                        ImageView(url: data.img, width: w * 0.4, height: h , contentMode: .fill, alignment: .bottom)
+
+//                        ImageView(img: self.IMD.images[data.img ?? ""], width: w * 0.4, height: h , contentMode: .fill, alignment: .bottom)
+                        ImageView(url: data.img, width: w * 0.4, height: h, contentMode: .fill, alignment: .bottom)
                                 .clipShape(RoundedRectangle(cornerRadius: 20))
 //                            .shadow(color: .black.opacity(0.5), radius: 10, x: 0, y: 2)
                         VStack(alignment: .leading, spacing: 10) {
@@ -58,7 +61,9 @@ struct RecommendArt: View {
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            self.grid
+//            if !self.IMD.loading && self.IMD.images.count > 0{
+                self.grid
+//            }
         }
     }
 }

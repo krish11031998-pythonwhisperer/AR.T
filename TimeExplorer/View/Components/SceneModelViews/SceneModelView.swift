@@ -18,7 +18,7 @@ struct SceneModelView: View {
     var img_url_str:String?
     @EnvironmentObject var viewStates:ArtViewStates
     @StateObject var mdD:ARModelDownloader = .init()
-    @StateObject var IMD:ImageDownloader = .init()
+    @StateObject var IMD:ImageDownloader = .init(quality:.highest)
     @State var scene:SCNScene? = nil
     @Binding var player:AVPlayer?
     @State var idx:Int = 1

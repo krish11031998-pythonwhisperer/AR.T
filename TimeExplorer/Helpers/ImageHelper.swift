@@ -235,18 +235,24 @@ class ImageDownloader:ObservableObject{
 //    @Published var image:UIImage = .stockImage
     @Published var image:UIImage?
     @Published var images:[String : UIImage] = [:]
-    @Published var loading:Bool = true
+    @Published var loading:Bool = false
     @Published var mode:String = "single"
     var cancellable = Set<AnyCancellable>()
     static var shared:ImageDownloader = .init()
+    var quality:JPEGQuality
     
     
-    init(url:String? = nil,mode:String = "single"){
-        self.url = url ?? ""
+    init(url:String? = nil,urls:[String]? = nil,mode:String = "single",quality:JPEGQuality = .medium){
+//        self.url = url ?? ""
+        self.mode = mode
+        self.quality = quality
         if let safeURL = url{
             self.getImage(url: safeURL)
         }
-        self.mode = mode
+        if let safeURLS = urls{
+            self.getImages(urls: safeURLS)
+        }
+        
     }
     
     var aspectRatio:CGFloat{
@@ -270,7 +276,7 @@ class ImageDownloader:ObservableObject{
     }
     
     func parseImage(data: Data,url safeURL:URL){
-        guard let safeData = UIImage(data: data)?.jpeg(.low), let safeImage = UIImage(data: safeData) else {return}
+        guard let safeData = UIImage(data: data)?.jpeg(self.quality), let safeImage = UIImage(data: safeData) else {return}
         ImageCache.cache[URL(string: safeURL.absoluteString)!] = safeImage
         self.publishImage(url: safeURL.absoluteString, safeImage: safeImage)
         
@@ -298,6 +304,7 @@ class ImageDownloader:ObservableObject{
     }
     
     func getImage(url:String,crop:Bool=false,bounds:CGSize? = nil){
+        if !self.loading {self.loading = true}
         guard let _url = URL(string:url) else  {print("Something wrong with the url : \(url)");return}
         if let cachedImage = ImageCache.cache[_url]{
             self.publishImage(url: _url.absoluteString, safeImage: cachedImage)
@@ -308,14 +315,14 @@ class ImageDownloader:ObservableObject{
     
     func getImages(urls:[String]){
         let last = urls.count - 1
+//        if !self.loading {self.loading = true}
         for i in 0...last{
             self.getImage(url: urls[i])
-//            if i == last{
-//                DispatchQueue.main.async {
-//                    self.images = self.b_images
-//                    self.loading = false
-//                }
-//            }
+            if i == last{
+                DispatchQueue.main.async {
+                    self.loading = false
+                }
+            }
             
         }
 //        urls.forEach { (url) in

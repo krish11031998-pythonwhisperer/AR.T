@@ -58,6 +58,12 @@ class CAData:Codable{
     var thumbnail:String{
         return self.images?.web?.url ?? ""
     }
+    
+    var original:String{
+        return self.images?.print?.url ?? ""
+    }
+    
+    
     var PaintingInfo:[String:String]?{
         let data = self
         var details:[String:String] = [:]

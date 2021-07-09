@@ -24,15 +24,11 @@ struct AllArtView: View {
                         .padding(.leading,_art.offset == 0 ? 10 : 0)
                 }
             }
-                .padding(.vertical)
-            .frame(height: totalHeight * 0.4, alignment: .center)
-        }
+        }.padding(.vertical)
     }
     
     var body: some View {
-//        VStack(alignment: .leading, spacing: 10) {
-            self.artGenres
-//        }
+        self.artGenres
     }
 }
 
@@ -48,25 +44,8 @@ struct ArtViewCard:View{
     }
     
     var body: some View{
-//        GeometryReader{g in
-//            let minX = g.frame(in: .global).minX
-//            let maxX = g.frame(in: .global).maxX
-//            let w = g.frame(in: .local).width
-//            let h = g.frame(in: .local).height
-//
-//            if minX <= totalWidth && maxX >= 0{
         ImageView(url: self.cardData.img,heading: self.cardData.title, width: cardSize.width, height: cardSize.height, contentMode: .fill, alignment: .center, autoHeight: false,headingSize: 25)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
-//            }else{
-//                Color.clear
-//                    .frame(width: w, height: h, alignment: .center)
-//            }
-            
-        
-//
-//        }.frame(width: self.cardSize.width, height: self.cardSize.height, alignment: .center)
-//        .clipShape(RoundedRectangle(cornerRadius: 20))
-            
     }
     
 }

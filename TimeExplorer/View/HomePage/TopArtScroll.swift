@@ -17,21 +17,16 @@ class TASScrollParams:ObservableObject{
 struct TopArtScroll: View {
     var cardSize:CGSize = .init(width: totalWidth * 0.5, height: totalHeight * 0.4)
     @StateObject var SP:TASScrollParams = .init()
-    @StateObject var IMD:ImageDownloader = .init(mode:"multiple")
+//    @StateObject var IMD:ImageDownloader
+    //        self._IMD = StateObject(wrappedValue: .init(urls: data.compactMap({$0.img}), mode: "multiple", quality: .low))
     let cards:Int = 2
     var data:[AVSData] = []
     
     init(data:[AVSData]){
         self.data = data
+//        self._IMD = StateObject(wrappedValue: .init(urls: data.compactMap({$0.img}), mode: "multiple", quality: .low))
     }
     
-//    func onAppear(){
-//        if !self.data.isEmpty && self.IMD.loading{
-//            let urls = self.data.compactMap({$0.img})
-//            print("TopScroll urls : ",urls)
-//            self.IMD.getImages(urls: urls)
-//        }
-//    }
     
     var FancyHStack:some View{
         HStack(alignment: .center, spacing: 0){
@@ -44,16 +39,14 @@ struct TopArtScroll: View {
                 let skewX:Double = viewing ? 0 : (idx < self.SP.swiped ? 1 : -1) * 10
                 
                 if let img_url = data.img,idx >= self.SP.swiped - cards  && idx <= self.SP.swiped + cards{
-                    let img = self.IMD.images[img_url]
-                    ImageView(url: data.img, width: cardSize.width, height: cardSize.height, contentMode: .fill, alignment: .center,isHidden: !viewing)
-//                    ImageView(img:img, width: cardSize.width, height: cardSize.height, contentMode: .fill, alignment: .center,isHidden: !viewing)
+                    ImageView(url: img_url,heading: data.title, width: cardSize.width, height: cardSize.height, contentMode: .fill,alignment: .center, isPost: false,headingSize: 15, isHidden: !viewing)
+//                    ImageView(img: self.IMD.images[img_url],heading: data.title, width: cardSize.width, height: cardSize.height, contentMode: .fill,alignment: .center, isPost: false,headingSize: 15, isHidden: !viewing)
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                         .scaleEffect(idx == self.SP.swiped ? 1.2 : 1)
                         .frame(width: cardSize.width, height: cardSize.height, alignment: .center)
                         .rotation3DEffect(.init(degrees: .init(skewX)),axis: (x: 0.0, y: 1.0, z: 0.0))
                         .offset(x: isViewing ? self.SP.dy_off : x_off)
                         .zIndex(isViewing ? 1 : zInd > 0 ? -zInd : zInd)
-//                        .opacity(abs(self.SP.swiped - idx) > 2 ? 0  : 1)
                 }
             }
         }
@@ -61,15 +54,13 @@ struct TopArtScroll: View {
         .offset(x: self.SP.st_off)
         .animation(.easeInOut(duration: 0.5))
         .gesture(DragGesture().onChanged(self.onChanged(value:)).onEnded(self.onEnded(value:)))
-//        .onAppear(perform:self.onAppear)
     }
     
     
     var body: some View {
-//        LazyVStack{
-            self.FancyHStack
+        self.FancyHStack
             .padding(.vertical,50)
-//        }
+//            .onAppear(perform: self.onAppear)
     }
 }
 
@@ -78,6 +69,19 @@ extension TopArtScroll{
         self.SP.dy_off = value.translation.width
     }
     
+    var selectedArtDetail:AVSData?{
+        return self.SP.swiped < self.data.count ? self.data[self.SP.swiped] : nil
+    }
+    
+    var selectedArtInfo:some View{
+        VStack{
+            
+            if let data = self.selectedArtDetail{
+                MainText(content: data.title ?? "no Title", fontSize: 35, color: .white, fontWeight: .semibold)
+            }
+        }.padding()
+        .frame(width: totalWidth,alignment:.center)
+    }
     
     func onEnded(value:DragGesture.Value){
         let dragValue = value.translation.width
@@ -91,7 +95,8 @@ extension TopArtScroll{
     
     var spacerWidth:CGFloat{
         let w = (totalWidth - self.cardSize.width) * 0.5
-        return 2 * w * 0.5 + CGFloat(self.SP.swiped < cards ? 0 : self.SP.swiped - cards) * cardSize.width
+        return w + CGFloat(self.SP.swiped < cards ? 0 : self.SP.swiped - cards) * cardSize.width
+//        return w
     }
     
     func computeParams(idx:Int) -> (Bool,CGFloat,CGFloat,Double){

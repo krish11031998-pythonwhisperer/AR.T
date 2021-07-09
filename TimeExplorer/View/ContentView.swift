@@ -85,14 +85,12 @@ struct AppView: View {
         if let coord = self.locationManager.location?.coordinate{
             self.mainStates.coordinates = coord
             self.mainStates.LS.getCityName(coordinates: coord)
-//                self.mainStates.PAPI.getTopPosts(limit: 50)
             self.locationManager.locationUpdated = false
         }
 
     }
     
     var body: some View {
-        //        NavigationView{
         ZStack(alignment: .bottom){
             Color.primaryColor
             if self.showLoginPage{
@@ -112,11 +110,6 @@ struct AppView: View {
             }
             
         }.edgesIgnoringSafeArea(.all)
-        
-        //            .navigationTitle("")
-        //            .navigationBarHidden(true)
-        //            .navigationBarBackButtonHidden(true)
-        //        }
         .frame(width: totalWidth,height:totalHeight).edgesIgnoringSafeArea(.all)
         .onAppear(perform: self.onAppear)
         .onChange(of: self.locationManager.locationUpdated, perform: self.locationUpdate(update:))

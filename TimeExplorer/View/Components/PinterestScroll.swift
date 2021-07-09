@@ -78,9 +78,16 @@ struct PinterestScroll: View {
     
     var data:[AVSData]
     var equalSize:Bool
+    @StateObject var IMD:ImageDownloader = .init(mode: "multiple", quality: .low)
     init(data:[AVSData],equalSize:Bool = false){
         self.data = data
         self.equalSize = equalSize
+    }
+    
+    func onAppear(){
+        if self.IMD.images.isEmpty && !self.data.isEmpty{
+            self.IMD.getImages(urls: self.data.compactMap({$0.img}))
+        }
     }
     
     func singleCol(col_dir:String = "left",width w:CGFloat) -> some View{
@@ -89,9 +96,14 @@ struct PinterestScroll: View {
             ForEach(Array(self.data.enumerated()),id: \.offset) { _card in
                 let card = _card.element
                 let idx = _card.offset
-                
+                let img = self.IMD.images[card.img ?? ""] ?? .stockImage
+                let width = (w * 0.5 - 5)
+                let height = totalHeight * 0.3
                 if idx%2 == rem{
-                    PinterestScrollCard(data: card, width: w,height: totalHeight * 0.3,equalSize: true)
+//                    PinterestScrollCard(data: card, width: w,height: totalHeight * 0.3,equalSize: true)
+                    ImageView(img: img,heading: card.title, width: width, height: height, contentMode: .fill, alignment: .center,autoHeight: !self.equalSize ,isPost: true, headingSize: 13, isHidden: false)
+//                    ImageView(img:img ,heading: card.title, width: width, height: height, contentMode: .fill, alignment: .center, autoHeight: !self.equalSize,isPost: true,headingSize: 13)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
             }
         }
@@ -103,7 +115,21 @@ struct PinterestScroll: View {
             return AnyView(LazyVGrid(columns: [GridItem(.adaptive(minimum: (w * 0.5 - 5), maximum: (w * 0.5 - 5)), spacing: 10, alignment: .center)], alignment: .center, spacing: 10) {
                 ForEach(Array(self.data.enumerated()),id: \.offset) { _data in
                     let card = _data.element
-                    PinterestScrollCard(data: card, width: (w * 0.5 - 5),height: totalHeight * 0.3,equalSize: true)
+                    let img = self.IMD.images[card.img ?? ""] ?? .stockImage
+                    let width = (w * 0.5 - 5)
+                    let height = totalHeight * 0.3
+                    ZStack{
+                        if let url = card.img, let img = self.IMD.images[url]{
+                            ImageView(img: img,heading: card.title, width: width, height: height, contentMode: .fill, alignment: .center,autoHeight: !self.equalSize ,isPost: true, headingSize: 13, isHidden: false)
+                        }else{
+                            Color.black
+                            BlurView(style: .dark)
+                        }
+                    }.frame(width: width, height: height, alignment: .center).clipShape(RoundedRectangle(cornerRadius: 10))
+                    
+//                    ImageView(img:img ,heading: card.title, width: width, height: height, contentMode: .fill, alignment: .center, autoHeight: !self.equalSize,isPost: true,headingSize: 13)
+                        
+//                    PinterestScrollCard(data: card, width: (w * 0.5 - 5),height: totalHeight * 0.3,equalSize: true)
                 }
             })
         }else{
@@ -117,12 +143,14 @@ struct PinterestScroll: View {
     
     var body: some View {
         let w = totalWidth - 20
-//        LazyHStack(alignment: .top, spacing: 10) {
-//            self.singleCol(col_dir: "left", width: (w * 0.5 - 5))
-//            self.singleCol(col_dir: "right", width: (w * 0.5 - 5))
-//        }.padding()
-//        .frame(width: totalWidth, alignment: .center)
-        self.CollectiveImageView(w: w)
+        ZStack(alignment: .center) {
+            if !self.IMD.loading && !self.IMD.images.isEmpty{
+                self.CollectiveImageView(w: w)
+                    .padding(.vertical)
+            }
+        }.onAppear(perform: self.onAppear)
+        
+        
     }
 }
 

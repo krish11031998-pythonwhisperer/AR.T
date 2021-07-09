@@ -18,12 +18,7 @@ enum BlobIcons:String{
 
 
 struct ArtStoreMain: View {
-    var data:[AVSData]
     @EnvironmentObject var mainStates:AppStates
-    init(data:[AVSData] = Array.init(repeating: asm, count: 10)){
-        self.data = data
-    }
-    
     func ValueBlob(info:(String,String),color:Color,size:CGSize,font_size:(CGFloat,CGFloat) = (18,28),percent:(Int,Int)? = nil,img_name:BlobIcons = .btc) -> some View{
         let (heading,value) = info
         let w = size.width
@@ -62,27 +57,20 @@ struct ArtStoreMain: View {
         return view
     }
     
-//    var infoView:some View{
-//        VStack(alignment: .center, spacing: 15){
-//            SummaryView(header: "Summary")
-//            HStack {
-//                WeekBarChart(header: "Views",values: [25,45,60,10,30,79,91].shuffled())
-//                CircleChart(percent: 35, header: "Likes")
-//            }
-//            CurveChart(data: [45,25,10,60,30,79].shuffled())
-//            Spacer().frame(height: 200, alignment: .center)
-//        }.frame(width:totalWidth)
-//        
-//    }
     
     var posts:[AVSData]{
-        return self.mainStates.PAPI.posts.compactMap({!($0.isVideo ?? false) ? AVSData(img: $0.image?.first, title: $0.caption, subtitle: $0.user, data: $0) : nil})
+        return self.mainStates.CAAPI.artDatas.compactMap({ $0.thumbnail != "" ? AVSData(img: $0.thumbnail, title: $0.title, subtitle: $0.artistName, data: $0) : nil})
     }
     
     var body: some View {
-        AuctionArtView(data: self.posts)
-        .onAppear(perform: { self.mainStates.loading = false})
+        ZStack(alignment: .center) {
+            Color.black
+            if !self.posts.isEmpty{
+                AuctionArtView(data: self.posts)
+            }
+        }.onAppear(perform: { self.mainStates.loading = false})
         .onReceive(self.mainStates.PAPI.$posts, perform: { _ in self.mainStates.loading = false})
+        
     }
 }
 

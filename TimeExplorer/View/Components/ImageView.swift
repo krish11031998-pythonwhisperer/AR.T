@@ -11,7 +11,7 @@ struct ImageView:View{
     @EnvironmentObject var mainStates:AppStates
     @State var image:UIImage?
 //    @ObservedObject var IMD:ImageDownloader = .init()
-    @StateObject var IMD:ImageDownloader = .init()
+    @StateObject var IMD:ImageDownloader = .init(quality: .low)
     var url:String = ""
     var width:CGFloat
     var height:CGFloat
@@ -35,12 +35,16 @@ struct ImageView:View{
         self.isPost = isPost
         self.headingSize = headingSize
         self.isHidden = isHidden
+//        if let safeURL = url{
+//            self._IMD = StateObject(wrappedValue: ImageDownloader(url: safeURL, mode: "single", quality: .low))
+//        }
     }
     
     
-    init(img:UIImage? = nil,width:CGFloat = 300,height:CGFloat = 300,contentMode:ContentMode = .fill,alignment:Alignment = .center,isPost:Bool = false,headingSize:CGFloat = 35,isHidden:Bool = false){
+    init(img:UIImage? = nil,heading:String? = nil,width:CGFloat = 300,height:CGFloat = 300,contentMode:ContentMode = .fill,alignment:Alignment = .center,autoHeight:Bool = false,isPost:Bool = false,headingSize:CGFloat = 35,isHidden:Bool = false){
 //        self.img = img
         self._image = State(wrappedValue: img)
+        self.heading = heading
         self.width = width
         self.height = height
         self.contentMode = contentMode
@@ -52,8 +56,9 @@ struct ImageView:View{
     }
     
     func onAppear(){
-        if self.IMD.image == nil{
-            self.IMD.getImage(url: self.url,bounds: .init(width: self.width, height: self.height))
+        if self.url != "" && self.image == nil && self.IMD.image == nil && !self.IMD.loading{
+            print("ImageView onAppear Called")
+            self.IMD.getImage(url: url,bounds: .init(width: self.width, height: self.height))
         }
     }
     
@@ -70,8 +75,8 @@ struct ImageView:View{
         var h = self.autoHeight ? self.width/ar : _h == nil ? self.height : _h!
         h = self.autoHeight && h < 275 ? 275 : self.autoHeight && h > 300 ? 300 : h
         return ZStack(alignment: .center) {
-                Color.black
-                BlurView(style: .regular)
+                Color.black.aspectRatio(contentMode: .fill)
+                BlurView(style: .regular).aspectRatio(contentMode: .fill)
             if let safeImg = img{
                 Image(uiImage: safeImg)
                     .resizable()
@@ -80,12 +85,13 @@ struct ImageView:View{
                     .scaleEffect(loading ? 1.25 : 1)
                     .opacity(loading ? 0 : 1)
             }
-            if self.isHidden && !self.IMD.loading{
-                BlurView(style: .regular)
-            }
+            
             if self.heading != nil{
                 lightbottomShadow.frame(width: self.width, height:h, alignment: .center)
                 self.overlayView(h: h)
+            }
+            if self.isHidden && !self.IMD.loading{
+                BlurView(style: .regular)
             }
         }.frame(width: self.width,height: h)
 //        .onAppear(perform: self.onAppear)
@@ -98,8 +104,11 @@ struct ImageView:View{
                 VStack(alignment: .leading, spacing: 10) {
                     Spacer()
                     MainText(content: self.heading!, fontSize: self.headingSize, color: .white, fontWeight: .regular)
+                    RoundedRectangle(cornerRadius: 20).frame(width: w, height: 2, alignment: .center).foregroundColor(.white.opacity(0.35))
                     if self.isPost{
                         self.buttons(w: w, h: h)
+                    }else{
+                        Spacer().frame(height:25)
                     }
                 }
             }.padding()
@@ -109,26 +118,22 @@ struct ImageView:View{
     
     func buttons(w:CGFloat,h:CGFloat) -> some View{
         let size:CGSize = .init(width: self.width > totalWidth * 0.5 ? 20 : 10, height: self.width > totalWidth * 0.5 ? 20 : 10)
-        return VStack(alignment: .leading, spacing: 10) {
-            RoundedRectangle(cornerRadius: 20).frame(width: w, height: 2, alignment: .center).foregroundColor(.white.opacity(0.35))
-            HStack(alignment: .center, spacing: 25) {
-                SystemButton(b_name: "hand.thumbsup", b_content: "\(10)", color: .white,haveBG: false,size: size,bgcolor: .white) {
-                    print("pressed Like")
-                }
-                SystemButton(b_name: "bubble.left", b_content: "\(5)", color: .white,haveBG: false,size: size,bgcolor: .white) {
-                    print("pressed Comment")
-                }
-                Spacer()
-            }.padding(.leading,10)
-        }
+        
+        return HStack(alignment: .center, spacing: 25) {
+            SystemButton(b_name: "hand.thumbsup", b_content: "\(10)", color: .white,haveBG: false,size: size,bgcolor: .white) {
+                print("pressed Like")
+            }
+            SystemButton(b_name: "bubble.left", b_content: "\(5)", color: .white,haveBG: false,size: size,bgcolor: .white) {
+                print("pressed Comment")
+            }
+            Spacer()
+        }.padding(.leading,10)
     }
     
     var body: some View{
         self.imgView()
             .contentShape(RoundedRectangle(cornerRadius: 10))
             .onAppear(perform: self.onAppear)
-//            .onReceive(self.IMD.$image, perform: self.onReceive(img:))
-        
     }
     
 }

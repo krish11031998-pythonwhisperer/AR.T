@@ -135,7 +135,7 @@ struct TrendingMainView: View {
     
     func parseData(_ data:[CAData]){
         if !data.isEmpty{
-            let _data = data.compactMap({ TrendingCardData(image: $0.images?.web?.url, username: $0.artistName, mainText: $0.title, type: .art, data: ArtData(date: Date(), title:$0.title ?? "No Title", introduction: $0.wall_description ?? "Description",infoSnippets: $0.PaintingInfo, painterName: $0.artistName, thumbnail: $0.thumbnail), date: Date())})
+            let _data = data.compactMap({ TrendingCardData(image: $0.thumbnail, username: $0.artistName, mainText: $0.title, type: .art, data: ArtData(date: Date(), title:$0.title ?? "No Title", introduction: $0.wall_description ?? "Description",infoSnippets: $0.PaintingInfo, painterName: $0.artistName, thumbnail: $0.original), date: Date())})
             DispatchQueue.main.async {
                 self.data = _data
                 withAnimation(.easeInOut) {
@@ -203,7 +203,7 @@ struct TrendingMainView: View {
                     TourVerticalCardView(self.currentCard.data as? TourData ?? .init(), self.$showTour)
                         .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
-                if let data = self.currentCard.data as? ArtData,self.showArt{å
+                if let data = self.currentCard.data as? ArtData,self.showArt{
                     ArtScrollMainView(data: data,showArt: $showArt)
                         .transition(.move(edge: .bottom).combined(with: .opacity))
                         .environmentObject(self.mainStates)
