@@ -219,7 +219,7 @@ struct ArtView: View {
                 .background(BlurView(style: .dark))
                 .animation(.easeInOut)
                 .clipShape(Corners(rect: .bottomRight,size: .init(width: radius, height: radius))))
-        }else if let img = self.data.thumbnail{
+        }else if let img = self.data.model_img{
             view =  AnyView(SceneModelView(w: w, h: h, name: self.name, img_url_str: img, player: nil, handler: self.updateAfterSceneInteraction(name:vector:))
                 .environmentObject(viewStates)
                 .background(BlurView(style: .dark))

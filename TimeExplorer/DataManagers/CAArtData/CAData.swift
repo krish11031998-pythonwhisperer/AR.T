@@ -51,16 +51,20 @@ class CAData:Codable{
     var fun_fact:String?
     
     
-    var artistName:String{
-        return String(self.creators?.filter({$0.role != nil ? $0.role! == "artists" : false}).description.split(separator: "(").first ?? "No Name").stripSpaces()
+    var artistName:String?{
+        guard let artist_name = self.creators?.first?.description else {return nil}
+        let name_split = artist_name.split(separator: "(").first ?? "No Name"
+        
+//        return name_split.count > 2 ? Array(name_split[0...2]).joined(separator: " ") : name_split.joined(separator: " ")
+        return String(name_split).stripSpaces()
     }
     
-    var thumbnail:String{
-        return self.images?.web?.url ?? ""
+    var thumbnail:String?{
+        return self.images?.web?.url
     }
     
-    var original:String{
-        return self.images?.print?.url ?? ""
+    var original:String?{
+        return self.images?.print?.url
     }
     
     
@@ -94,6 +98,10 @@ class CAData:Codable{
         return details.keys.count == 0 ? nil : details
 }
 
+    func parseAVSData() -> AVSData?{
+        guard let img = self.thumbnail, let title = self.title, let subtitle = self.artistName else {return nil}
+        return AVSData(img: img, title: title, subtitle: subtitle, data: self)
+    }
 }
 
 

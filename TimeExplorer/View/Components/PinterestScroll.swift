@@ -96,12 +96,12 @@ struct PinterestScroll: View {
             ForEach(Array(self.data.enumerated()),id: \.offset) { _card in
                 let card = _card.element
                 let idx = _card.offset
-                let img = self.IMD.images[card.img ?? ""] ?? .stockImage
+                let img = self.IMD.images[card.img ?? ""]
                 let width = (w * 0.5 - 5)
                 let height = totalHeight * 0.3
                 if idx%2 == rem{
 //                    PinterestScrollCard(data: card, width: w,height: totalHeight * 0.3,equalSize: true)
-                    ImageView(img: img,heading: card.title, width: width, height: height, contentMode: .fill, alignment: .center,autoHeight: !self.equalSize ,isPost: true, headingSize: 13, isHidden: false)
+                    ImageView(img: img,heading: card.title, width: width, height: height, contentMode: .fill, alignment: .center ,isPost: true, headingSize: 13, isHidden: false)
 //                    ImageView(img:img ,heading: card.title, width: width, height: height, contentMode: .fill, alignment: .center, autoHeight: !self.equalSize,isPost: true,headingSize: 13)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
@@ -134,8 +134,8 @@ struct PinterestScroll: View {
             })
         }else{
             return AnyView(LazyHStack(alignment: .top, spacing: 10) {
-                self.singleCol(col_dir: "left", width: (w * 0.5 - 5))
-                self.singleCol(col_dir: "right", width: (w * 0.5 - 5))
+                self.singleCol(col_dir: "left", width: (w))
+                self.singleCol(col_dir: "right", width: (w))
             }.padding()
             .frame(width: totalWidth, alignment: .center))
         }

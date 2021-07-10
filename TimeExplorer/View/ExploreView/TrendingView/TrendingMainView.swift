@@ -123,7 +123,14 @@ struct TrendingMainView: View {
     }
 
     func onAppear(){
-        self.mainStates.toggleTab()
+        self.mainStates.loading = true
+        if !self.mainStates.showTab{
+            self.mainStates.showTab = true
+        }
+        self.downloadArtPainting()
+    }
+    
+    func getCAAPIData(){
         if !self.mainStates.CAAPI.artDatas.isEmpty{
             self.parseData(self.mainStates.CAAPI.artDatas)
         }else{
@@ -131,13 +138,27 @@ struct TrendingMainView: View {
         }
     }
     
+    func downloadArtPainting(){
+        FirebaseAPI.firebase_shared.getTopItems(limit: 5, collectionName: "paintings") { qs, err in
+            guard let qs = qs else {print(err?.localizedDescription ?? "Error");return}
+            if let arts = ArtAPI.shared.parseQueryDocuments(q: qs)?.compactMap({$0.parseVisualData()})
+            {
+                if arts.isEmpty {return}
+                DispatchQueue.main.async {
+                    self.data = arts
+                }
+                self.getCAAPIData()
+            }
+        }
+    }
     
     
     func parseData(_ data:[CAData]){
+        
         if !data.isEmpty{
-            let _data = data.compactMap({ TrendingCardData(image: $0.thumbnail, username: $0.artistName, mainText: $0.title, type: .art, data: ArtData(date: Date(), title:$0.title ?? "No Title", introduction: $0.wall_description ?? "Description",infoSnippets: $0.PaintingInfo, painterName: $0.artistName, thumbnail: $0.original), date: Date())})
+            let _data = data.compactMap({ TrendingCardData(image: $0.thumbnail, username: $0.artistName, mainText: $0.title, type: .art, data: ArtData(date: Date(), title:$0.title ?? "No Title", introduction: $0.wall_description ?? "Description",infoSnippets: $0.PaintingInfo, painterName: $0.artistName, thumbnail: $0.thumbnail,model_img: $0.original), date: Date())})
             DispatchQueue.main.async {
-                self.data = _data
+                self.data.append(contentsOf: _data)
                 withAnimation(.easeInOut) {
                     self.mainStates.loading = false
                 }
@@ -197,7 +218,8 @@ struct TrendingMainView: View {
 
     var body: some View {
         ZStack(alignment:.top){
-            if !self.data.isEmpty{
+            Color.black
+            if !self.data.isEmpty && !self.mainStates.loading{
                 self.ContentScroll(w: totalWidth, h: totalHeight)
                 if self.showTour{
                     TourVerticalCardView(self.currentCard.data as? TourData ?? .init(), self.$showTour)
@@ -212,7 +234,7 @@ struct TrendingMainView: View {
         }
         .frame(width: totalWidth, height: totalHeight, alignment: .top)
         .onAppear(perform: self.onAppear)
-        .onReceive(self.mainStates.CAAPI.$artDatas, perform: self.parseData)
+//        .onReceive(self.mainStates.CAAPI.$artDatas, perform: self.parseData)
         .navigationTitle("")
         .navigationBarHidden(true)
     }

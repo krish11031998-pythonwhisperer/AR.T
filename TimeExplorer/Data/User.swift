@@ -173,6 +173,7 @@ struct ArtData:Codable,Hashable,Identifiable,Loopable{
     var thumbnail:String?
     var annotations:[FIRAnnotationData]?
     var main_vid_url:String?
+    var model_img:String?
 //    var data:Any?
     
     func parseVisualData() -> TrendingCardData?{

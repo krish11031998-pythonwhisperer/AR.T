@@ -73,15 +73,23 @@ class CAAPI:ObservableObject{
     }
     
     
-    func getBatchArt(limit:Int = 50,department:String?=nil,type:String?=nil){
+    func getBatchArt(limit:Int = 50,department:String?=nil,type:String?=nil,skip:Int? = nil){
         url += "?"
+        
+        
         if let dpt = department{
-            url += "department=\(dpt)"
+            url += "department=\(dpt)&"
         }
         
         if let t = type{
-            url += "type=\(t)"
+            url += "type=\(t)&"
         }
+        
+        if let s = skip{
+            url += "skip=\(s)&"
+        }
+        
+        url += "has_image=1&limit=\(limit)"
         
         guard let url = URL(string: url) else {return}
         URLSession.shared.dataTaskPublisher(for: url)
@@ -110,7 +118,6 @@ class CAAPI:ObservableObject{
 
             
     }
-    
 }
 
 

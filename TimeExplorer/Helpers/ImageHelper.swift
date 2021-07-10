@@ -304,7 +304,9 @@ class ImageDownloader:ObservableObject{
     }
     
     func getImage(url:String,crop:Bool=false,bounds:CGSize? = nil){
-        if !self.loading {self.loading = true}
+        DispatchQueue.main.async {
+            if !self.loading {self.loading = true}
+        }
         guard let _url = URL(string:url) else  {print("Something wrong with the url : \(url)");return}
         if let cachedImage = ImageCache.cache[_url]{
             self.publishImage(url: _url.absoluteString, safeImage: cachedImage)

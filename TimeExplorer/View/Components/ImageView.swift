@@ -73,7 +73,7 @@ struct ImageView:View{
         let loading = self.image != nil ? false : self.IMD.loading
         let ar = UIImage.aspectRatio(img: img)
         var h = self.autoHeight ? self.width/ar : _h == nil ? self.height : _h!
-        h = self.autoHeight && h < 275 ? 275 : self.autoHeight && h > 300 ? 300 : h
+        h = self.autoHeight && h < 250 ? 250 : self.autoHeight && h > 350 ? 350 : h
         return ZStack(alignment: .center) {
                 Color.black.aspectRatio(contentMode: .fill)
                 BlurView(style: .regular).aspectRatio(contentMode: .fill)

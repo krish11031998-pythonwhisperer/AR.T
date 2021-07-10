@@ -19,6 +19,7 @@ enum BlobIcons:String{
 
 struct ArtStoreMain: View {
     @EnvironmentObject var mainStates:AppStates
+    @StateObject var ArtAPI:CAAPI = .init()
     func ValueBlob(info:(String,String),color:Color,size:CGSize,font_size:(CGFloat,CGFloat) = (18,28),percent:(Int,Int)? = nil,img_name:BlobIcons = .btc) -> some View{
         let (heading,value) = info
         let w = size.width
@@ -59,17 +60,29 @@ struct ArtStoreMain: View {
     
     
     var posts:[AVSData]{
-        return self.mainStates.CAAPI.artDatas.compactMap({ $0.thumbnail != "" ? AVSData(img: $0.thumbnail, title: $0.title, subtitle: $0.artistName, data: $0) : nil})
+        return self.ArtAPI.artDatas.compactMap({ $0.thumbnail != "" ? AVSData(img: $0.thumbnail, title: $0.title, subtitle: $0.artistName, data: $0) : nil})
+    }
+    
+    
+    func onAppear(){
+        self.mainStates.loading = true
+        self.ArtAPI.getBatchArt(limit: 50, skip: 100)
+    }
+    
+    func onReceive(output: [CAData]){
+        if !output.isEmpty{
+            self.mainStates.loading = false
+        }
     }
     
     var body: some View {
         ZStack(alignment: .center) {
             Color.black
-            if !self.posts.isEmpty{
+            if !self.posts.isEmpty && !self.mainStates.loading{
                 AuctionArtView(data: self.posts)
             }
-        }.onAppear(perform: { self.mainStates.loading = false})
-        .onReceive(self.mainStates.PAPI.$posts, perform: { _ in self.mainStates.loading = false})
+        }.onAppear(perform: self.onAppear)
+        .onReceive(self.ArtAPI.$artDatas, perform: self.onReceive(output:))
         
     }
 }
