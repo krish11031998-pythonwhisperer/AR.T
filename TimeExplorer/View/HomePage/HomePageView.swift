@@ -51,33 +51,7 @@ struct HomePageView: View {
         }
        
     }
-    
-    
-//    func subView(title:String) -> some View{
-//        var view = AnyView(Color.clear.frame(width: 0, height: 0, alignment: .center))
-//        let posts = self.posts.count < 10 ? self.posts : Array(self.posts[0...9])
-//        switch (title) {
-//            case "Trending Art": view = AnyView(TopArtScroll(data: Array(self.posts[1..<10])))
-////            case "Trending Art": view = AnyView(AVScrollView(attractions: Array(self.posts[1..<10])))
-//            case "Featured Art": view = AnyView(FeaturedArt(art: posts.first ?? asm))
-//            case "Highlights" : view = AnyView(AllArtView(genreData:  Array(self.posts[10..<20])))
-//            case "Recent" : view = AnyView(PinterestScroll(data: Array(self.posts[20..<30]),equalSize: true))
-////            case "Recent" : view = AnyView(TopArtScroll(data: Array(self.posts[20..<30])))
-//            case "Recommended", "Ones to Check Out" : view = AnyView(RecommendArt(data: Array(self.posts[30..<40])))
-//            case "Artists" : view = AnyView(ArtistView(data: posts))
-//            default: break;
-//        }
-//        return
-//            Group{
-//                MainText(content: title, fontSize: 30, color: .white, fontWeight: .bold, style: .normal)
-//                    .padding(.horizontal)
-//                    .frame(width: totalWidth, alignment: .leading)
-////                }
-//                view
-//            }
-//
-//    }
-//
+
     func subSectionHeader(title:String) -> some View{
         return MainText(content: title, fontSize: 30, color: .white, fontWeight: .bold, style: .normal)
             .padding(.horizontal)

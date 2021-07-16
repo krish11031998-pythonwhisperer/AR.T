@@ -34,14 +34,17 @@ extension AuctionArtView{
     
     
     var QuickBidSection:some View{
-        VStack(alignment: .leading, spacing: 10){
+        VStack(alignment: .leading, spacing: 15){
             MainText(content: "Top Bids", fontSize: 25, color: .white, fontWeight: .semibold)
-                .padding(.vertical)
-            TopPostView(posts: Array(self.data[0..<15]), animation: self.animation){
-                print("Pressed View More")
+//                .padding(.vertical)
+            HStack{
+                Spacer()
+                TopPostView(posts: Array(self.data[0..<15]), animation: self.animation){
+                    print("Pressed View More")
+                }
+                Spacer()
             }
-            
-        }
+        }.padding(.horizontal).frame(width: totalWidth, alignment: .leading)
     }
     
     var TrendingView:some View{

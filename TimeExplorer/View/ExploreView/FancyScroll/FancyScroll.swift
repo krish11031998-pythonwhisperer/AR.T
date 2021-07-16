@@ -53,7 +53,7 @@ struct FancyScroll: View {
     
     func showArt(value : Bool){
         if value && self.selectedArt == nil, let data = self.selectedArtData?.data as? CAData{
-            self.selectedArt = .init(date: Date(), title:data.title ?? "No Title", introduction: data.wall_description ?? "Description",infoSnippets: self.PaintingInfo, painterName: data.artistName, thumbnail: data.images?.print?.url)
+            self.selectedArt = .init(date: Date(), title:data.title ?? "No Title", introduction: data.wall_description ?? "Description",infoSnippets: self.PaintingInfo, painterName: data.artistName, thumbnail: data.thumbnail,model_img: data.original)
         }else if !value && self.selectedArt != nil{
             self.selectedArt = nil
         }

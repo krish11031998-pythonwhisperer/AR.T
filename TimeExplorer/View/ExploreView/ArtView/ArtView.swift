@@ -340,7 +340,8 @@ struct ArtView: View {
             }
             
             if self.viewAR{
-                ARMainView(name: self.name, url: self.data.model_url ?? "", show: $viewAR)
+                ARMainView(name: self.name, model_url: self.data.model_url, img_url: self.data.model_img, show: $viewAR)
+//                ARMainView(name: self.name, url: self.data.model_url ?? "", show: $viewAR)
                     .environmentObject(viewStates)
             }
             

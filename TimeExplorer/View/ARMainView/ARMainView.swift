@@ -6,19 +6,23 @@
 //
 
 import SwiftUI
+import ARKit
+import RealityKit
 
 struct ARMainView: View {
     @EnvironmentObject var sceneState: ArtViewStates
     @StateObject var mdlDM:ARModelDownloader = .init()
     var name:String
-    var url:String
+    var model_url:String?
+    var img_url:String?
     @Binding var show:Bool
     @State var cancel:Bool = true
     @State var placeModel:Bool = false
-    
-    init(name:String,url: String,show:Binding<Bool>){
+    @StateObject var IMD:ImageDownloader = .init()
+    init(name:String,model_url: String? = nil,img_url: String? = nil,show:Binding<Bool>){
         self.name = name
-        self.url = url
+        self.model_url = model_url
+        self.img_url = img_url
         self._show = show
     }
     
@@ -33,10 +37,25 @@ struct ARMainView: View {
     
     
     func onAppear(){
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250)) {
-            self.mdlDM.loadModel(name: self.name, url_string: self.url)
+        if let url = self.model_url{
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250)) {
+                self.mdlDM.loadModel(name: self.name, url_string: url)
+            }
+        }else if let url = self.img_url{
+//            let mesh = MeshResource.generatePlane(width: <#T##Float#>, depth: <#T##Float#>, cornerRadius: <#T##Float#>)
+            guard let model = ModelEntity.loadModelEntityFromImage(url: URL(string:url)) else {return}
+            DispatchQueue.main.async {
+                self.mdlDM.model = model
+                self.cancel = false
+            }
+            
         }
+        
     }
+    
+    
+//    func load
+    
     
     func onReceive(url:URL?){
         if url != nil{
@@ -73,7 +92,8 @@ struct ARMainView: View {
     
     var body: some View {
         ZStack{
-            ARViewContainer(url: self.$mdlDM.url, place: self.$placeModel)
+            ARViewContainer(url: self.$mdlDM.url, model: self.$mdlDM.model, place: self.$placeModel)
+//            ARViewContainer(model: self.$mdlDM.model, place: self.$placeModel)
                 .frame(width: totalWidth, height: totalHeight, alignment: .center)
             if !self.cancel{
                 self.ARControllerView

@@ -36,9 +36,16 @@ class FocusARView : ARView{
 struct ARViewContainer:UIViewRepresentable{
 
     @Binding var url:URL?
+    @Binding var model:ModelEntity?
     @Binding var place:Bool
     @State var attachedModel:Bool = false
     var annotations:[SCNVector3] = []
+    
+    init(url:Binding<URL?> = .constant(nil),model:Binding<ModelEntity?> = .constant(nil),place:Binding<Bool>){
+        self._url = url
+        self._model = model
+        self._place = place
+    }
     
     func makeUIView(context: Context) -> FocusARView {
         let view = FocusARView(frame: .zero)
@@ -58,12 +65,14 @@ struct ARViewContainer:UIViewRepresentable{
     }
     
     
-    func updateUIView(_ uiView: FocusARView, context: Context) {
-        if let url = self.url{
+    func loadFromURL(uiView: FocusARView){
+        if let url = self.url,let focus = uiView.focusEntity{
             
-            if let focus = uiView.focusEntity, !focus.isEnabled{
+            if !focus.isEnabled{
                 print("Received the model !")
-                focus.isEnabled = true
+                DispatchQueue.main.async {
+                    focus.isEnabled = true
+                }
             }
             
             if self.place && !self.attachedModel{
@@ -74,18 +83,74 @@ struct ARViewContainer:UIViewRepresentable{
             }
             
         }
-        
-        if let focusEntity = uiView.focusEntity,self.attachedModel && focusEntity.isEnabled{
-//            uiView.focusEntity?.isEnabled = false
-            focusEntity.isEnabled = false
+    }
+    
+    func loadFromModel(uiView: FocusARView){
+        if let model = self.model,let focus = uiView.focusEntity{
+            if !focus.isEnabled{
+                print("Received the model !")
+                DispatchQueue.main.async {
+                    focus.isEnabled = true
+                }
+            }
+            
+            
+            if self.place && !self.attachedModel{
+//                self.updateModel(view: uiView, url: url)
+                uiView.addModel(model: model, position: focus.position, scale: focus.scale)
+                DispatchQueue.main.async {
+                    self.attachedModel = true
+                }
+            }
+            
         }
-        
-//        if !self.annotations.isEmpty{
-//            self.annotations.forEach { vector in
-//                uiView.scene.
+    }
+    
+    func updateUIView(_ uiView: FocusARView, context: Context) {
+//        if let url = self.url{
+//
+//            if let focus = uiView.focusEntity, !focus.isEnabled{
+//                print("Received the model !")
+//                DispatchQueue.main.async {
+//                    focus.isEnabled = true
+//                }
 //            }
+//
+//            if self.place && !self.attachedModel{
+//                self.updateModel(view: uiView, url: url)
+//                DispatchQueue.main.async {
+//                    self.attachedModel = true
+//                }
+//            }
+//
 //        }
         
+        
+//        if let model = self.model,let focus = uiView.focusEntity{
+//            if !focus.isEnabled{
+//                print("Received the model !")
+//                DispatchQueue.main.async {
+//                    focus.isEnabled = true
+//                }
+//            }
+//
+//
+//            if self.place && !self.attachedModel{
+////                self.updateModel(view: uiView, url: url)
+//                uiView.addModel(model: model, position: focus.position, scale: focus.scale)
+//                DispatchQueue.main.async {
+//                    self.attachedModel = true
+//                }
+//            }
+//
+//        }
+        self.loadFromURL(uiView: uiView)
+        self.loadFromModel(uiView: uiView)
+        
+        
+        if let focusEntity = uiView.focusEntity,self.attachedModel && focusEntity.isEnabled{
+            focusEntity.isEnabled = false
+        }
     }
     
 }
