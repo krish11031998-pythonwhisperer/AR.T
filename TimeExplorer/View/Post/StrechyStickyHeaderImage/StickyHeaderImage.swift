@@ -28,21 +28,21 @@ struct StickyHeaderImage: View {
         self.curvedCorner = curvedCorner
     }
     
-    
+    func imgView(w:CGFloat,h:CGFloat) -> AnyView{
+        return AnyView(self.image != nil ? ImageView(img: self.image!, width: w, height: h, contentMode: .fill, alignment: .center) : ImageView(url: self.img_url, width: w, height: h, contentMode: .fill, alignment: .center))
+    }
 
     var body: some View {
         GeometryReader{g in
             let w = g.frame(in: .local).width
             let h = g.frame(in: .local).height
             let minY = g.frame(in: .global).minY
-            let img = self.image != nil ? self.image! : self.IMD.image
             let imgHeight = minY > 0 ? h + minY : h
             let y_off = -((minY > 0 ? minY : 0) + 20)
-            let curve = self.curvedCorner ? 30 : 0
+            let curve = self.curvedCorner ? 50 : 0
             
-            ImageView(img: img, width: w, height: imgHeight, contentMode: .fill)
+            self.imgView(w: w,h: imgHeight)
                 .clipShape(Corners(rect:[.bottomLeft,.bottomRight],size: .init(width: curve, height:curve)))
-//                .matchedGeometryEffect(id: self.id, in: self.animation)
                 .offset(y: y_off)
             
         }.frame(width: self.width, alignment: .center)

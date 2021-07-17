@@ -52,7 +52,7 @@ struct TourVerticalCardView: View {
                             .aspectRatio(contentMode: .fill)
                             .frame(width: w, alignment: .center)
                     }.padding(20)
-                }.frame(width: width, height: height, alignment: .center).clipShape(Corners(rect: [.bottomRight,.bottomLeft], size: .init(width: 30, height: 30)))
+                }.frame(width: width, height: height, alignment: .center).clipShape(Corners(rect: [.bottomRight,.bottomLeft], size: .init(width: 50, height: 50)))
             }.frame(width: w, height: h, alignment: .center).offset(y:-20)
         )
     }

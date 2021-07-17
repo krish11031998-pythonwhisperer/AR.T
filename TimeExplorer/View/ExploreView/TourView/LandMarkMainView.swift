@@ -160,7 +160,7 @@ struct LandMarkMainView: View {
         let size = self.viewSize
         return ZStack(alignment: .top) {
             
-            Image(uiImage: self.IMD.image)
+            Image(uiImage: self.IMD.image ?? .stockImage)
                 .resizable()
             
             BlurView(style: .dark)

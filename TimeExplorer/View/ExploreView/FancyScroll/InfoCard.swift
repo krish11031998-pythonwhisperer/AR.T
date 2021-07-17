@@ -27,6 +27,8 @@ struct InfoCard: View {
             return (heading:blog.headline ?? "No Headline",subheadline:"",name:blog.user ?? "No User",description: blog.articleText ?? "NO text")
         }else if let post = self.data.data as? PostData{
             return (heading: post.caption,subheadline:"",name:post.user ?? "", description: "")
+        }else if let art = self.data.data as? CAData{
+            return (heading: art.title ?? "No Name",subheadline:art.creation_date ??  "",name:art.creators?.first?.description ?? "No Name",description:art.wall_description ?? "No Description")
         }else{
             return nil
         }
@@ -34,13 +36,21 @@ struct InfoCard: View {
     
     func validText(str:String,options:(design:Font.Design,size:CGFloat,weight:Font.Weight)) -> AnyView?{
         if str != ""{
-            return AnyView(BasicText(content: str, fontDesign: options.design, size: options.size, weight: options.weight))
+//            return AnyView(BasicText(content: str, fontDesign: options.design, size: options.size, weight: options.weight))
+            return AnyView(MainText(content: str, fontSize: options.size, color: .white, fontWeight: options.weight))
         }
         return AnyView(Color.clear.frame(width: 1, height: 1, alignment: .center))
     }
     
     var closeButton:some View{
         VStack(alignment: .trailing, spacing: 10) {
+            
+            Spacer()
+        }
+    }
+    
+    var card: some View{
+        VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .center, spacing: 10){
                 Spacer()
                 SystemButton(b_name: "xmark", b_content: "", color: .white, haveBG: true, bgcolor: .black) {
@@ -48,28 +58,23 @@ struct InfoCard: View {
                         self.selectedCard = -1
                     }
                 }
-            }
-            Spacer()
-        }
-    }
-    
-    var card: some View{
-        VStack(alignment: .leading, spacing: 10) {
-            self.validText(str: self.info!.heading, options: (design: .serif, size: 20, weight: .regular))
+}.padding(.horizontal,10)
+            self.validText(str: self.info!.heading, options: (design: .serif, size: 30, weight: .regular))
                 .frame(width: width - 20, alignment: .leading)
-            self.validText(str: self.info!.subheadline, options: (design: .rounded, size: 15, weight: .regular))
-            self.validText(str: "by \(self.info!.name)", options: (design: .serif, size: 10, weight: .medium))
-            self.validText(str: self.info!.description, options: (design: .rounded, size: 12, weight: .regular))
+            self.validText(str: self.info!.subheadline, options: (design: .rounded, size: 17.5, weight: .regular))
+            self.validText(str: "by \(self.info!.name)", options: (design: .serif, size: 15, weight: .medium))
+//            self.validText(str: self.info!.description, options: (design: .rounded, size: 12, weight: .regular))
             Spacer()
             SystemButton(b_name: "arrow.right", b_content: "View", color: .white, haveBG: true, bgcolor: .black) {
                 self.showArt = true
-            }
+            }.padding(.horizontal,5)
         }
-        .padding()
-        .padding(.top,10)
+        .padding(.horizontal)
+        .padding(.vertical,20)
         .frame(width: width, height: height * 0.325, alignment: .center)
-        .background(Color.white)
-        .clipShape(ArcCorners(corner: .topRight, curveFactor: 0.05, cornerRadius: 10, roundedCorner: [.topRight,.topLeft]))
+//        .background(Color.white)
+        .background(Color.clear)
+//        .clipShape(ArcCorners(corner: .topRight, curveFactor: 0.05, cornerRadius: 10, roundedCorner: [.topRight,.topLeft]))
         .overlay(self.closeButton)
     }
     

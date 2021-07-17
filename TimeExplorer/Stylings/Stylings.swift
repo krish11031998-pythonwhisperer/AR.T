@@ -213,6 +213,21 @@ struct BarCurve:Shape{
 }
 
 
+struct GradientShadows:View{
+    
+    var color:Color
+    var mode:Color
+    init(color:Color,mode:Color = .white){
+        self.color = color
+        self.mode = mode
+    }
+    
+    var body: some View{
+        LinearGradient(gradient: .init(colors: [self.color,self.color.opacity(0.5),self.mode]), startPoint: .topLeading, endPoint: .bottomTrailing);
+    }
+    
+}
+
 struct Stylings_Previews: PreviewProvider {
     static var previews: some View {
         VStack{

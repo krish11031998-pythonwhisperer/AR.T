@@ -63,32 +63,6 @@ struct ArtView: View {
         }
     }
     
-    //MARK: - Footer
-//    func footer(w:CGFloat) -> some View{
-//        return HStack(alignment: .top, spacing: 20){
-//            if self.viewStates.mainTab > 0{
-//                SystemButton(b_name: "arrow.left", b_content: self.tabs[self.viewStates.mainTab - 1],color: .black) {
-//                    print("left button")
-//                    self.viewStates.mainTab -= 1
-//                }
-//            }else{
-//                Spacer()
-//            }
-//            MainText(content: self.tabs[self.viewStates.mainTab] , fontSize: 12.5,color: .black,fontWeight: .semibold,addBG: true)
-//                .padding()
-//            if self.viewStates.mainTab < self.tabs.count - 1{
-//                SystemButton(b_name: "arrow.right", b_content: self.tabs[self.viewStates.mainTab + 1],color: .black) {
-//                    print("right button")
-//                    self.viewStates.mainTab += 1
-//                }
-//            }else{
-//                Spacer()
-//            }
-//
-//        }.padding(.horizontal).frame(width: w, alignment: .center)
-//    }
-    
-    
     //MARK: - Sidebars
     
     func sideBar(w:CGFloat) -> some View{
@@ -236,13 +210,24 @@ struct ArtView: View {
     }
 
     //MARK: - SceneView
-    func sceneView(w:CGFloat,h:CGFloat) -> some View{
+    func sceneView(w:CGFloat,h:CGFloat) -> AnyView?{
+        var view:AnyView? = nil
         let radius = self.viewStates.inspect ? 0 : 15
-        return SceneModelView(w: w, h: h, name: self.name, url_str: self.data.model_url ?? "", player: nil, handler: self.updateAfterSceneInteraction(name:vector:))
-            .environmentObject(viewStates)
-            .background(BlurView(style: .dark))
-            .animation(.easeInOut)
-            .clipShape(Corners(rect: .bottomRight,size: .init(width: radius, height: radius)))
+        if let model_url  = self.data.model_url{
+            view =  AnyView(SceneModelView(w: w, h: h, name: self.name, model_url_str: model_url, player: nil, handler: self.updateAfterSceneInteraction(name:vector:))
+                .environmentObject(viewStates)
+                .background(BlurView(style: .dark))
+                .animation(.easeInOut)
+                .clipShape(Corners(rect: .bottomRight,size: .init(width: radius, height: radius))))
+        }else if let img = self.data.model_img{
+            view =  AnyView(SceneModelView(w: w, h: h, name: self.name, img_url_str: img, player: nil, handler: self.updateAfterSceneInteraction(name:vector:))
+                .environmentObject(viewStates)
+                .background(BlurView(style: .dark))
+                .animation(.easeInOut)
+                .clipShape(Corners(rect: .bottomRight,size: .init(width: radius, height: radius))))
+        }
+        return view
+        
     }
     
     func addAnnotationButton(w:CGFloat,h:CGFloat) -> some View{
@@ -305,7 +290,9 @@ struct ArtView: View {
     
     func mainScene(w:CGFloat = totalWidth,h:CGFloat = totalHeight) -> some View{
         return ZStack(alignment: .top){
-            self.sceneView(w: w, h: h)
+            if let safeSceneView = self.sceneView(w: w, h: h){
+                safeSceneView
+            }
             self.infoBody(w: w, h: h)
             if self.viewStates.inspect{
                 if self.viewStates.isEditting &&  self.viewStates.openModal{
@@ -353,7 +340,8 @@ struct ArtView: View {
             }
             
             if self.viewAR{
-                ARMainView(name: self.name, url: self.data.model_url ?? "", show: $viewAR)
+                ARMainView(name: self.name, model_url: self.data.model_url, img_url: self.data.model_img, show: $viewAR)
+//                ARMainView(name: self.name, url: self.data.model_url ?? "", show: $viewAR)
                     .environmentObject(viewStates)
             }
             
@@ -374,11 +362,6 @@ struct ArtView: View {
                 }
             }
             return AnyView (
-//                ZStack(alignment: .center) {
-//
-//                    self.mainBody(w: w, h: h)
-//
-//                }.frame(width: w, height: h, alignment: .center)
                 self.mainBody(w: w, h: h)
             )
             

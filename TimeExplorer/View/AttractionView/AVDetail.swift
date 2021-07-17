@@ -127,7 +127,7 @@ struct AVDetail: View {
     func mainImg() -> some View{
         
         
-        return Image(uiImage: self.ImD.image)
+        return Image(uiImage: self.ImD.image ?? .stockImage)
             .aspectRatio(self.aspectRatio,contentMode: .fill)
             .frame(width : totalWidth - 20, height: totalHeight * 0.45)
 //            .cornerRadius(25)

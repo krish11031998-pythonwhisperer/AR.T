@@ -29,18 +29,20 @@ struct ArtScrollMainView: View {
     
     func onChanged(value:DragGesture.Value){
         let height = value.translation.height
-        self.offset = height * 1.5
+        let val = value.location.y - value.startLocation.y
+        self.offset = val
     }
     
     func onEnded(value:DragGesture.Value){
-        let height = value.translation.height  * 1.5
+//        let height = value.translation.height  * 1.5
+        let height = self.offset
         var off:CGFloat = 0
         var val:Int = 0
         if abs(height) > totalHeight * 0.15{
             val = height > 0 ? -1 : 1
             if self.swiped + val <= self.no_cards - 1 && self.swiped + val >= 0{
                 self.swiped += val
-                print("swiped : \(self.swiped)")
+//                print("swiped : \(self.swiped)")
             }else if (self.swiped == 0 && height > 0) {
                 off = totalHeight
             }else if (self.swiped == self.no_cards - 1 && height < 0) {
@@ -54,17 +56,20 @@ struct ArtScrollMainView: View {
         return totalHeight * 0.1
     }
     
-    func activeViews(idx:Int,onChanged:((DragGesture.Value) -> Void)? = nil,onEnded:((DragGesture.Value) -> Void)? = nil) -> AnyView{
-        var view:AnyView = .init(Color.clear)
+    func closeFn(){
+        self.swiped -= 1
+    }
+    
+    func activeViews(idx:Int,onChanged:((DragGesture.Value) -> Void)? = nil,onEnded:((DragGesture.Value) -> Void)? = nil) -> AnyView?{
+        var view:AnyView? = nil
         switch(idx){
         case 0:
             view = AnyView(ScrollInfoCard(data: data,minY: $minY,showArt: $showArt,onChanged: onChanged ?? self.onChanged(value:),onEnded: onEnded ?? self.onEnded(value:)))
         case 1:
             view = AnyView(ArtView(data: data,onChanged:onChanged ?? self.onChanged(value:),onEnded: onEnded ?? self.onEnded(value:)))
         case 2:
-            view = AnyView(ArtTopFactView(data: self.data,ver_onChanged:onChanged ?? self.onChanged(value:),ver_onEnded:onEnded ?? self.onEnded(value:)))
-        case 3:
-            view = AnyView(ArtPageView(data: self.data,onChanged:onChanged ?? self.onChanged(value:),onEnded: onEnded ?? self.onEnded(value:)))
+            view = self.data.top_facts != nil ?  AnyView(ArtTopFactView(data: self.data,ver_onChanged:onChanged ?? self.onChanged(value:),ver_onEnded:onEnded ?? self.onEnded(value:))) : nil
+        case 3: view = AnyView(ArtStockView(data: .init(img: self.data.thumbnail, title: self.data.title, subtitle: self.data.painterName, data: self.data),close: self.$showArt,closeFn: self.closeFn))
         default:
             break
         }
@@ -79,12 +84,12 @@ struct ArtScrollMainView: View {
     }
     
     var views:[AnyView]{
-        let views = Array(0..<self.no_cards).map({self.activeViews(idx: $0)})
+        let views = Array(0..<self.no_cards).compactMap({self.activeViews(idx: $0)})
         return views
     }
     
     var body:some View{
-        return VStack(alignment: .center, spacing: 0) {
+        return LazyVStack(alignment: .center, spacing: 0) {
             ForEach(Array(self.views.enumerated()),id:\.offset){ _view in
 //                self.activeViews(idx: idx)
                 let view = _view.element
@@ -112,17 +117,5 @@ struct ArtScrollMainView: View {
                 self.mainStates.loading = false
             }
         })
-//        .onDisappear(perform: {
-//            if !self.mainStates.showTab && self.mainStates.tab != "attractions"{
-//                self.mainStates.showTab = true
-//            }
-//        })
-        
     }
 }
-
-//struct VScrollView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ArtScrollMainView()
-//    }
-//}

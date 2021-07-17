@@ -1,111 +1,107 @@
-//
-//  HomePageView.swift
-//  TimeExplorer
-//
-//  Created by Krishna Venkatramani on 27/05/2021.
-//
-
 import SwiftUI
 
 struct HomePageView: View {
-
     @EnvironmentObject var mainStates:AppStates
-    @StateObject var PAPI:PostAPI = .init()
+//    @StateObject var IMD:ImageDownloader = .init(mode: "multiple")
+    @StateObject var CAPI:CAAPI = .init()
     @Namespace var animation
     @State var chosenSection:String = ""
     @State var showSection:Bool = false
     @State var showArt:Bool = false
+    @State var posts:[AVSData] = []
+//    @State var loading:Bool = true
     
     func header(dim:CGSize) -> some View{
-        ZStack(alignment: .center){
-//            ImageView(img: .init(named: "user_bg"),width: dim.width,height: dim.height, contentMode: .fill, alignment: .bottom, testMode: true)
-            StickyHeaderImage(w: dim.width, h: dim.height, image: .init(named: "user_bg"), curvedCorner: true)
             HStack(alignment: .center, spacing: 10) {
                 VStack(alignment: .leading, spacing: 10, content: {
                     MainText(content: "Hi,", fontSize: 30, color: .white, fontWeight: .semibold, style: .normal)
                     MainText(content: "Krishna", fontSize: 45, color: .white, fontWeight: .semibold, style: .normal)
                 })
                 Spacer()
-                ImageView(img: nil, width: totalWidth * 0.2, height: totalWidth * 0.2, contentMode: .fill, alignment: .center, testMode: false)
+                ImageView(img: nil, width: totalWidth * 0.2, height: totalWidth * 0.2, contentMode: .fill, alignment: .center)
                     .clipShape(Circle())
-            }.padding()
-            
-        }.frame(width: dim.width, height: dim.height, alignment: .center)
+            }.padding().frame(width: dim.width, height: dim.height * 0.75, alignment: .center)
     }
     
     func topPostAction(){
-        withAnimation(.hero) {
-//            self.chosenSection = "posts"
+        withAnimation(.easeInOut) {
             self.showArt = true
         }
         
     }
+
     
-    func subView(title:String) -> some View{
-        var view = AnyView(Color.clear)
-        switch (title) {
-        case "Trending Art": view = AnyView(AVScrollView(attractions: Array.init(repeating: asm, count: 10)))
-        case "Featured Art": view = AnyView(FeaturedArt(art: test))
-//        case "Recent" : view = AnyView(TopPostView (animation: self.animation, self.topPostAction).padding(.top,50).frame(width: totalWidth, alignment: .center))
-        case "Recent" : view = AnyView(TopArtScroll(data: self.PAPI.posts.filter({!($0.isVideo ?? false)}).map({AVSData(img: $0.image?.first, title: $0.caption, data: $0)})))
-        default:
-            break
+    func onAppear(){
+        if !self.mainStates.CAAPI.artDatas.isEmpty{
+            self.parseData(self.mainStates.CAAPI.artDatas)
+        }else{
+            self.mainStates.CAAPI.getBatchArt()
         }
-        
-        return VStack(alignment: .leading, spacing: 5){
-            MainText(content: title, fontSize: 30, color: .black, fontWeight: .bold, style: .normal)
-                .padding()
-            view
-        }
-        
     }
     
-    
-    var mainBody:some View{
-        VStack(alignment: .leading, spacing: 10){
-            self.subView(title: "Featured Art")
-            self.subView(title: "Trending Art")
-            if !self.PAPI.posts.isEmpty{
-                self.subView(title: "Recent")
+    func parseData(_ data:[CAData]){
+        if !data.isEmpty{
+            let _data = data.compactMap({$0.images?.web?.url != nil ? AVSData(img: $0.images?.web?.url, title: $0.title, data: $0) : nil})
+            DispatchQueue.main.async {
+                self.posts = _data
+                withAnimation(.easeInOut) {
+                    self.mainStates.loading = false
+                }
             }
         }
+       
+    }
+
+    func subSectionHeader(title:String) -> some View{
+        return MainText(content: title, fontSize: 30, color: .white, fontWeight: .bold, style: .normal)
+            .padding(.horizontal)
+            .frame(width: totalWidth, alignment: .leading)
     }
     
     var body: some View {
-        GeometryReader{g in
-            let local = g.frame(in: .local)
-            let w = local.width
-            let h = local.height
-            ZStack(alignment: .center){
-                ScrollView(.vertical, showsIndicators: false){
-                    self.header(dim: .init(width: w, height: h * 0.35))
-                    self.mainBody
-                   
-                    Spacer().frame(height: 200)
-                }
-                if self.showArt{
-                    Color.clear.overlay(
-                        PVMain(cityName: "", showPost: .constant(false), tabstate: .constant(false), show: $showArt).matchedGeometryEffect(id: "postsViewMain", in: self.animation,properties: .position,anchor: .top)
-                    ).transition(.modal)
+        ScrollView(.vertical, showsIndicators: false){
+            VStack(spacing: 10){
+                self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
+                if !self.mainStates.loading && !self.posts.isEmpty{
+                    self.subSectionHeader(title: "Featured Art")
+                    FeaturedArt(art: posts.first ?? asm)
+                    self.subSectionHeader(title: "Trending")
+                    TopArtScroll(data: Array(self.posts[1..<10]))
+                    self.subSectionHeader(title: "On Your Radar")
+                    RecommendArt(data: Array(self.posts[20..<30]))
+                    self.subSectionHeader(title: "Recent")
+                    AVScrollView(attractions: Array(self.posts[30..<40]))
+                    self.subSectionHeader(title: "On Your Radar")
+                    AllArtView(genreData: Array(self.posts[40..<50]))
                 }
             }
-            
-            
-        }.frame(width: totalWidth, alignment: .center)
+            Spacer().frame(height: 200)
+        }
+        .background(Color.black)
         .edgesIgnoringSafeArea(.all)
-        .onAppear(perform: {
-            self.mainStates.loading = false
-            if self.PAPI.posts.isEmpty{
-                self.PAPI.getTopPosts(limit: 20)
-            }
-        })
-        .onChange(of: self.showArt, perform: { value in
-            print("Art Value : ",value)
-        })
-        .background(Color.white)
-       
+        .onAppear(perform: self.onAppear)
+        .onReceive(self.mainStates.CAAPI.$artDatas, perform: self.parseData)
+        .animation(.linear)
     }
 }
+
+extension HomePageView{
+    
+    func RecentArtView(data:[AVSData]) ->some View{
+        let w = totalWidth * 0.5 - 10
+        
+        return LazyVGrid(columns: [GridItem(.adaptive(minimum: w, maximum: w), spacing: 10, alignment: .center)], alignment: .center, spacing: 10) {
+            ForEach(Array(data.enumerated()),id: \.offset) { _data in
+                let d = _data.element
+                ImageView(url: d.img, heading: d.title, width: w, height: totalHeight * 0.35, contentMode: .fill, alignment: .center, isPost: true, headingSize: 12)
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
+            }
+        }.padding(.bottom)
+    }
+    
+}
+
+
 
 struct HomePageView_Previews: PreviewProvider {
     static var previews: some View {

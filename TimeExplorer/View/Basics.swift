@@ -15,7 +15,6 @@ enum TextStyle:String{
     case title = "SortsMillGoudy-Regular"
 //    case normal = "Avenir Next Medium"
     case normal = "Cochin"
-//    case normal = "ZillaSlab-Regular"
 }
 struct BasicText: View {
     
@@ -49,7 +48,7 @@ struct MainText: View {
     var fontWeight:Font.Weight
     var style:TextStyle
     var addBG:Bool
-    init(content:String,fontSize:CGFloat,color:Color = .white, fontWeight:Font.Weight = .medium,style:TextStyle = .normal,addBG:Bool = false){
+    init(content:String,fontSize:CGFloat,color:Color = .white, fontWeight:Font.Weight = .thin,style:TextStyle = .normal,addBG:Bool = false){
         self.content = content.stripSpaces().removeEndLine()
         self.fontSize = fontSize
         self.color = color
@@ -66,27 +65,30 @@ struct MainText: View {
      
     var textBody:AnyView{
         if style == .normal{
-            return AnyView(BasicText(content: self.content, fontDesign: .serif, size: self.fontSize, weight: self.fontWeight))
+            return AnyView(BasicText(content: self.content, fontDesign: .serif, size: self.fontSize, weight: self.fontWeight).foregroundColor(self.color))
         }else{
-            return AnyView(Text(self.content).font(self.font)
+            return AnyView(
+
+                Text(self.content)
+                    .font(self.style == .normal ? self.font : Font.system(.body, design: .serif))
                             .fontWeight(self.fontWeight)
-                            
+                            .foregroundColor(self.color)
             )
         }
     }
     
     var body: some View {
-        self.textBody
+        Text(self.content)
+            .font(self.style == .normal ? self.font : Font.system(.body, design: .serif))
+            .fontWeight(self.fontWeight)
             .foregroundColor(self.color)
-            .frame(alignment:.topLeading)
-            .padding(.horizontal,addBG ? 15 : 0)
-            .padding(.vertical,addBG ? 7.5 : 0)
+            .padding(.all,addBG ? 10 : 0)
             .background(addBG ? self.oppColor : .clear)
             .clipShape(RoundedRectangle(cornerRadius: addBG ? 20 : 0))
-//            .multilineTextAlignment(.leading)
             
     }
 }
+
 
 
 struct HeadingInfoText:View{
@@ -123,14 +125,15 @@ struct HeadingInfoText:View{
                 .font(.system(size: self.headingSize, weight: .bold, design: self.headingDesign))
                 .foregroundColor(self.headingColor)
                 .fontWeight(.bold)
-                .aspectRatio(contentMode: .fill)
+//                .aspectRatio(contentMode: .fill)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(self.haveBG ? 10 : 2.5)
                 .background(self.haveBG ? self.oppColor(color: self.headingColor) : .clear)
             Text(self.subhead)
                 .font(.system(size: self.subheadSize, weight: .semibold, design: self.subheadDesign))
                 .foregroundColor(self.subheadColor)
                 .fontWeight(.bold)
-                .aspectRatio(contentMode: .fill)
+//                .aspectRatio(contentMode: .fill)
                 .padding(self.haveBG ? 10 : 2.5)
                 .background(self.haveBG ? self.oppColor(color: self.subheadColor) : .clear)
         }

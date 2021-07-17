@@ -192,7 +192,7 @@ struct ImagePostView: View{
     
     var postImage:UIImage{
         get{
-            return self.postImg ?? self.IMD.image
+            return self.postImg ?? self.IMD.image ?? .stockImage
         }
     }
     

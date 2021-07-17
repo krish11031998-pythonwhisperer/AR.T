@@ -12,11 +12,11 @@ var AppWidth = totalWidth * 0.9
 var totalHeight = UIScreen.main.bounds.height
 extension Color{
     static var mainBGColor:Color = .init(red: 255, green: 255, blue: 255)
+    static var primaryColor:Color = .init(UIColor(hex: "#191A1DFF") ?? .white)
 }
 var baseURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
 var bottomShadow = LinearGradient(gradient: .init(colors: [.clear,.black]), startPoint: .top, endPoint: .bottom)
 var lightbottomShadow = LinearGradient(gradient: .init(colors: [.clear,Color.black.opacity(0.5)]), startPoint: .top, endPoint: .bottom)
-
 
 func overlayShadows(width w:CGFloat,height h:CGFloat) -> some View{
     return VStack{

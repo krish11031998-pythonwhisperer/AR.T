@@ -102,10 +102,11 @@ struct TopBlog:View{
         GeometryReader{g in
             let w = g.frame(in: .local).width
             let h = g.frame(in: .local).height
+            let img = self.IMD.image ?? .stockImage
             ZStack(alignment: .top) {
-                Image(uiImage: self.IMD.image)
+                Image(uiImage: img)
                     .resizable()
-                    .aspectRatio(self.IMD.image.aspectRatio(),contentMode: .fill)
+                    .aspectRatio(img.aspectRatio(),contentMode: .fill)
                     .frame(width: w, height: h, alignment: .center)
                     
                     
@@ -375,7 +376,7 @@ struct BlogVerticalListCard:View{
     
     func blogCard(minY:CGFloat,percent:CGFloat,imgHeight:CGFloat,contentHeight:CGFloat,width:CGFloat) -> some View{
         return VStack(alignment: .center, spacing: 0) {
-            Image(uiImage: self.IMD.image)
+            Image(uiImage: self.IMD.image ?? .stockImage)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: width, height: imgHeight, alignment: .center)

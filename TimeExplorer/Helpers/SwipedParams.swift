@@ -25,7 +25,7 @@ class swipeParams:ObservableObject,Equatable{
     
     var type:SliderType{
         get{
-            return self.type
+            return self._type
         }
         
         set{
@@ -46,6 +46,12 @@ class swipeParams:ObservableObject,Equatable{
         }
     }
     
+    func onChanged(ges_value:DragGesture.Value){
+        let value = self.type == .Carousel ? ges_value.translation.width : ges_value.translation.height
+        self.onChanged(value: value)
+    }
+    
+    
     func onEnded(value:CGFloat){
 //        print("end : \(self.end)")
         if abs(value) > self.thresValue{
@@ -64,5 +70,11 @@ class swipeParams:ObservableObject,Equatable{
         self.extraOffset = 0
 //        print("swiped : \(self.swiped)")
     }
+    
+    func onEnded(ges_value:DragGesture.Value){
+        let value = self.type == .Carousel ? ges_value.translation.width : ges_value.translation.height
+        self.onEnded(value: value)
+    }
+    
     
 }

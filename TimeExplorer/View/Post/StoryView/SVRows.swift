@@ -60,7 +60,7 @@ struct StoryCircle: View{
     }
     var body: some View{
         VStack(alignment:.center,spacing: 0){
-            Image(uiImage:self.IMD.image)
+            Image(uiImage:self.IMD.image ?? .stockImage)
                     .resizable()
                     .renderingMode(.original)
                     .aspectRatio(UIImage.aspectRatio(img: self.IMD.image),contentMode: .fill)

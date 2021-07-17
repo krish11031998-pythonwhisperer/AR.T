@@ -191,7 +191,7 @@ struct BlogCardMain: View{
     // "Swift Language"
     
     var mainCard:some View{
-        Image(uiImage: self.IMD.image)
+        Image(uiImage: self.IMD.image ?? .stockImage)
             .resizable()
             .aspectRatio(UIImage.aspectRatio(img: self.IMD.image),contentMode: .fill)
             .frame(width: self.width, height: self.height, alignment: .center)

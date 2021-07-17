@@ -23,7 +23,7 @@ struct ArtTopFactView: View {
         let height = value.translation.height
         
         if abs(width) > abs(height){
-            self.offset = height
+            self.offset = width
         }else{
             self.ver_onChanged(value)
         }
@@ -41,7 +41,7 @@ struct ArtTopFactView: View {
                 val = width > 0 ? -1 : 1
                 if self.swiped + val <= self.top_Facts.count - 1 && self.swiped + val >= 0{
                     self.swiped += val
-                    print("swiped : \(self.swiped)")
+//                    print("swiped : \(self.swiped)")
                 }
             }
             self.offset = 0

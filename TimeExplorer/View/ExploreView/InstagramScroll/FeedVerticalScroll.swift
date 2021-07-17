@@ -55,7 +55,7 @@ struct FeedVerticalScroll: View {
             val = height > 0 ? -1 : 1
             if self.swiped + val <= self.no_cards - 1 && self.swiped + val >= 0{
                 self.swiped += val
-                print("swiped : \(self.swiped)")
+//                print("swiped : \(self.swiped)")
             }else if (self.swiped == 0 && height > 0) {
                 off = totalHeight
             }else if (self.swiped == self.no_cards - 1 && height < 0) {

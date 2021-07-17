@@ -157,7 +157,7 @@ struct BlogCarsouselCard:View{
     @StateObject var IMD:ImageDownloader = .init()
     var body: some View{
         ZStack{
-            Image(uiImage: self.IMD.image)
+            Image(uiImage: self.IMD.image ?? .stockImage)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: width, height: height, alignment: .center)

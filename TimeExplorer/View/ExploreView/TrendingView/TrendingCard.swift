@@ -174,7 +174,7 @@ struct TrendingMainCard:View{
                 self.videoPlayerButton()
             }
 
-            MainText(content: "View", fontSize: 17.5, color: .black, fontWeight: .semibold, addBG: true)
+            MainText(content: "View", fontSize: 17.5, color: .black, fontWeight: .regular, addBG: true)
                 .onTapGesture(perform: self.onTap ?? self.dummyFunction)
                 .frame(alignment: .trailing)
             

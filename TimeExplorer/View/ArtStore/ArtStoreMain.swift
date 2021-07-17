@@ -18,26 +18,8 @@ enum BlobIcons:String{
 
 
 struct ArtStoreMain: View {
-    var data:[AVSData]
     @EnvironmentObject var mainStates:AppStates
-    init(data:[AVSData] = Array.init(repeating: asm, count: 10)){
-        self.data = data
-    }
-    
-    var auctionBuyView:some View{
-        VStack(alignment: .leading, spacing: 15){
-            MainText(content: "Auction", fontSize: 35, color: .black, fontWeight: .bold, style: .heading, addBG: false)
-            TopArtScroll(data: self.data)
-                .padding(.top,30)
-            self.infoView
-            Spacer()
-        }
-        .padding()
-        .padding(.top,50)
-        .frame(width: totalWidth, height: totalHeight, alignment: .center)
-    }
-    
-//    func ValueBlob(heading:String,value:String,color:Color,width w:CGFloat, height h:CGFloat,s1:CGFloat = 14,s2:CGFloat = 25,img_name:BlobIcons = .btc) -> some View{
+    @StateObject var ArtAPI:CAAPI = .init()
     func ValueBlob(info:(String,String),color:Color,size:CGSize,font_size:(CGFloat,CGFloat) = (18,28),percent:(Int,Int)? = nil,img_name:BlobIcons = .btc) -> some View{
         let (heading,value) = info
         let w = size.width
@@ -66,7 +48,6 @@ struct ArtStoreMain: View {
             ImageView(img: .init(named: img_name.rawValue), width: w * 0.3,height: h * 0.3, contentMode: .fill, alignment: .center)
                 .offset(x: w * 0.7)
                 .opacity(0.3)
-            
         }
         .padding()
         .frame(width: w, height: h, alignment: .leading)
@@ -77,50 +58,32 @@ struct ArtStoreMain: View {
         return view
     }
     
-    var infoView:some View{
-        let w = totalWidth - 20
-        let h = totalHeight - 20
-        
-        let cols = [GridItem(.flexible(minimum: w * 0.5), spacing: 10, alignment: .center),GridItem(.flexible(minimum: w * 0.5), spacing: 10, alignment: .center)]
-        
-        var view =
-            VStack(alignment: .leading, spacing: 10) {
-                BasicText(content: "Mona Lisa", fontDesign: .serif, size: 25, weight: .semibold)
-                    .foregroundColor(.black)
-                    .padding()
-                    .frame(width: w, alignment: .leading)
-                LazyVGrid(columns: cols, alignment: .center, spacing: 15) {
-                    self.ValueBlob(info: ("Current","\(25.0)"), color: .white,size: .init(width: w * 0.5, height: h * 0.125))
-                    self.ValueBlob(info: ("Difference","-\(0.025)"), color: .white,size: .init(width: w * 0.5, height: h * 0.125))
-                    self.ValueBlob(info: ("Views","\(25000)"), color: .white,size: .init(width: w * 0.5, height: h * 0.2),font_size: (18,28),percent: (2,-1),img_name: .view)
-                    self.ValueBlob(info: ("Likes","\(20000)"), color: .white,size: .init(width: w * 0.5, height: h * 0.2),font_size: (18,28),percent: (1,1),img_name: .likes)
-                }
-            }.padding()
-            .frame(width: totalWidth)
-        return view
+    
+    var posts:[AVSData]{
+        return self.ArtAPI.artDatas.compactMap({ $0.thumbnail != "" ? AVSData(img: $0.thumbnail, title: $0.title, subtitle: $0.artistName, data: $0) : nil})
     }
     
     
+    func onAppear(){
+        self.mainStates.loading = true
+        self.ArtAPI.getBatchArt(limit: 50, skip: 100)
+    }
     
-    public var lineChart:some View{
-        let myStyle = ChartStyle(backgroundColor: .clear, accentColor: .red, secondGradientColor: .red.opacity(0.5), textColor: .black, legendTextColor: .gray, dropShadowColor: .red)
-        return LineChartView(data: [8,23,54,32,12,37,7,23,43], title: "Title")
+    func onReceive(output: [CAData]){
+        if !output.isEmpty{
+            self.mainStates.loading = false
+        }
     }
     
     var body: some View {
         ZStack(alignment: .center) {
-            ScrollView(.vertical, showsIndicators: false) {
-                Spacer().frame(height: 75)
-                self.auctionBuyView
-//                self.lineChart
-                Spacer().frame(height: totalHeight * 0.3)
+            Color.black
+            if !self.posts.isEmpty && !self.mainStates.loading{
+                AuctionArtView(data: self.posts)
             }
-        }
-        .frame(width: totalWidth,height: totalHeight, alignment: .center)
-        .edgesIgnoringSafeArea(.all)
-        .onAppear(perform: {
-            self.mainStates.loading = false
-        })
+        }.onAppear(perform: self.onAppear)
+        .onReceive(self.ArtAPI.$artDatas, perform: self.onReceive(output:))
+        
     }
 }
 

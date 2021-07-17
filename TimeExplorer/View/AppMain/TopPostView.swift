@@ -8,24 +8,35 @@
 import SwiftUI
 
 struct TopPostView: View {
-    @StateObject var PAPI:PostAPI = .init()
+    @EnvironmentObject var mainStates:AppStates
+//    @StateObject var PAPI:PostAPI = .init()
     @State var currentIdx : Int = 0
-    @State var selectedPost:PostData? = nil
+    @State var selectedPost:AVSData? = nil
+    var posts:[AVSData]
     var viewMore:() -> Void
+    var cardView: ((AVSData,Binding<Int>,Binding<Bool>,Bool) -> AnyView)?
     @State var resetStack:Bool = false
     @State var rotationAngles:[Double] = []
     var animation:Namespace.ID
     
-    init(animation:Namespace.ID,_ viewMore: @escaping (() -> Void)){
+    init(posts:[AVSData] = [],animation:Namespace.ID,cardView:((AVSData,Binding<Int>,Binding<Bool>,Bool) -> AnyView)? = nil,_ viewMore: @escaping (() -> Void)){
         self.animation = animation
         self.viewMore = viewMore
+        self.posts = posts
+        self.cardView = cardView
+        self._rotationAngles = .init(wrappedValue: !posts.isEmpty ? Array(repeating: 1, count: posts.count).map({$0 * Double.random(in: -5.0...5.0)}) : [])
     }
     
-    var posts:[PostData]{
-        get{
-            return self.PAPI.posts.filter({!($0.isVideo ?? false)})
-        }
-    }
+//    var posts:[PostData]{
+//        get{
+//            return self._posts.isEmpty ? self.PAPI.posts.filter({!($0.isVideo ?? false)}) : self._posts
+//        }
+//    }
+    
+//    func onAppear(){
+//
+//    }
+    
     
     var PolaroidStack:some View{
         ZStack(alignment:.center){
@@ -36,32 +47,33 @@ struct TopPostView: View {
             .matchedGeometryEffect(id: "postsViewMain", in: self.animation,properties: .frame,anchor: .top)
             .transition(.invisible)
             ForEach(Array(self.posts.enumerated()).reversed(),id:\.offset){ _post in
-                let post = _post.element
+                let post = _post.element as AVSData
                 let idx = _post.offset
                 let current = idx == self.currentIdx
                 let diff = abs(idx - self.currentIdx)
                 let scale = 1 - CGFloat(diff <= 2 ? diff : 2) * 0.01
-                let isVideo = !(post.isVideo ?? false)
-//                if isVideo{
+                if idx <= self.currentIdx + 2{
                     PostCardView(post: post, selectedPost: self.$selectedPost, current: self.$currentIdx, reset:self.$resetStack,isTop:current)
-                            .scaleEffect(scale)
-                            .rotationEffect(.init(degrees: self.rotationAngles[idx]))
-//                }
-                
+                        .scaleEffect(scale)
+                        .rotationEffect(.init(degrees: idx < self.rotationAngles.count ? self.rotationAngles[idx] : 0))
+                }
+                    
             }
         }.animation(.interactiveSpring(response: 0.5, dampingFraction: 0.5, blendDuration: 0.5))
     }
     
     var body: some View {
         self.PolaroidStack
-            .onAppear(perform: {
-                if self.PAPI.posts.isEmpty{
-                    self.PAPI.getTopPosts(limit: 10)
-                }
-            })
-            .onReceive(self.PAPI.$posts) { (posts) in
-                self.rotationAngles = Array(repeating: 1, count: posts.count).map({$0 * Double.random(in: -3.0...3.0)})
-            }
+//            .onAppear(perform: {
+//                if self.posts.isEmpty{
+//                    self.PAPI.getTopPosts(limit: 10)
+//                }else{
+//                    self.rotationAngles = Array(repeating: 1, count: posts.count).map({$0 * Double.random(in: -3.0...3.0)})
+//                }
+//            })
+//            .onReceive(self.PAPI.$posts) { (posts) in
+//                self.rotationAngles = Array(repeating: 1, count: posts.count).map({$0 * Double.random(in: -3.0...3.0)})
+//            }
     }
 }
 
@@ -95,13 +107,15 @@ struct FinalCard:View{
 
 
 struct PostCardView:View{
-    var post:PostData
-    @Binding var selectedPost:PostData?
+//    var post:PostData
+    var post:AVSData
+    @Binding var selectedPost:AVSData?
     @Binding var current:Int
     @Binding var reset:Bool
     @State var offset:CGFloat = 0
     var isTop:Bool
-    init(post:PostData,selectedPost:Binding<PostData?>,current:Binding<Int>,reset:Binding<Bool>,isTop:Bool){
+//    init(post:PostData,selectedPost:Binding<PostData?>,current:Binding<Int>,reset:Binding<Bool>,isTop:Bool){
+    init(post:AVSData,selectedPost:Binding<AVSData?>,current:Binding<Int>,reset:Binding<Bool>,isTop:Bool){
         self.post = post
         self._selectedPost = selectedPost
         self._current = current
@@ -110,22 +124,22 @@ struct PostCardView:View{
     }
     
     
-    var postImage:String{
-        get{
-            var res:String = ""
-            if let url = self.post.image?.first{
-                res = url
-            }
-            return res
-        }
-    }
+//    var postImage:String{
+//        get{
+//            var res:String = ""
+//            if let url = self.post.image?.first{
+//                res = url
+//            }
+//            return res
+//        }
+//    }
     
     
     func ImageCaptionView(width w:CGFloat,height h:CGFloat) -> some View{
             return ZStack(alignment: .bottom){
-                ImageView(url:self.postImage,width: w,height: h,contentMode:.fill,alignment: .center,testMode: false)
+                ImageView(url:self.post.img,width: w,height: h,contentMode:.fill,alignment: .center)
                 lightbottomShadow.aspectRatio(contentMode: .fill)
-                BasicText(content: self.post.caption, fontDesign: .serif, size: 15, weight: .semibold)
+                BasicText(content: self.post.title ?? "No Title", fontDesign: .serif, size: 15, weight: .semibold)
                     .foregroundColor(.white)
                     .padding(20)
                     .frame(width: w, alignment: .leading)

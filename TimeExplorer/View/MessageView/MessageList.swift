@@ -105,7 +105,7 @@ struct MessageListCell:View{
             VStack(alignment: .leading, spacing: 10){
                 HStack(alignment: .center, spacing: 10) {
                     
-                    Image(uiImage: image)
+                    Image(uiImage: image ?? .stockImage)
                         .resizable()
                         .aspectRatio(ar, contentMode: .fill)
                         .frame(width: width * 0.2, height: height ,alignment: .center)
