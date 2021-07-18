@@ -3,4 +3,54 @@
    uuid = "13E8C019-CB6D-4B42-814A-50278EFAD420"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "301D880D-6C72-479D-B5F8-9A71F0655398"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TimeExplorer/Helpers/ImageHelper.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "308"
+            endingLineNumber = "308"
+            landmarkName = "unknown"
+            landmarkType = "0">
+            <Locations>
+               <Location
+                  uuid = "301D880D-6C72-479D-B5F8-9A71F0655398 - c7e9bcff083f784"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TimeExplorer.ImageDownloader.getImage(url: Swift.String, crop: Swift.Bool, bounds: Swift.Optional&lt;__C.CGSize&gt;) -&gt; ()"
+                  moduleName = "TimeExplorer"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/krishnavenkatramani/Desktop/Personal%20Folder/AR.T/TimeExplorer/Helpers/ImageHelper.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "308"
+                  endingLineNumber = "308"
+                  offsetFromSymbolStart = "1080">
+               </Location>
+               <Location
+                  uuid = "301D880D-6C72-479D-B5F8-9A71F0655398 - c7e9bcff083f784"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TimeExplorer.ImageDownloader.getImage(url: Swift.String, crop: Swift.Bool, bounds: Swift.Optional&lt;__C.CGSize&gt;) -&gt; ()"
+                  moduleName = "TimeExplorer"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/krishnavenkatramani/Desktop/Personal%20Folder/AR.T/TimeExplorer/Helpers/ImageHelper.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "308"
+                  endingLineNumber = "308"
+                  offsetFromSymbolStart = "1784">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

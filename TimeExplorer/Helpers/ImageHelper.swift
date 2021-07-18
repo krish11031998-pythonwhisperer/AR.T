@@ -232,7 +232,6 @@ class ImageDownloader:ObservableObject{
     var url:String = ""
     var asset:PHAsset? = nil
     var b_images:[String:UIImage] = [:]
-//    @Published var image:UIImage = .stockImage
     @Published var image:UIImage?
     @Published var images:[String : UIImage] = [:]
     @Published var loading:Bool = false
@@ -242,8 +241,7 @@ class ImageDownloader:ObservableObject{
     var quality:JPEGQuality
     
     
-    init(url:String? = nil,urls:[String]? = nil,mode:String = "single",quality:JPEGQuality = .medium){
-//        self.url = url ?? ""
+    init(url:String? = nil,urls:[String]? = nil,mode:String = "single",quality:JPEGQuality = .lowest){
         self.mode = mode
         self.quality = quality
         if let safeURL = url{
@@ -317,7 +315,6 @@ class ImageDownloader:ObservableObject{
     
     func getImages(urls:[String]){
         let last = urls.count - 1
-//        if !self.loading {self.loading = true}
         for i in 0...last{
             self.getImage(url: urls[i])
             if i == last{
@@ -327,10 +324,6 @@ class ImageDownloader:ObservableObject{
             }
             
         }
-//        urls.forEach { (url) in
-//            self.getImage(url: url)
-//        }
-        
     }
     
 }

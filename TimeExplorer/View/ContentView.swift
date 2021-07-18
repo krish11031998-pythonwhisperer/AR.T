@@ -56,7 +56,7 @@ struct AppView: View {
             case "post": view = AnyView(CameraView().onAppear {self.mainStates.toggleTab()}.onDisappear {self.mainStates.toggleTab()})
             case "blogs": view = AnyView(ArtStoreMain())
             case "attractions": view = AnyView(FancyScrollMain())
-            case "profile": view = AnyView(UVMain().frame(height:totalHeight))
+        case "profile": view = AnyView(PortfolioMainView())
             default:
                 break
         }

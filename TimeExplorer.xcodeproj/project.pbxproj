@@ -61,6 +61,7 @@
 		BC645DDD2595124A0054F2FE /* MessageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC645DDC2595124A0054F2FE /* MessageData.swift */; };
 		BC645DE225951D0B0054F2FE /* MessageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC645DE125951D0B0054F2FE /* MessageList.swift */; };
 		BC67C27025307BAC00F1FC3C /* SVStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC67C26F25307BAC00F1FC3C /* SVStory.swift */; };
+		BC69423B26A32C6C003CE533 /* PortfolioMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC69423A26A32C6C003CE533 /* PortfolioMainView.swift */; };
 		BC69478A264DCB7000FE5FF1 /* ARHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC694789264DCB7000FE5FF1 /* ARHelpers.swift */; };
 		BC69478F264DE6D500FE5FF1 /* ARViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC69478E264DE6D500FE5FF1 /* ARViewHelper.swift */; };
 		BC694791264E5DF400FE5FF1 /* ARMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC694790264E5DF400FE5FF1 /* ARMainView.swift */; };
@@ -251,6 +252,7 @@
 		BC645DDC2595124A0054F2FE /* MessageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageData.swift; sourceTree = "<group>"; };
 		BC645DE125951D0B0054F2FE /* MessageList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageList.swift; sourceTree = "<group>"; };
 		BC67C26F25307BAC00F1FC3C /* SVStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVStory.swift; sourceTree = "<group>"; };
+		BC69423A26A32C6C003CE533 /* PortfolioMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortfolioMainView.swift; sourceTree = "<group>"; };
 		BC694789264DCB7000FE5FF1 /* ARHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARHelpers.swift; sourceTree = "<group>"; };
 		BC69478E264DE6D500FE5FF1 /* ARViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewHelper.swift; sourceTree = "<group>"; };
 		BC694790264E5DF400FE5FF1 /* ARMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARMainView.swift; sourceTree = "<group>"; };
@@ -556,6 +558,14 @@
 			path = StoryView;
 			sourceTree = "<group>";
 		};
+		BC69423926A32C6C003CE533 /* PortfolioPage */ = {
+			isa = PBXGroup;
+			children = (
+				BC69423A26A32C6C003CE533 /* PortfolioMainView.swift */,
+			);
+			path = PortfolioPage;
+			sourceTree = "<group>";
+		};
 		BC694786264DCA7000FE5FF1 /* Post */ = {
 			isa = PBXGroup;
 			children = (
@@ -769,6 +779,7 @@
 		BCAFD5142514C7160072F161 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BC69423926A32C6C003CE533 /* PortfolioPage */,
 				BC52DEAE265FDDB5009D7A4E /* HomePage */,
 				BCA1840D265EDF5B007C3845 /* ArtStore */,
 				BC694788264DCB6200FE5FF1 /* ARMainView */,
@@ -1304,6 +1315,7 @@
 				BC71E43C2699750A00EA03BF /* Array.swift in Sources */,
 				BC9A32472640304200882AB1 /* ArtScrollMainView.swift in Sources */,
 				BCAFD5062514C70B0072F161 /* TripAdvisorData.swift in Sources */,
+				BC69423B26A32C6C003CE533 /* PortfolioMainView.swift in Sources */,
 				BCD7C7FB2690955500077D89 /* SummaryView.swift in Sources */,
 				BC3DD5272539BE6900596F8F /* FireStoreAPI.swift in Sources */,
 				BC561D23261B9AD100130428 /* ImageView.swift in Sources */,

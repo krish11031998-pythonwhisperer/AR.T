@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ImageView:View{
-    @EnvironmentObject var mainStates:AppStates
+//    @EnvironmentObject var mainStates:AppStates
     @State var image:UIImage?
 //    @ObservedObject var IMD:ImageDownloader = .init()
     @StateObject var IMD:ImageDownloader = .init(quality: .low)
@@ -24,6 +24,7 @@ struct ImageView:View{
     var headingSize:CGFloat
     var isHidden:Bool
     let testMode:Bool = false
+    
     init(url:String?,heading:String? = nil,width:CGFloat = 300,height:CGFloat = 300,contentMode:ContentMode = .fill,alignment:Alignment = .center,autoHeight:Bool = false,isPost:Bool = false,headingSize:CGFloat = 35,isHidden:Bool = false){
         self.url = url ?? ""
         self.width = width
@@ -35,9 +36,6 @@ struct ImageView:View{
         self.isPost = isPost
         self.headingSize = headingSize
         self.isHidden = isHidden
-//        if let safeURL = url{
-//            self._IMD = StateObject(wrappedValue: ImageDownloader(url: safeURL, mode: "single", quality: .low))
-//        }
     }
     
     
@@ -52,7 +50,6 @@ struct ImageView:View{
         self.isPost = isPost
         self.headingSize = headingSize
         self.isHidden = isHidden
-//        self.onAppear()
     }
     
     func onAppear(){
@@ -61,26 +58,30 @@ struct ImageView:View{
             self.IMD.getImage(url: url,bounds: .init(width: self.width, height: self.height))
         }
     }
-    
-//    func onReceive(img:UIImage?){
-//        guard let safeImage = img else {return}
-//        self.image = safeImage
-//
-//    }
+        
+    func img_h(img:UIImage? = nil) -> CGFloat{
+        var h = self.height
+        let ar = UIImage.aspectRatio(img: img)
+        print("ar : \(ar)")
+        if self.autoHeight && img != nil{
+            h = self.width/ar
+            h = self.autoHeight && h < 250 ? h * 1.5  : h
+        }
+        print("img_h : \(h)")
+        return h
+    }
     
     func imgView(w _w:CGFloat? = nil,h _h:CGFloat? = nil) -> some View{
-        let img = (self.image != nil ? self.image : self.IMD.image)
+        let img =  self.image ?? self.IMD.image
         let loading = self.image != nil ? false : self.IMD.loading
-        let ar = UIImage.aspectRatio(img: img)
-        var h = self.autoHeight ? self.width/ar : _h == nil ? self.height : _h!
-        h = self.autoHeight && h < 250 ? 250 : self.autoHeight && h > 350 ? 350 : h
+        let h = self.img_h(img: img)
         return ZStack(alignment: .center) {
                 Color.black.aspectRatio(contentMode: .fill)
                 BlurView(style: .regular).aspectRatio(contentMode: .fill)
             if let safeImg = img{
                 Image(uiImage: safeImg)
                     .resizable()
-                    .aspectRatio(ar,contentMode: self.contentMode)
+                    .aspectRatio(contentMode: self.contentMode)
                     .frame(width: self.width,height: h)
                     .scaleEffect(loading ? 1.25 : 1)
                     .opacity(loading ? 0 : 1)
@@ -94,6 +95,7 @@ struct ImageView:View{
                 BlurView(style: .regular)
             }
         }.frame(width: self.width,height: h)
+//        }
 //        .onAppear(perform: self.onAppear)
     }
     
@@ -137,9 +139,3 @@ struct ImageView:View{
     }
     
 }
-//
-//struct ImageView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ImageView()
-//    }
-//}
