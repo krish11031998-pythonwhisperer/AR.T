@@ -134,8 +134,6 @@ extension ScrollInfoCard{
                 }
                 Spacer()
             }
-            
-            
         }.frame(width: w, height: h, alignment: .leading)
     }
 }

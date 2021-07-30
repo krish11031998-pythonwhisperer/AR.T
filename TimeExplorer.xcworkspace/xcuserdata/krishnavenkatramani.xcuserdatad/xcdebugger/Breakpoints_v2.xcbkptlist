@@ -7,47 +7,47 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "301D880D-6C72-479D-B5F8-9A71F0655398"
-            shouldBeEnabled = "Yes"
+            uuid = "C92B3C6D-E2C6-420B-B8CA-0B907CBB985E"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TimeExplorer/Helpers/ImageHelper.swift"
+            filePath = "TimeExplorer/View/HomePage/HomePageView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "308"
-            endingLineNumber = "308"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "125"
+            endingLineNumber = "125"
+            landmarkName = "artistArtView(data:)"
+            landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "301D880D-6C72-479D-B5F8-9A71F0655398 - c7e9bcff083f784"
+                  uuid = "C92B3C6D-E2C6-420B-B8CA-0B907CBB985E - 299073648f6a6098"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "TimeExplorer.ImageDownloader.getImage(url: Swift.String, crop: Swift.Bool, bounds: Swift.Optional&lt;__C.CGSize&gt;) -&gt; ()"
+                  symbolName = "TimeExplorer.HomePageView.artistArtView(data: Swift.Array&lt;TimeExplorer.AVSData&gt;) -&gt; some"
                   moduleName = "TimeExplorer"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/krishnavenkatramani/Desktop/Personal%20Folder/AR.T/TimeExplorer/Helpers/ImageHelper.swift"
+                  urlString = "file:///Users/krishnavenkatramani/Desktop/Trippin/AR.T/TimeExplorer/View/HomePage/HomePageView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "308"
-                  endingLineNumber = "308"
-                  offsetFromSymbolStart = "1080">
+                  startingLineNumber = "125"
+                  endingLineNumber = "125"
+                  offsetFromSymbolStart = "780">
                </Location>
                <Location
-                  uuid = "301D880D-6C72-479D-B5F8-9A71F0655398 - c7e9bcff083f784"
+                  uuid = "C92B3C6D-E2C6-420B-B8CA-0B907CBB985E - 4a22d2c8ab3d9515"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "TimeExplorer.ImageDownloader.getImage(url: Swift.String, crop: Swift.Bool, bounds: Swift.Optional&lt;__C.CGSize&gt;) -&gt; ()"
+                  symbolName = "closure #1 () -&gt; SwiftUI.ForEach&lt;Swift.Array&lt;Swift.Int&gt;, Swift.Int, TimeExplorer.ArtistArtView&gt; in TimeExplorer.HomePageView.artistArtView(data: Swift.Array&lt;TimeExplorer.AVSData&gt;) -&gt; some"
                   moduleName = "TimeExplorer"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/krishnavenkatramani/Desktop/Personal%20Folder/AR.T/TimeExplorer/Helpers/ImageHelper.swift"
+                  urlString = "file:///Users/krishnavenkatramani/Desktop/Trippin/AR.T/TimeExplorer/View/HomePage/HomePageView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "308"
-                  endingLineNumber = "308"
-                  offsetFromSymbolStart = "1784">
+                  startingLineNumber = "126"
+                  endingLineNumber = "126"
+                  offsetFromSymbolStart = "276">
                </Location>
             </Locations>
          </BreakpointContent>

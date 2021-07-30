@@ -2,7 +2,6 @@ import SwiftUI
 
 struct HomePageView: View {
     @EnvironmentObject var mainStates:AppStates
-//    @StateObject var IMD:ImageDownloader = .init(mode: "multiple")
     @StateObject var CAPI:CAAPI = .init()
     @Namespace var animation
     @State var chosenSection:String = ""
@@ -32,14 +31,13 @@ struct HomePageView: View {
 
     
     func onAppear(){
-        if !self.mainStates.CAAPI.artDatas.isEmpty{
-            self.parseData(self.mainStates.CAAPI.artDatas)
-        }else{
-            self.mainStates.CAAPI.getBatchArt()
+        if let data = self.mainStates.getArt(limit: 80){
+            self.parseData(data)
         }
     }
     
-    func parseData(_ data:[CAData]){
+    func parseData(_ data:[CAData]?){
+        guard let data = data else {return}
         if !data.isEmpty{
             let _data = data.compactMap({$0.images?.web?.url != nil ? AVSData(img: $0.images?.web?.url, title: $0.title, data: $0) : nil})
             DispatchQueue.main.async {
@@ -49,7 +47,6 @@ struct HomePageView: View {
                 }
             }
         }
-       
     }
 
     func subSectionHeader(title:String) -> some View{
@@ -58,21 +55,31 @@ struct HomePageView: View {
             .frame(width: totalWidth, alignment: .leading)
     }
     
+    func subView(title:String) -> AnyView{
+        var view:AnyView = AnyView(Color.clear)
+        switch title{
+            case "Featured Art": view = AnyView(FeaturedArt(art: posts.first ?? asm).padding(.bottom,10))
+            case "Trending": view = AnyView(TopArtScroll(data: Array(self.posts[1..<10])))
+            case "On Your Radar": view = AnyView(RecommendArt(data: Array(self.posts[20..<30])))
+            case "Recent" : view = AnyView(AVScrollView(attractions: Array(self.posts[30..<40]),haveTimer: true))
+            case "Genre": view = AnyView(AllArtView(genreData: Array(self.posts[40..<45])))
+            case "Hightlight of the Day": view = AnyView(HighlightView(data: Array(self.posts[45..<50])))
+            case "Recommended Bids" : view = AnyView(self.BidArt(data: Array(self.posts[50..<60])))
+            case "Artists": view = AnyView(self.artistArtView(data: Array(self.posts[60...])))
+            default: break
+        }
+        return view
+    }
+    var sections:[String] = ["Featured Art","Trending","Hightlight of the Day","On Your Radar","Recommended Bids","Recent","Genre","Artists"]
+    
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
-            VStack(spacing: 10){
-                self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
-                if !self.mainStates.loading && !self.posts.isEmpty{
-                    self.subSectionHeader(title: "Featured Art")
-                    FeaturedArt(art: posts.first ?? asm)
-                    self.subSectionHeader(title: "Trending")
-                    TopArtScroll(data: Array(self.posts[1..<10]))
-                    self.subSectionHeader(title: "On Your Radar")
-                    RecommendArt(data: Array(self.posts[20..<30]))
-                    self.subSectionHeader(title: "Recent")
-                    AVScrollView(attractions: Array(self.posts[30..<40]))
-                    self.subSectionHeader(title: "On Your Radar")
-                    AllArtView(genreData: Array(self.posts[40..<50]))
+            self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
+            if !self.mainStates.loading && !self.posts.isEmpty{
+                ForEach(self.sections, id:\.self) { title in
+                    self.subSectionHeader(title: title).padding(.top,5)
+                    self.subView(title: title)
+                        .padding(.bottom,5)
                 }
             }
             Spacer().frame(height: 200)
@@ -80,8 +87,7 @@ struct HomePageView: View {
         .background(Color.black)
         .edgesIgnoringSafeArea(.all)
         .onAppear(perform: self.onAppear)
-        .onReceive(self.mainStates.CAAPI.$artDatas, perform: self.parseData)
-        .animation(.linear)
+        .onReceive(self.mainStates.TabAPI[self.mainStates.tab]!.$artDatas, perform: self.parseData)
     }
 }
 
@@ -97,6 +103,36 @@ extension HomePageView{
                     .clipShape(RoundedRectangle(cornerRadius: 15))
             }
         }.padding(.bottom)
+    }
+    
+    
+    func BidArt(data:[AVSData])-> some View{
+        return ScrollView(.horizontal, showsIndicators: false) {
+            HStack(alignment: .center, spacing: 15) {
+                ForEach(Array(data.enumerated()),id:\.offset) { _data in
+                    let data = _data.element
+                    let idx = _data.offset
+                    ImageView(url: data.img, heading: data.title, width: totalWidth * 0.5, height: totalHeight * 0.5, contentMode: .fill,alignment: .center, headingSize: 10, quality: .lowest)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .padding(.leading,idx == 0 ? 10 : 0)
+                }
+            }.frame(alignment:.leading)
+        }
+    }
+    
+    func artistArtView(data:[AVSData]) -> some View{
+        let f = Int(floor(Double(data.count/3)))
+        let view = VStack(alignment: .center, spacing: 10) {
+            ForEach(Array(0..<f),id: \.self) { i in
+                let start = Int(i) * 3
+                let end = Int(i + 1) * 3
+                let arr_data = i == f ? Array(data[start...]) : Array(data[start..<end])
+
+                ArtistArtView(data: arr_data)
+            }
+        }
+        
+        return view
     }
     
 }

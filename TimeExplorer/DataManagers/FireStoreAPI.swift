@@ -669,8 +669,9 @@ class ArtAPI:FirebaseAPI,ObservableObject{
         return data
     }
     
-    func getArts(){
-        self.paginationQuery(user: self.mainStates.userAcc.username, lastDoc: self.lastDoc) { (qs, err) in
+    func getArts(_name:String? = nil){
+//        let username = _name ?? self.mainStates.userAcc.username
+        self.getTopItems(limit: 10, collectionName: "paintings") { qs, err in
             guard let q = qs, let last = qs?.documents.last else {return}
             self.lastDoc = last
             

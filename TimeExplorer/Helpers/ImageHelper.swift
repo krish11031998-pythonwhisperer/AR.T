@@ -27,8 +27,8 @@ protocol DictCache{
 struct ImageCache:DictCache{
     private let cache:NSCache<NSURL, UIImage> = {
         let cache = NSCache<NSURL,UIImage>()
-        cache.countLimit = 100;
-        cache.totalCostLimit = 1024 * 1024 * 200
+        cache.countLimit = 500;
+        cache.totalCostLimit = 1024 * 1024 * 500
         return cache
     }()
     static var cache = ImageCache()
@@ -78,7 +78,7 @@ extension Image{
 
 extension UIImage{
     
-    static var stockImage:UIImage = UIImage(named: "AttractionStockImage")!
+    static var stockImage:UIImage = UIImage(named: "stockImage")!
     
     static func downloadImage(_ url:String) -> UIImage{
         var image:UIImage = UIImage(named: "AttractionStockImage")!
@@ -226,6 +226,10 @@ extension UIImage{
             }
         }
     }
+    
+    func png() -> Data?{
+        return pngData()
+    }
 }
 
 class ImageDownloader:ObservableObject{
@@ -273,7 +277,7 @@ class ImageDownloader:ObservableObject{
         }
     }
     
-    func parseImage(data: Data,url safeURL:URL){
+    func parseImage(data: Data,url safeURL:URL,bound:CGSize? = nil){
         guard let safeData = UIImage(data: data)?.jpeg(self.quality), let safeImage = UIImage(data: safeData) else {return}
         ImageCache.cache[URL(string: safeURL.absoluteString)!] = safeImage
         self.publishImage(url: safeURL.absoluteString, safeImage: safeImage)
@@ -295,7 +299,7 @@ class ImageDownloader:ObservableObject{
             .tryMap(self.checkData(output:))
             .sink(receiveCompletion: { completion in
             }, receiveValue: { [weak self] data in
-                self?.parseImage(data: data, url: safeURL)
+                self?.parseImage(data: data, url: safeURL,bound: bounds)
             })
             .store(in: &self.cancellable)
             

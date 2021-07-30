@@ -16,14 +16,22 @@ struct PortfolioMainView: View {
     @StateObject var SP:swipeParams = .init(100)
     
     func onAppear(){
-        if !self.mainStates.CAAPI.artDatas.isEmpty{
+        if let data = self.mainStates.getArt(limit: 50,skip: 150){
+            self.parseData(data)
+        }
+    }
+    
+    func parseData(_ data:[CAData]){
+        if !data.isEmpty{
             DispatchQueue.main.async {
                 self.paintings = self.mainStates.CAAPI.artDatas.compactMap({AVSData(img: $0.images?.web?.url, title: $0.title, subtitle: $0.artistName, data: $0)})
-                self.mainStates.loading = false
+                withAnimation(.easeInOut) {
+                    self.mainStates.loading = false
+                }
             }
-        }else{
-            self.mainStates.CAAPI.getBatchArt(limit: 50, skip: 100)
+            self.onReceive(data: data)
         }
+       
     }
     
     let cardSize:CGSize = .init(width: totalWidth * 0.6, height: totalHeight * 0.5)
@@ -65,7 +73,7 @@ struct PortfolioMainView: View {
         .background(Color.black)
         .edgesIgnoringSafeArea(.all)
         .onAppear(perform: self.onAppear)
-        .onReceive(self.mainStates.CAAPI.$artDatas, perform: self.onReceive(data:))
+        .onReceive(self.mainStates.TabAPI[self.mainStates.tab]!.$artDatas, perform: self.parseData)
         
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct AVSData{
     var img:String?
@@ -19,18 +20,26 @@ struct AVScrollView: View {
     @EnvironmentObject var e_SP:swipeParams
     @StateObject var IMD:ImageDownloader
     @StateObject var _SP:swipeParams
+    var timer = Timer.publish(every: 1, on: .main, in: .common)
+    @State var time:Int = 0
+    var haveTimer:Bool
+    var cancellable =  Set<AnyCancellable>()
 //    var cardView:((AVSData,swipeParams) -> AnyView)? = nil
     var cardView:((EnumeratedSequence<[AVSData]>.Element) -> AnyView)? = nil
     var leading:Bool
     var includeChart:Bool
 
-    init(attractions attr:[AVSData],cardView:((EnumeratedSequence<[AVSData]>.Element) -> AnyView)? = nil,leading:Bool = true,chart:Bool = false){
+    init(attractions attr:[AVSData],cardView:((EnumeratedSequence<[AVSData]>.Element) -> AnyView)? = nil,haveTimer:Bool = false,leading:Bool = true,chart:Bool = false){
         self.data = attr
         self.cardView = cardView
         self._IMD = StateObject(wrappedValue: .init(urls: attr.compactMap({$0.img}), mode: "multiple", quality: .low))
-        self.__SP = StateObject(wrappedValue: .init(0, attr.count, 100))
+        self.__SP = StateObject(wrappedValue: .init(0, attr.count - 1, 100))
         self.leading = leading
         self.includeChart = chart
+        self.haveTimer = haveTimer
+        if haveTimer{
+            self.timer.connect().store(in: &cancellable)
+        }
     }
     
     let cardSize:CGSize = .init(width: totalWidth * 0.6, height: totalHeight * 0.5)
@@ -38,6 +47,16 @@ struct AVScrollView: View {
     
     var SP:swipeParams{
         return self.cardView != nil ? self.e_SP  : self._SP
+    }
+    
+    func checkTime(){
+        if !self.haveTimer {return}
+        if time < 10 {
+            self.time += 1
+        }else{
+            self.time = 0
+            self.SP.swiped = self.SP.swiped + 1 < self.data.count - 1 ? self.SP.swiped + 1 : 0
+        }
     }
     
     func imgView(idx:Int,data:AVSData) -> AnyView{
@@ -52,7 +71,6 @@ struct AVScrollView: View {
                 let scale:CGFloat = selected ? 1.05 : 0.9
                 
                 let view = ZStack(alignment: .bottom) {
-//                    ImageView(img: self.IMD.images[data.img ?? ""],width: w, height: h, contentMode: .fill, alignment: .center)
                     ImageView(url: data.img, width: w, height: h, contentMode: .fill, alignment: .center)
                     lightbottomShadow.frame(width: w + 1, alignment: .center)
                     if selected && !self.includeChart{
@@ -107,15 +125,17 @@ struct AVScrollView: View {
             Spacer().frame(width: (totalWidth - self.cardSize.width) * 0.5)
         }
         .edgesIgnoringSafeArea(.horizontal)
-        .frame(width:totalWidth,height: cardSize.height * 1.15 ,alignment: .leading)
+        .frame(width:totalWidth,height: cardSize.height * 1.01,alignment: .leading)
         .padding(.leading,10)
         .offset(x: self.scrolledOffset)
         .offset(x: self.SP.extraOffset)
         .animation(.easeInOut(duration: 0.65))
+        
     }
     
     var body: some View{
             self.v2
+                .onReceive(self.timer, perform: {_ in self.checkTime()})
     }
 }
 

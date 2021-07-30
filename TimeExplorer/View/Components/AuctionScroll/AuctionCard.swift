@@ -25,7 +25,7 @@ struct AuctionCard: View {
         return AnyView(
             self.data.img == nil ?
                 ImageView(img: .init(named: self.data.img ?? "monaLisa"), width: self.cardSize.width, height: self.cardSize.height, contentMode: .fill, alignment: .bottomLeading).clipped()
-            :
+                :
                 ImageView(url: self.data.img!, width: self.cardSize.width, height: self.cardSize.height, contentMode: .fill, alignment: .bottomLeading).clipped()
         )
     }
@@ -33,7 +33,7 @@ struct AuctionCard: View {
     var overlayCaptionView:some View{
         GeometryReader{g -> AnyView in
             let w = g.frame(in: .local).width
-        
+            
             let line_h:CGFloat = 10
             
             let view = VStack(alignment: .leading, spacing: 25){
@@ -54,27 +54,14 @@ struct AuctionCard: View {
         GeometryReader {g -> AnyView in
             let w = g.frame(in: .local).width
             let h = g.frame(in: .local).height
-            let minY = g.frame(in: .global).midY
             
-            DispatchQueue.main.async {
-                if minY < totalHeight && minY > 0 && !self.showInfo{
-                    print("Show - true")
-                    withAnimation(.easeInOut(duration: 0.7)) {
-                        self.showInfo = true
-                    }
-                }
-            }
             
             let view = ZStack(alignment: .center){
                 self.imgView
                 lightbottomShadow
                     .frame(width: w, height: h, alignment: .center)
-                if self.showInfo{
-                    self.overlayCaptionView
-                        .transition(.move(edge: .bottom))
-                }else{
-                    MainText(content: "\(self.showInfo)", fontSize: 30, color: .white, fontWeight: .medium)
-                }
+                self.overlayCaptionView
+                    .transition(.move(edge: .bottom))
                 
             }
             

@@ -11,20 +11,15 @@ struct FeaturedArt: View {
 //    var art:ArtData = test
     var art:AVSData = .init(img: test.thumbnail, title: test.title, data: test)
     var body: some View {
-        GeometryReader{g in
-            let local = g.frame(in: .local)
-            let w = local.width
-            let h = local.height
-            
-            ZStack(alignment: .bottom){
-                Color.black
-                ImageView(url: self.art.img,heading: self.art.title, width: w, height: h, contentMode: .fill, alignment: .top,isPost: true)
-                
-            }
+//        ZStack(alignment: .bottom){
+//            Color.black
+//            ImageView(url: self.art.img,heading: self.art.title, width: totalWidth, height: totalHeight * 0.45, contentMode: .fill, alignment: .top,isPost: true)
+//                .clipped()
+//        }
+//        .frame(width: totalWidth, height: totalHeight * 0.45, alignment: .center)
+//        .shadow(radius: 10)
+        ImageView(url: self.art.img, heading: self.art.title, width: totalWidth - 10, height: totalHeight * 0.5, contentMode: .fill, alignment: .center, autoHeight: false, quality: .lowest)
             .clipShape(RoundedRectangle(cornerRadius: 20))
-        }.padding()
-        .frame(width: totalWidth, height: totalHeight * 0.35, alignment: .center)
-        .shadow(radius: 10)
         
     }
 }

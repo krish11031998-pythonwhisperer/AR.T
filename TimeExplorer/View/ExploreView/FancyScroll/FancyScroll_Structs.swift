@@ -64,7 +64,7 @@ class FancyScrollStates:ObservableObject{
         if !self.dragging{
             self.dragging = true
         }
-        let factor:CGFloat = 1.5
+        let factor:CGFloat = 1.75
         let h = value.translation.height * factor
         let w = value.translation.width * factor
         let delta:CGSize = .init(width: w, height: h)

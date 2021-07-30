@@ -14,8 +14,12 @@ class CAAPI:ObservableObject{
     @Published var artData:CAData? = nil
     var url = "https://openaccess-api.clevelandart.org/api/artworks/"
     var cancellable = Set<AnyCancellable>()
-    
     static let shared = CAAPI()
+    
+    init(limit:Int? = nil ,department:String?=nil,type:String?=nil,skip:Int? = nil){
+        guard let limit = limit, let dpt = department, let type = type, let skip = skip else {return}
+        self.getBatchArt(limit: limit, department: dpt, type: type, skip: skip)
+    }
     
     func checkOutput(output: URLSession.DataTaskPublisher.Output) throws -> Data{
         let (data,response) = output

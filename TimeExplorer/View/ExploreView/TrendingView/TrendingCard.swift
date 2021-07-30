@@ -59,9 +59,6 @@ struct TrendingMainCard:View{
                     if !self.showVideo{
                         self.showVideo = true
                     }
-//                    if self.playerObj.videoState != .play{
-//                        self.playerObj.videoState = .play
-//                    }
                 }
             }
         }
@@ -123,7 +120,7 @@ struct TrendingMainCard:View{
                 }
             }
         }
-        return ImageView(url: self.data.image, width: self.width, height: self.height, contentMode: .fill)
+        return ImageView(url: self.data.image, width: self.width, height: self.height, contentMode: .fill,quality: .medium).clipped()
     }
     
     func dummyFunction(){
