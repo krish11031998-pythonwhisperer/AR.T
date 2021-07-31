@@ -7,49 +7,49 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C92B3C6D-E2C6-420B-B8CA-0B907CBB985E"
+            uuid = "1BA402E4-2FEE-4E9C-B6AD-3C581D2B24EE"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TimeExplorer/View/HomePage/HomePageView.swift"
+            filePath = "TimeExplorer/Helpers/ImageHelper.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
-            landmarkName = "artistArtView(data:)"
+            startingLineNumber = "319"
+            endingLineNumber = "319"
+            landmarkName = "downloadImage()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "C92B3C6D-E2C6-420B-B8CA-0B907CBB985E - 299073648f6a6098"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "TimeExplorer.HomePageView.artistArtView(data: Swift.Array&lt;TimeExplorer.AVSData&gt;) -&gt; some"
-                  moduleName = "TimeExplorer"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/krishnavenkatramani/Desktop/Trippin/AR.T/TimeExplorer/View/HomePage/HomePageView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "125"
-                  endingLineNumber = "125"
-                  offsetFromSymbolStart = "780">
-               </Location>
-               <Location
-                  uuid = "C92B3C6D-E2C6-420B-B8CA-0B907CBB985E - 4a22d2c8ab3d9515"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI.ForEach&lt;Swift.Array&lt;Swift.Int&gt;, Swift.Int, TimeExplorer.ArtistArtView&gt; in TimeExplorer.HomePageView.artistArtView(data: Swift.Array&lt;TimeExplorer.AVSData&gt;) -&gt; some"
-                  moduleName = "TimeExplorer"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/krishnavenkatramani/Desktop/Trippin/AR.T/TimeExplorer/View/HomePage/HomePageView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "126"
-                  endingLineNumber = "126"
-                  offsetFromSymbolStart = "276">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0B261643-4EAA-45DD-9973-AFC07275E4D6"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TimeExplorer/Helpers/ImageHelper.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "322"
+            endingLineNumber = "322"
+            landmarkName = "downloadImage()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CEA0A917-BAC9-42FC-8154-F4A0A67B04E8"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TimeExplorer/Helpers/ImageHelper.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "323"
+            endingLineNumber = "323"
+            landmarkName = "downloadImage()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

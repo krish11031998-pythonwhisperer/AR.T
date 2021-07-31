@@ -52,7 +52,7 @@ struct ArtistArtView: View {
             
         }.padding(.horizontal,10)
         .padding(.vertical,20)
-        .frame(width: totalWidth, height: totalHeight * 0.4, alignment: .center)
+        .frame(width: totalWidth, height: totalHeight * 0.5, alignment: .center)
         .background(BlurView(style: .dark))
         .clipShape(RoundedRectangle(cornerRadius: 20))
         
