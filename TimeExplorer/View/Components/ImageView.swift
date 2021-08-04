@@ -23,7 +23,7 @@ struct ImageView:View{
     let testMode:Bool = false
     let quality:JPEGQuality
     
-    init(img:UIImage? = nil,url:String? = nil,heading:String? = nil,width:CGFloat = 300,height:CGFloat = 300,contentMode:ContentMode = .fill,alignment:Alignment = .center,autoHeight:Bool = false,isPost:Bool = false,headingSize:CGFloat = 35,isHidden:Bool = false,quality:JPEGQuality = .lowest){
+    init(img:UIImage? = nil,url:String? = nil,heading:String? = nil,width:CGFloat = 300,height:CGFloat = 300,contentMode:ContentMode = .fill,alignment:Alignment = .center,autoHeight:Bool = false,isPost:Bool = false,headingSize:CGFloat = 35,isHidden:Bool = false,quality:JPEGQuality = .low){
         self._image = .init(wrappedValue: img)
         self.url = url
         self.width = width

@@ -131,7 +131,7 @@ extension HomePageView{
     
     func artistArtView(data:[AVSData]) -> some View{
         let f = Int(floor(Double(data.count/3)))
-        let view = VStack(alignment: .center, spacing: 10) {
+        let view = VStack(alignment: .center, spacing: 20) {
             ForEach(Array(0..<f),id: \.self) { i in
                 let start = Int(i) * 3
                 let end = Int(i + 1) * 3

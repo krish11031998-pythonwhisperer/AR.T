@@ -50,15 +50,9 @@ struct ArtistArtView: View {
 
             }
             .frame(width: w, height: h, alignment: .leading)
-            
         }
         .padding()
         .frame(width: totalWidth, height: totalHeight * 0.4, alignment: .center)
-//        .background(BlurView(style: .systemThinMaterialDark))
-////        .clipShape(RoundedRectangle(cornerRadius: 20))
-//        .clipShape(Rectangle())
-        
-        
         
     }
     

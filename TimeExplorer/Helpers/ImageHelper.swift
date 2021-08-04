@@ -243,9 +243,9 @@ class ImageDownloader:ObservableObject{
     var cancellable = Set<AnyCancellable>()
     static var shared:ImageDownloader = .init()
     var quality:JPEGQuality
+    var size:CGSize = UIScreen.main.bounds.size
     
-    
-    init(url:String? = nil,urls:[String]? = nil,mode:String = "single",quality:JPEGQuality = .lowest){
+    init(url:String? = nil,urls:[String]? = nil,mode:String = "single",quality:JPEGQuality = .lowest,size:CGSize? = nil){
         self.mode = mode
         self.quality = quality
         if let safeURL = url{
@@ -253,6 +253,10 @@ class ImageDownloader:ObservableObject{
         }
         if let safeURLS = urls{
             self.getImages(urls: safeURLS)
+        }
+        
+        if let size = size{
+            self.size = size
         }
         
     }
@@ -304,6 +308,50 @@ class ImageDownloader:ObservableObject{
             })
             .store(in: &self.cancellable)
             
+    }
+    
+    
+    func downloadImage(){
+        DispatchQueue.main.async {
+            if !self.loading {self.loading = true}
+        }
+        print("Called ImageDownload")
+        guard let url = URL(string: self.url), let img = self.downsample(imageAt: url, to: self.size) else {return}
+        ImageCache.cache[URL(string: url.absoluteString)!] = img
+        print("Download Image")
+        DispatchQueue.main.async {
+            self.image = img
+            self.loading = false
+        }
+        
+    }
+    
+    func downsample(imageAt imageURL: URL,
+                    to pointSize: CGSize,
+                    scale: CGFloat = UIScreen.main.scale) -> UIImage? {
+
+        // Create an CGImageSource that represent an image
+        let imageSourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
+        guard let imageSource = CGImageSourceCreateWithURL(imageURL as CFURL, imageSourceOptions) else {
+            return nil
+        }
+        
+        // Calculate the desired dimension
+        let maxDimensionInPixels = max(pointSize.width, pointSize.height) * scale
+        
+        // Perform downsampling
+        let downsampleOptions = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceShouldCacheImmediately: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceThumbnailMaxPixelSize: maxDimensionInPixels
+        ] as CFDictionary
+        guard let downsampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions) else {
+            return nil
+        }
+        
+        // Return the downsampled image as UIImage
+        return UIImage(cgImage: downsampledImage)
     }
     
     func getImage(url:String,crop:Bool=false,bounds:CGSize? = nil){
