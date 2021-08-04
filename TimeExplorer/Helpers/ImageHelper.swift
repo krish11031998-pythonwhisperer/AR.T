@@ -278,7 +278,8 @@ class ImageDownloader:ObservableObject{
     }
     
     func parseImage(data: Data,url safeURL:URL,bound:CGSize? = nil){
-        guard let safeData = UIImage(data: data)?.jpeg(self.quality), let safeImage = UIImage(data: safeData) else {return}
+//        guard let safeData = UIImage(data: data)?.jpeg(self.quality), let safeImage = UIImage(data: safeData) else {return}
+        guard let safeImage = UIImage(data: data) else {return}
         ImageCache.cache[URL(string: safeURL.absoluteString)!] = safeImage
         self.publishImage(url: safeURL.absoluteString, safeImage: safeImage)
         

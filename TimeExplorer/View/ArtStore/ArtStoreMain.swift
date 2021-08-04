@@ -63,7 +63,7 @@ struct ArtStoreMain: View {
     func onAppear(){
         self.mainStates.loading = true
 //        self.ArtAPI.getBatchArt(limit: 50, skip: 100)
-        if let data = self.mainStates.getArt(limit: 50,skip: 150){
+        if let data = self.mainStates.getArt(limit: 100,skip: 200){
             self.parseData(data)
         }
     }

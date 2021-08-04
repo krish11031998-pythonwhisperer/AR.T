@@ -15,7 +15,7 @@ class TASScrollParams:ObservableObject{
 }
 
 struct TopArtScroll: View {
-    var cardSize:CGSize = .init(width: totalWidth * 0.65, height: totalHeight * 0.6)
+    var cardSize:CGSize = .init(width: totalWidth * 0.5, height: totalHeight * 0.5)
     @StateObject var SP:TASScrollParams = .init()
     let cards:Int = 2
     var data:[AVSData] = []
@@ -97,7 +97,7 @@ extension TopArtScroll{
     func computeParams(idx:Int) -> (Bool,CGFloat,CGFloat,Double){
         let isViewing = idx == self.SP.swiped
         let diff = CGFloat(idx - self.SP.swiped)
-        let x_off:CGFloat = isViewing ? self.SP.dy_off : -cardSize.width * (isViewing && diff == 0 ? 0 : diff * 0.45)
+        let x_off:CGFloat = isViewing ? self.SP.dy_off : -cardSize.width * (isViewing && diff == 0 ? 0 : diff * 0.7)
         let zInd:Double = -Double(diff)
         return (isViewing,diff,x_off,zInd)
     }

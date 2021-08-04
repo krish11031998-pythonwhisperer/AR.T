@@ -97,7 +97,7 @@ struct TrendingMainView: View {
     }
     
     func getCAAPIData(){
-        if let data = self.mainStates.getArt(limit: 50,skip: 50){
+        if let data = self.mainStates.getArt(limit: 100,skip: 100){
             self.parseData(data)
         }
     }

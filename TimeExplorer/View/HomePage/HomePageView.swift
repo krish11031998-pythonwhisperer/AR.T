@@ -8,6 +8,7 @@ struct HomePageView: View {
     @State var showSection:Bool = false
     @State var showArt:Bool = false
     @State var posts:[AVSData] = []
+    let target_limit:Int = 100
 //    @State var loading:Bool = true
     
     func header(dim:CGSize) -> some View{
@@ -31,7 +32,7 @@ struct HomePageView: View {
 
     
     func onAppear(){
-        if let data = self.mainStates.getArt(limit: 80){
+        if let data = self.mainStates.getArt(limit: target_limit){
             self.parseData(data)
         }
     }
@@ -42,6 +43,7 @@ struct HomePageView: View {
             let _data = data.compactMap({$0.images?.web?.url != nil ? AVSData(img: $0.images?.web?.url, title: $0.title, data: $0) : nil})
             DispatchQueue.main.async {
                 self.posts = _data
+                print("home page data : ",data.count)
                 withAnimation(.easeInOut) {
                     self.mainStates.loading = false
                 }
@@ -70,12 +72,13 @@ struct HomePageView: View {
         }
         return view
     }
-    var sections:[String] = ["Featured Art","Trending","Hightlight of the Day","On Your Radar","Recommended Bids","Recent","Genre","Artists"]
+//    var sections:[String] = ["Featured Art","Trending","Hightlight of the Day","On Your Radar","Recommended Bids","Recent","Genre","Artists"]
+    var sections:[String] = ["Hightlight of the Day","Trending","On Your Radar","Recommended Bids","Recent","Genre","Artists"]
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
             self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
-            if !self.mainStates.loading && !self.posts.isEmpty{
+            if !self.mainStates.loading && !self.posts.isEmpty && self.posts.count == self.target_limit{
                 ForEach(self.sections, id:\.self) { title in
                     self.subSectionHeader(title: title).padding(.top,5)
                     self.subView(title: title)
@@ -107,16 +110,22 @@ extension HomePageView{
     
     
     func BidArt(data:[AVSData])-> some View{
+        let h = totalHeight * 0.65
+        let w = totalWidth * 0.5
+        let cardSize = CGSize(width:(w * 0.85 - 20),height: (h * 0.5 - 20))
+        let rows = [GridItem.init(.adaptive(minimum: h * 0.5 - 20, maximum: h * 0.5 - 20), spacing: 10, alignment: .center)]
+        let containerW = (cardSize.width + 20) * CGFloat(data.count) * 0.5
         return ScrollView(.horizontal, showsIndicators: false) {
-            HStack(alignment: .center, spacing: 15) {
+            LazyHGrid(rows: rows, alignment: .center, spacing: 10) {
                 ForEach(Array(data.enumerated()),id:\.offset) { _data in
                     let data = _data.element
                     let idx = _data.offset
-                    ImageView(url: data.img, heading: data.title, width: totalWidth * 0.5, height: totalHeight * 0.5, contentMode: .fill,alignment: .center, headingSize: 10, quality: .lowest)
+                    ImageView(url: data.img, heading: data.title, width: cardSize.width, height: cardSize.height, contentMode: .fill,alignment: .center, headingSize: 10, quality: .lowest)
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                         .padding(.leading,idx == 0 ? 10 : 0)
                 }
-            }.frame(alignment:.leading)
+            }
+            .frame(width:containerW,height:h,alignment:.leading)
         }
     }
     
@@ -129,6 +138,7 @@ extension HomePageView{
                 let arr_data = i == f ? Array(data[start...]) : Array(data[start..<end])
 
                 ArtistArtView(data: arr_data)
+                Divider().frame(width: totalWidth * 0.8, height: 5, alignment: .center)
             }
         }
         

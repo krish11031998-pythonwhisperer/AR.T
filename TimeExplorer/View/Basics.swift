@@ -12,9 +12,11 @@ enum TextStyle:String{
 //    case main = "Avenir Next Medium"
     case main = "NeueMachina-Regular"
     case heading = "BungeeShade-Regular"
-    case title = "SortsMillGoudy-Regular"
+//    case title = "SortsMillGoudy-Regular"
 //    case normal = "Avenir Next Medium"
-    case normal = "Cochin"
+//    case normal = "Cochin"
+//    case normal = "SpaceGrotesk"
+    case normal = "SortsMillGoudy-Regular"
 }
 struct BasicText: View {
     
@@ -63,20 +65,6 @@ struct MainText: View {
         return self.color == .black ? .white : .black
     }
      
-    var textBody:AnyView{
-        if style == .normal{
-            return AnyView(BasicText(content: self.content, fontDesign: .serif, size: self.fontSize, weight: self.fontWeight).foregroundColor(self.color))
-        }else{
-            return AnyView(
-
-                Text(self.content)
-                    .font(self.style == .normal ? self.font : Font.system(.body, design: .serif))
-                            .fontWeight(self.fontWeight)
-                            .foregroundColor(self.color)
-            )
-        }
-    }
-    
     var body: some View {
         Text(self.content)
             .font(self.style == .normal ? self.font : Font.system(.body, design: .serif))

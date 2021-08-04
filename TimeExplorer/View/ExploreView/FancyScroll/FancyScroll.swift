@@ -99,7 +99,7 @@ struct FancyScroll: View {
             )
             
         }.edgesIgnoringSafeArea(.all)
-        .frame(width: totalHeight * 1.5,height: totalHeight * 2.5)
+        .frame(width: totalHeight * 1.5 + 20,height: totalHeight * 2.5)
         
         .offset(self.off_size)
         .animation(.easeInOut(duration: 1))

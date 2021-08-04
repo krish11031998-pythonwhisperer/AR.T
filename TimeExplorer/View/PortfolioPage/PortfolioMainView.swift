@@ -16,7 +16,7 @@ struct PortfolioMainView: View {
     @StateObject var SP:swipeParams = .init(100)
     
     func onAppear(){
-        if let data = self.mainStates.getArt(limit: 50,skip: 150){
+        if let data = self.mainStates.getArt(limit: 50,skip: 400){
             self.parseData(data)
         }
     }

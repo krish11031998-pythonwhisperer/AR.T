@@ -26,7 +26,6 @@ struct ArtistArtView: View {
                     VStack(alignment: .center, spacing: 5) {
                         ForEach(Array(self.data[1...].enumerated()),id: \.offset) { _data in
                             let data = _data.element
-                            
                             ImageView(url: data.img, width: w * 0.5 - 2.5, height: h * 0.5 - 5, contentMode: .fill, alignment: .center, quality: .lowest)
                                 .clipShape(RoundedRectangle(cornerRadius: 5))
                         }
@@ -34,8 +33,6 @@ struct ArtistArtView: View {
                 }
             }
             .frame(width: w, height: h, alignment: .center)
-        
-        
     }
 
     var TopImageView:some View{
@@ -44,17 +41,24 @@ struct ArtistArtView: View {
             let h = g.frame(in: .local).height
             
             VStack(alignment: .leading, spacing: 10) {
-                self.TopImageView(size: .init(width: w, height: h * 0.8))
-                MainText(content: "Krishna Venkatramani", fontSize: 30, color: .white, fontWeight: .regular)
-                MainText(content: "Classical Art", fontSize: 15, color: .white, fontWeight: .bold)
+                HStack(alignment: .center, spacing: 10) {
+                    Circle().fill(Color.gray.opacity(0.5)).frame(width:25,height:25)
+                    MainText(content: "Krishna Venkatramani", fontSize: 15, color: .white, fontWeight: .regular).padding(.leading,5)
+                }.padding().frame(width: w,height: h * 0.1,alignment: .leading)
+                
+                self.TopImageView(size: .init(width: w,height: h * 0.9))
+
             }
             .frame(width: w, height: h, alignment: .leading)
             
-        }.padding(.horizontal,10)
-        .padding(.vertical,20)
+        }
+        .padding()
         .frame(width: totalWidth, height: totalHeight * 0.4, alignment: .center)
-        .background(BlurView(style: .dark))
-        .clipShape(RoundedRectangle(cornerRadius: 20))
+//        .background(BlurView(style: .systemThinMaterialDark))
+////        .clipShape(RoundedRectangle(cornerRadius: 20))
+//        .clipShape(Rectangle())
+        
+        
         
     }
     

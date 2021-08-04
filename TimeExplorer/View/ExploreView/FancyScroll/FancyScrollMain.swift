@@ -17,7 +17,7 @@ struct FancyScrollMain: View {
     
     func onAppear(){
         self.mainStates.toggleTab()
-        if let data = self.mainStates.getArt(limit: 50,skip: 100){
+        if let data = self.mainStates.getArt(limit: 100,skip: 300){
             self.parseData(data)
         }
     }

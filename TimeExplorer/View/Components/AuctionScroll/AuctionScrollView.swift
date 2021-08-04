@@ -18,7 +18,7 @@ struct AuctionArtView: View {
         ScrollView(.vertical, showsIndicators: false){
             Spacer().frame(height: 50, alignment: .center)
 //            PersonalBidView(data: .init(repeating: .init(img: test.thumbnail, title: test.title, subtitle: test.painterName, data: test), count: 4))
-            self.QuickBidSection
+//            self.QuickBidSection
 //            self.TrendingView
             self.auctionCardView
             self.recentAdditions
@@ -52,7 +52,7 @@ extension AuctionArtView{
             MainText(content: "Top Trending", fontSize: 25, color: .white, fontWeight: .semibold)
                 .padding()
 //            TopArtScroll(data: self.data)
-            AVScrollView(attractions: Array(self.data[15..<25]))
+            AVScrollView(attractions: Array(self.data[0..<25]))
         }
         .padding()
         .aspectRatio(contentMode: .fill)

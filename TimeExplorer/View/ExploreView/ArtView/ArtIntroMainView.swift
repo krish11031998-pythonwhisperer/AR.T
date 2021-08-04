@@ -27,10 +27,12 @@ struct ScrollInfoCard:View{
     func infoOverlay(w:CGFloat,h:CGFloat) -> some View{
         VStack(alignment: .leading, spacing: 10){
 //            TabBarButtons(bindingState: $showArt)
-            HeadingInfoText(heading: self.data.title, subhead: "1503 - 1506", headingSize: 35, headingColor: .white, headingDesign: .serif, subheadSize: 20, subheadColor: .white, subheadDesign: .rounded)
-                .frame(width: w * 0.5, alignment: .leading)
             Spacer()
-                .frame(height: h * 0.2)
+            ScrollView(.vertical, showsIndicators: false) {
+                HeadingInfoText(heading: self.data.title, subhead: "1503 - 1506", headingSize: 35, headingColor: .white, headingDesign: .serif, subheadSize: 20, subheadColor: .white, subheadDesign: .rounded)
+                    .frame(width: w * 0.5, alignment: .leading)
+            }.frame(height: h * 0.35, alignment: .center)
+            
         }.padding()
         .padding(.leading)
         .frame(width: w, height: h, alignment: .bottomLeading)
@@ -40,7 +42,6 @@ struct ScrollInfoCard:View{
     
     
     var body: some View{
-    
         return GeometryReader {g -> AnyView in
             let w = g.frame(in: .local).width
             let h = g.frame(in: .local).height
@@ -117,13 +118,17 @@ extension ScrollInfoCard{
     func introInfoSection(w:CGFloat,h:CGFloat) -> some View{
         HStack(alignment: .center, spacing: 10) {
             VStack(alignment: .center, spacing: 10){
-                ImageView(url: self.data.painterImg, width: w * 0.45, height: h, contentMode: .fill,alignment: .top)
+                ImageView(url: self.data.painterImg, width: w * 0.45, height: h * 0.9, contentMode: .fill,alignment: .top)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
-                Text(self.data.painterName ?? "Artisan")
-                    .font(.system(size: 20, weight: .bold, design: .serif))
+//                Text(self.data.painterName ?? "Artisan")
+//                    .font(.system(size: 20, weight: .bold, design: .serif))
+//                    .foregroundColor(.white)
+//                    .fixedSize(horizontal: false, vertical: true)
+                BasicText(content: self.data.painterName ?? "Artisan", fontDesign: .serif, size: 20, weight: .bold)
                     .foregroundColor(.white)
                     .fixedSize(horizontal: false, vertical: true)
-            }.padding(.leading, 20).offset(y: -75)
+                    .frame(height: h * 0.1, alignment: .center)
+            }.padding(.leading, 20)
             Spacer()
             if self.data.infoSnippets != nil{
                 VStack(alignment: .leading, spacing: 10){
