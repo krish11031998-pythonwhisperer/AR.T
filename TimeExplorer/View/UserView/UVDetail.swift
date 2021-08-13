@@ -148,7 +148,7 @@ struct UVDetail:View{
                 }
                 DispatchQueue.global(qos: .background).async {
                     if AnyChange{
-                        self.mainStates.PAPI.updatePost(self.post)
+//                        self.mainStates.PAPI.updatePost(self.post)
                     }
                 }
             })

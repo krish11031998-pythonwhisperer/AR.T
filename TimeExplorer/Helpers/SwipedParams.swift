@@ -17,10 +17,11 @@ class swipeParams:ObservableObject,Equatable{
     var thresValue:CGFloat = 0
     fileprivate var _type:SliderType = .Carousel
     
-    init(_ start:Int? = nil,_ end:Int? = nil, _ thresValue:CGFloat? = nil){
-        self.start = start != nil ? start! : 0
-        self.end = end != nil ? end! : 0
-        self.thresValue = thresValue != nil ? thresValue! : 100
+    init(_ start:Int? = nil,_ end:Int? = nil, _ thresValue:CGFloat? = nil,type:SliderType = .Carousel){
+        self.start = start ?? 0
+        self.end = end ?? 0
+        self.thresValue = thresValue ?? 100
+        self._type = type
     }
     
     var type:SliderType{
@@ -53,7 +54,6 @@ class swipeParams:ObservableObject,Equatable{
     
     
     func onEnded(value:CGFloat){
-//        print("end : \(self.end)")
         if abs(value) > self.thresValue{
             var val:Int = 0
             switch(self._type){
@@ -61,14 +61,11 @@ class swipeParams:ObservableObject,Equatable{
                     val = value < 0 && self.swiped < self.end ? 1 : value > 0 && self.swiped > self.start ? -1 : 0
                     break;
                 case .Stack:
-                    val = 1
-                default:
-                    break;
+                    val = value < 0 && self.swiped < self.end ? 1 : value > 0 && self.swiped > self.start ? -1 : 0
             }
             self.swiped += val
         }
         self.extraOffset = 0
-//        print("swiped : \(self.swiped)")
     }
     
     func onEnded(ges_value:DragGesture.Value){

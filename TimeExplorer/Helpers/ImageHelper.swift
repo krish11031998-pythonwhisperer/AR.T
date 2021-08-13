@@ -27,8 +27,8 @@ protocol DictCache{
 struct ImageCache:DictCache{
     private let cache:NSCache<NSURL, UIImage> = {
         let cache = NSCache<NSURL,UIImage>()
-        cache.countLimit = 100;
-        cache.totalCostLimit = 1024 * 1024 * 200
+        cache.countLimit = 500;
+        cache.totalCostLimit = 1024 * 1024 * 500
         return cache
     }()
     static var cache = ImageCache()
@@ -78,7 +78,7 @@ extension Image{
 
 extension UIImage{
     
-    static var stockImage:UIImage = UIImage(named: "AttractionStockImage")!
+    static var stockImage:UIImage = UIImage(named: "stockImage")!
     
     static func downloadImage(_ url:String) -> UIImage{
         var image:UIImage = UIImage(named: "AttractionStockImage")!
@@ -226,13 +226,16 @@ extension UIImage{
             }
         }
     }
+    
+    func png() -> Data?{
+        return pngData()
+    }
 }
 
 class ImageDownloader:ObservableObject{
     var url:String = ""
     var asset:PHAsset? = nil
     var b_images:[String:UIImage] = [:]
-//    @Published var image:UIImage = .stockImage
     @Published var image:UIImage?
     @Published var images:[String : UIImage] = [:]
     @Published var loading:Bool = false
@@ -240,10 +243,9 @@ class ImageDownloader:ObservableObject{
     var cancellable = Set<AnyCancellable>()
     static var shared:ImageDownloader = .init()
     var quality:JPEGQuality
+    var size:CGSize = UIScreen.main.bounds.size
     
-    
-    init(url:String? = nil,urls:[String]? = nil,mode:String = "single",quality:JPEGQuality = .medium){
-//        self.url = url ?? ""
+    init(url:String? = nil,urls:[String]? = nil,mode:String = "single",quality:JPEGQuality = .lowest,size:CGSize? = nil){
         self.mode = mode
         self.quality = quality
         if let safeURL = url{
@@ -251,6 +253,10 @@ class ImageDownloader:ObservableObject{
         }
         if let safeURLS = urls{
             self.getImages(urls: safeURLS)
+        }
+        
+        if let size = size{
+            self.size = size
         }
         
     }
@@ -275,8 +281,9 @@ class ImageDownloader:ObservableObject{
         }
     }
     
-    func parseImage(data: Data,url safeURL:URL){
-        guard let safeData = UIImage(data: data)?.jpeg(self.quality), let safeImage = UIImage(data: safeData) else {return}
+    func parseImage(data: Data,url safeURL:URL,bound:CGSize? = nil){
+//        guard let safeData = UIImage(data: data)?.jpeg(self.quality), let safeImage = UIImage(data: safeData) else {return}
+        guard let safeImage = UIImage(data: data) else {return}
         ImageCache.cache[URL(string: safeURL.absoluteString)!] = safeImage
         self.publishImage(url: safeURL.absoluteString, safeImage: safeImage)
         
@@ -297,10 +304,54 @@ class ImageDownloader:ObservableObject{
             .tryMap(self.checkData(output:))
             .sink(receiveCompletion: { completion in
             }, receiveValue: { [weak self] data in
-                self?.parseImage(data: data, url: safeURL)
+                self?.parseImage(data: data, url: safeURL,bound: bounds)
             })
             .store(in: &self.cancellable)
             
+    }
+    
+    
+    func downloadImage(){
+        DispatchQueue.main.async {
+            if !self.loading {self.loading = true}
+        }
+        print("Called ImageDownload")
+        guard let url = URL(string: self.url), let img = self.downsample(imageAt: url, to: self.size) else {return}
+        ImageCache.cache[URL(string: url.absoluteString)!] = img
+        print("Download Image")
+        DispatchQueue.main.async {
+            self.image = img
+            self.loading = false
+        }
+        
+    }
+    
+    func downsample(imageAt imageURL: URL,
+                    to pointSize: CGSize,
+                    scale: CGFloat = UIScreen.main.scale) -> UIImage? {
+
+        // Create an CGImageSource that represent an image
+        let imageSourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
+        guard let imageSource = CGImageSourceCreateWithURL(imageURL as CFURL, imageSourceOptions) else {
+            return nil
+        }
+        
+        // Calculate the desired dimension
+        let maxDimensionInPixels = max(pointSize.width, pointSize.height) * scale
+        
+        // Perform downsampling
+        let downsampleOptions = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceShouldCacheImmediately: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceThumbnailMaxPixelSize: maxDimensionInPixels
+        ] as CFDictionary
+        guard let downsampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions) else {
+            return nil
+        }
+        
+        // Return the downsampled image as UIImage
+        return UIImage(cgImage: downsampledImage)
     }
     
     func getImage(url:String,crop:Bool=false,bounds:CGSize? = nil){
@@ -317,7 +368,6 @@ class ImageDownloader:ObservableObject{
     
     func getImages(urls:[String]){
         let last = urls.count - 1
-//        if !self.loading {self.loading = true}
         for i in 0...last{
             self.getImage(url: urls[i])
             if i == last{
@@ -327,10 +377,6 @@ class ImageDownloader:ObservableObject{
             }
             
         }
-//        urls.forEach { (url) in
-//            self.getImage(url: url)
-//        }
-        
     }
     
 }

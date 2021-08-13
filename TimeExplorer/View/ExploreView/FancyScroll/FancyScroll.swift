@@ -43,6 +43,7 @@ struct FancyScroll: View {
         self._idx = idx
         self._showArt = showArt ?? .constant(false)
         self._scrollStates = StateObject(wrappedValue: .init(size: .init(width: totalHeight * 0.3, height: totalHeight * 0.4)))
+
     }
     
     var off_size:CGSize{
@@ -58,10 +59,13 @@ struct FancyScroll: View {
             self.selectedArt = nil
         }
     }
-    
+        
     func grid() -> some View{
         let start = self.idx * 25
-        let data = Array(self.data[start..<start + 25].enumerated())
+        let end = (self.idx + 1) * 25
+        print("start : \(start) and end : \(end) and idx : \(self.idx)")
+        let data = Array(self.data[start..<end].enumerated())
+        
         return GeometryReader{g -> AnyView in
             let global = g.frame(in: .global)
             
@@ -69,7 +73,6 @@ struct FancyScroll: View {
                 if self.scrollStates.dynamic_off == .zero && self.scrollStates.dragging && self.scrollStates.selectedCard == -1{
                     self.scrollStates.centralizeContainer(rect: global)
                     self.scrollStates.dragging = false
-//                    print(self.off_size)
                 }
             }
             
@@ -96,7 +99,7 @@ struct FancyScroll: View {
             )
             
         }.edgesIgnoringSafeArea(.all)
-        .frame(width: totalHeight * 1.5,height: totalHeight * 2.5)
+        .frame(width: totalHeight * 1.5 + 20,height: totalHeight * 2.5)
         
         .offset(self.off_size)
         .animation(.easeInOut(duration: 1))
@@ -143,10 +146,6 @@ extension FancyScroll{
             if let framed = dim.framed{
                 details["Framed"] = "\(framed.height ?? 0)m x \(framed.width ?? 0)m"
             }
-            
-//            if let unframed = dim.unframed{
-//                details["unframed"] = "\(unframed.height ?? 0)m x \(unframed.width ?? 0)m"
-//            }
         }
         
         return details.keys.count == 0 ? nil : details

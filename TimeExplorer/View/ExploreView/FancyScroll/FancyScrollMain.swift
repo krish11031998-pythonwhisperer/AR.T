@@ -17,10 +17,8 @@ struct FancyScrollMain: View {
     
     func onAppear(){
         self.mainStates.toggleTab()
-        if !self.mainStates.CAAPI.artDatas.isEmpty{
-            self.parseData(self.mainStates.CAAPI.artDatas)
-        }else{
-            self.mainStates.CAAPI.getBatchArt()
+        if let data = self.mainStates.getArt(limit: 100,skip: 300){
+            self.parseData(data)
         }
     }
     
@@ -55,7 +53,7 @@ struct FancyScrollMain: View {
                 self.mainStates.tab = "home"
             }
             SystemButton(b_name: "arrow.clockwise", b_content: "", color: .white, haveBG: true, size: .init(width: 20, height: 20), bgcolor: .black) {
-                if self.idx * 25 < self.exploreList.count{
+                if (self.idx + 2) * 25 <= self.exploreList.count{
                     self.idx += 1
                 }else{
                     self.idx = 0
@@ -79,7 +77,7 @@ struct FancyScrollMain: View {
             }
         }.edgesIgnoringSafeArea(.all)
         .onAppear(perform: self.onAppear)
-        .onReceive(self.mainStates.CAAPI.$artDatas, perform: self.parseData)
+        .onReceive(self.mainStates.TabAPI[self.mainStates.tab]!.$artDatas, perform: self.parseData)
         .onChange(of: self.art, perform: self.updateShowArt(art:))
         .onDisappear(perform: self.mainStates.toggleTab)
         .animation(.easeInOut)

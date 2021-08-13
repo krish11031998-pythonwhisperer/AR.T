@@ -22,10 +22,8 @@ struct ArtStockView: View {
         ScrollView(.vertical, showsIndicators: false){
             self.mainImage
             self.IntroSection
-//            self.ChartView
             ChartMainView()
             self.PurchaseView
-//            Spacer()
         }.edgesIgnoringSafeArea(.all)
         .frame(width: totalWidth, height: totalHeight, alignment: .center)
         .background(Color.black)

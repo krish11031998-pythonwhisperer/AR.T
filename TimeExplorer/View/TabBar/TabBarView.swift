@@ -118,7 +118,6 @@ struct TabBarView: View {
             .padding(.horizontal)
             .padding(.bottom,50)
             .frame(width: totalWidth)
-            .background(Color.black)
         }
         .frame(width: totalWidth,height: totalHeight)
         .animation(.easeInOut)

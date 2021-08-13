@@ -8,6 +8,8 @@
 import SwiftUI
 import Firebase
 import MapKit
+import Introspect
+
 
 class AppStates:ObservableObject{
     @Published var coordinates:CLLocationCoordinate2D = .init()
@@ -18,10 +20,8 @@ class AppStates:ObservableObject{
     @Published var photosManager:PhotoImages = .init()
     @Published var CAAPI:CAAPI = .init()
     @Published var LS:LocationSearch = .init(place:"",test:true)
-    @Published var IPAPI:InstagramAPI = .init(tag: "")
-    @Published var PAPI:PostAPI = .init()
-    @Published var ToAPI:TourAPI = .init()
     @Published var AAPI:ArtAPI = .init()
+    @Published var TabAPI:[String:CAAPI] = ["home":.init(),"blogs":.init(),"feed":.init(),"attractions":.init(),"profile":.init()]
     var imageQuality:JPEGQuality = .medium
     var testMode:Bool = false
     var uniqueTabs = ["attractions"]
@@ -32,6 +32,24 @@ class AppStates:ObservableObject{
             self.showTab = false
         }else if !self.uniqueTabs.contains(tab){
             self.showTab = true
+        }
+    }
+    
+    
+    func fetchArt(limit:Int? = nil,department:String? = nil,type:String? = nil, skip:Int? = nil){
+        if let api = self.TabAPI[self.tab], api.artDatas.isEmpty{
+            api.getBatchArt(limit: limit ?? 50, department: department, type: type, skip: skip)
+        }else{
+            self.TabAPI[self.tab] = .init(limit: limit, department: department, type: type, skip: skip)
+        }
+    }
+    
+    func getArt(limit:Int? = nil,department:String? = nil,type:String? = nil, skip:Int? = nil) -> [CAData]?{
+        if let data = self.TabAPI[self.tab]?.artDatas, !data.isEmpty{
+            return data
+        }else{
+            self.fetchArt(limit: limit, department: department, type: type, skip: skip)
+            return nil
         }
     }
     
@@ -48,35 +66,29 @@ struct AppView: View {
         }
     }
     
-    var _activeView:AnyView{
-//        var view:AnyView = AnyView(AMMain())
+    func getActiveView(tab:String? = nil) -> AnyView{
         var view:AnyView = AnyView(HomePageView())
-        switch(self.tab){
-            case "feed": view = AnyView(ExploreViewMain())
-            case "post": view = AnyView(CameraView().onAppear {self.mainStates.toggleTab()}.onDisappear {self.mainStates.toggleTab()})
-            case "blogs": view = AnyView(ArtStoreMain())
-            case "attractions": view = AnyView(FancyScrollMain())
-            case "profile": view = AnyView(UVMain().frame(height:totalHeight))
-            default:
-                break
+        switch(tab ?? self.tab){
+        case "feed": view = AnyView(ExploreViewMain())
+        case "post": view = AnyView(CameraView().onAppear {self.mainStates.toggleTab()}.onDisappear {self.mainStates.toggleTab()})
+        case "blogs": view = AnyView(ArtStoreMain())
+        case "attractions": view = AnyView(FancyScrollMain())
+        case "profile": view = AnyView(PortfolioMainView())
+        default:
+            break
         }
         return view
     }
-    
+        
     var activeView: some View{
-            VStack{
-                self._activeView
-            }.frame(width: totalWidth,height:totalHeight)
-//            .animation(.linear)
-            .background(Color.mainBG)
+        self.getActiveView()
+            .frame(width: totalWidth,height:totalHeight)
+            .animation(.linear)
     }
     
     func onAppear(){
         self.mainStates.userAcc.autoLogIn(){success in
             self.showLoginPage = !success
-//            if success{
-//                self.mainStates.PAPI.getTopPosts(limit: 50)
-//            }
         }
         self.locationManager.updateLocation()
     }
@@ -92,14 +104,17 @@ struct AppView: View {
     
     var body: some View {
         ZStack(alignment: .bottom){
-            Color.primaryColor
+            Color.black
             if self.showLoginPage{
                 LVLogin(){value in
                     self.showLoginPage = !value
                 }
             }
             if !self.showLoginPage{
-                self.activeView
+//                self.activeView
+                self.getActiveView()
+                    .frame(width: totalWidth,height:totalHeight)
+                    .animation(.linear)
                 if self.mainStates.showTab{
                     TabBarView()
                 }
@@ -109,11 +124,11 @@ struct AppView: View {
                 }
             }
             
-        }.edgesIgnoringSafeArea(.all)
-        .frame(width: totalWidth,height:totalHeight).edgesIgnoringSafeArea(.all)
+        }
+        .frame(width: totalWidth,height:totalHeight)
+        .edgesIgnoringSafeArea(.all)
         .onAppear(perform: self.onAppear)
         .onChange(of: self.locationManager.locationUpdated, perform: self.locationUpdate(update:))
-        
     }
 }
 

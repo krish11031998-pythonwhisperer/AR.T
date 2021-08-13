@@ -10,16 +10,27 @@ import SwiftUI
 struct CurveChart: View {
     var data:[Float]
     var size:CGSize = .init(width: totalWidth, height: 300)
-    var dataPoints:[CGFloat] = []
     @State private var load:Bool = false
     @State var selected:Int = -1
     @State var location:CGPoint = .zero
     @State var points:[CGPoint] = []
-    let header:String = "Price"
-    init(data:[Float],size:CGSize? = nil){
+    var interactions:Bool
+    var header:String? = nil
+    var bgColor:Color
+    var lineColor:Color
+    var chartShade:Bool
+    init(data:[Float],interactions:Bool = true,size:CGSize? = nil,header:String? = nil,bg:Color = .white,lineColor:Color = .blue,chartShade:Bool = true){
+        self.interactions = interactions
         self.data = data
-        self.updateValuePoints()
+        if let s = size{
+            self.size = s
+        }
+        self.header = header
+        self.bgColor = bg
+        self.lineColor = lineColor
+        self.chartShade = chartShade
     }
+    
 
     
     func onAppear(){
@@ -36,30 +47,25 @@ struct CurveChart: View {
         }
     }
     
-    mutating func updateValuePoints(){
-        let min = self.data.min() ?? 0
-        self.dataPoints = self.data.compactMap({CGFloat($0 - min)})
-    }
-    
     func path(size:CGSize,step:CGSize) -> some View{
         let stepWidth = step.width
         let stepHeight = step.height
+        let color = self.chartShade ? self.lineColor : Color.clear
         return ZStack(alignment: .leading){
             Path.drawCurvedChart(dataPoints: self.dataPoints, step: .init(x: stepWidth, y: stepHeight))
                 .trim(from: 0, to: self.load ? 1 : 0)
                 .stroke(self.gradientColor, style: StrokeStyle(lineWidth: 5, lineCap: .round))
                 .rotationEffect(.degrees(180), anchor: .center)
                 .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
-                .shadow(color: .blue, radius: 5, x: 0, y: 5)
-                .shadow(color: .blue.opacity(0.75), radius: 10, x: 0, y: 10)
-                .shadow(color: .blue.opacity(0.5), radius: 15, x: 0, y: 15)
-                .shadow(color: .blue.opacity(0.25), radius: 20, x: 0, y: 20)
-                .shadow(color: .blue.opacity(0.0), radius: 25, x: 0, y: 25)
+                .shadow(color: color, radius: 5, x: 0, y: 5)
+                .shadow(color: color.opacity(0.75), radius: 10, x: 0, y: 10)
+                .shadow(color: color.opacity(0.5), radius: 15, x: 0, y: 15)
+                .shadow(color: color.opacity(0.25), radius: 20, x: 0, y: 20)
+                .shadow(color: color.opacity(0.0), radius: 25, x: 0, y: 25)
             if self.selected != -1{
                 Circle()
-                    .fill(Color.white)
+                    .fill(Color.black)
                     .frame(width: 10, height: 10, alignment: .bottom)
-//                    .offset(self.location)
                     .offset(x: self.location.x - 2.5, y: self.location.y + 7.5)
                     .rotationEffect(.degrees(180), anchor: .center)
                     .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
@@ -78,30 +84,29 @@ struct CurveChart: View {
     }
     
     func chart(width:CGFloat, height:CGFloat) -> AnyView{
-        return AnyView(
-            GeometryReader{g in
+        return AnyView(GeometryReader{g in
             
             let w = g.size.width
             let h = g.size.height
             let chart_w = w * 0.95
             let stepWidth = chart_w / CGFloat(self.data.count - 1)
             let stepHeight = self.calcStepHeight(h: h * 0.5)
-            LazyVStack(alignment: .leading, spacing: 0){
-                MainText(content: self.header, fontSize: 20, color: .white, fontWeight: .regular)
-                    .padding(.horizontal)
-                    .frame(width: w,alignment: .leading)
-                self.valueInfo(width: w * 0.3, height: h * 0.2)
-                    .opacity(self.selected != -1 ? 1 : 0)
+            VStack(alignment: .leading, spacing: 0){
+                if let header = self.header{
+                    BasicText(content: header, fontDesign: .serif, size: 20, weight: .bold)
+                        .padding(.horizontal)
+                        .frame(width: w,height: h * 0.3 - 35,alignment: .leading)
+                }
                 self.path(size:.init(width: chart_w, height: h * 0.5 + 15),step: .init(width: stepWidth, height: stepHeight))
                     
             }
             .frame(width: w, height: h, alignment: .center)
-            .background(Color.black)
+            .background(self.bgColor)
             .clipShape(RoundedRectangle(cornerRadius: 20))
-            .shadow(color: .white.opacity(0.2), radius: 10, x: 0, y: 0)
+            .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 0)
             .onAppear(perform: self.onAppear)
         }
-        .padding(.horizontal,10)
+        .padding(.horizontal)
         .frame(width: width, height: height, alignment: .center))
     }
     
@@ -132,13 +137,13 @@ extension CurveChart{
     }
     
     var gradientColor:LinearGradient{
-        return LinearGradient(gradient: .init(colors: [Color.blue,Color.blue.opacity(0.875),Color.blue.opacity(0.75)]), startPoint: .trailing, endPoint: .leading)
+        return LinearGradient(gradient: .init(colors: [lineColor,lineColor.opacity(0.875),lineColor.opacity(0.75)]), startPoint: .trailing, endPoint: .leading)
     }
     
-//    var dataPoints:[CGFloat]{
-//
-//        return self.data.compactMap({CGFloat($0 - min)})
-//    }
+    var dataPoints:[CGFloat]{
+        let min = self.data.min() ?? 0
+        return self.data.compactMap({CGFloat($0 - min)})
+    }
     
     func valueInfo(width w:CGFloat, height h:CGFloat) -> AnyView{
         func subsectionInfo(idx:Int) -> some View{
@@ -148,7 +153,7 @@ extension CurveChart{
             let diff = idx != self.selected && idx > 0 ? self.data[idx] - self.data[idx - 1] : 0
             let color  = idx == self.selected ? Color.white :  diff > 0 ? Color.green : Color.red
             let fontColor = idx == self.selected ? Color.black : Color.white
-            let view = LazyVStack(alignment: .leading, spacing: 2.5){
+            let view = VStack(alignment: .leading, spacing: 2.5){
                 MainText(content: headline, fontSize: 10.5, color: fontColor, fontWeight: .regular)
                 MainText(content: String(format: "%.1f",value), fontSize: 14.5, color: fontColor, fontWeight: .semibold)
             }
@@ -172,7 +177,6 @@ extension CurveChart{
         .frame(minWidth: w * 0.5)
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: 10))
-//        .clipShape(RoundedRectangle(cornerRadius: 5))
         .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 0)
         .offset(x: x_off)
         .padding(.bottom,10)
@@ -181,7 +185,7 @@ extension CurveChart{
     }
     
     func onChanged(size:CGSize,step:CGPoint,value:DragGesture.Value){
-
+        if !self.interactions{return}
         let location = value.location
         let x = location.x
 //        let y = location.y
@@ -196,11 +200,7 @@ extension CurveChart{
         }
         
         let static_off = self.dataPoints[num] * step.y - size.height * 0.5
-//        let y_off = num == 0 ? static_off : static_off + CGFloat(Float(x/step.x) - num)
-//        let y_off = num >= self.dataPoints.count - 1 ? static_off : static_off + delta()
         let y_off = static_off
-//        let y_off = y - size.height * 0.5
-        
         
         
         withAnimation(.easeInOut) {
@@ -211,6 +211,7 @@ extension CurveChart{
 }
     
     func onEnded(value:DragGesture.Value){
+        if !self.interactions{return}
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250)) {
             withAnimation(.linear) {
                 self.selected = -1

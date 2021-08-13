@@ -61,6 +61,7 @@
 		BC645DDD2595124A0054F2FE /* MessageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC645DDC2595124A0054F2FE /* MessageData.swift */; };
 		BC645DE225951D0B0054F2FE /* MessageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC645DE125951D0B0054F2FE /* MessageList.swift */; };
 		BC67C27025307BAC00F1FC3C /* SVStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC67C26F25307BAC00F1FC3C /* SVStory.swift */; };
+		BC69423B26A32C6C003CE533 /* PortfolioMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC69423A26A32C6C003CE533 /* PortfolioMainView.swift */; };
 		BC69478A264DCB7000FE5FF1 /* ARHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC694789264DCB7000FE5FF1 /* ARHelpers.swift */; };
 		BC69478F264DE6D500FE5FF1 /* ARViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC69478E264DE6D500FE5FF1 /* ARViewHelper.swift */; };
 		BC694791264E5DF400FE5FF1 /* ARMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC694790264E5DF400FE5FF1 /* ARMainView.swift */; };
@@ -85,7 +86,6 @@
 		BC9A32472640304200882AB1 /* ArtScrollMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9A32462640304200882AB1 /* ArtScrollMainView.swift */; };
 		BC9A324B2643137500882AB1 /* ArtTopFactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9A324A2643137500882AB1 /* ArtTopFactView.swift */; };
 		BC9A324D264541FB00882AB1 /* ArtPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9A324C264541FB00882AB1 /* ArtPageView.swift */; };
-		BC9F13DD257F689B00F5BE45 /* QuickBlogsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9F13DC257F689B00F5BE45 /* QuickBlogsView.swift */; };
 		BC9F13E52580A37E00F5BE45 /* StringHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9F13E42580A37D00F5BE45 /* StringHelper.swift */; };
 		BCA038A9257930FF00C6713C /* FireBaseStorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA038A8257930FF00C6713C /* FireBaseStorageHelper.swift */; };
 		BCA038AE2579312D00C6713C /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA038AD2579312D00C6713C /* ImagePicker.swift */; };
@@ -101,7 +101,6 @@
 		BCA1840C265EDCC4007C3845 /* PlayfairDisplay-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCA1840B265EDCC4007C3845 /* PlayfairDisplay-VariableFont_wght.ttf */; };
 		BCA1840F265EDF6F007C3845 /* ArtStoreMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1840E265EDF6F007C3845 /* ArtStoreMain.swift */; };
 		BCA18415266265F1007C3845 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = BCA18414266265F1007C3845 /* SwiftUICharts */; };
-		BCA1AD192602779D009C31A4 /* TopPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1AD182602779D009C31A4 /* TopPostView.swift */; };
 		BCA52ABD266A54BD00817307 /* RecommendArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA52ABC266A54BD00817307 /* RecommendArt.swift */; };
 		BCAD90FD251660DE0019C1F5 /* PVMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAD90FC251660DE0019C1F5 /* PVMain.swift */; };
 		BCAD9105251661C80019C1F5 /* PVPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAD9104251661C80019C1F5 /* PVPost.swift */; };
@@ -122,7 +121,6 @@
 		BCAFD5282514C7D20072F161 /* WVMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAFD5272514C7D20072F161 /* WVMain.swift */; };
 		BCAFD53B2514D75C0072F161 /* Basics.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAFD53A2514D75C0072F161 /* Basics.swift */; };
 		BCAFD5402514D81B0072F161 /* WVHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAFD53F2514D81B0072F161 /* WVHeader.swift */; };
-		BCB22A63251E929B00F5926C /* AMMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB22A62251E929B00F5926C /* AMMain.swift */; };
 		BCB25F1325B0C17900290E18 /* TrendingMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB25F1225B0C17900290E18 /* TrendingMainView.swift */; };
 		BCC224EA25528ED800AE6769 /* TabBarButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC224E925528ED800AE6769 /* TabBarButtons.swift */; };
 		BCC4E05F2619C59C00988164 /* FancyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC4E05E2619C59C00988164 /* FancyCard.swift */; };
@@ -141,6 +139,10 @@
 		BCD6F90D2592290D00FACEF8 /* BungeeOutline-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCD6F90C2592290D00FACEF8 /* BungeeOutline-Regular.ttf */; };
 		BCD6F91225922F0200FACEF8 /* BungeeShade-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCD6F91125922F0200FACEF8 /* BungeeShade-Regular.ttf */; };
 		BCD6F9172592311F00FACEF8 /* GreatVibes-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCD6F9162592311F00FACEF8 /* GreatVibes-Regular.ttf */; };
+		BCD7B08D26A5BF0B008E057D /* TopPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD7B08C26A5BF0B008E057D /* TopPostView.swift */; };
+		BCD7B08F26A983D3008E057D /* HighlightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD7B08E26A983D3008E057D /* HighlightView.swift */; };
+		BCD7B09426B351FC008E057D /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = BCD7B09326B351FC008E057D /* Introspect */; };
+		BCD7B09626B407CD008E057D /* ArtistArtView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD7B09526B407CD008E057D /* ArtistArtView.swift */; };
 		BCD7C7D926903BF000077D89 /* CAAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD7C7D726903BF000077D89 /* CAAPI.swift */; };
 		BCD7C7DA26903BF000077D89 /* CAData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD7C7D826903BF000077D89 /* CAData.swift */; };
 		BCD7C7FA2690955500077D89 /* WeekBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD7C7F02690955500077D89 /* WeekBarChart.swift */; };
@@ -251,6 +253,7 @@
 		BC645DDC2595124A0054F2FE /* MessageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageData.swift; sourceTree = "<group>"; };
 		BC645DE125951D0B0054F2FE /* MessageList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageList.swift; sourceTree = "<group>"; };
 		BC67C26F25307BAC00F1FC3C /* SVStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVStory.swift; sourceTree = "<group>"; };
+		BC69423A26A32C6C003CE533 /* PortfolioMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortfolioMainView.swift; sourceTree = "<group>"; };
 		BC694789264DCB7000FE5FF1 /* ARHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARHelpers.swift; sourceTree = "<group>"; };
 		BC69478E264DE6D500FE5FF1 /* ARViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewHelper.swift; sourceTree = "<group>"; };
 		BC694790264E5DF400FE5FF1 /* ARMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARMainView.swift; sourceTree = "<group>"; };
@@ -274,7 +277,6 @@
 		BC9A32462640304200882AB1 /* ArtScrollMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtScrollMainView.swift; sourceTree = "<group>"; };
 		BC9A324A2643137500882AB1 /* ArtTopFactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtTopFactView.swift; sourceTree = "<group>"; };
 		BC9A324C264541FB00882AB1 /* ArtPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtPageView.swift; sourceTree = "<group>"; };
-		BC9F13DC257F689B00F5BE45 /* QuickBlogsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickBlogsView.swift; sourceTree = "<group>"; };
 		BC9F13E42580A37D00F5BE45 /* StringHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringHelper.swift; sourceTree = "<group>"; };
 		BCA038A8257930FF00C6713C /* FireBaseStorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireBaseStorageHelper.swift; sourceTree = "<group>"; };
 		BCA038AD2579312D00C6713C /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -289,7 +291,6 @@
 		BCA038DA2579326900C6713C /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
 		BCA1840B265EDCC4007C3845 /* PlayfairDisplay-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PlayfairDisplay-VariableFont_wght.ttf"; path = "../../../../../../Downloads/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 		BCA1840E265EDF6F007C3845 /* ArtStoreMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtStoreMain.swift; sourceTree = "<group>"; };
-		BCA1AD182602779D009C31A4 /* TopPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopPostView.swift; sourceTree = "<group>"; };
 		BCA52ABC266A54BD00817307 /* RecommendArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendArt.swift; sourceTree = "<group>"; };
 		BCAD90FC251660DE0019C1F5 /* PVMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMain.swift; sourceTree = "<group>"; };
 		BCAD9104251661C80019C1F5 /* PVPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPost.swift; sourceTree = "<group>"; };
@@ -314,7 +315,6 @@
 		BCAFD5272514C7D20072F161 /* WVMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WVMain.swift; sourceTree = "<group>"; };
 		BCAFD53A2514D75C0072F161 /* Basics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Basics.swift; sourceTree = "<group>"; };
 		BCAFD53F2514D81B0072F161 /* WVHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WVHeader.swift; sourceTree = "<group>"; };
-		BCB22A62251E929B00F5926C /* AMMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMMain.swift; sourceTree = "<group>"; };
 		BCB25F1225B0C17900290E18 /* TrendingMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingMainView.swift; sourceTree = "<group>"; };
 		BCC224E925528ED800AE6769 /* TabBarButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarButtons.swift; sourceTree = "<group>"; };
 		BCC4E05E2619C59C00988164 /* FancyCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyCard.swift; sourceTree = "<group>"; };
@@ -333,6 +333,9 @@
 		BCD6F90C2592290D00FACEF8 /* BungeeOutline-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BungeeOutline-Regular.ttf"; sourceTree = "<group>"; };
 		BCD6F91125922F0200FACEF8 /* BungeeShade-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BungeeShade-Regular.ttf"; sourceTree = "<group>"; };
 		BCD6F9162592311F00FACEF8 /* GreatVibes-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GreatVibes-Regular.ttf"; sourceTree = "<group>"; };
+		BCD7B08C26A5BF0B008E057D /* TopPostView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopPostView.swift; sourceTree = "<group>"; };
+		BCD7B08E26A983D3008E057D /* HighlightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightView.swift; sourceTree = "<group>"; };
+		BCD7B09526B407CD008E057D /* ArtistArtView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistArtView.swift; sourceTree = "<group>"; };
 		BCD7C7D726903BF000077D89 /* CAAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAAPI.swift; sourceTree = "<group>"; };
 		BCD7C7D826903BF000077D89 /* CAData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAData.swift; sourceTree = "<group>"; };
 		BCD7C7F02690955500077D89 /* WeekBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeekBarChart.swift; sourceTree = "<group>"; };
@@ -371,6 +374,7 @@
 			files = (
 				BC9515112655AAA000FFE1A1 /* FocusEntity in Frameworks */,
 				BCA18415266265F1007C3845 /* SwiftUICharts in Frameworks */,
+				BCD7B09426B351FC008E057D /* Introspect in Frameworks */,
 				C6F159552BE8EAE85855D645 /* Pods_TimeExplorer.framework in Frameworks */,
 				BC618C5425A5D5C100377140 /* Charts in Frameworks */,
 			);
@@ -414,6 +418,7 @@
 				BCB25F1125B0C15B00290E18 /* TrendingView */,
 				BC89632F25A1D97200E1AE82 /* TourView */,
 				BC027B2D25A05F6F00CB58B5 /* ExploreViewMain.swift */,
+				BCD7B08C26A5BF0B008E057D /* TopPostView.swift */,
 			);
 			path = ExploreView;
 			sourceTree = "<group>";
@@ -523,6 +528,8 @@
 				BC5D47DD26667AC800C55A3F /* AllArtView.swift */,
 				BCA52ABC266A54BD00817307 /* RecommendArt.swift */,
 				BC1FD16C2686137900177E1A /* ArtistView.swift */,
+				BCD7B08E26A983D3008E057D /* HighlightView.swift */,
+				BCD7B09526B407CD008E057D /* ArtistArtView.swift */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -554,6 +561,14 @@
 				BC9102BB253198830016E8B1 /* SVRows.swift */,
 			);
 			path = StoryView;
+			sourceTree = "<group>";
+		};
+		BC69423926A32C6C003CE533 /* PortfolioPage */ = {
+			isa = PBXGroup;
+			children = (
+				BC69423A26A32C6C003CE533 /* PortfolioMainView.swift */,
+			);
+			path = PortfolioPage;
 			sourceTree = "<group>";
 		};
 		BC694786264DCA7000FE5FF1 /* Post */ = {
@@ -769,6 +784,7 @@
 		BCAFD5142514C7160072F161 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BC69423926A32C6C003CE533 /* PortfolioPage */,
 				BC52DEAE265FDDB5009D7A4E /* HomePage */,
 				BCA1840D265EDF5B007C3845 /* ArtStore */,
 				BC694788264DCB6200FE5FF1 /* ARMainView */,
@@ -779,7 +795,6 @@
 				BC645DE625951D2C0054F2FE /* MessageView */,
 				BC3DD52B253A2FF300596F8F /* UserView */,
 				BCE0B9D925398A7B0043EDEF /* LoginView */,
-				BCB22A61251E928C00F5926C /* AppMain */,
 				BC37DE4D251603EC000BC15E /* TabBar */,
 				BC37DE442515069B000BC15E /* AttractionView */,
 				BCAFD53A2514D75C0072F161 /* Basics.swift */,
@@ -826,16 +841,6 @@
 				BC37DE3C2514DFD7000BC15E /* WVCenter.swift */,
 			);
 			path = WeatherView;
-			sourceTree = "<group>";
-		};
-		BCB22A61251E928C00F5926C /* AppMain */ = {
-			isa = PBXGroup;
-			children = (
-				BCB22A62251E929B00F5926C /* AMMain.swift */,
-				BC9F13DC257F689B00F5BE45 /* QuickBlogsView.swift */,
-				BCA1AD182602779D009C31A4 /* TopPostView.swift */,
-			);
-			path = AppMain;
 			sourceTree = "<group>";
 		};
 		BCB25F1125B0C15B00290E18 /* TrendingView */ = {
@@ -994,6 +999,7 @@
 				BC618C5325A5D5C100377140 /* Charts */,
 				BC9515102655AAA000FFE1A1 /* FocusEntity */,
 				BCA18414266265F1007C3845 /* SwiftUICharts */,
+				BCD7B09326B351FC008E057D /* Introspect */,
 			);
 			productName = TimeExplorer;
 			productReference = BCAFD4BE2514C5170072F161 /* TimeExplorer.app */;
@@ -1073,6 +1079,7 @@
 				BC618C5225A5D5C100377140 /* XCRemoteSwiftPackageReference "swiftui-charts" */,
 				BC95150F2655AAA000FFE1A1 /* XCRemoteSwiftPackageReference "FocusEntity" */,
 				BCA18413266265F0007C3845 /* XCRemoteSwiftPackageReference "ChartView" */,
+				BCD7B09226B351FC008E057D /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = BCAFD4BF2514C5170072F161 /* Products */;
 			projectDirPath = "";
@@ -1241,7 +1248,6 @@
 				BC2743AB267E80D9007960E9 /* PersonalBidView.swift in Sources */,
 				BC1BDDCF264D45EB005B2C8A /* FancyScrollCard.swift in Sources */,
 				BCE6FB8B25EF914000944D32 /* BlogViewMain.swift in Sources */,
-				BCA1AD192602779D009C31A4 /* TopPostView.swift in Sources */,
 				BCD7C8022690955500077D89 /* CircleChart.swift in Sources */,
 				BCF1934D2549F45D0080DDCE /* UVDetail.swift in Sources */,
 				BCE0B9F32539BC600043EDEF /* User.swift in Sources */,
@@ -1304,6 +1310,7 @@
 				BC71E43C2699750A00EA03BF /* Array.swift in Sources */,
 				BC9A32472640304200882AB1 /* ArtScrollMainView.swift in Sources */,
 				BCAFD5062514C70B0072F161 /* TripAdvisorData.swift in Sources */,
+				BC69423B26A32C6C003CE533 /* PortfolioMainView.swift in Sources */,
 				BCD7C7FB2690955500077D89 /* SummaryView.swift in Sources */,
 				BC3DD5272539BE6900596F8F /* FireStoreAPI.swift in Sources */,
 				BC561D23261B9AD100130428 /* ImageView.swift in Sources */,
@@ -1314,12 +1321,12 @@
 				BCAFD5282514C7D20072F161 /* WVMain.swift in Sources */,
 				BC2B436C258BE36E00854668 /* AVPlayerHelper.swift in Sources */,
 				BCCDBE442587C39F00E6A2C1 /* VideoWriter.swift in Sources */,
-				BC9F13DD257F689B00F5BE45 /* QuickBlogsView.swift in Sources */,
 				BC69478F264DE6D500FE5FF1 /* ARViewHelper.swift in Sources */,
 				BCAFD5052514C70B0072F161 /* WeatherData.swift in Sources */,
 				BCA038B82579315700C6713C /* Color.swift in Sources */,
 				BC1BDDD2264D46A9005B2C8A /* FancyScroll_Structs.swift in Sources */,
 				BCCDBE3F2587B28700E6A2C1 /* CustomCameraViewMain.swift in Sources */,
+				BCD7B09626B407CD008E057D /* ArtistArtView.swift in Sources */,
 				BCC4E0692619DACF00988164 /* Transitions.swift in Sources */,
 				BCD7C7FD2690955500077D89 /* ChartCard.swift in Sources */,
 				BCCD912B2650118900AC24B4 /* FeedVerticalScroll.swift in Sources */,
@@ -1341,7 +1348,6 @@
 				BC95150E2655A37000FFE1A1 /* AVScrollView.swift in Sources */,
 				BCA038C22579318A00C6713C /* DateFormatter.swift in Sources */,
 				BC1BDDD4264D4928005B2C8A /* FancyScrollMain.swift in Sources */,
-				BCB22A63251E929B00F5926C /* AMMain.swift in Sources */,
 				BCD7C7FC2690955500077D89 /* LineChart.swift in Sources */,
 				BC1BDDCE264D45EB005B2C8A /* InfoCard.swift in Sources */,
 				BCE0EF032620DF1900864E49 /* SCNViewHelper.swift in Sources */,
@@ -1364,6 +1370,7 @@
 				BC618C6325A9F3C000377140 /* YoutubePlayerHelper.swift in Sources */,
 				BCAFD4FC2514C7020072F161 /* Stylings.swift in Sources */,
 				BCA038C72579319E00C6713C /* ImageHelper.swift in Sources */,
+				BCD7B08D26A5BF0B008E057D /* TopPostView.swift in Sources */,
 				BCA038A9257930FF00C6713C /* FireBaseStorageHelper.swift in Sources */,
 				BCD7C8002690955500077D89 /* CurveChart.swift in Sources */,
 				BC1240FC257A7EA50009B976 /* LocationManager.swift in Sources */,
@@ -1373,6 +1380,7 @@
 				BC52DEB2265FEC98009D7A4E /* FeaturedArt.swift in Sources */,
 				BCECE8C02555674700DB2EB6 /* CustomCameraView.swift in Sources */,
 				BC2AD930261FAEA7007F5921 /* ArtView.swift in Sources */,
+				BCD7B08F26A983D3008E057D /* HighlightView.swift in Sources */,
 				BCCDBE3A2587B04900E6A2C1 /* CMBufferHelper.swift in Sources */,
 				BC2875B626611A1400902C6A /* TopArtScroll.swift in Sources */,
 			);
@@ -1728,6 +1736,14 @@
 				minimumVersion = 1.5.5;
 			};
 		};
+		BCD7B09226B351FC008E057D /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1745,6 +1761,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BCA18413266265F0007C3845 /* XCRemoteSwiftPackageReference "ChartView" */;
 			productName = SwiftUICharts;
+		};
+		BCD7B09326B351FC008E057D /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BCD7B09226B351FC008E057D /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

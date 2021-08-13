@@ -55,71 +55,37 @@ struct TrendingData{
         return res
     }
 }
+
 struct TrendingMainView: View {
     @Binding var changeTab:String
     @State var data:[TrendingCardData] = []
     @Binding var showTrending:Bool
     @EnvironmentObject var mainStates:AppStates
-    @State var swiped:Int = 0
-    @State var offset:CGFloat = 0
-    @State var oneCall:Bool = false
-    @State var showTour:Bool = false
-    @State var showPost:Bool = false
-    @State var showBlog:Bool = false
+    @StateObject var SP:swipeParams = .init(0, 0, 100, type: .Stack)
     @State var showArt:Bool = false
 
     @State var selectedcard:TrendingCardData = .init(type: .post, date: .init())
-    var type:String = ""
-    var types:[String] = []
     var dispatchGroup:DispatchGroup = .init()
     @Binding var loadTours:Bool
 
 
-    init(tab:Binding<String>,tabstate:Binding<Bool>,showTrending:Binding<Bool>?, type:String = "all"){
+    init(tab:Binding<String>,tabstate:Binding<Bool>,showTrending:Binding<Bool>?){
         self._changeTab = tab
         self._loadTours = tabstate
         self._showTrending = showTrending != nil ? showTrending! : Binding.constant(false)
-        self.type = type
-    }
-
-    init(tab:Binding<String>,tabstate:Binding<Bool>,showTrending:Binding<Bool>?, types:[String] = []){
-        self._changeTab = tab
-        self._loadTours = tabstate
-        self._showTrending = showTrending != nil ? showTrending! : Binding.constant(false)
-        self.types = types
     }
 
     var currentCard:TrendingCardData{
         get{
-            if self.swiped >= 0 && self.swiped < self.data.count{
-                return self.data[self.swiped]
+            if self.SP.swiped >= 0 && self.SP.swiped < self.data.count{
+                return self.data[self.SP.swiped]
             }
             return self.selectedcard
         }
     }
    
-    
-    func onChanged(value:DragGesture.Value){
-        let height = value.translation.height
-        let val = value.location.y - value.startLocation.y
-        self.offset = val
-    }
-    
-    func onEnded(value:DragGesture.Value){
-//        let height = value.translation.height
-        let height = self.offset
-        var val:Int = 0
-        if abs(height) > 100{
-            val = height > 0 ? -1 : 1
-            if self.swiped + val <= self.data.count - 1 && self.swiped + val >= 0{
-                self.swiped += val
-            }
-        }
-        self.offset = 0
-    }
-    
     var swipedOffset:CGFloat{
-        return -CGFloat(self.swiped > 0 ? 1 : 0) * totalHeight
+        return -CGFloat(self.SP.swiped > 0 ? 1 : 0) * totalHeight
     }
 
     func onAppear(){
@@ -131,26 +97,29 @@ struct TrendingMainView: View {
     }
     
     func getCAAPIData(){
-        if !self.mainStates.CAAPI.artDatas.isEmpty{
-            self.parseData(self.mainStates.CAAPI.artDatas)
-        }else{
-            self.mainStates.CAAPI.getBatchArt()
+        if let data = self.mainStates.getArt(limit: 100,skip: 100){
+            self.parseData(data)
         }
     }
     
     func downloadArtPainting(){
-        FirebaseAPI.firebase_shared.getTopItems(limit: 5, collectionName: "paintings") { qs, err in
-            guard let qs = qs else {print(err?.localizedDescription ?? "Error");return}
-            if let arts = ArtAPI.shared.parseQueryDocuments(q: qs)?.compactMap({$0.parseVisualData()})
-            {
-                if arts.isEmpty {return}
-                DispatchQueue.main.async {
-                    self.data = arts
-                }
-                self.getCAAPIData()
+        if self.mainStates.AAPI.arts.isEmpty{
+            self.mainStates.AAPI.getArts(_name: self.mainStates.userAcc.username)
+        }else{
+            self.receiveArt(arts: self.mainStates.AAPI.arts)
+        }
+        self.getCAAPIData()
+    }
+
+    func receiveArt(arts:[ArtData]){
+        if !arts.isEmpty{
+            let _art = arts.compactMap({$0.parseVisualData()})
+            DispatchQueue.main.async {
+                self.data = _art
             }
         }
     }
+    
     
     
     func parseData(_ data:[CAData]){
@@ -159,6 +128,7 @@ struct TrendingMainView: View {
             let _data = data.compactMap({ TrendingCardData(image: $0.thumbnail, username: $0.artistName, mainText: $0.title, type: .art, data: ArtData(date: Date(), title:$0.title ?? "No Title", introduction: $0.wall_description ?? "Description",infoSnippets: $0.PaintingInfo, painterName: $0.artistName, thumbnail: $0.thumbnail,model_img: $0.original), date: Date())})
             DispatchQueue.main.async {
                 self.data.append(contentsOf: _data)
+                self.SP.end = self.data.count - 1
                 withAnimation(.easeInOut) {
                     self.mainStates.loading = false
                 }
@@ -167,35 +137,9 @@ struct TrendingMainView: View {
        
     }
     
-    var navigationLinktoTour:some View{
-        get{
-            let data = self.currentCard.data as? TourData
-            return NavigationLink(destination: TourVerticalCardView(data ?? .init(), self.$showTour), isActive: $showTour) {
-                MainText(content: "", fontSize: 10)
-            }.hidden()
-
-        }
-    }
-
 
     func updateViewState(){
-        switch(self.currentCard.type){
-            case .tour:
-                self.showTour.toggle()
-                break
-            case .blog:
-                self.showBlog.toggle()
-                break
-            case .post:
-                self.showPost.toggle()
-                break
-            case .art:
-                self.showArt.toggle()
-                break
-            default:
-                print("Nothing to see here folks")
-                break
-        }
+        self.showArt.toggle()
     }
 
 
@@ -204,15 +148,15 @@ struct TrendingMainView: View {
             ForEach(Array(self.data.enumerated()),id:\.offset){_data in
                 let idx = _data.offset
                 let data = _data.element
-                if idx >= self.swiped - 1 && idx <= self.swiped + 1{
+                if idx >= self.SP.swiped - 1 && idx <= self.SP.swiped + 1{
                     TrendingMainCard(idx, data, w, h,handler: self.updateViewState)
-                        .gesture(DragGesture().onChanged(self.onChanged(value:)).onEnded(self.onEnded(value:)))
+                        .gesture(DragGesture().onChanged(self.SP.onChanged(ges_value:)).onEnded(self.SP.onEnded(ges_value:)))
                 }
             }
         }.edgesIgnoringSafeArea(.all)
         .frame(width: totalWidth, height: totalHeight, alignment: .top)
         .animation(.easeInOut)
-        .offset(y: self.swipedOffset + self.offset)
+        .offset(y: self.swipedOffset + self.SP.extraOffset)
     }
     
 
@@ -221,20 +165,20 @@ struct TrendingMainView: View {
             Color.black
             if !self.data.isEmpty && !self.mainStates.loading{
                 self.ContentScroll(w: totalWidth, h: totalHeight)
-                if self.showTour{
-                    TourVerticalCardView(self.currentCard.data as? TourData ?? .init(), self.$showTour)
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
-                }
                 if let data = self.currentCard.data as? ArtData,self.showArt{
                     ArtScrollMainView(data: data,showArt: $showArt)
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
                         .environmentObject(self.mainStates)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
             }
         }
         .frame(width: totalWidth, height: totalHeight, alignment: .top)
         .onAppear(perform: self.onAppear)
-//        .onReceive(self.mainStates.CAAPI.$artDatas, perform: self.parseData)
+        .onReceive(self.mainStates.AAPI.$arts, perform: self.receiveArt(arts:))
+        .onReceive(self.mainStates.TabAPI[self.mainStates.tab]!.$artDatas, perform: self.parseData)
+        .onChange(of: self.SP.swiped, perform: { swiped in
+            print("swiped : \(swiped)")
+        })
         .navigationTitle("")
         .navigationBarHidden(true)
     }

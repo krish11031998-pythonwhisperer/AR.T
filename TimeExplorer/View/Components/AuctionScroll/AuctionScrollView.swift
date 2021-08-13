@@ -18,8 +18,8 @@ struct AuctionArtView: View {
         ScrollView(.vertical, showsIndicators: false){
             Spacer().frame(height: 50, alignment: .center)
 //            PersonalBidView(data: .init(repeating: .init(img: test.thumbnail, title: test.title, subtitle: test.painterName, data: test), count: 4))
-            self.QuickBidSection
-            self.TrendingView
+//            self.QuickBidSection
+//            self.TrendingView
             self.auctionCardView
             self.recentAdditions
             Spacer().frame(height: 150)
@@ -39,7 +39,7 @@ extension AuctionArtView{
 //                .padding(.vertical)
             HStack{
                 Spacer()
-                TopPostView(posts: Array(self.data[0..<15]), animation: self.animation){
+                TopPostView(posts: Array(self.data[0..<10]), animation: self.animation){
                     print("Pressed View More")
                 }
                 Spacer()
@@ -52,21 +52,21 @@ extension AuctionArtView{
             MainText(content: "Top Trending", fontSize: 25, color: .white, fontWeight: .semibold)
                 .padding()
 //            TopArtScroll(data: self.data)
-            AVScrollView(attractions: Array(self.data[15..<25]))
+            AVScrollView(attractions: Array(self.data[0..<25]))
         }
         .padding()
         .aspectRatio(contentMode: .fill)
     }
     
     var auctionCardView:some View{
-        let data = self.data.count > 5 ? Array(self.data[25..<30] ): self.data
+        let data = self.data.count > 5 ? Array(self.data[10..<25] ): self.data
         return VStack(alignment: .center, spacing: 0) {
             MainText(content: "Recent Bids", fontSize: 25, color: .white, fontWeight: .semibold)
                 .padding()
                 .frame(width: totalWidth, alignment: .leading)
             ForEach(Array(data.enumerated()),id:\.offset) { _data in
                 let data = _data.element
-                AuctionCard(idx:_data.offset,data: data)
+                AuctionCard(idx:_data.offset,data: data,size: .init(width: totalWidth, height: totalHeight * 0.75))
             }
         }.padding(.vertical)
     }
@@ -76,7 +76,7 @@ extension AuctionArtView{
             MainText(content: "Recent Additions", fontSize: 25, color: .white, fontWeight: .semibold)
                 .padding()
                 .frame(width: totalWidth, alignment: .leading)
-            PinterestScroll(data: Array(self.data[30...]), equalSize: true)
+            PinterestScroll(data: Array(self.data[25...]), equalSize: true)
         }.padding(.vertical)
     }
 }

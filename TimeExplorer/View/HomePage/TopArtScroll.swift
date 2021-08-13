@@ -15,16 +15,13 @@ class TASScrollParams:ObservableObject{
 }
 
 struct TopArtScroll: View {
-    var cardSize:CGSize = .init(width: totalWidth * 0.5, height: totalHeight * 0.4)
+    var cardSize:CGSize = .init(width: totalWidth * 0.5, height: totalHeight * 0.5)
     @StateObject var SP:TASScrollParams = .init()
-//    @StateObject var IMD:ImageDownloader
-    //        self._IMD = StateObject(wrappedValue: .init(urls: data.compactMap({$0.img}), mode: "multiple", quality: .low))
     let cards:Int = 2
     var data:[AVSData] = []
     
     init(data:[AVSData]){
         self.data = data
-//        self._IMD = StateObject(wrappedValue: .init(urls: data.compactMap({$0.img}), mode: "multiple", quality: .low))
     }
     
     
@@ -40,9 +37,8 @@ struct TopArtScroll: View {
                 
                 if let img_url = data.img,idx >= self.SP.swiped - cards  && idx <= self.SP.swiped + cards{
                     ImageView(url: img_url,heading: data.title, width: cardSize.width, height: cardSize.height, contentMode: .fill,alignment: .center, isPost: false,headingSize: 15, isHidden: !viewing)
-//                    ImageView(img: self.IMD.images[img_url],heading: data.title, width: cardSize.width, height: cardSize.height, contentMode: .fill,alignment: .center, isPost: false,headingSize: 15, isHidden: !viewing)
                         .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .scaleEffect(idx == self.SP.swiped ? 1.2 : 1)
+                        .scaleEffect(idx == self.SP.swiped ? 1.05 : 1)
                         .frame(width: cardSize.width, height: cardSize.height, alignment: .center)
                         .rotation3DEffect(.init(degrees: .init(skewX)),axis: (x: 0.0, y: 1.0, z: 0.0))
                         .offset(x: isViewing ? self.SP.dy_off : x_off)
@@ -60,7 +56,6 @@ struct TopArtScroll: View {
     var body: some View {
         self.FancyHStack
             .padding(.vertical,50)
-//            .onAppear(perform: self.onAppear)
     }
 }
 
@@ -102,7 +97,7 @@ extension TopArtScroll{
     func computeParams(idx:Int) -> (Bool,CGFloat,CGFloat,Double){
         let isViewing = idx == self.SP.swiped
         let diff = CGFloat(idx - self.SP.swiped)
-        let x_off:CGFloat = isViewing ? self.SP.dy_off : -cardSize.width * (isViewing && diff == 0 ? 0 : diff * 0.65)
+        let x_off:CGFloat = isViewing ? self.SP.dy_off : -cardSize.width * (isViewing && diff == 0 ? 0 : diff * 0.7)
         let zInd:Double = -Double(diff)
         return (isViewing,diff,x_off,zInd)
     }

@@ -18,6 +18,32 @@ struct ArtTopFactView: View {
 //    @State var changeFocus:Bool = false
 //    let no_cards:Int = 4
 
+    
+    
+    var mainBody:some View{
+        HStack(alignment: .center, spacing: 0) {
+            ForEach(Array(self.top_Facts.keys).reversed(),id:\.self) { key in
+                let value = self.top_Facts[key] ?? "No Value"
+                self.infoView(q: key, ans: value)
+                    .tag(key)
+                    .gesture(DragGesture()
+                                .onChanged(self.onChanged(value:))
+                                .onEnded(self.onEnded(value:))
+                    )
+                    .offset(x: self.offset + swipedOffset)
+            }
+        }
+        .frame(width: totalWidth, height: totalHeight, alignment: .leading)
+        .background(ImageView(url: self.data.thumbnail, width: totalWidth, height: totalHeight, contentMode: .fill, alignment: .center)
+                        .clipShape(Rectangle()))
+    }
+
+    var body: some View {
+        self.mainBody
+    }
+}
+
+extension ArtTopFactView{
     func onChanged(value:DragGesture.Value){
         let width = value.translation.width
         let height = value.translation.height
@@ -48,8 +74,6 @@ struct ArtTopFactView: View {
         }else{
             self.ver_onEnded(value)
         }
-        
-        
     }
     
     var swipedOffset:CGFloat{
@@ -67,11 +91,12 @@ struct ArtTopFactView: View {
                 let w = g.frame(in: .local).width
                 let h = g.frame(in: .local).height
                 VStack(alignment: .leading, spacing: 10) {
-                    Text(q)
-                        .font(.system(size: 35, weight: .semibold, design: .serif))
-                        .foregroundColor(.white)
-                        .frame(width: w, alignment: .leading)
-                        .background(Color.clear)
+//                    Text(q)
+//                        .font(.system(size: 35, weight: .semibold, design: .serif))
+//                        .foregroundColor(.white)
+//                        .frame(width: w, alignment: .leading)
+//                        .background(Color.clear)
+                    MainText(content: q, fontSize: 35, color: .white, fontWeight: .semibold)
                     Spacer()
                     FactCard(q: "", ans: ans, width: w, height: h * 0.25)
                 }.frame(width: w, height: h, alignment: .leading)
@@ -89,32 +114,7 @@ struct ArtTopFactView: View {
         }.edgesIgnoringSafeArea(.all)
         .frame(width: totalWidth, height: totalHeight, alignment: .center)
     }
-    
-    
-    var mainBody:some View{
-        HStack(alignment: .center, spacing: 0) {
-            ForEach(Array(self.top_Facts.keys).reversed(),id:\.self) { key in
-                let value = self.top_Facts[key] ?? "No Value"
-                self.infoView(q: key, ans: value)
-                    .tag(key)
-                    .gesture(DragGesture()
-                                .onChanged(self.onChanged(value:))
-                                .onEnded(self.onEnded(value:))
-                    )
-                    .offset(x: self.offset + swipedOffset)
-                    
-            }
-        }
-        .frame(width: totalWidth, height: totalHeight, alignment: .leading)
-        .background(ImageView(url: self.data.thumbnail, width: totalWidth, height: totalHeight, contentMode: .fill, alignment: .center)
-                        .clipShape(Rectangle()))
-    }
-
-    var body: some View {
-        self.mainBody
-    }
 }
-
 
 
 //struct ArtTopFactView_Previews: PreviewProvider {
