@@ -8,11 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		29E7F7AB45F53DFB7A8697BC /* Pods_TimeExplorerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D74E9287BDD8CF8FA20074A /* Pods_TimeExplorerTests.framework */; };
-		BC027B2E25A05F6F00CB58B5 /* ExploreViewMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC027B2D25A05F6F00CB58B5 /* ExploreViewMain.swift */; };
-		BC06C58025FEA727003BCA99 /* Fragment_of_Milan_Cathedral.usdz in Resources */ = {isa = PBXBuildFile; fileRef = BC06C57F25FEA727003BCA99 /* Fragment_of_Milan_Cathedral.usdz */; };
-		BC06C58525FEA72C003BCA99 /* St.usdz in Resources */ = {isa = PBXBuildFile; fileRef = BC06C58425FEA72C003BCA99 /* St.usdz */; };
+		BC027B2E25A05F6F00CB58B5 /* ThreeDArtMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC027B2D25A05F6F00CB58B5 /* ThreeDArtMainView.swift */; };
 		BC06C58A25FEA7A9003BCA99 /* ChaptersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC06C58925FEA7A9003BCA99 /* ChaptersView.swift */; };
-		BC06C59225FF754E003BCA99 /* Darsena_Milano_Natural_Pool_Proposal.usdz in Resources */ = {isa = PBXBuildFile; fileRef = BC06C59125FF754E003BCA99 /* Darsena_Milano_Natural_Pool_Proposal.usdz */; };
 		BC07C110253859F700FD399A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BC07C10F253859F700FD399A /* GoogleService-Info.plist */; };
 		BC1240FC257A7EA50009B976 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1240FB257A7EA50009B976 /* LocationManager.swift */; };
 		BC124109257D49AE0009B976 /* FloatHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC124108257D49AE0009B976 /* FloatHelpers.swift */; };
@@ -81,7 +78,6 @@
 		BC96B6712615C41B0062B905 /* NormalGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC96B6702615C41B0062B905 /* NormalGrid.swift */; };
 		BC96B6762615C44B0062B905 /* FancyGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC96B6752615C44B0062B905 /* FancyGrid.swift */; };
 		BC96B67B2615C4B90062B905 /* ExploreColCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC96B67A2615C4B90062B905 /* ExploreColCard.swift */; };
-		BC96B68026171BE90062B905 /* César_-_Louvre_Museum.usdz in Resources */ = {isa = PBXBuildFile; fileRef = BC96B67F26171BE90062B905 /* César_-_Louvre_Museum.usdz */; };
 		BC96B68826175DAE0062B905 /* SpeechModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC96B68726175DAE0062B905 /* SpeechModel.swift */; };
 		BC9A32472640304200882AB1 /* ArtScrollMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9A32462640304200882AB1 /* ArtScrollMainView.swift */; };
 		BC9A324B2643137500882AB1 /* ArtTopFactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9A324A2643137500882AB1 /* ArtTopFactView.swift */; };
@@ -201,11 +197,8 @@
 		8E7FB0C49F5A8EB74D856F7C /* Pods-TimeExplorerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TimeExplorerTests.debug.xcconfig"; path = "Target Support Files/Pods-TimeExplorerTests/Pods-TimeExplorerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		90EE1A66CB0320306E8A098E /* Pods-TimeExplorer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TimeExplorer.release.xcconfig"; path = "Target Support Files/Pods-TimeExplorer/Pods-TimeExplorer.release.xcconfig"; sourceTree = "<group>"; };
 		A93CAA014D7E525F89883F36 /* Pods-TimeExplorer-TimeExplorerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TimeExplorer-TimeExplorerUITests.debug.xcconfig"; path = "Target Support Files/Pods-TimeExplorer-TimeExplorerUITests/Pods-TimeExplorer-TimeExplorerUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		BC027B2D25A05F6F00CB58B5 /* ExploreViewMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewMain.swift; sourceTree = "<group>"; };
-		BC06C57F25FEA727003BCA99 /* Fragment_of_Milan_Cathedral.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Fragment_of_Milan_Cathedral.usdz; sourceTree = "<group>"; };
-		BC06C58425FEA72C003BCA99 /* St.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = St.usdz; sourceTree = "<group>"; };
+		BC027B2D25A05F6F00CB58B5 /* ThreeDArtMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDArtMainView.swift; sourceTree = "<group>"; };
 		BC06C58925FEA7A9003BCA99 /* ChaptersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaptersView.swift; sourceTree = "<group>"; };
-		BC06C59125FF754E003BCA99 /* Darsena_Milano_Natural_Pool_Proposal.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Darsena_Milano_Natural_Pool_Proposal.usdz; sourceTree = "<group>"; };
 		BC07C10F253859F700FD399A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BC1240FB257A7EA50009B976 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		BC124108257D49AE0009B976 /* FloatHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatHelpers.swift; sourceTree = "<group>"; };
@@ -272,7 +265,6 @@
 		BC96B6702615C41B0062B905 /* NormalGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalGrid.swift; sourceTree = "<group>"; };
 		BC96B6752615C44B0062B905 /* FancyGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyGrid.swift; sourceTree = "<group>"; };
 		BC96B67A2615C4B90062B905 /* ExploreColCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreColCard.swift; sourceTree = "<group>"; };
-		BC96B67F26171BE90062B905 /* César_-_Louvre_Museum.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = "César_-_Louvre_Museum.usdz"; sourceTree = "<group>"; };
 		BC96B68726175DAE0062B905 /* SpeechModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechModel.swift; sourceTree = "<group>"; };
 		BC9A32462640304200882AB1 /* ArtScrollMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtScrollMainView.swift; sourceTree = "<group>"; };
 		BC9A324A2643137500882AB1 /* ArtTopFactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtTopFactView.swift; sourceTree = "<group>"; };
@@ -413,25 +405,13 @@
 			isa = PBXGroup;
 			children = (
 				BCCD91292650116400AC24B4 /* InstagramScroll */,
-				BC1BDDC9264D45EB005B2C8A /* FancyScroll */,
 				BC2AD92E261FAE8E007F5921 /* ArtView */,
 				BCB25F1125B0C15B00290E18 /* TrendingView */,
 				BC89632F25A1D97200E1AE82 /* TourView */,
-				BC027B2D25A05F6F00CB58B5 /* ExploreViewMain.swift */,
+				BC027B2D25A05F6F00CB58B5 /* ThreeDArtMainView.swift */,
 				BCD7B08C26A5BF0B008E057D /* TopPostView.swift */,
 			);
 			path = ExploreView;
-			sourceTree = "<group>";
-		};
-		BC06C57E25FEA718003BCA99 /* ARModels */ = {
-			isa = PBXGroup;
-			children = (
-				BC06C57F25FEA727003BCA99 /* Fragment_of_Milan_Cathedral.usdz */,
-				BC06C59125FF754E003BCA99 /* Darsena_Milano_Natural_Pool_Proposal.usdz */,
-				BC96B67F26171BE90062B905 /* César_-_Louvre_Museum.usdz */,
-				BC06C58425FEA72C003BCA99 /* St.usdz */,
-			);
-			path = ARModels;
 			sourceTree = "<group>";
 		};
 		BC1410F92585E0A500AAA0B4 /* lottieFiles */ = {
@@ -725,7 +705,6 @@
 			isa = PBXGroup;
 			children = (
 				BCC4E0632619DACF00988164 /* Extensions */,
-				BC06C57E25FEA718003BCA99 /* ARModels */,
 				BCA038A7257930D800C6713C /* Helpers */,
 				BCAFD5142514C7160072F161 /* View */,
 				BCAFD4C12514C5170072F161 /* TimeExplorerApp.swift */,
@@ -784,6 +763,7 @@
 		BCAFD5142514C7160072F161 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BC1BDDC9264D45EB005B2C8A /* FancyScroll */,
 				BC69423926A32C6C003CE533 /* PortfolioPage */,
 				BC52DEAE265FDDB5009D7A4E /* HomePage */,
 				BCA1840D265EDF5B007C3845 /* ArtStore */,
@@ -1099,7 +1079,6 @@
 			files = (
 				BCD6F90D2592290D00FACEF8 /* BungeeOutline-Regular.ttf in Resources */,
 				BCEA9736266BFE8900ADBF14 /* NetflixSansThin.ttf in Resources */,
-				BC96B68026171BE90062B905 /* César_-_Louvre_Museum.usdz in Resources */,
 				BC80F6AF25ACDCB100F8E450 /* Raleway-VariableFont_wght.ttf in Resources */,
 				BCAFD4C92514C5190072F161 /* Preview Assets.xcassets in Resources */,
 				BCA1840C265EDCC4007C3845 /* PlayfairDisplay-VariableFont_wght.ttf in Resources */,
@@ -1107,14 +1086,11 @@
 				BCAFD4C62514C5190072F161 /* Assets.xcassets in Resources */,
 				BC2B4371258C777800854668 /* timer.json in Resources */,
 				BCD6F91225922F0200FACEF8 /* BungeeShade-Regular.ttf in Resources */,
-				BC06C58025FEA727003BCA99 /* Fragment_of_Milan_Cathedral.usdz in Resources */,
 				BC618C5925A6FCA300377140 /* NeueMachina-Regular.otf in Resources */,
 				BC1410F52585E0A100AAA0B4 /* heart.json in Resources */,
 				BC52DEAD265FD5B3009D7A4E /* ZillaSlab-Regular.ttf in Resources */,
 				BCA038DB2579326900C6713C /* loading.json in Resources */,
 				BC1F8407259B76AB003E2CA8 /* SortsMillGoudy-Regular.ttf in Resources */,
-				BC06C58525FEA72C003BCA99 /* St.usdz in Resources */,
-				BC06C59225FF754E003BCA99 /* Darsena_Milano_Natural_Pool_Proposal.usdz in Resources */,
 				BCD6F9172592311F00FACEF8 /* GreatVibes-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1264,7 +1240,7 @@
 				BC1FD16D2686137A00177E1A /* ArtistView.swift in Sources */,
 				BCAFD53B2514D75C0072F161 /* Basics.swift in Sources */,
 				BCAD910A2517966E0019C1F5 /* AVMain.swift in Sources */,
-				BC027B2E25A05F6F00CB58B5 /* ExploreViewMain.swift in Sources */,
+				BC027B2E25A05F6F00CB58B5 /* ThreeDArtMainView.swift in Sources */,
 				BCAD9105251661C80019C1F5 /* PVPost.swift in Sources */,
 				BCAFD50F2514C70F0072F161 /* TripAdvisorAPI.swift in Sources */,
 				BCE6FB7325EF902500944D32 /* LandMarkMainView.swift in Sources */,

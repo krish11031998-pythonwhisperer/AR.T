@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TabBarView: View {
-    var tabs:[(name:String,icon:String)] = [(name:"home",icon:"house.fill"),(name:"blogs",icon:"newspaper"),(name:"feed",icon:"play.tv"),(name:"attractions",icon:"globe"),(name:"profile",icon:"person.fill")]
+    var tabs:[(name:String,icon:String)] = [(name:"home",icon:"house.fill"),(name:"blogs",icon:"square.split.bottomrightquarter.fill"),(name:"feed",icon:"rotate.3d"),(name:"attractions",icon:"globe"),(name:"profile",icon:"person.fill")]
     @EnvironmentObject var mainStates:AppStates
     @State var tabMidPoints:[String:CGFloat] = [:]
     @Namespace var animation

@@ -69,7 +69,7 @@ struct AppView: View {
     func getActiveView(tab:String? = nil) -> AnyView{
         var view:AnyView = AnyView(HomePageView())
         switch(tab ?? self.tab){
-        case "feed": view = AnyView(ExploreViewMain())
+        case "feed": view = AnyView(ThreeDViewMain())
         case "post": view = AnyView(CameraView().onAppear {self.mainStates.toggleTab()}.onDisappear {self.mainStates.toggleTab()})
         case "blogs": view = AnyView(ArtStoreMain())
         case "attractions": view = AnyView(FancyScrollMain())

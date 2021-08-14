@@ -108,7 +108,7 @@ struct TrendingMainView: View {
         }else{
             self.receiveArt(arts: self.mainStates.AAPI.arts)
         }
-        self.getCAAPIData()
+//        self.getCAAPIData()
     }
 
     func receiveArt(arts:[ArtData]){
@@ -116,6 +116,9 @@ struct TrendingMainView: View {
             let _art = arts.compactMap({$0.parseVisualData()})
             DispatchQueue.main.async {
                 self.data = _art
+                withAnimation(.easeInOut) {
+                    self.mainStates.loading = false
+                }
             }
         }
     }
