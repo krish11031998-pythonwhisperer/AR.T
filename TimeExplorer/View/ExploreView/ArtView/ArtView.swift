@@ -46,7 +46,7 @@ struct ArtView: View {
 
             
             if self.viewStates.inspect{
-                SystemButton(b_name: "xmark", b_content: "",color: .black,bgcolor: .white) {
+                SystemButton(b_name: "xmark", b_content: "",color: .black,size: .init(width: 15, height: 15), bgcolor: .white) {
                     self.viewStates.inspect.toggle()
                 }
                 Spacer()
@@ -213,19 +213,19 @@ struct ArtView: View {
     func sceneView(w:CGFloat,h:CGFloat) -> AnyView?{
         var view:AnyView? = nil
         let radius = self.viewStates.inspect ? 0 : 15
-        if let model_url  = self.data.model_url{
-            view =  AnyView(SceneModelView(w: w, h: h, name: self.name, model_url_str: model_url, player: nil, handler: self.updateAfterSceneInteraction(name:vector:))
+//        if let model_url  = self.data.model_url{
+//            view =  AnyView(SceneModelView(w: w, h: h, name: self.name, model_url_str: model_url, player: nil, handler: self.updateAfterSceneInteraction(name:vector:))
+//                .environmentObject(viewStates)
+//                .background(BlurView(style: .dark))
+//                .animation(.easeInOut)
+//                .clipShape(Corners(rect: .bottomRight,size: .init(width: radius, height: radius))))
+//        }else if let img = self.data.model_img{
+        view =  AnyView(SceneModelView(w: w, h: h, name: self.name, model_url_str:self.data.model_url, img_url_str: self.data.model_img, player: nil, handler: self.updateAfterSceneInteraction(name:vector:))
                 .environmentObject(viewStates)
                 .background(BlurView(style: .dark))
                 .animation(.easeInOut)
                 .clipShape(Corners(rect: .bottomRight,size: .init(width: radius, height: radius))))
-        }else if let img = self.data.model_img{
-            view =  AnyView(SceneModelView(w: w, h: h, name: self.name, img_url_str: img, player: nil, handler: self.updateAfterSceneInteraction(name:vector:))
-                .environmentObject(viewStates)
-                .background(BlurView(style: .dark))
-                .animation(.easeInOut)
-                .clipShape(Corners(rect: .bottomRight,size: .init(width: radius, height: radius))))
-        }
+//        }
         return view
         
     }

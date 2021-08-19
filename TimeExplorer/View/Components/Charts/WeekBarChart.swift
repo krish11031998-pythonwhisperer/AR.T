@@ -15,13 +15,16 @@ struct WeekBarChart: View {
     var weekData:[Int]
     var size:CGSize
     var week_h:[CGFloat] = []
+    let fontColor:Color
 //    let days:[String] = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
     let days:[String] = ["S","M","T","W","T","F","S"]
-    init(header:String,values:[Int],size:CGSize = .init(width: totalWidth * 0.45, height: 300)){
+    init(header:String,values:[Int],size:CGSize = .init(width: totalWidth * 0.45, height: 300),color:Color = .black){
         self.header = header
         self.weekData = values
         self.size = size
+        self.fontColor = color
         self.normalizeWeekData()
+        
     }
     
     mutating func normalizeWeekData(){
@@ -53,7 +56,7 @@ struct WeekBarChart: View {
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .shadow(color: color.opacity(0.5), radius: 3, x: 2.5, y: 5)
             if let v = val{
-                MainText(content: v, fontSize: 9.5, color: .white, fontWeight: .regular)
+                MainText(content: v, fontSize: 9.5, color: fontColor, fontWeight: .regular)
                     .frame(width: w, alignment: .center)
             }
         }
@@ -80,10 +83,10 @@ struct WeekBarChart: View {
     func mainBody(w:CGFloat,h:CGFloat) -> AnyView{
         return AnyView(VStack(spacing: 10){
 //                Group{
-                    MainText(content: "Total Views", fontSize: 10, color: .white, fontWeight: .thin)
-                    MainText(content: "\(self.total)k", fontSize: 35, color: .white, fontWeight: .bold)
+                    MainText(content: "Total Views", fontSize: 10, color: fontColor, fontWeight: .thin)
+                    MainText(content: "\(self.total)k", fontSize: 35, color: fontColor, fontWeight: .bold)
 //                        .padding(.vertical,10)
-                self.barChart(w: w, h: h * 0.45)
+                    self.barChart(w: w, h: h * 0.45)
             })
     }
     

@@ -12,12 +12,13 @@ struct CircleChart: View {
     var header:String
     var size:CGSize
     var increase:Bool
-    
-    init(percent:Float,header:String,size:CGSize = .init(width: totalWidth * 0.45, height: 300)){
+    let fontColor:Color
+    init(percent:Float,header:String,size:CGSize = .init(width: totalWidth * 0.45, height: 300),color:Color = .black){
         self.percent = percent
         self.header = header
         self.size = size
         self.increase = true
+        self.fontColor = color
     }
     
     
@@ -35,12 +36,10 @@ struct CircleChart: View {
                     .frame(width: chartW , height: chartW , alignment: .center)
                     .rotationEffect(.init(degrees: -90), anchor: .center)
                 VStack(spacing: 2.5){
-                    MainText(content: "\(String(format: "%.0f" ,self.percent))%", fontSize: 25, color: .white, fontWeight: .semibold)
-                    MainText(content: "of the Viewers", fontSize: 12.5, color: .white, fontWeight: .semibold)
+                    MainText(content: "\(String(format: "%.0f" ,self.percent))%", fontSize: 25, color: fontColor, fontWeight: .semibold)
+                    MainText(content: "of the Viewers", fontSize: 12.5, color: fontColor, fontWeight: .semibold)
                 }
             }.frame(width: w, height: h, alignment: .center)
-            
-        
         )
     }
     
@@ -51,13 +50,13 @@ struct CircleChart: View {
                 self.CircleChart(w: w , h: w )
                 HStack{
                     VStack(alignment: .leading, spacing: 10){
-                        MainText(content: "45k", fontSize: 20, color: .white, fontWeight: .semibold)
-                        MainText(content: "Likes", fontSize: 15, color: .white, fontWeight: .regular)
+                        MainText(content: "45k", fontSize: 20, color: fontColor, fontWeight: .semibold)
+                        MainText(content: "Likes", fontSize: 15, color: fontColor, fontWeight: .regular)
                     }
                     Spacer()
                     VStack(alignment: .center, spacing: 10){
-                        MainText(content: "\(self.increase ? "↑" : "↓") 30%", fontSize: 20, color: .white, fontWeight: .semibold)
-                        MainText(content: "Last Week", fontSize: 15, color: .white, fontWeight: .regular)
+                        MainText(content: "\(self.increase ? "↑" : "↓") 30%", fontSize: 20, color: fontColor, fontWeight: .semibold)
+                        MainText(content: "Last Week", fontSize: 15, color: fontColor, fontWeight: .regular)
                     }
                 }
             }

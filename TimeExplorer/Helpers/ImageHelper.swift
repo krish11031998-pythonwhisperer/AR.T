@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 import Photos
 import Combine
+import QuickLookThumbnailing
 //var ImageCache = NSCache<NSString,NSData>()
 
 enum JPEGQuality: CGFloat {
@@ -244,8 +245,9 @@ class ImageDownloader:ObservableObject{
     static var shared:ImageDownloader = .init()
     var quality:JPEGQuality
     var size:CGSize = UIScreen.main.bounds.size
+    var ismodelURL:Bool = false
     
-    init(url:String? = nil,urls:[String]? = nil,mode:String = "single",quality:JPEGQuality = .lowest,size:CGSize? = nil){
+    init(url:String? = nil,urls:[String]? = nil,mode:String = "single",quality:JPEGQuality = .lowest,size:CGSize? = nil,isModelURL:Bool = false){
         self.mode = mode
         self.quality = quality
         if let safeURL = url{
@@ -258,6 +260,8 @@ class ImageDownloader:ObservableObject{
         if let size = size{
             self.size = size
         }
+        
+        self.ismodelURL = isModelURL
         
     }
     
@@ -310,6 +314,26 @@ class ImageDownloader:ObservableObject{
             
     }
     
+    func generateThumbnail(){
+        guard let url = Bundle.main.url(forResource: self.url, withExtension: "usdz") else {return}
+        let scale = UIScreen.main.scale
+        
+        let request = QLThumbnailGenerator.Request(fileAt: url, size: size, scale: scale, representationTypes: .lowQualityThumbnail)
+        let generator = QLThumbnailGenerator.shared
+        
+        generator.generateRepresentations(for: request) { thumbnail, type, err in
+            guard let thumbnailImg = thumbnail else {
+                print("Error (Thumbnail Generator): ",String(describing: err?.localizedDescription))
+                return
+            }
+            
+            DispatchQueue.main.async {
+                ImageCache.cache[URL(string:self.url)!] = thumbnailImg.uiImage
+                self.image = thumbnailImg.uiImage
+                
+            }
+        }
+    }
     
     func downloadImage(){
         DispatchQueue.main.async {
@@ -362,7 +386,12 @@ class ImageDownloader:ObservableObject{
         if let cachedImage = ImageCache.cache[_url]{
             self.publishImage(url: _url.absoluteString, safeImage: cachedImage)
         }else{
-            self.downloadImg(url: _url, mode: mode, crop: crop, bounds: bounds)
+            if self.ismodelURL{
+                self.generateThumbnail()
+            }else{
+                self.downloadImg(url: _url, mode: mode, crop: crop, bounds: bounds)
+            }
+            
         }
     }
     

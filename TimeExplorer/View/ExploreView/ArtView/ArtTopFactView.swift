@@ -15,29 +15,25 @@ struct ArtTopFactView: View {
     @State var offset:CGFloat = 0
     var ver_onChanged:(DragGesture.Value) -> Void
     var ver_onEnded:(DragGesture.Value) -> Void
-//    @State var changeFocus:Bool = false
-//    let no_cards:Int = 4
-
-    
     
     var mainBody:some View{
-        HStack(alignment: .center, spacing: 0) {
-            ForEach(Array(self.top_Facts.keys).reversed(),id:\.self) { key in
-                let value = self.top_Facts[key] ?? "No Value"
-                self.infoView(q: key, ans: value)
-                    .tag(key)
-                    .gesture(DragGesture()
-                                .onChanged(self.onChanged(value:))
-                                .onEnded(self.onEnded(value:))
-                    )
-                    .offset(x: self.offset + swipedOffset)
+        ZStack(alignment: .center) {
+            ImageView(url: self.data.thumbnail, width: totalWidth, height: totalHeight, contentMode: .fill, alignment: .center)
+                .clipShape(Rectangle())
+            Color.black.opacity(0.3)
+            HStack(alignment: .center, spacing: 0) {
+                ForEach(Array(self.top_Facts.keys).reversed(),id:\.self) { key in
+                    let value = self.top_Facts[key] ?? "No Value"
+                    self.infoView(q: key, ans: value)
+                        .tag(key)
+                }
             }
+            .frame(width: totalWidth, height: totalHeight, alignment: .leading)
+            .gesture(DragGesture().onChanged(self.onChanged(value:)).onEnded(self.onEnded(value:)))
+            .offset(x: self.offset + swipedOffset)
         }
-        .frame(width: totalWidth, height: totalHeight, alignment: .leading)
-        .background(ImageView(url: self.data.thumbnail, width: totalWidth, height: totalHeight, contentMode: .fill, alignment: .center)
-                        .clipShape(Rectangle()))
     }
-
+    
     var body: some View {
         self.mainBody
     }
@@ -91,25 +87,22 @@ extension ArtTopFactView{
                 let w = g.frame(in: .local).width
                 let h = g.frame(in: .local).height
                 VStack(alignment: .leading, spacing: 10) {
-//                    Text(q)
-//                        .font(.system(size: 35, weight: .semibold, design: .serif))
-//                        .foregroundColor(.white)
-//                        .frame(width: w, alignment: .leading)
-//                        .background(Color.clear)
                     MainText(content: q, fontSize: 35, color: .white, fontWeight: .semibold)
                     Spacer()
                     FactCard(q: "", ans: ans, width: w, height: h * 0.25)
                 }.frame(width: w, height: h, alignment: .leading)
+                
             }.padding(.horizontal)
             .padding(.vertical,30)
             .padding(.top,10)
             .frame(width: totalWidth, height: totalHeight, alignment: .center)
             
+            
     }
     
     func infoView(q:String,ans:String) ->  some View{
         return ZStack(alignment: .center) {
-            Color.black.opacity(0.3)
+            Color.black.aspectRatio(contentMode: .fill).opacity(0.01)
             self.infoOverlay(q: q, ans: ans)
         }.edgesIgnoringSafeArea(.all)
         .frame(width: totalWidth, height: totalHeight, alignment: .center)

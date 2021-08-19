@@ -63,7 +63,6 @@ struct FancyScroll: View {
     func grid() -> some View{
         let start = self.idx * 25
         let end = (self.idx + 1) * 25
-        print("start : \(start) and end : \(end) and idx : \(self.idx)")
         let data = Array(self.data[start..<end].enumerated())
         
         return GeometryReader{g -> AnyView in
@@ -98,8 +97,10 @@ struct FancyScroll: View {
                 
             )
             
-        }.edgesIgnoringSafeArea(.all)
-        .frame(width: totalHeight * 1.5 + 20,height: totalHeight * 2.5)
+        }
+//        .edgesIgnoringSafeArea(.all)
+        .padding(.bottom,-50)
+        .frame(width: totalHeight * 1.5,height: totalHeight * 2.5,alignment: .topLeading)
         
         .offset(self.off_size)
         .animation(.easeInOut(duration: 1))

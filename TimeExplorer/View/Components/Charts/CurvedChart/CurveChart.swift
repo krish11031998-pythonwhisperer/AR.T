@@ -94,11 +94,11 @@ struct CurveChart: View {
             VStack(alignment: .leading, spacing: 0){
                 if let header = self.header{
                     BasicText(content: header, fontDesign: .serif, size: 20, weight: .bold)
-                        .padding(.horizontal)
-                        .frame(width: w,height: h * 0.3 - 35,alignment: .leading)
+                        .padding()
+                        .frame(width: w,alignment: .topLeading)
                 }
+                Spacer(minLength: 0)
                 self.path(size:.init(width: chart_w, height: h * 0.5 + 15),step: .init(width: stepWidth, height: stepHeight))
-                    
             }
             .frame(width: w, height: h, alignment: .center)
             .background(self.bgColor)
@@ -106,7 +106,6 @@ struct CurveChart: View {
             .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 0)
             .onAppear(perform: self.onAppear)
         }
-        .padding(.horizontal)
         .frame(width: width, height: height, alignment: .center))
     }
     

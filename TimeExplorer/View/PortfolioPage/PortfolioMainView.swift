@@ -131,9 +131,13 @@ extension PortfolioMainView{
     var ArtDescriptionView : some View{
         VStack(alignment: .leading, spacing: 10){
             MainText(content: self.paintings[self.SP.swiped].title ?? "Art#342", fontSize: 35, color: .white, fontWeight: .semibold)
+                .fixedSize(horizontal: false, vertical: true)
+                .aspectRatio(contentMode: .fit)
+                .frame(maxHeight: totalHeight * 0.125, alignment: .topLeading)
             MainText(content: self.paintings[self.SP.swiped].subtitle ?? "Art#342", fontSize: 15, color: .white, fontWeight: .semibold)
+            Spacer()
         }.padding()
-        .frame(width: totalWidth, alignment: .leading)
+        .frame(width: totalWidth,height: totalHeight * 0.25, alignment: .leading)
     }
     
     var chartView:some View{

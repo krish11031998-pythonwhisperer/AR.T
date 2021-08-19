@@ -94,13 +94,14 @@ struct TrendingMainView: View {
             self.mainStates.showTab = true
         }
         self.downloadArtPainting()
+        
     }
     
-    func getCAAPIData(){
-        if let data = self.mainStates.getArt(limit: 100,skip: 100){
-            self.parseData(data)
-        }
-    }
+//    func getCAAPIData(){
+//        if let data = self.mainStates.getArt(limit: 100,skip: 100){
+//            self.parseData(data)
+//        }
+//    }
     
     func downloadArtPainting(){
         if self.mainStates.AAPI.arts.isEmpty{
@@ -116,29 +117,26 @@ struct TrendingMainView: View {
             let _art = arts.compactMap({$0.parseVisualData()})
             DispatchQueue.main.async {
                 self.data = _art
-                withAnimation(.easeInOut) {
-                    self.mainStates.loading = false
-                }
-            }
-        }
-    }
-    
-    
-    
-    func parseData(_ data:[CAData]){
-        
-        if !data.isEmpty{
-            let _data = data.compactMap({ TrendingCardData(image: $0.thumbnail, username: $0.artistName, mainText: $0.title, type: .art, data: ArtData(date: Date(), title:$0.title ?? "No Title", introduction: $0.wall_description ?? "Description",infoSnippets: $0.PaintingInfo, painterName: $0.artistName, thumbnail: $0.thumbnail,model_img: $0.original), date: Date())})
-            DispatchQueue.main.async {
-                self.data.append(contentsOf: _data)
                 self.SP.end = self.data.count - 1
                 withAnimation(.easeInOut) {
                     self.mainStates.loading = false
                 }
             }
         }
-       
     }
+    
+    
+    
+//    func parseData(_ data:[CAData]){
+//
+//        if !data.isEmpty{
+//            let _data = data.compactMap({ TrendingCardData(image: $0.thumbnail, username: $0.artistName, mainText: $0.title, type: .art, data: ArtData(date: Date(), title:$0.title ?? "No Title", introduction: $0.wall_description ?? "Description",infoSnippets: $0.PaintingInfo, painterName: $0.artistName, thumbnail: $0.thumbnail,model_img: $0.original), date: Date())})
+//            DispatchQueue.main.async {
+//                self.data.append(contentsOf: _data)
+//            }
+//        }
+//
+//    }
     
 
     func updateViewState(){
@@ -178,7 +176,7 @@ struct TrendingMainView: View {
         .frame(width: totalWidth, height: totalHeight, alignment: .top)
         .onAppear(perform: self.onAppear)
         .onReceive(self.mainStates.AAPI.$arts, perform: self.receiveArt(arts:))
-        .onReceive(self.mainStates.TabAPI[self.mainStates.tab]!.$artDatas, perform: self.parseData)
+//        .onReceive(self.mainStates.TabAPI[self.mainStates.tab]!.$artDatas, perform: self.parseData)
         .onChange(of: self.SP.swiped, perform: { swiped in
             print("swiped : \(swiped)")
         })

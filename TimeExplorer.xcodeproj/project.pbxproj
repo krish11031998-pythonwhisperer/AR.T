@@ -35,7 +35,6 @@
 		BC2B4371258C777800854668 /* timer.json in Resources */ = {isa = PBXBuildFile; fileRef = BC2B4370258C777800854668 /* timer.json */; };
 		BC2B4376258C7D3500854668 /* VideoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2B4375258C7D3500854668 /* VideoHelper.swift */; };
 		BC37DE382514DE2C000BC15E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC37DE372514DE2C000BC15E /* Constants.swift */; };
-		BC37DE3D2514DFD7000BC15E /* WVCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC37DE3C2514DFD7000BC15E /* WVCenter.swift */; };
 		BC37DE46251506B9000BC15E /* AVQuickMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC37DE45251506B9000BC15E /* AVQuickMenu.swift */; };
 		BC37DE4F2516041F000BC15E /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC37DE4E2516041F000BC15E /* TabBarView.swift */; };
 		BC3DD5272539BE6900596F8F /* FireStoreAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DD5262539BE6900596F8F /* FireStoreAPI.swift */; };
@@ -113,10 +112,7 @@
 		BCAFD50F2514C70F0072F161 /* TripAdvisorAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAFD50C2514C70F0072F161 /* TripAdvisorAPI.swift */; };
 		BCAFD5102514C70F0072F161 /* InstagramAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAFD50D2514C70F0072F161 /* InstagramAPI.swift */; };
 		BCAFD5172514C7460072F161 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAFD5162514C7460072F161 /* LoadingView.swift */; };
-		BCAFD5232514C7BF0072F161 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAFD5222514C7BF0072F161 /* MapView.swift */; };
-		BCAFD5282514C7D20072F161 /* WVMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAFD5272514C7D20072F161 /* WVMain.swift */; };
 		BCAFD53B2514D75C0072F161 /* Basics.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAFD53A2514D75C0072F161 /* Basics.swift */; };
-		BCAFD5402514D81B0072F161 /* WVHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAFD53F2514D81B0072F161 /* WVHeader.swift */; };
 		BCB25F1325B0C17900290E18 /* TrendingMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB25F1225B0C17900290E18 /* TrendingMainView.swift */; };
 		BCC224EA25528ED800AE6769 /* TabBarButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC224E925528ED800AE6769 /* TabBarButtons.swift */; };
 		BCC4E05F2619C59C00988164 /* FancyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC4E05E2619C59C00988164 /* FancyCard.swift */; };
@@ -166,6 +162,7 @@
 		BCF1934D2549F45D0080DDCE /* UVDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF1934C2549F45D0080DDCE /* UVDetail.swift */; };
 		BCF486482627782D001A28E9 /* ArtViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF486472627782D001A28E9 /* ArtViewHelper.swift */; };
 		BCF4864D26277855001A28E9 /* ArtViewElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF4864C26277855001A28E9 /* ArtViewElements.swift */; };
+		BCFA560026CD8433003CE6FE /* FancyHCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA55FF26CD8433003CE6FE /* FancyHCarousel.swift */; };
 		BCFAF93C2548AD9100392163 /* UVPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFAF93B2548AD9100392163 /* UVPosts.swift */; };
 		C3B796F7C0AADC51EA420CE3 /* Pods_TimeExplorer_TimeExplorerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6655C8DB5E8432C375F6F710 /* Pods_TimeExplorer_TimeExplorerUITests.framework */; };
 		C6F159552BE8EAE85855D645 /* Pods_TimeExplorer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48B7826299716B621E89AED8 /* Pods_TimeExplorer.framework */; };
@@ -224,7 +221,6 @@
 		BC2B4370258C777800854668 /* timer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = timer.json; sourceTree = "<group>"; };
 		BC2B4375258C7D3500854668 /* VideoHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoHelper.swift; sourceTree = "<group>"; };
 		BC37DE372514DE2C000BC15E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		BC37DE3C2514DFD7000BC15E /* WVCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WVCenter.swift; sourceTree = "<group>"; };
 		BC37DE45251506B9000BC15E /* AVQuickMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVQuickMenu.swift; sourceTree = "<group>"; };
 		BC37DE4E2516041F000BC15E /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		BC3DD5262539BE6900596F8F /* FireStoreAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreAPI.swift; sourceTree = "<group>"; };
@@ -303,10 +299,7 @@
 		BCAFD50C2514C70F0072F161 /* TripAdvisorAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TripAdvisorAPI.swift; sourceTree = "<group>"; };
 		BCAFD50D2514C70F0072F161 /* InstagramAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstagramAPI.swift; sourceTree = "<group>"; };
 		BCAFD5162514C7460072F161 /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
-		BCAFD5222514C7BF0072F161 /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
-		BCAFD5272514C7D20072F161 /* WVMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WVMain.swift; sourceTree = "<group>"; };
 		BCAFD53A2514D75C0072F161 /* Basics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Basics.swift; sourceTree = "<group>"; };
-		BCAFD53F2514D81B0072F161 /* WVHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WVHeader.swift; sourceTree = "<group>"; };
 		BCB25F1225B0C17900290E18 /* TrendingMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingMainView.swift; sourceTree = "<group>"; };
 		BCC224E925528ED800AE6769 /* TabBarButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarButtons.swift; sourceTree = "<group>"; };
 		BCC4E05E2619C59C00988164 /* FancyCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyCard.swift; sourceTree = "<group>"; };
@@ -355,6 +348,7 @@
 		BCF1934C2549F45D0080DDCE /* UVDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVDetail.swift; sourceTree = "<group>"; };
 		BCF486472627782D001A28E9 /* ArtViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtViewHelper.swift; sourceTree = "<group>"; };
 		BCF4864C26277855001A28E9 /* ArtViewElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtViewElements.swift; sourceTree = "<group>"; };
+		BCFA55FF26CD8433003CE6FE /* FancyHCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyHCarousel.swift; sourceTree = "<group>"; };
 		BCFAF93B2548AD9100392163 /* UVPosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVPosts.swift; sourceTree = "<group>"; };
 		D21C6C833AA25BBD2A543CED /* Pods-TimeExplorer-TimeExplorerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TimeExplorer-TimeExplorerUITests.release.xcconfig"; path = "Target Support Files/Pods-TimeExplorer-TimeExplorerUITests/Pods-TimeExplorer-TimeExplorerUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -778,7 +772,6 @@
 				BC37DE4D251603EC000BC15E /* TabBar */,
 				BC37DE442515069B000BC15E /* AttractionView */,
 				BCAFD53A2514D75C0072F161 /* Basics.swift */,
-				BCAFD5212514C7AF0072F161 /* WeatherView */,
 				BCAFD51B2514C74E0072F161 /* Components */,
 				BCAFD5152514C7460072F161 /* AnimationView */,
 				BCAFD4C32514C5170072F161 /* ContentView.swift */,
@@ -808,19 +801,9 @@
 				BC561D2C261C411400130428 /* ImageCaptionCard.swift */,
 				BC561D3F261DF3DE00130428 /* SystemButton.swift */,
 				BC5D47DF26667F5700C55A3F /* PinterestScroll.swift */,
+				BCFA55FF26CD8433003CE6FE /* FancyHCarousel.swift */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		BCAFD5212514C7AF0072F161 /* WeatherView */ = {
-			isa = PBXGroup;
-			children = (
-				BCAFD5222514C7BF0072F161 /* MapView.swift */,
-				BCAFD5272514C7D20072F161 /* WVMain.swift */,
-				BCAFD53F2514D81B0072F161 /* WVHeader.swift */,
-				BC37DE3C2514DFD7000BC15E /* WVCenter.swift */,
-			);
-			path = WeatherView;
 			sourceTree = "<group>";
 		};
 		BCB25F1125B0C15B00290E18 /* TrendingView */ = {
@@ -1258,8 +1241,6 @@
 				BC9A324D264541FB00882AB1 /* ArtPageView.swift in Sources */,
 				BCE6FB8625EF911B00944D32 /* AVCarousel.swift in Sources */,
 				BC124109257D49AE0009B976 /* FloatHelpers.swift in Sources */,
-				BC37DE3D2514DFD7000BC15E /* WVCenter.swift in Sources */,
-				BCAFD5232514C7BF0072F161 /* MapView.swift in Sources */,
 				BCCDBE492587EC6100E6A2C1 /* VideoPlayer.swift in Sources */,
 				BCD7C7D926903BF000077D89 /* CAAPI.swift in Sources */,
 				BC561D40261DF3DE00130428 /* SystemButton.swift in Sources */,
@@ -1278,7 +1259,6 @@
 				BCAFD4C42514C5170072F161 /* ContentView.swift in Sources */,
 				BC3DD52D253A301D00596F8F /* UVMain.swift in Sources */,
 				BC2743AC267E80D9007960E9 /* AuctionCard.swift in Sources */,
-				BCAFD5402514D81B0072F161 /* WVHeader.swift in Sources */,
 				BCA1840F265EDF6F007C3845 /* ArtStoreMain.swift in Sources */,
 				BC37DE46251506B9000BC15E /* AVQuickMenu.swift in Sources */,
 				BCA038D1257931D300C6713C /* Loopable.swift in Sources */,
@@ -1294,11 +1274,11 @@
 				BCE1AC9F2599019B002A150F /* KeyBoardHelper.swift in Sources */,
 				BC96B6712615C41B0062B905 /* NormalGrid.swift in Sources */,
 				BCAFD5172514C7460072F161 /* LoadingView.swift in Sources */,
-				BCAFD5282514C7D20072F161 /* WVMain.swift in Sources */,
 				BC2B436C258BE36E00854668 /* AVPlayerHelper.swift in Sources */,
 				BCCDBE442587C39F00E6A2C1 /* VideoWriter.swift in Sources */,
 				BC69478F264DE6D500FE5FF1 /* ARViewHelper.swift in Sources */,
 				BCAFD5052514C70B0072F161 /* WeatherData.swift in Sources */,
+				BCFA560026CD8433003CE6FE /* FancyHCarousel.swift in Sources */,
 				BCA038B82579315700C6713C /* Color.swift in Sources */,
 				BC1BDDD2264D46A9005B2C8A /* FancyScroll_Structs.swift in Sources */,
 				BCCDBE3F2587B28700E6A2C1 /* CustomCameraViewMain.swift in Sources */,

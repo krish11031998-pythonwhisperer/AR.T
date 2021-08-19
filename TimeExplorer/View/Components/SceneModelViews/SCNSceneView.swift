@@ -370,6 +370,8 @@ struct SCNSceneView:UIViewRepresentable{
             }
         }
         
+//        @objc func onTwoFingerPan(recognizer: UIRecogn)
+        
         
         func findClosestAnnotation(closest:SCNVector3) -> String?{
             var annotations_name:String? = nil

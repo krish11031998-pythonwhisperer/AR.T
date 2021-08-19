@@ -27,11 +27,8 @@ struct RecommendArt: View {
                     let w = g.frame(in: .local).width
                     let h = g.frame(in: .local).height
                     HStack(alignment: .bottom, spacing: 15){
-
-//                        ImageView(img: self.IMD.images[data.img ?? ""], width: w * 0.4, height: h , contentMode: .fill, alignment: .bottom)
                         ImageView(url: data.img, width: w * 0.4, height: h, contentMode: .fill, alignment: .bottom)
                                 .clipShape(RoundedRectangle(cornerRadius: 20))
-//                            .shadow(color: .black.opacity(0.5), radius: 10, x: 0, y: 2)
                         VStack(alignment: .leading, spacing: 10) {
                             MainText(content: data.title ?? "", fontSize: 15, color: .white,fontWeight: .regular, style: .normal)
                             MainText(content: "Bidding Price", fontSize: 12.5, color: .gray,fontWeight: .semibold, style: .normal)
@@ -41,7 +38,6 @@ struct RecommendArt: View {
                     }.frame(width: w, height: h, alignment: .center)
                 }.padding()
                 .frame(width: tabSize.width, height: tabSize.height * 0.5,alignment: .center)
-                
             )
         }
         return view
@@ -49,13 +45,14 @@ struct RecommendArt: View {
     
     
     var grid:some View{
-        let row = [GridItem(.adaptive(minimum: tabSize.height * 0.5, maximum: tabSize.height * 0.5), spacing: 0)]
+        let h = (tabSize.height * 0.5 - 5)
+        let row = [GridItem(.adaptive(minimum: h, maximum: h), spacing: 0)]
         return LazyHGrid(rows: row, alignment: .center, spacing: 10) {
             ForEach(Array(self.data.enumerated()),id:\.offset) { _data in
                 let idx = _data.offset
                 self.card(idx: idx)
             }
-        }.frame(height: tabSize.height + 10, alignment: .center)
+        }.frame(height: tabSize.height, alignment: .leading)
     }
     
     

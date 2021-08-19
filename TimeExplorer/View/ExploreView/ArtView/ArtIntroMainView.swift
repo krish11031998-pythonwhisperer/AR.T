@@ -24,18 +24,23 @@ struct ScrollInfoCard:View{
     }
     
     
+    func imageView(w:CGFloat,h:CGFloat) -> some View{
+        return ZStack(alignment: .bottom) {
+            ImageView(url: self.data.thumbnail ?? self.data.model_url, width: w, height: h * 0.45, contentMode: .fill,alignment:.center,isModel: self.data.thumbnail == nil && self.data.model_url != nil)
+                .clipShape(Rectangle())
+            self.infoOverlay(w: w, h: h * 0.45)
+        }
+    }
+    
     func infoOverlay(w:CGFloat,h:CGFloat) -> some View{
-        VStack(alignment: .leading, spacing: 10){
-//            TabBarButtons(bindingState: $showArt)
-            Spacer()
             ScrollView(.vertical, showsIndicators: false) {
                 HeadingInfoText(heading: self.data.title, subhead: "1503 - 1506", headingSize: 35, headingColor: .white, headingDesign: .serif, subheadSize: 20, subheadColor: .white, subheadDesign: .rounded)
-                    .frame(width: w * 0.5, alignment: .leading)
-            }.frame(height: h * 0.35, alignment: .center)
-            
-        }.padding()
-        .padding(.leading)
-        .frame(width: w, height: h, alignment: .bottomLeading)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(width: w - 20, alignment: .leading)
+            }.padding(10)
+            .padding(.bottom,-75)
+            .frame(maxHeight: h * 0.35, alignment: .center)
+
     }
     
     
@@ -53,18 +58,17 @@ struct ScrollInfoCard:View{
                 ZStack(alignment:.top){
                     Color.black
                     VStack(alignment: .leading, spacing: 20){
-                        ImageView(url: self.data.thumbnail, width: w, height: h * 0.45, contentMode: .fill,alignment:.topLeading)
-                            .clipShape(Rectangle())
-                            .overlay(self.infoOverlay(w: w, h: h * 0.45))
+                        self.imageView(w: w, h: h)
                         self.introInfoSection(w: w, h: h * 0.25)
-                        self.infoBody(w: w)
+                        self.infoBody(w: w,h: h * 0.2)
                         Spacer()
                         
                     }.frame(width: w, height: h, alignment: .leading)
                     if self.showMore{
                         self.extraIntroView(size: .init(width: w, height: h))
                     }
-                }.frame(width: w, height: h, alignment: .leading))
+                }.frame(width: w, height: h, alignment: .leading)
+            )
             
         }.frame(width: totalWidth, height: totalHeight, alignment: .center)
         .gesture(DragGesture()
@@ -102,7 +106,7 @@ extension ScrollInfoCard{
         }
     }
 
-    func infoBody(w:CGFloat) -> some View{
+    func infoBody(w:CGFloat,h:CGFloat) -> some View{
         VStack(alignment: .leading, spacing: 10){
             MainText(content: self.data.introduction, fontSize: 15, color: .white, fontWeight: .regular)
                 .opacity(self.showMore ? 0 : 1)
@@ -112,34 +116,41 @@ extension ScrollInfoCard{
                 self.showMore.toggle()
             }
         }.padding()
-        .frame(width: w,alignment: .topLeading)
+        .frame(width: w,height: h,alignment: .topLeading)
+    }
+    
+    
+    func artistImage(w:CGFloat,h:CGFloat) -> some View{
+        return VStack(alignment: .center, spacing: 10){
+            ImageView(url: self.data.painterImg, width: w * 0.5, height: h * 0.9, contentMode: .fill,alignment: .top,autoHeight: false)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+            BasicText(content: self.data.painterName ?? "Artisan", fontDesign: .serif, size: 20, weight: .bold)
+                .foregroundColor(.white)
+                .fixedSize(horizontal: false, vertical: true)
+        }.frame(width: w * 0.5, height: h, alignment: .center)
+    }
+    
+    var artInfo : some View{
+        VStack(alignment: .leading, spacing: 10){
+            ForEach(Array(self.data.infoSnippets!.keys),id:\.self) { key in
+                let value = self.data.infoSnippets![key] ?? "No Info"
+                HeadingInfoText(heading: key, subhead: value, headingSize: 15, headingColor: .gray, headingDesign: .default, subheadSize: 18, subheadColor: .white, subheadDesign: .serif)
+            }
+        }
     }
     
     func introInfoSection(w:CGFloat,h:CGFloat) -> some View{
-        HStack(alignment: .center, spacing: 10) {
-            VStack(alignment: .center, spacing: 10){
-                ImageView(url: self.data.painterImg, width: w * 0.45, height: h * 0.9, contentMode: .fill,alignment: .top)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-//                Text(self.data.painterName ?? "Artisan")
-//                    .font(.system(size: 20, weight: .bold, design: .serif))
-//                    .foregroundColor(.white)
-//                    .fixedSize(horizontal: false, vertical: true)
-                BasicText(content: self.data.painterName ?? "Artisan", fontDesign: .serif, size: 20, weight: .bold)
-                    .foregroundColor(.white)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .frame(height: h * 0.1, alignment: .center)
-            }.padding(.leading, 20)
+        let inner_w = w - 20
+        return HStack(alignment: .center, spacing: 10) {
+            self.artistImage(w: inner_w, h: h)
+                .offset(y: -50)
             Spacer()
             if self.data.infoSnippets != nil{
-                VStack(alignment: .leading, spacing: 10){
-                    ForEach(Array(self.data.infoSnippets!.keys),id:\.self) { key in
-                        let value = self.data.infoSnippets![key] ?? "No Info"
-                        HeadingInfoText(heading: key, subhead: value, headingSize: 15, headingColor: .gray, headingDesign: .default, subheadSize: 18, subheadColor: .white, subheadDesign: .serif)
-                    }
-                }
-                Spacer()
+                self.artInfo
+//                Spacer()
             }
-        }.frame(width: w, height: h, alignment: .leading)
+        }.padding(.horizontal,10)
+        .frame(width: w, height: h, alignment: .leading)
     }
 }
 

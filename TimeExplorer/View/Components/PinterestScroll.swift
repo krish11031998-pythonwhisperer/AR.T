@@ -18,7 +18,7 @@ struct PinterestScroll: View {
     
     func singleCol(col_dir:String = "left",width w:CGFloat) -> some View{
         let rem = col_dir == "left" ? 0 : 1
-        return LazyVStack(alignment: .center, spacing: 10) {
+        return VStack(alignment: .center, spacing: 10) {
             ForEach(Array(self.data.enumerated()),id: \.offset) { _card in
                 let card = _card.element
                 let idx = _card.offset

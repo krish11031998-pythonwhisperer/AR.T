@@ -150,7 +150,7 @@ struct TrendingMainCard:View{
     func infoView() -> some View{
         return VStack(alignment:.leading,spacing: 15){
             HStack{
-                MainText(content: "Tours", fontSize: 40, color: .white, fontWeight: .black, style: .heading)
+                MainText(content: "3D Art", fontSize: 50, color: .white, fontWeight: .black, style: .heading)
                 Spacer()
             }.padding(.top,50)
             
@@ -171,9 +171,13 @@ struct TrendingMainCard:View{
                 self.videoPlayerButton()
             }
 
-            MainText(content: "View", fontSize: 17.5, color: .black, fontWeight: .regular, addBG: true)
-                .onTapGesture(perform: self.onTap ?? self.dummyFunction)
-                .frame(alignment: .trailing)
+            Button {
+                let fn = self.onTap ?? self.dummyFunction
+                fn()
+            } label: {
+                MainText(content: "View", fontSize: 17.5, color: .black, fontWeight: .regular, addBG: true)
+            }
+                
             
             Spacer().frame(height: 50)
         }

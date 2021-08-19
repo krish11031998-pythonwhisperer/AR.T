@@ -89,28 +89,9 @@ class ARModelDownloader:ObservableObject{
                         print(err!.localizedDescription)
                         return
                     }
-//                    do{
-//                        let model = try ModelEntity.loadModel(contentsOf: final_url)
-//                        DispatchQueue.main.async {
-//                            self.model = model
-//                        }
-//                    }catch{
-                        DispatchQueue.main.async {
-                            self.url = final_url
-                        }
-//                    }
-                    
-//                    ModelEntity.loadModel(named: <#T##String#>)
-//                    ModelEntity.loadModelAsync(contentsOf: final_url)
-//                        .subscribe(on: DispatchQueue.global(qos: .userInteractive))
-//                        .receive(on: DispatchQueue.main)
-//                        .sink(receiveCompletion: { _ in}, receiveValue: self.parseModelEntity(output:))
-//                        .store(in: &self.cancellable)
-//                    DispatchQueue.main.async {
-//                        self.model = model
-//                    }
-
-//
+                    DispatchQueue.main.async {
+                        self.url = final_url
+                    }
                 }
             }catch{
                 print(error.localizedDescription)

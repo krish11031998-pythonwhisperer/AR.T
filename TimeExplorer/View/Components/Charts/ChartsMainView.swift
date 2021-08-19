@@ -16,16 +16,14 @@ struct ChartMainView: View{
                 MainText(content: "Statistics", fontSize: 25, color: .white, fontWeight: .regular)
                     .aspectRatio(contentMode: .fit)
                     .frame(width: w,height: h * 0.05, alignment: .leading)
-                SummaryView(header: "Summary",size: .init(width: w, height: h * 0.3))
-                HStack(alignment: .center){
-                    WeekBarChart(header: "Views",values: [25,45,60,10,30,79,91],size: .init(width: w * 0.475, height: h*0.3))
-                    CircleChart(percent: 35, header: "Likes",size: .init(width: w * 0.475, height: h*0.3))
+//                SummaryView(header: "Summary",size: .init(width: w, height: h * 0.3))
+                HStack(alignment: .center,spacing:10){
+                    WeekBarChart(header: "Views",values: [25,45,60,10,30,79,91],size: .init(width: w * 0.5 - 5, height: h*0.45))
+                    CircleChart(percent: 35, header: "Likes",size: .init(width: w * 0.5 - 5, height: h*0.45))
                 }
-                CurveChart(data: [45,25,10,60,30,79],interactions: true,size: .init(width: w * 0.85, height: h * 0.3), header: "Price",bg: .black, lineColor: .white)
-            
-                Spacer().frame(minHeight:0,maxHeight: h * 0.4)
+                CurveChart(data: [45,25,10,60,30,79],interactions: true,size: .init(width: w , height: h * 0.45), header: "Price",bg: .white, lineColor: .blue)
             }.frame(width: w, height: h, alignment: .leading)
-        }.padding(10).frame(width: totalWidth, height: totalHeight * 1.2, alignment: .center)
+        }.padding(10).frame(width: totalWidth, height: totalHeight * 0.8, alignment: .center)
     }
     
 }

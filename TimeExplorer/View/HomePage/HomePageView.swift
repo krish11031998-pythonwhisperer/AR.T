@@ -61,8 +61,8 @@ struct HomePageView: View {
         var view:AnyView = AnyView(Color.clear)
         switch title{
             case "Featured Art": view = AnyView(FeaturedArt(art: posts.first ?? asm).padding(.bottom,10))
-            case "Trending": view = AnyView(TopArtScroll(data: Array(self.posts[1..<10])))
             case "On Your Radar": view = AnyView(RecommendArt(data: Array(self.posts[20..<30])))
+            case "Trending": view = TrendingArtView
             case "Recent" : view = AnyView(AVScrollView(attractions: Array(self.posts[30..<40]),haveTimer: true))
             case "Genre": view = AnyView(AllArtView(genreData: Array(self.posts[40..<45])))
             case "Hightlight of the Day": view = AnyView(HighlightView(data: Array(self.posts[45..<50])))
@@ -72,8 +72,8 @@ struct HomePageView: View {
         }
         return view
     }
-//    var sections:[String] = ["Featured Art","Trending","Hightlight of the Day","On Your Radar","Recommended Bids","Recent","Genre","Artists"]
-    var sections:[String] = ["Hightlight of the Day","Trending","On Your Radar","Recommended Bids","Recent","Genre","Artists"]
+    
+    var sections:[String] = ["Hightlight of the Day","On Your Radar","Trending","Recommended Bids","Recent","Genre","Artists"]
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
@@ -109,22 +109,29 @@ extension HomePageView{
     }
     
     
+    var TrendingArtView:AnyView {
+        var view = AnyView(Color.clear.frame(width: totalWidth, height: totalHeight * 0.7, alignment: .center))
+        if !self.posts.isEmpty && self.posts.count >= 10{
+            view = AnyView(FancyHCarousel(views: Array(self.posts[1..<10]).map({AnyView(ImageView(url: $0.img, heading: $0.title, width: totalWidth - 20 , height: totalHeight * 0.7, contentMode: .fill, alignment: .center).clipShape(RoundedRectangle(cornerRadius: 20)))}), size: .init(width: totalWidth - 20, height: totalHeight * 0.7)))
+        }
+        return view
+    }
+    
     func BidArt(data:[AVSData])-> some View{
         let h = totalHeight * 0.65
         let w = totalWidth * 0.5
         let cardSize = CGSize(width:(w * 0.85 - 20),height: (h * 0.5 - 20))
-        let rows = [GridItem.init(.adaptive(minimum: h * 0.5 - 20, maximum: h * 0.5 - 20), spacing: 10, alignment: .center)]
+        let rows = [GridItem.init(.adaptive(minimum: cardSize.height, maximum: cardSize.height), spacing: 10, alignment: .center)]
         let containerW = (cardSize.width + 20) * CGFloat(data.count) * 0.5
         return ScrollView(.horizontal, showsIndicators: false) {
             LazyHGrid(rows: rows, alignment: .center, spacing: 10) {
                 ForEach(Array(data.enumerated()),id:\.offset) { _data in
                     let data = _data.element
-                    let idx = _data.offset
                     ImageView(url: data.img, heading: data.title, width: cardSize.width, height: cardSize.height, contentMode: .fill,alignment: .center, headingSize: 10, quality: .lowest)
                         .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .padding(.leading,idx == 0 ? 10 : 0)
                 }
             }
+            .padding(.horizontal,20)
             .frame(width:containerW,height:h,alignment:.leading)
         }
     }

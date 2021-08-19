@@ -159,32 +159,6 @@ extension ArtStockView{
 // MARK:- Chart View
     
     var ChartView: some View{
-//        let w = totalWidth - 20
-//        let h = totalHeight * 1.2 - 20
-////        GeometryReader {g in
-////            let w = g.frame(in: .local).width
-////            let h = g.frame(in: .local).height
-////        return VStack(alignment: .center, spacing: 10){
-//        return VStack{
-//                MainText(content: "Statistics", fontSize: 25, color: .white, fontWeight: .regular)
-//                    .aspectRatio(contentMode: .fit)
-//                    .frame(width: w,height: h * 0.05, alignment: .leading)
-////                SummaryView(header: "Summary",size: .init(width: w, height: h * 0.3))
-//                HStack(alignment: .center){
-//                    WeekBarChart(header: "Views",values: [25,45,60,10,30,79,91],size: .init(width: w * 0.475, height: h*0.3))
-//                    CircleChart(percent: 35, header: "Likes",size: .init(width: w * 0.5, height: h*0.3))
-//                }
-//                CurveChart(data: [45,25,10,60,30,79],size: .init(width: w, height: h * 0.85))
-//                Spacer()
-////            }.frame(width: w, height: h, alignment: .center)
-//        }.padding(10).frame(width: totalWidth, height: totalHeight * 0.5, alignment: .center)
         return ChartMainView()
     }
 }
-
-
-//struct ArtStockView_Previews: PreviewProvider {
-//    static var previews: some View {
-////        ArtStockView(data: .init(img: test.thumbnail, title: test.title, subtitle: test.painterName, data: test))
-//    }
-//}
