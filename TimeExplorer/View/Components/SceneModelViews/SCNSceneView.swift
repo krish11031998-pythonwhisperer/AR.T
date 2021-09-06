@@ -66,6 +66,7 @@ struct SCNSceneView:UIViewRepresentable{
         view.enableTapRecognizer(target: context.coordinator,selector: #selector(context.coordinator.onTapHandler(recognizer:)))
         view.enablePanGesture(target: context.coordinator, selector: #selector(context.coordinator.onSwipe(recognizer:)))
         view.enablePinchGesture(target: context.coordinator, selector: #selector(context.coordinator.onPinch(recognizer:)))
+        view.enableTwoFingerPanGesture(target: context.coordinator, selector: #selector(context.coordinator.onTwoFingerSwipe(recognizer:)))
         return view
     }
 
@@ -110,16 +111,8 @@ struct SCNSceneView:UIViewRepresentable{
         if self.sceneStates.prevLoc != .zero{
             node.position = .init(0, 0, 0)
             self.sceneStates.prevLoc = .zero
-//            print("node Position : ",node.position)
         }
         node.scale = .init(1, 1, 1)
-//        if node.scale.x != 1.5 && node.scale.y != 1.5 && node.scale.z != 1.5 && !self.arViewStates.isEditting{
-//            node.scale = .init(1.5, 1.5, 1.5)
-//            print("node Scale : ",node.scale)
-//        }else if self.arViewStates.isEditting && node.scale.x != 1 && node.scale.y != 1 && node.scale.z != 1{
-//            node.scale = .init(1, 1 , 1)
-//            print("node Scale : ",node.scale)
-//        }
     }
     
     func updateInspect(uiView:SCNView){
@@ -238,12 +231,6 @@ struct SCNSceneView:UIViewRepresentable{
             if let first = self.view.getClosestNode(location: location),let node = self.mainNode{
                 let worldCoord = first.worldCoordinates
                 node.createAnnotation(location: worldCoord, idx: self.parent.idx, handler: helper(location:name:))
-//                if self.parent.type == .model{
-//                    self.view.createAnnotation(location: worldCoord, idx: self.parent.idx, handler: helper(location:name:))
-//                }else if self.parent.type == .image{
-//                    let node = first.node
-//                    node.createAnnotation(location: worldCoord, idx: self.parent.idx, handler: helper(location:name:))
-//                }
             }
         }
         
@@ -303,11 +290,6 @@ struct SCNSceneView:UIViewRepresentable{
     
         func removeNode(location:CGPoint){
             guard let vector_loc = self.view.getClosestNode(location: location)?.worldCoordinates, let node = self.mainNode else{return}
-//            self.view.scene?.rootNode.childNodes.forEach({ (node) in
-//                if node.position == vector_loc{
-//                    node.removeFromParentNode()
-//                }
-//            })
             node.childNodes.forEach({ (node) in
                 if node.position == vector_loc{
                     node.removeFromParentNode()
@@ -346,18 +328,26 @@ struct SCNSceneView:UIViewRepresentable{
             self.parent.sceneStates.prevLoc = loc
         }
         
+        
+        @objc func onTwoFingerSwipe(recognizer: UIPanGestureRecognizer){
+            guard let mainNode = self.mainNode, !self.parent.arViewStates.isEditting else {return}
+            print("Two Pan Recognized ! : ",mainNode.orientation)
+            let delta = recognizer.translation(in: self.view)
+            let (minVec, maxVec) = mainNode.boundingBox
+            mainNode.localRotate(by: .init(0,-1,0,0))
+            
+        }
+        
         @objc func onPinch(recognizer: UIPinchGestureRecognizer){
             if !self.parent.arViewStates.inspect{
                 return
             }
-//            let _node = self.parent.type == .model ? self.view.scene?.rootNode : self.view.scene?.rootNode.childNode(withName: "mainNode", recursively: true)
             guard let node = self.mainNode else {return}
             switch (recognizer.state) {
             case .began:
                 break
             case .changed:
                 DispatchQueue.main.async {
-//                    print("recognizer.scale : ",recognizer.scale)
                     let pinchScaleX = Float(recognizer.scale) * node.scale.x
                     let pinchScaleY =  Float(recognizer.scale) * node.scale.y
                     let pinchScaleZ =  Float(recognizer.scale) * node.scale.z
@@ -369,8 +359,6 @@ struct SCNSceneView:UIViewRepresentable{
                 break
             }
         }
-        
-//        @objc func onTwoFingerPan(recognizer: UIRecogn)
         
         
         func findClosestAnnotation(closest:SCNVector3) -> String?{

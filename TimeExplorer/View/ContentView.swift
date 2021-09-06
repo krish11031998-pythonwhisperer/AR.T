@@ -14,12 +14,12 @@ import Introspect
 class AppStates:ObservableObject{
     @Published var coordinates:CLLocationCoordinate2D = .init()
     @Published var loading:Bool = true
-    @Published var tab:String = "home"
+    @Published var tab:String = "feed"
     @Published var showTab:Bool = true
     @Published var userAcc:Account = .init()
     @Published var photosManager:PhotoImages = .init()
     @Published var CAAPI:CAAPI = .init()
-    @Published var LS:LocationSearch = .init(place:"",test:true)
+//    @Published var LS:LocationSearch = .init(place:"",test:true)
     @Published var AAPI:ArtAPI = .init()
     @Published var TabAPI:[String:CAAPI] = ["home":.init(),"blogs":.init(),"feed":.init(),"attractions":.init(),"profile":.init()]
     var imageQuality:JPEGQuality = .medium
@@ -93,14 +93,14 @@ struct AppView: View {
         self.locationManager.updateLocation()
     }
     
-    func locationUpdate(update:Bool){
-        if let coord = self.locationManager.location?.coordinate{
-            self.mainStates.coordinates = coord
-            self.mainStates.LS.getCityName(coordinates: coord)
-            self.locationManager.locationUpdated = false
-        }
-
-    }
+//    func locationUpdate(update:Bool){
+//        if let coord = self.locationManager.location?.coordinate{
+//            self.mainStates.coordinates = coord
+//            self.mainStates.LS.getCityName(coordinates: coord)
+//            self.locationManager.locationUpdated = false
+//        }
+//
+//    }
     
     var body: some View {
         ZStack(alignment: .bottom){
@@ -128,7 +128,7 @@ struct AppView: View {
         .frame(width: totalWidth,height:totalHeight)
         .edgesIgnoringSafeArea(.all)
         .onAppear(perform: self.onAppear)
-        .onChange(of: self.locationManager.locationUpdated, perform: self.locationUpdate(update:))
+//        .onChange(of: self.locationManager.locationUpdated, perform: self.locationUpdate(update:))
     }
 }
 

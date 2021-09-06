@@ -107,43 +107,6 @@ struct ARViewContainer:UIViewRepresentable{
     }
     
     func updateUIView(_ uiView: FocusARView, context: Context) {
-//        if let url = self.url{
-//
-//            if let focus = uiView.focusEntity, !focus.isEnabled{
-//                print("Received the model !")
-//                DispatchQueue.main.async {
-//                    focus.isEnabled = true
-//                }
-//            }
-//
-//            if self.place && !self.attachedModel{
-//                self.updateModel(view: uiView, url: url)
-//                DispatchQueue.main.async {
-//                    self.attachedModel = true
-//                }
-//            }
-//
-//        }
-        
-        
-//        if let model = self.model,let focus = uiView.focusEntity{
-//            if !focus.isEnabled{
-//                print("Received the model !")
-//                DispatchQueue.main.async {
-//                    focus.isEnabled = true
-//                }
-//            }
-//
-//
-//            if self.place && !self.attachedModel{
-////                self.updateModel(view: uiView, url: url)
-//                uiView.addModel(model: model, position: focus.position, scale: focus.scale)
-//                DispatchQueue.main.async {
-//                    self.attachedModel = true
-//                }
-//            }
-//
-//        }
         self.loadFromURL(uiView: uiView)
         self.loadFromModel(uiView: uiView)
         

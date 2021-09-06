@@ -98,7 +98,15 @@ extension SCNView{
     func enablePanGesture(target:Any? = nil,selector:Selector? = nil){
         guard let target = target, let selector = selector else {return}
         let panRecoginizer = UIPanGestureRecognizer(target: target, action: selector)
+        panRecoginizer.maximumNumberOfTouches = 1
         self.addGestureRecognizer(panRecoginizer)
+    }
+    
+    func enableTwoFingerPanGesture(target:Any? = nil,selector:Selector? = nil){
+        guard let target = target, let selector = selector else {return}
+        let panRecognizer = UIPanGestureRecognizer(target: target, action: selector)
+        panRecognizer.minimumNumberOfTouches = 2
+        self.addGestureRecognizer(panRecognizer)
     }
     
     func enablePinchGesture(target:Any? = nil,selector:Selector? = nil){

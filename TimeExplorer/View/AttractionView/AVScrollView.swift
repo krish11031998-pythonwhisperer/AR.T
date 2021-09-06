@@ -81,7 +81,7 @@ struct AVScrollView: View {
                                 .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
                     if includeChart{
-                        CurveChart(data: [45,25,10,60,30,79], size: .init(width: w * 0.75, height: h * 0.3),bg: .clear,lineColor: .white,chartShade: false)
+                        CurveChart(data: [45,25,10,60,30,79], size: .init(width: w * 0.75, height: h * 0.3),bg: AnyView(Color.clear),lineColor: .white,chartShade: false)
                             .frame(width: w, alignment: .leading)
                     }
                 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ImageView:View{
     @State var image:UIImage?
-    @StateObject var IMD:ImageDownloader
+    @StateObject var IMD:ImageDownloader = .init()
     var url:String?
     var width:CGFloat
     var height:CGFloat
@@ -36,7 +36,7 @@ struct ImageView:View{
         self.headingSize = headingSize
         self.isHidden = isHidden
         self.quality = quality
-        self._IMD = .init(wrappedValue: .init(url: url,quality: quality,isModelURL: isModel))
+//        self._IMD = .init(wrappedValue: .init(url: url,quality: quality,isModelURL: isModel))
     }
             
     func img_h(img:UIImage? = nil) -> CGFloat{
@@ -54,14 +54,14 @@ struct ImageView:View{
         let loading = self.image != nil ? false : self.IMD.loading
         let h = self.img_h(img: img)
         return ZStack(alignment: .center) {
-           
+            
             BlurView(style: .dark)
-                Image(uiImage: img)
-                    .resizable()
-                    .aspectRatio(contentMode: self.contentMode)
-                    .frame(width: self.width,height: h)
-                    .scaleEffect(loading ? 1.25 : 1)
-                    .opacity(loading ? 0 : 1)
+            Image(uiImage: img)
+                .resizable()
+                .aspectRatio(contentMode: self.contentMode)
+                .frame(width: self.width,height: h)
+                .scaleEffect(loading ? 1.25 : 1)
+                .opacity(loading ? 0 : 1)
             if self.heading != nil{
                 lightbottomShadow.frame(width: self.width, height:h, alignment: .center)
                 self.overlayView(h: h)
@@ -70,6 +70,11 @@ struct ImageView:View{
                 BlurView(style: .regular)
             }
         }.frame(width: self.width,height: h)
+        .onAppear {
+            if let url = self.url , self.IMD.image == nil{
+                self.IMD.getImage(url: url)
+            }
+        }
     }
     
     func overlayView(h : CGFloat) -> some View{

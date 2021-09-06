@@ -34,8 +34,9 @@ struct ScrollInfoCard:View{
     
     func infoOverlay(w:CGFloat,h:CGFloat) -> some View{
             ScrollView(.vertical, showsIndicators: false) {
+                Spacer()
                 HeadingInfoText(heading: self.data.title, subhead: "1503 - 1506", headingSize: 35, headingColor: .white, headingDesign: .serif, subheadSize: 20, subheadColor: .white, subheadDesign: .rounded)
-                    .fixedSize(horizontal: false, vertical: true)
+                    .fixedSize(horizontal: true, vertical: true)
                     .frame(width: w - 20, alignment: .leading)
             }.padding(10)
             .padding(.bottom,-75)
@@ -134,7 +135,7 @@ extension ScrollInfoCard{
         VStack(alignment: .leading, spacing: 10){
             ForEach(Array(self.data.infoSnippets!.keys),id:\.self) { key in
                 let value = self.data.infoSnippets![key] ?? "No Info"
-                HeadingInfoText(heading: key, subhead: value, headingSize: 15, headingColor: .gray, headingDesign: .default, subheadSize: 18, subheadColor: .white, subheadDesign: .serif)
+                HeadingInfoText(heading: key.capitalized, subhead: value.capitalized, headingSize: 15, headingColor: .gray, headingDesign: .default, subheadSize: 18, subheadColor: .white, subheadDesign: .serif)
             }
         }
     }

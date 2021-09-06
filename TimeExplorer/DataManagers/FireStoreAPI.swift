@@ -330,23 +330,7 @@ class PostAPI:FirebaseAPI,ObservableObject{
             let newPosts = self.posts.isEmpty ? posts : posts.filter({$0.id != nil ? !self.loadedPosts.contains($0.id!) : false})
             self.loadedPosts.append(contentsOf: newPosts.compactMap({$0.id}))
             DispatchQueue.main.async {
-//                if self.posts.isEmpty{
-//                    self.posts = posts
-//                }else{
-//                    var newPosts = posts.filter({$0.id != nil ? !self.loadedPosts.contains($0.id!) : false})
-//                    if !newPosts.isEmpty{
-//                        self.posts.append(contentsOf: newPosts)
-//                    }
-//                }
-//                self.loadedPosts = self.posts.compactMap({ (post) -> String? in
-//                    return post.id
-//                })
-//
                 self.posts = newPosts
-//                self.posts.sorted { (a, b) -> Bool in
-//                    a.date?.compare(b.date ?? Date()) == .orderedDescending
-//                }
-                
                 print("Length of the posts : \(self.posts.count)")
             }
         }
@@ -665,13 +649,11 @@ class ArtAPI:FirebaseAPI,ObservableObject{
             }
             return res
         })
-//        print("paintings Data: ",data)
         return data
     }
     
     func getArts(_name:String? = nil){
-//        let username = _name ?? self.mainStates.userAcc.username
-        self.getTopItems(limit: 10, collectionName: "paintings") { qs, err in
+        self.getTopItems(limit:10,collectionName: "paintings") { qs, err in
             guard let q = qs, let last = qs?.documents.last else {return}
             self.lastDoc = last
             

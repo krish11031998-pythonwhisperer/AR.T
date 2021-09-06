@@ -13,12 +13,14 @@ struct CircleChart: View {
     var size:CGSize
     var increase:Bool
     let fontColor:Color
-    init(percent:Float,header:String,size:CGSize = .init(width: totalWidth * 0.45, height: 300),color:Color = .black){
+    let bg:AnyView
+    init(percent:Float,header:String,size:CGSize = .init(width: totalWidth * 0.45, height: 300),color:Color = .black,bg:AnyView = AnyView(Color.white)){
         self.percent = percent
         self.header = header
         self.size = size
         self.increase = true
         self.fontColor = color
+        self.bg = bg
     }
     
     
@@ -65,7 +67,7 @@ struct CircleChart: View {
     }
     
     var body: some View {
-        ChartCard(header: self.header, size: self.size, insideView: self.mainBody)
+        ChartCard(header: self.header, size: self.size, insideView: self.mainBody,bg: self.bg, fontColor: self.fontColor)
     }
 }
 

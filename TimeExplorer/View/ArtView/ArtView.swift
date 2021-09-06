@@ -41,23 +41,25 @@ struct ArtView: View {
     
     //MARK: - Header
     var header:some View{
-        HStack{
-//            TabBarButtons(bindingState: $showArt)
-
-            
+        HStack(alignment: .top, spacing: 0){            
             if self.viewStates.inspect{
                 SystemButton(b_name: "xmark", b_content: "",color: .black,size: .init(width: 15, height: 15), bgcolor: .white) {
                     self.viewStates.inspect.toggle()
                 }
                 Spacer()
-                MainText(content: self.viewStates.changes ? "Update" : self.data.title, fontSize: 15, color: .white, fontWeight: .bold, style: .normal)
-                    .padding()
-                    .background(BlurView(style: .dark))
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .onTapGesture(perform: self.updateArtData)
-                Spacer()
-                
-                
+                if self.viewStates.changes {
+                    MainText(content: "Update", fontSize: 15, color: .white, fontWeight: .bold, style: .normal)
+                        .padding(5)
+                        .background(BlurView(style: .dark))
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .onTapGesture(perform: self.updateArtData)
+                    Spacer()
+                }
+                VStack(alignment: .center, spacing: 10) {
+                    TabBarButtons(bindingState: $viewStates.showFeatures, name: "sparkles")
+                    TabBarButtons(bindingState: $viewStates.isEditting,name: "pencil")
+                    TabBarButtons(bindingState: $viewAR, name: "cube")
+                }
             }
             
         }
@@ -65,18 +67,18 @@ struct ArtView: View {
     
     //MARK: - Sidebars
     
-    func sideBar(w:CGFloat) -> some View{
-        return  HStack(alignment: .top, spacing: 10) {
-            Spacer()
-            VStack(alignment: .center, spacing: 10) {
-                TabBarButtons(bindingState: $viewStates.showFeatures, name: "sparkles")
-                TabBarButtons(bindingState: $viewStates.isEditting,name: "pencil")
-                TabBarButtons(bindingState: $viewAR, name: "cube")
-            }
-        }.padding()
-        .frame(width: w, alignment: .trailing)
-    }
-    
+//    func sideBar(w:CGFloat) -> some View{
+//        return  HStack(alignment: .top, spacing: 10) {
+//            Spacer()
+//            VStack(alignment: .center, spacing: 10) {
+//                TabBarButtons(bindingState: $viewStates.showFeatures, name: "sparkles")
+//                TabBarButtons(bindingState: $viewStates.isEditting,name: "pencil")
+//                TabBarButtons(bindingState: $viewAR, name: "cube")
+//            }
+//        }.padding()
+//        .frame(width: w, alignment: .trailing)
+//    }
+//
     
     
     //MARK: - TabViews
@@ -213,13 +215,6 @@ struct ArtView: View {
     func sceneView(w:CGFloat,h:CGFloat) -> AnyView?{
         var view:AnyView? = nil
         let radius = self.viewStates.inspect ? 0 : 15
-//        if let model_url  = self.data.model_url{
-//            view =  AnyView(SceneModelView(w: w, h: h, name: self.name, model_url_str: model_url, player: nil, handler: self.updateAfterSceneInteraction(name:vector:))
-//                .environmentObject(viewStates)
-//                .background(BlurView(style: .dark))
-//                .animation(.easeInOut)
-//                .clipShape(Corners(rect: .bottomRight,size: .init(width: radius, height: radius))))
-//        }else if let img = self.data.model_img{
         view =  AnyView(SceneModelView(w: w, h: h, name: self.name, model_url_str:self.data.model_url, img_url_str: self.data.model_img, player: nil, handler: self.updateAfterSceneInteraction(name:vector:))
                 .environmentObject(viewStates)
                 .background(BlurView(style: .dark))
@@ -270,10 +265,10 @@ struct ArtView: View {
                     }
                     
                 }.frame(width: w, alignment: .bottom).animation(.easeInOut)
-                if self.viewStates.inspect{
-                    self.sideBar(w: w)
-                }
-                
+//                if self.viewStates.inspect{
+//                    self.sideBar(w: w)
+//                }
+//
             }.frame(width: w, height: h, alignment: .center)
             
             

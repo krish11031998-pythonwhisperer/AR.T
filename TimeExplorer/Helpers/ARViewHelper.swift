@@ -13,18 +13,6 @@ import RealityKit
 
 extension ModelEntity{
     
-//    static func loadModelEntityFromImage(_img:UIImage? = nil) -> ModelEntity?{
-//        guard let img = _img else {return nil}
-//        let dim = UIImage.dimension(img: img)
-//        let mesh = MeshResource.generatePlane(width: Float(dim.width), height: Float(dim.height))
-////        let mat = SimpleMaterial()
-//        let mat = SimpleMaterial(color: .white, roughness: 0.1, isMetallic: false)
-//        let model = ModelEntity(mesh: mesh, materials: [mat])
-//
-////        model.model?.materials = [ImageMe]
-//        model
-//
-//    }
     static func loadModelEntityFromImage(url:URL? = nil) -> ModelEntity?{
         // Create a temporary file URL to store the image at the remote URL.
         let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)

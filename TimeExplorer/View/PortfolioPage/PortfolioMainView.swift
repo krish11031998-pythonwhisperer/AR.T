@@ -107,7 +107,7 @@ extension PortfolioMainView{
             let view = ZStack(alignment: .bottom) {
                 ImageView(url: data.img, width: w, height: h, contentMode: .fill, alignment: .center)
                 lightbottomShadow.frame(width: w + 1, alignment: .center)
-                CurveChart(data: [45,25,10,60,30,79],interactions: false, size: .init(width: w * 0.75, height: h * 0.3),bg: .clear,lineColor: .white,chartShade: false)
+                CurveChart(data: [45,25,10,60,30,79],interactions: false, size: .init(width: w * 0.75, height: h * 0.3),bg: AnyView(Color.clear),lineColor: .white,chartShade: false)
                         .frame(width: w, alignment: .leading)
                 MainText(content: "250 BTC", fontSize: 15, color: .white, fontWeight: .regular)
                     .padding()

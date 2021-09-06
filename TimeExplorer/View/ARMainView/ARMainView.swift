@@ -26,11 +26,7 @@ struct ARMainView: View {
         self._show = show
     }
     
-//    func addAnnotations(){
-//        
-//        
-//    }
-    
+
     func togglePlace(){
         self.placeModel.toggle()
     }
@@ -42,7 +38,6 @@ struct ARMainView: View {
                 self.mdlDM.loadModel(name: self.name, url_string: url)
             }
         }else if let url = self.img_url{
-//            let mesh = MeshResource.generatePlane(width: <#T##Float#>, depth: <#T##Float#>, cornerRadius: <#T##Float#>)
             guard let model = ModelEntity.loadModelEntityFromImage(url: URL(string:url)) else {return}
             DispatchQueue.main.async {
                 self.mdlDM.model = model

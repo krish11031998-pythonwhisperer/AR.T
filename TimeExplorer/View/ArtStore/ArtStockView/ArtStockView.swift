@@ -120,24 +120,32 @@ extension ArtStockView{
             let w = g.frame(in: .local).width
             let h = g.frame(in: .local).height
             
-            VStack(alignment: .leading, spacing: 10) {
-                    MainText(content: "Buy", fontSize: 25, color: .white, fontWeight: .semibold)
-                    MainText(content: "\(4500) BTC", fontSize: 35, color: .white, fontWeight: .semibold)
-                Spacer()
-                HStack(alignment: .center, spacing: 0){
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(alignment: .center, spacing: 10){
+                    self.BuyView(size: .init(width: w, height: h))
                     self.PurchaseInfoView(size: .init(width: w * 0.65, height: h * 0.65))
                     Spacer()
                     SystemButton(b_name: "arrow.right", b_content: "Buy", color: .black, haveBG: true, size: .init(width: 25, height: 25),bgcolor: .white, alignment: .vertical) {
                         print("Buyu was clicked!")
                     }
                 }
-                
-            }.frame(width: w, height: h, alignment: .leading)
+            }
         }.padding()
         .frame(width: totalWidth, height: totalHeight * 0.5, alignment: .center)
     }
     
     
+    func BuyView(size:CGSize) -> some View{
+        let w = size.width
+        let h = size.height
+        return VStack(alignment: .leading, spacing: 10) {
+            MainText(content: "Buy", fontSize: 25, color: .white, fontWeight: .semibold)
+            Spacer()
+            MainText(content: "\(4500) BTC", fontSize: 35, color: .white, fontWeight: .semibold)
+        }.padding()
+        .frame(width: w * 0.65, height: h * 0.65, alignment: .leading)
+        .background(BlurView(style: .dark).clipShape(RoundedRectangle(cornerRadius: 20)))
+    }
     
     func PurchaseInfoView(size:CGSize) -> some View{
         let items:[String] = ["3D Art","NFT Signature","MR Experience","10 Day LocAd"]

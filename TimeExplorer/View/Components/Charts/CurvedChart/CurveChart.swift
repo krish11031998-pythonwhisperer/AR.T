@@ -16,10 +16,12 @@ struct CurveChart: View {
     @State var points:[CGPoint] = []
     var interactions:Bool
     var header:String? = nil
-    var bgColor:Color
+    var bgColor:AnyView
     var lineColor:Color
     var chartShade:Bool
-    init(data:[Float],interactions:Bool = true,size:CGSize? = nil,header:String? = nil,bg:Color = .white,lineColor:Color = .blue,chartShade:Bool = true){
+    var fontColor:Color
+    
+    init(data:[Float],interactions:Bool = true,size:CGSize? = nil,header:String? = nil,bg:AnyView = AnyView(Color.white),fontColor:Color = .white,lineColor:Color = .blue,chartShade:Bool = true){
         self.interactions = interactions
         self.data = data
         if let s = size{
@@ -28,6 +30,7 @@ struct CurveChart: View {
         self.header = header
         self.bgColor = bg
         self.lineColor = lineColor
+        self.fontColor = fontColor
         self.chartShade = chartShade
     }
     
@@ -93,12 +96,13 @@ struct CurveChart: View {
             let stepHeight = self.calcStepHeight(h: h * 0.5)
             VStack(alignment: .leading, spacing: 0){
                 if let header = self.header{
-                    BasicText(content: header, fontDesign: .serif, size: 20, weight: .bold)
+                    MainText(content: header, fontSize: 20, color: self.fontColor, fontWeight: .regular)
                         .padding()
                         .frame(width: w,alignment: .topLeading)
                 }
                 Spacer(minLength: 0)
                 self.path(size:.init(width: chart_w, height: h * 0.5 + 15),step: .init(width: stepWidth, height: stepHeight))
+                    .padding(.bottom)
             }
             .frame(width: w, height: h, alignment: .center)
             .background(self.bgColor)
@@ -217,11 +221,4 @@ extension CurveChart{
             }
         }
 }
-}
-
-
-struct CurveChart_Previews: PreviewProvider {
-    static var previews: some View {
-        CurveChart(data: [45,25,10,60,30,79].shuffled())
-    }
 }

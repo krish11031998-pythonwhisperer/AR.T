@@ -16,13 +16,15 @@ struct WeekBarChart: View {
     var size:CGSize
     var week_h:[CGFloat] = []
     let fontColor:Color
-//    let days:[String] = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
     let days:[String] = ["S","M","T","W","T","F","S"]
-    init(header:String,values:[Int],size:CGSize = .init(width: totalWidth * 0.45, height: 300),color:Color = .black){
+    let bg:AnyView
+    
+    init(header:String,values:[Int],size:CGSize = .init(width: totalWidth * 0.45, height: 300),color:Color = .black,bg:AnyView = AnyView(Color.white)){
         self.header = header
         self.weekData = values
         self.size = size
         self.fontColor = color
+        self.bg = bg
         self.normalizeWeekData()
         
     }
@@ -91,7 +93,7 @@ struct WeekBarChart: View {
     }
     
     var body: some View {
-        ChartCard(header: self.header, size: self.size, insideView: self.mainBody)
+        ChartCard(header: self.header, size: self.size, insideView: self.mainBody,bg: self.bg, fontColor: self.fontColor)
     }
 }
 

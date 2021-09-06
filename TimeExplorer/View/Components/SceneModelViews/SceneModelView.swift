@@ -55,21 +55,15 @@ struct SceneModelView: View {
     }
     
     
+    func sceneTapHandler(_ name:String,_ vector:SCNVector3?){
+        if self.sendAnnotation != nil{
+            self.sendAnnotation!(name,vector)
+        }
+    }
+    
     func sceneView() -> AnyView{
         var view = AnyView(Color.clear.frame(width: 0, height: 0, alignment: .center))
-        if let _ = self.model_url_str{
-            view = AnyView(SCNSceneView(type: .model, model: $scene, idx: $idx, player: $player) { name, vector in
-                if self.sendAnnotation != nil{
-                    self.sendAnnotation!(name,vector)
-                }
-            }.environmentObject(self.viewStates))
-        }else if let _ = self.img_url_str{
-            view =  AnyView(SCNSceneView(type: .image,modelImg: $IMD.image, idx: $idx, player: $player) { name, vector in
-                if self.sendAnnotation != nil{
-                    self.sendAnnotation!(name,vector)
-                }
-            }.environmentObject(self.viewStates))
-        }
+        view = AnyView(SCNSceneView(type: self.model_url_str == nil && self.img_url_str != nil ? .image : .model, modelImg: $IMD.image, model: $scene, idx: $idx, player: $player, taphandler: self.sceneTapHandler(_:_:)).environmentObject(self.viewStates))
         return view
     }
     
@@ -103,7 +97,7 @@ struct SceneModelView: View {
                 ZStack{
                     if self.scene == nil{
                         Color.black
-                        BlurView(style: .dark)
+                        ProgressView()
                     }
                     
                     if self.scene != nil || self.IMD.image != nil{
