@@ -113,6 +113,7 @@ struct SCNSceneView:UIViewRepresentable{
             self.sceneStates.prevLoc = .zero
         }
         node.scale = .init(1, 1, 1)
+        node.rotation = .init(0, 0, 0, 0)
     }
     
     func updateInspect(uiView:SCNView){
@@ -331,10 +332,34 @@ struct SCNSceneView:UIViewRepresentable{
         
         @objc func onTwoFingerSwipe(recognizer: UIPanGestureRecognizer){
             guard let mainNode = self.mainNode, !self.parent.arViewStates.isEditting else {return}
-            print("Two Pan Recognized ! : ",mainNode.orientation)
-            let delta = recognizer.translation(in: self.view)
-            let (minVec, maxVec) = mainNode.boundingBox
-            mainNode.localRotate(by: .init(0,-1,0,0))
+            
+            let translation = recognizer.translation(in: recognizer.view!)
+
+            let x = Float(translation.x)
+            let y = Float(-translation.y)
+            
+            let anglePan = sqrt(pow(x,2)+pow(y,2))*(Float)(M_PI)/180.0
+            
+            var rotationVector = SCNVector4()
+            rotationVector.x = -y
+            rotationVector.y = x
+            rotationVector.z = 0
+            rotationVector.w = anglePan
+
+            mainNode.rotation = rotationVector
+
+//            mainNode.localRotate(by: .init(0,-1,0,0))
+            
+            if(recognizer.state == UIGestureRecognizer.State.ended) {
+
+                let currentPivot = mainNode.pivot
+                let changePivot = SCNMatrix4Invert( mainNode.transform)
+
+                mainNode.pivot = SCNMatrix4Mult(changePivot, currentPivot)
+
+                mainNode.transform = SCNMatrix4Identity
+            }
+
             
         }
         

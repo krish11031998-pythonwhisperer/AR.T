@@ -7,32 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A9DD9C47-29AB-4760-BC68-48EF626C91E3"
-            shouldBeEnabled = "Yes"
+            uuid = "F7AD4F97-AD7A-44FA-81DB-2893FDB2B6C4"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TimeExplorer/DataManagers/FireStoreAPI.swift"
+            filePath = "TimeExplorer/View/ArtView/ArtView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "660"
-            endingLineNumber = "660"
-            landmarkName = "getArts(_name:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "390EACCD-36DE-44CE-A3D6-444F6BCF66DD"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TimeExplorer/DataManagers/FireStoreAPI.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "646"
-            endingLineNumber = "646"
-            landmarkName = "parseQueryDocuments(q:)"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "annotationTab(w:h:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

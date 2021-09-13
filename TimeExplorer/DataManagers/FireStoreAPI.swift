@@ -652,8 +652,8 @@ class ArtAPI:FirebaseAPI,ObservableObject{
         return data
     }
     
-    func getArts(_name:String? = nil){
-        self.getTopItems(limit:10,collectionName: "paintings") { qs, err in
+    func getArts(_name:String? = nil,limit:Int = -1){
+        self.getTopItems(limit:limit,collectionName: "paintings") { qs, err in
             guard let q = qs, let last = qs?.documents.last else {return}
             self.lastDoc = last
             

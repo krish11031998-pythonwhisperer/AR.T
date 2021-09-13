@@ -97,11 +97,7 @@ struct TrendingMainView: View {
         
     }
     
-//    func getCAAPIData(){
-//        if let data = self.mainStates.getArt(limit: 100,skip: 100){
-//            self.parseData(data)
-//        }
-//    }
+
     
     func downloadArtPainting(){
         if self.mainStates.AAPI.arts.isEmpty{
@@ -109,7 +105,6 @@ struct TrendingMainView: View {
         }else{
             self.receiveArt(arts: self.mainStates.AAPI.arts)
         }
-//        self.getCAAPIData()
     }
 
     func receiveArt(arts:[ArtData]){
@@ -125,18 +120,7 @@ struct TrendingMainView: View {
         }
     }
     
-    
-    
-//    func parseData(_ data:[CAData]){
-//
-//        if !data.isEmpty{
-//            let _data = data.compactMap({ TrendingCardData(image: $0.thumbnail, username: $0.artistName, mainText: $0.title, type: .art, data: ArtData(date: Date(), title:$0.title ?? "No Title", introduction: $0.wall_description ?? "Description",infoSnippets: $0.PaintingInfo, painterName: $0.artistName, thumbnail: $0.thumbnail,model_img: $0.original), date: Date())})
-//            DispatchQueue.main.async {
-//                self.data.append(contentsOf: _data)
-//            }
-//        }
-//
-//    }
+
     
 
     func updateViewState(){

@@ -13,7 +13,6 @@ import FocusEntity
 class FocusARView : ARView{
     var focusEntity:FocusEntity?
     
-
     required init(frame frameRect: CGRect) {
         super.init(frame: frameRect)
         self.focusEntity = .init(on: self, focus: .classic)
@@ -97,7 +96,7 @@ struct ARViewContainer:UIViewRepresentable{
             
             if self.place && !self.attachedModel{
 //                self.updateModel(view: uiView, url: url)
-                uiView.addModel(model: model, position: focus.position, scale: focus.scale)
+                uiView.addModel(model: model, position: .init(x: focus.position.x * 0.5, y: focus.position.y * 0.5, z: focus.position.z * 0.5), scale: focus.scale)
                 DispatchQueue.main.async {
                     self.attachedModel = true
                 }

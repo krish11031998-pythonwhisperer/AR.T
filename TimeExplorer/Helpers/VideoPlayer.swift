@@ -126,7 +126,7 @@ class AVPlayerObj:ObservableObject{
         }
     }
     
-    func seek(handler:((VideoStates) -> Void)? = nil){
+    func seek(){
          if self.player != nil, let seconds = self.player?.currentTime().seconds{
             let curr_time = Float64(seconds)
             let diff = Float64(self.videoState == .seekBack ? -10 : 10)
@@ -137,10 +137,16 @@ class AVPlayerObj:ObservableObject{
     
     func play(){
         self.player?.play()
+        if self.videoState != .play{
+            self.videoState = .play
+        }
     }
     
     func pause(){
         self.player?.pause()
+        if self.videoState != .pause{
+            self.videoState = .pause
+        }
     }
 }
 

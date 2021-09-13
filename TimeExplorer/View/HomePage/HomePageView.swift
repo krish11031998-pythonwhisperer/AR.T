@@ -77,15 +77,17 @@ struct HomePageView: View {
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
-            self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
-            if !self.mainStates.loading && !self.posts.isEmpty && self.posts.count == self.target_limit{
-                ForEach(self.sections, id:\.self) { title in
-                    self.subSectionHeader(title: title).padding(.top,5)
-                    self.subView(title: title)
-                        .padding(.bottom,5)
+            LazyVStack{
+                self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
+                if !self.mainStates.loading && !self.posts.isEmpty && self.posts.count == self.target_limit{
+                    ForEach(self.sections, id:\.self) { title in
+                        self.subSectionHeader(title: title).padding(.top,5)
+                        self.subView(title: title)
+                            .padding(.bottom,5)
+                    }
                 }
+                Spacer().frame(height: 200)
             }
-            Spacer().frame(height: 200)
         }
         .background(Color.black)
         .edgesIgnoringSafeArea(.all)

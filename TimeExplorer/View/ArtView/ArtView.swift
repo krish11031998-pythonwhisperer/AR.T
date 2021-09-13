@@ -96,12 +96,11 @@ struct ArtView: View {
     }
     
     
-    func annotationTab(w:CGFloat,h:CGFloat) -> some View{
+    func annotationTab(w:CGFloat,h:CGFloat) -> AnyView{
         let cardDetails = self.viewStates.annotationInfos[self.viewStates.selectedAnnotation]
-        let video = self.viewStates.annotationVideo[self.viewStates.selectedAnnotation]
-        return FactCard(q: cardDetails?.heading ?? "no Question", ans: cardDetails?.detail ?? "no Detail", width: w, height: h * (video != nil ? 1.5 : 1),vid_url: video)
-            .transition(.move(edge: .bottom).combined(with: .opacity))
-            .animation(.easeInOut)
+        return AnyView(FactCard(q: cardDetails?.heading ?? "no Question", ans: cardDetails?.detail ?? "no Detail", width: w, height: h)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                        .animation(.easeInOut))
         
     }
     
@@ -248,14 +247,16 @@ struct ArtView: View {
         return GeometryReader{g in
             let w = g.frame(in: .local).width
             let h = g.frame(in: .local).height
+            let video = self.viewStates.annotationVideo[self.viewStates.selectedAnnotation]
             ZStack(alignment: .center) {
                 VStack(alignment: .leading, spacing: 25){
                     if !self.viewStates.isEditting{
                         self.header.padding()
                         Spacer()
                         if self.viewStates.inspect{
-                            if self.viewStates.selectedAnnotation != ""{
+                            if self.viewStates.selectedAnnotation != "" && video == nil{
                                 self.annotationTab(w:w,h:h * 0.3)
+//                                self.annotationTab(w: w, h: h)
                             }
                         }
                     }
@@ -268,6 +269,16 @@ struct ArtView: View {
 //                if self.viewStates.inspect{
 //                    self.sideBar(w: w)
 //                }
+                
+                if self.viewStates.inspect && self.viewStates.selectedAnnotation != "" &&  video != nil{
+                    LargeVideoPlayerCard(vid_url: video,close: {
+                        if self.viewStates.selectedAnnotation != ""{
+                            self.viewStates.selectedAnnotation = ""
+                        }
+                    })
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                        .animation(.easeInOut)
+                }
 //
             }.frame(width: w, height: h, alignment: .center)
             

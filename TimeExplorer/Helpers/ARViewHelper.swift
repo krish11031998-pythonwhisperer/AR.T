@@ -59,7 +59,6 @@ extension ARView{
         }
         anchor.addChild(model)
         self.scene.addAnchor(anchor)
-        self.installGestures([.translation,.scale], for: model)
+        self.installGestures([.scale,.rotation], for: model)
     }
-    
 }

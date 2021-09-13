@@ -33,20 +33,10 @@ struct ImageCache:DictCache{
         return cache
     }()
     static var cache = ImageCache()
-    subscript(url: URL) -> UIImage? {
-        get{
-            var res : UIImage? = nil
-            if let url = url as? NSURL{
-                res = self.cache.object(forKey: url)
-            }
-            return res
-        }
-        set{
-            guard let img = newValue, let url = url as? NSURL else {return}
-            self.cache.setObject(img, forKey: url)
-        }
-    }
-}
+    subscript(_ key: URL) -> UIImage? {
+            get { cache.object(forKey: key as NSURL) }
+            set { newValue == nil ? cache.removeObject(forKey: key as NSURL) : cache.setObject(newValue!, forKey: key as NSURL) }
+        }}
 
 
 extension Image{
@@ -56,14 +46,14 @@ extension Image{
     static var userBG = Image("userBackground")
     
     static func templateImage(_ image:UIImage, _ width:CGFloat, _ height: CGFloat, _ aR:CGFloat? = nil,clipShape:Bool = true) -> some View{
-        var aspectRatio:CGFloat = 1.0
-        if let ar = aR{
-            aspectRatio = ar
-        }else{
-            aspectRatio = UIImage.aspectRatio(img: image)
-        }
-        var cor1 = clipShape ? 15 : 0
-        var cor2 = clipShape ? 30 : 0
+//        var aspectRatio:CGFloat = 1.0
+//        if let ar = aR{
+//            aspectRatio = ar
+//        }else{
+//            aspectRatio = UIImage.aspectRatio(img: image)
+//        }
+        let cor1 = clipShape ? 15 : 0
+        let cor2 = clipShape ? 30 : 0
         
         return Image(uiImage: image)
             .resizable()
@@ -72,9 +62,6 @@ extension Image{
             .clipShape(Corners(rect: [.topLeft,.bottomRight], size: .init(width: cor1, height: cor1)))
             .clipShape(Corners(rect: [.topRight,.bottomLeft], size: .init(width: cor2, height: cor2)))
     }
-//    static func aspectRatio(){
-//        var image = self
-//    }
 }
 
 extension UIImage{
@@ -90,7 +77,7 @@ extension UIImage{
             URLSession.shared.dataTask(with: safeURL) { (data, resp, err) in
                 guard let safeData = data , let safeImage = UIImage(data:safeData) else {
                     if let err = err{
-//                        print(err)
+                        print(err)
                     }
                     return
                     
@@ -163,15 +150,15 @@ extension UIImage{
     
     static func aspectRatio(name:String? = nil, img:UIImage? = nil) -> CGFloat{
         var aR:CGFloat = 1.5
-        var dimension = UIImage.dimension(name: name, img: img)
+        let dimension = UIImage.dimension(name: name, img: img)
         aR = dimension.width/dimension.height
         return aR
     }
     
     func aspectRatio() -> CGFloat{
-        var img = self
+        let img = self
         var aR:CGFloat = 1.5
-        var dimension = UIImage.dimension(name: nil, img: img)
+        let dimension = UIImage.dimension(name: nil, img: img)
         aR = dimension.width/dimension.height
         return aR
     }
@@ -241,7 +228,7 @@ class ImageDownloader:ObservableObject{
     @Published var images:[String : UIImage] = [:]
     @Published var loading:Bool = false
     @Published var mode:String = "single"
-    var cancellable = Set<AnyCancellable>()
+    var cancellable:AnyCancellable?
     static var shared:ImageDownloader = .init()
     var quality:JPEGQuality
     var size:CGSize = UIScreen.main.bounds.size
@@ -302,7 +289,7 @@ class ImageDownloader:ObservableObject{
     }
     
     func downloadImg(url safeURL:URL,mode:String = "single",crop:Bool=false,bounds:CGSize? = nil){
-        URLSession.shared.dataTaskPublisher(for: safeURL)
+        self.cancellable = URLSession.shared.dataTaskPublisher(for: safeURL)
             .subscribe(on: DispatchQueue.global(qos: .userInteractive))
             .receive(on: DispatchQueue.global(qos:.userInteractive))
             .tryMap(self.checkData(output:))
@@ -310,8 +297,6 @@ class ImageDownloader:ObservableObject{
             }, receiveValue: { [weak self] data in
                 self?.parseImage(data: data, url: safeURL,bound: bounds)
             })
-            .store(in: &self.cancellable)
-            
     }
     
     func generateThumbnail(){
@@ -335,49 +320,7 @@ class ImageDownloader:ObservableObject{
         }
     }
     
-    func downloadImage(){
-        DispatchQueue.main.async {
-            if !self.loading {self.loading = true}
-        }
-        print("Called ImageDownload")
-        guard let url = URL(string: self.url), let img = self.downsample(imageAt: url, to: self.size) else {return}
-        ImageCache.cache[URL(string: url.absoluteString)!] = img
-        print("Download Image")
-        DispatchQueue.main.async {
-            self.image = img
-            self.loading = false
-        }
-        
-    }
-    
-    func downsample(imageAt imageURL: URL,
-                    to pointSize: CGSize,
-                    scale: CGFloat = UIScreen.main.scale) -> UIImage? {
 
-        // Create an CGImageSource that represent an image
-        let imageSourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
-        guard let imageSource = CGImageSourceCreateWithURL(imageURL as CFURL, imageSourceOptions) else {
-            return nil
-        }
-        
-        // Calculate the desired dimension
-        let maxDimensionInPixels = max(pointSize.width, pointSize.height) * scale
-        
-        // Perform downsampling
-        let downsampleOptions = [
-            kCGImageSourceCreateThumbnailFromImageAlways: true,
-            kCGImageSourceShouldCacheImmediately: true,
-            kCGImageSourceCreateThumbnailWithTransform: true,
-            kCGImageSourceThumbnailMaxPixelSize: maxDimensionInPixels
-        ] as CFDictionary
-        guard let downsampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions) else {
-            return nil
-        }
-        
-        // Return the downsampled image as UIImage
-        return UIImage(cgImage: downsampledImage)
-    }
-    
     func getImage(url:String,crop:Bool=false,bounds:CGSize? = nil){
         DispatchQueue.main.async {
             if !self.loading {self.loading = true}

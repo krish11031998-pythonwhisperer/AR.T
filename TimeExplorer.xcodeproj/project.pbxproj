@@ -38,6 +38,7 @@
 		BC37DE4F2516041F000BC15E /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC37DE4E2516041F000BC15E /* TabBarView.swift */; };
 		BC3DD5272539BE6900596F8F /* FireStoreAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DD5262539BE6900596F8F /* FireStoreAPI.swift */; };
 		BC3DD52D253A301D00596F8F /* UVMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DD52C253A301D00596F8F /* UVMain.swift */; };
+		BC3FA1DA26EB7DB9009284C6 /* LargeVideoPlayerCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FA1D926EB7DB9009284C6 /* LargeVideoPlayerCard.swift */; };
 		BC52DEAD265FD5B3009D7A4E /* ZillaSlab-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC52DEAC265FD5B3009D7A4E /* ZillaSlab-Regular.ttf */; };
 		BC52DEB0265FDDC3009D7A4E /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DEAF265FDDC3009D7A4E /* HomePageView.swift */; };
 		BC52DEB2265FEC98009D7A4E /* FeaturedArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DEB1265FEC98009D7A4E /* FeaturedArt.swift */; };
@@ -219,6 +220,7 @@
 		BC37DE4E2516041F000BC15E /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		BC3DD5262539BE6900596F8F /* FireStoreAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreAPI.swift; sourceTree = "<group>"; };
 		BC3DD52C253A301D00596F8F /* UVMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVMain.swift; sourceTree = "<group>"; };
+		BC3FA1D926EB7DB9009284C6 /* LargeVideoPlayerCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeVideoPlayerCard.swift; sourceTree = "<group>"; };
 		BC52DEAC265FD5B3009D7A4E /* ZillaSlab-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ZillaSlab-Regular.ttf"; path = "../../../../../../Downloads/Zilla_Slab/ZillaSlab-Regular.ttf"; sourceTree = "<group>"; };
 		BC52DEAF265FDDC3009D7A4E /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
 		BC52DEB1265FEC98009D7A4E /* FeaturedArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedArt.swift; sourceTree = "<group>"; };
@@ -787,6 +789,7 @@
 				BC561D3F261DF3DE00130428 /* SystemButton.swift */,
 				BC5D47DF26667F5700C55A3F /* PinterestScroll.swift */,
 				BCFA55FF26CD8433003CE6FE /* FancyHCarousel.swift */,
+				BC3FA1D926EB7DB9009284C6 /* LargeVideoPlayerCard.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1301,6 +1304,7 @@
 				BC915754254389540089CD3D /* PPVMain.swift in Sources */,
 				BC96B6762615C44B0062B905 /* FancyGrid.swift in Sources */,
 				BC5AFFF825FA3D0100A9E202 /* TrendingCard.swift in Sources */,
+				BC3FA1DA26EB7DB9009284C6 /* LargeVideoPlayerCard.swift in Sources */,
 				BCD7C7FA2690955500077D89 /* WeekBarChart.swift in Sources */,
 				BCCD303F256BF6CE00F663CC /* BlogPostView.swift in Sources */,
 				BC618C6325A9F3C000377140 /* YoutubePlayerHelper.swift in Sources */,

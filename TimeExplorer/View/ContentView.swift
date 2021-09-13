@@ -93,14 +93,6 @@ struct AppView: View {
         self.locationManager.updateLocation()
     }
     
-//    func locationUpdate(update:Bool){
-//        if let coord = self.locationManager.location?.coordinate{
-//            self.mainStates.coordinates = coord
-//            self.mainStates.LS.getCityName(coordinates: coord)
-//            self.locationManager.locationUpdated = false
-//        }
-//
-//    }
     
     var body: some View {
         ZStack(alignment: .bottom){
