@@ -27,7 +27,7 @@ struct ScrollInfoCard:View{
     func imageView(w:CGFloat,h:CGFloat) -> some View{
         return ZStack(alignment: .bottom) {
             ImageView(url: self.data.thumbnail ?? self.data.model_url, width: w, height: h * 0.45, contentMode: .fill,alignment:.center,isModel: self.data.thumbnail == nil && self.data.model_url != nil)
-                .clipShape(Rectangle())
+//                .clipShape(Rectangle())
             self.infoOverlay(w: w, h: h * 0.45)
         }
     }
@@ -123,8 +123,8 @@ extension ScrollInfoCard{
     
     func artistImage(w:CGFloat,h:CGFloat) -> some View{
         return VStack(alignment: .center, spacing: 10){
-            ImageView(url: self.data.painterImg, width: w * 0.5, height: h * 0.9, contentMode: .fill,alignment: .top,autoHeight: false)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
+            ImageView(url: self.data.painterImg, width: w * 0.5, height: h * 0.9, contentMode: .fill,alignment: .top,autoHeight: false,clipping: Clipping.squareClipping)
+//                .clipShape(RoundedRectangle(cornerRadius: 10))
             BasicText(content: self.data.painterName ?? "Artisan", fontDesign: .serif, size: 20, weight: .bold)
                 .foregroundColor(.white)
                 .fixedSize(horizontal: false, vertical: true)

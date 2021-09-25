@@ -130,8 +130,9 @@ struct SinglePostView: View {
             }
             return AnyView(VStack(alignment: .leading, spacing: 10){
                 self.header(w: w, h: h * 0.1)
-                ImageView(url:self.post.image?.first, width:w,height:h * 0.8,contentMode:.fill)
-                    .clipShape(RoundedRectangle(cornerRadius: 25)).shadow(radius: 1.5)
+                ImageView(url:self.post.image?.first, width:w,height:h * 0.8,contentMode:.fill,clipping: .roundClipping)
+//                    .clipShape(RoundedRectangle(cornerRadius: 25))
+                    .shadow(radius: 1.5)
                     .overlay(self.captionOverlay(w: w, h: h))
                 self.footer(w: w, h: h * 0.1)
             })

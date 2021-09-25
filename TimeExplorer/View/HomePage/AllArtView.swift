@@ -44,8 +44,8 @@ struct ArtViewCard:View{
     }
     
     var body: some View{
-        ImageView(url: self.cardData.img,heading: self.cardData.title, width: cardSize.width, height: cardSize.height, contentMode: .fill, alignment: .center, autoHeight: false,headingSize: 25)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
+        ImageView(url: self.cardData.img,heading: self.cardData.title, width: cardSize.width, height: cardSize.height, contentMode: .fill, alignment: .center, autoHeight: false,headingSize: 25,clipping: .roundClipping)
+//                    .clipShape(RoundedRectangle(cornerRadius: 20))
     }
     
 }

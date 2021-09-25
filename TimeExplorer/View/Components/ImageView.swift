@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+enum Clipping:CGFloat{
+    case roundClipping = 20
+    case squareClipping = 10
+    case clipped = 0
+}
+
 struct ImageView:View{
     @State var image:UIImage?
     @StateObject var IMD:ImageDownloader = .init()
@@ -22,8 +28,9 @@ struct ImageView:View{
     var isHidden:Bool
     let testMode:Bool = false
     let quality:JPEGQuality
+    var clipping:Clipping
     
-    init(img:UIImage? = nil,url:String? = nil,heading:String? = nil,width:CGFloat = 300,height:CGFloat = 300,contentMode:ContentMode = .fill,alignment:Alignment = .center,autoHeight:Bool = false,isPost:Bool = false,headingSize:CGFloat = 35,isHidden:Bool = false,quality:JPEGQuality = .low,isModel:Bool = false){
+    init(img:UIImage? = nil,url:String? = nil,heading:String? = nil,width:CGFloat = 300,height:CGFloat = 300,contentMode:ContentMode = .fill,alignment:Alignment = .center,autoHeight:Bool = false,isPost:Bool = false,headingSize:CGFloat = 35,isHidden:Bool = false,quality:JPEGQuality = .low,isModel:Bool = false,clipping:Clipping = .clipped){
         self._image = .init(wrappedValue: img)
         self.url = url
         self.width = width
@@ -36,6 +43,7 @@ struct ImageView:View{
         self.headingSize = headingSize
         self.isHidden = isHidden
         self.quality = quality
+        self.clipping = clipping
 //        self._IMD = .init(wrappedValue: .init(url: url,quality: quality,isModelURL: isModel))
     }
             
@@ -50,18 +58,19 @@ struct ImageView:View{
     }
     
     func imgView(w _w:CGFloat? = nil,h _h:CGFloat? = nil) -> some View{
-        let img =  self.image ?? self.IMD.image ?? .stockImage
+        let img =  self.image ?? self.IMD.image
         let loading = self.image != nil ? false : self.IMD.loading
         let h = self.img_h(img: img)
         return ZStack(alignment: .center) {
             
             BlurView(style: .dark)
-            Image(uiImage: img)
-                .resizable()
-                .aspectRatio(contentMode: self.contentMode)
-                .frame(width: self.width,height: h)
-                .scaleEffect(loading ? 1.25 : 1)
-                .opacity(loading ? 0 : 1)
+            if let img = img{
+                Image(uiImage: img)
+                    .resizable()
+                    .aspectRatio(contentMode: self.contentMode)
+                    .frame(width: self.width,height: h)
+                    .imageSpring()
+            }
             if self.heading != nil{
                 lightbottomShadow.frame(width: self.width, height:h, alignment: .center)
                 self.overlayView(h: h)
@@ -111,9 +120,7 @@ struct ImageView:View{
     }
     
     var body: some View{
-        self.imgView()
-            .contentShape(RoundedRectangle(cornerRadius: 10))
-//            .onAppear(perform: self.onAppear)
+        self.imgView().clipContent(clipping: clipping)
     }
     
 }

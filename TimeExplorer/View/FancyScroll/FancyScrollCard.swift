@@ -54,7 +54,8 @@ struct FancyCardView:View{
     func onTap(global:CGRect){
         if self.scrollStates.selectedCard != self.idx{
             self.scrollStates.centralize_card(res: global.centralize())
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)){
+//            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)){
+            DispatchQueue.main.async{
                 self.scrollStates.selectedCard = self.idx
             }
         }
@@ -64,8 +65,8 @@ struct FancyCardView:View{
     func cardView(local:CGRect,global:CGRect) -> some View{
         let w = local.width
         let h = local.height
-        let view = ImageView(url: self.data.img, width: w, height: h, contentMode: .fill, alignment: .center)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+        let view = ImageView(url: self.data.img, width: w, height: h, contentMode: .fill, alignment: .center,clipping: .squareClipping)
+//            .clipShape(RoundedRectangle(cornerRadius: 10))
         
         return view
             

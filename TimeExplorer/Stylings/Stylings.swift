@@ -8,6 +8,64 @@
 
 import SwiftUI
 
+struct ContentClipping:ViewModifier{
+    var clipping:Clipping
+    func body(content: Content) -> some View {
+        return content
+            .contentShape(RoundedRectangle(cornerRadius: self.clipping.rawValue))
+            .clipShape(RoundedRectangle(cornerRadius: self.clipping.rawValue))
+    }
+}
+
+struct ImageTransition:ViewModifier{
+    @State var load:Bool = false
+    
+    func onAppear(){
+        withAnimation(.easeInOut(duration: 0.5)) {
+            self.load = true
+        }
+    }
+    
+    var scale:CGFloat{
+        return self.load ? 1 : 1.075
+    }
+    
+    func body(content: Content) -> some View {
+        return content
+            .scaleEffect(self.scale)
+            .onAppear(perform: self.onAppear)
+    }
+}
+
+extension AnyTransition{
+    static var slideInOut:AnyTransition{
+        return AnyTransition.asymmetric(insertion:.move(edge: .bottom), removal: .move(edge: .bottom))
+    }
+    
+}
+
+struct ButtonModifier:ButtonStyle{
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.95 : 1)
+            .opacity(configuration.isPressed ? 0.9 : 1)
+    }
+}
+
+extension View{
+    func springButton() -> some View{
+        self.buttonStyle(ButtonModifier())
+    }
+    
+    func imageSpring() -> some View{
+        self.modifier(ImageTransition())
+    }
+    
+    func clipContent(clipping:Clipping = .clipped) -> some View{
+        self.modifier(ContentClipping(clipping: clipping))
+    }
+}
+
 struct Corners:Shape{
     
     var rectCorners:UIRectCorner

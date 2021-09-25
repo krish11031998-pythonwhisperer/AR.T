@@ -23,8 +23,8 @@ struct PersonalBidView: View {
                 ForEach(Array(data.enumerated()), id: \.offset) { _data in
                     let data = _data.element
 //                    let idx = _data.offset
-                    ImageView(url: data.img, width: w * 0.33 - 5, height: h, contentMode: .fill, alignment: .center)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                    ImageView(url: data.img, width: w * 0.33 - 5, height: h, contentMode: .fill, alignment: .center,clipping: .roundClipping)
+//                        .clipShape(RoundedRectangle(cornerRadius: 20))
                 }
             }
         }
@@ -38,8 +38,8 @@ struct PersonalBidView: View {
             let first = self.data.first ?? .init()
             VStack(alignment: .leading,spacing: 10){
                 MainText(content: "Your Bids", fontSize: 25, color: .white, fontWeight: .semibold)
-                ImageView(url: first.img, width: w, height: h * 0.5, contentMode: .fill, alignment: .bottom)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                ImageView(url: first.img, width: w, height: h * 0.5, contentMode: .fill, alignment: .bottom,clipping: .roundClipping)
+//                    .clipShape(RoundedRectangle(cornerRadius: 20))
                 self.secondaryBids(data: Array(self.data[1...]), w: w, h: h * 0.4 - 10)
             }
         }.padding()

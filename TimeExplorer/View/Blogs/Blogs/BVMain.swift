@@ -27,8 +27,8 @@ struct BVMain: View {
     var topBlog:some View{
         VStack(alignment: .leading, spacing: 10){
             MainText(content: "Top Blog", fontSize: 25, color: .black, fontWeight: .bold, style: .normal).frame(alignment: .topLeading)
-            ImageView(url: self.url_str, width: AppWidth, height: totalHeight * 0.4, contentMode: .fill)
-                .clipShape(RoundedRectangle(cornerRadius: 20))
+            ImageView(url: self.url_str, width: AppWidth, height: totalHeight * 0.4, contentMode: .fill,clipping: .roundClipping)
+//                .clipShape(RoundedRectangle(cornerRadius: 20))
         }
     }
     

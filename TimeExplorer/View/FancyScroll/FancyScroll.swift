@@ -67,7 +67,6 @@ struct FancyScroll: View {
         
         return GeometryReader{g -> AnyView in
             let global = g.frame(in: .global)
-            
             DispatchQueue.main.async {
                 if self.scrollStates.dynamic_off == .zero && self.scrollStates.dragging && self.scrollStates.selectedCard == -1{
                     self.scrollStates.centralizeContainer(rect: global)
@@ -81,11 +80,15 @@ struct FancyScroll: View {
                     ForEach(data,id:\.offset) { _data in
                         let data = _data.element
                         let idx = _data.offset
-                        let viewing = self.scrollStates.isViewing == idx && self.scrollStates.selectedCard == -1
+                        let viewing = self.scrollStates.isViewing == idx
+                        let cardSelected = self.scrollStates.selectedCard != -1
+                        let selected = self.scrollStates.selectedCard == idx
+                        let selectedOp = selected ? 1 : 0.15
                         FancyCardView(data: data, idx: idx)
-                            .matchedGeometryEffect(id: idx, in: self.animation,isSource:true)
+//                            .matchedGeometryEffect(id: idx, in: self.animation,properties: .init(arrayLiteral: [MatchedGeometryProperties.position]),isSource:true)
                             .environmentObject(self.scrollStates)
-                            .scaleEffect(viewing ? 1.1 : 0.9)
+                            .scaleEffect(cardSelected ? selected ? 1.1 : 0.9 : viewing ? 1.1 : 0.9)
+                            .opacity(cardSelected ? selectedOp : 1)
                     }
                 }
                 .onChange(of: self.scrollStates.selectedCard, perform: { value in
@@ -101,9 +104,8 @@ struct FancyScroll: View {
 //        .edgesIgnoringSafeArea(.all)
         .padding(.bottom,-50)
         .frame(width: totalHeight * 1.5,height: totalHeight * 2.5,alignment: .topLeading)
-        
         .offset(self.off_size)
-        .animation(.easeInOut(duration: 1))
+        .animation(.easeInOut(duration: 0.75))
         
     }
 
@@ -113,8 +115,8 @@ struct FancyScroll: View {
             if !self.data.isEmpty{
                 self.grid()
                 if let sD = self.selectedArtData, self.scrollStates.selectedCard != -1{
-                    BlurView(style: .dark)
-                    self.selectedArtImage(sD: sD)
+//                    BlurView(style: .dark)
+//                    self.selectedArtImage
                     InfoCard(data:sD,selectedCard: $scrollStates.selectedCard,showArt:self.$showArt)
                 }
             }
@@ -157,13 +159,18 @@ extension FancyScroll{
         return self.scrollStates.selectedCard != -1 ? self.data[self.scrollStates.selectedCard] : nil
     }
     
-    func selectedArtImage(sD:ExploreData) -> AnyView{
-        guard let url_str = sD.img,let url = URL(string: url_str), let img = ImageCache.cache[url] else {return AnyView(Color.clear.frame(width: 0, height: 0, alignment: .center))}
-        return AnyView(ImageView(img: img, width: cardSize.width, height: cardSize.height, contentMode: .fill, alignment: .topLeading)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            .matchedGeometryEffect(id: self.scrollStates.selectedCard, in: self.animation,isSource:false)
-            .scaleEffect(1)
-            .zIndex(10))
+    @ViewBuilder var selectedArtImage : some View {
+        
+        if let sD = self.selectedArtData ,let url_str = sD.img,let url = URL(string: url_str), let img = ImageCache.cache[url] {
+            ImageView(img: img, width: cardSize.width, height: cardSize.height, contentMode: .fill, alignment: .topLeading,clipping: .squareClipping)
+                .matchedGeometryEffect(id: self.scrollStates.selectedCard, in: self.animation,isSource:false)
+                .animation(.easeInOut(duration: 0.15))
+    //            .scaleEffect(1)
+                .zIndex(10)
+        }else{
+            Color.clear.frame(width: 0, height: 0, alignment: .center)
+        }
+        
     }
 }
 

@@ -27,8 +27,8 @@ struct RecommendArt: View {
                     let w = g.frame(in: .local).width
                     let h = g.frame(in: .local).height
                     HStack(alignment: .bottom, spacing: 15){
-                        ImageView(url: data.img, width: w * 0.4, height: h, contentMode: .fill, alignment: .bottom)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                        ImageView(url: data.img, width: w * 0.4, height: h, contentMode: .fill, alignment: .bottom,clipping: .roundClipping)
+//                                .clipShape(RoundedRectangle(cornerRadius: 20))
                         VStack(alignment: .leading, spacing: 10) {
                             MainText(content: data.title ?? "", fontSize: 15, color: .white,fontWeight: .regular, style: .normal)
                             MainText(content: "Bidding Price", fontSize: 12.5, color: .gray,fontWeight: .semibold, style: .normal)

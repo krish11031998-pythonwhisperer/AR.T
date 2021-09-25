@@ -70,7 +70,7 @@ struct PortfolioMainView: View {
         }
         .padding(.top,25)
         .frame(width: totalWidth, alignment: .leading)
-        .background(Color.black)
+//        .background(Color.black)
         .edgesIgnoringSafeArea(.all)
         .onAppear(perform: self.onAppear)
         .onReceive(self.mainStates.TabAPI[self.mainStates.tab]!.$artDatas, perform: self.parseData)

@@ -27,7 +27,9 @@ struct HighlightView: View {
                 self.time += 1
             }else{
                 self.time = 0
-                self.SP.swiped  = self.SP.swiped + 1 < self.data.count ? self.SP.swiped + 1 : 0
+                withAnimation(.easeInOut) {
+                    self.SP.swiped  = self.SP.swiped + 1 < self.data.count ? self.SP.swiped + 1 : 0
+                }
             }
         }
     }
@@ -52,9 +54,11 @@ struct HighlightView: View {
                     }
                 }
             }
-        }.padding(5)
+        }
+        
+        .padding(5)
         .frame(width: totalWidth, height: totalHeight * 0.5, alignment: .center)
-        .animation(.linear(duration: 0.35))
+//        .animation(.linear(duration: 0.35))
         .onReceive(self.timer) { _ in self.checkTime()}
         
     }
@@ -62,8 +66,6 @@ struct HighlightView: View {
 
     var body: some View {
         self.CarouselView
-//            .offset(x: self.SP.extraOffset + self.offset)
-//        ImageView(width: totalWidth, height: totalHeight * 0.75, contentMode: .fill, alignment: .center)
     }
 }
 

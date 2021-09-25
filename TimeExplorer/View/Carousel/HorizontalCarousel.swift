@@ -169,8 +169,8 @@ struct CarouselSliderCard:View{
     }
     
     var body: some View{
-        ImageView(url: self.data.mainImage, width: self.width, height: self.height, contentMode: .fill)
-            .clipShape(RoundedRectangle(cornerRadius: 20))
+        ImageView(url: self.data.mainImage, width: self.width, height: self.height, contentMode: .fill,clipping: .roundClipping)
+//            .clipShape(RoundedRectangle(cornerRadius: 20))
             .overlay(
                 self.overlayView
             )

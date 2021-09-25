@@ -19,7 +19,6 @@ struct ArtTopFactView: View {
     var mainBody:some View{
         ZStack(alignment: .center) {
             ImageView(url: self.data.thumbnail, width: totalWidth, height: totalHeight, contentMode: .fill, alignment: .center)
-                .clipShape(Rectangle())
             Color.black.opacity(0.3)
             HStack(alignment: .center, spacing: 0) {
                 ForEach(Array(self.top_Facts.keys).reversed(),id:\.self) { key in

@@ -89,7 +89,7 @@ struct ArtStoreMain: View {
     
     var body: some View {
         ZStack(alignment: .center) {
-            Color.black
+//            Color.black
             if !self.posts.isEmpty && !self.mainStates.loading{
                 AuctionArtView(data: self.posts)
             }

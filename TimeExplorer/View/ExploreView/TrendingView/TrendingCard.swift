@@ -120,7 +120,7 @@ struct TrendingMainCard:View{
                 }
             }
         }
-        return ImageView(url: self.data.image, width: self.width, height: self.height, contentMode: .fill,quality: .medium).clipped()
+        return ImageView(url: self.data.image, width: self.width, height: self.height, contentMode: .fill,quality: .medium)
     }
     
     func dummyFunction(){
@@ -176,9 +176,7 @@ struct TrendingMainCard:View{
                 fn()
             } label: {
                 MainText(content: "View", fontSize: 17.5, color: .black, fontWeight: .regular, addBG: true)
-            }
-                
-            
+            }.springButton()
             Spacer().frame(height: 50)
         }
 

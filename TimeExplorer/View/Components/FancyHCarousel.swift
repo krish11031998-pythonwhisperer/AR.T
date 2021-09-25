@@ -32,6 +32,7 @@ struct FancyHCarousel: View {
         return scale
     }
     
+    
     func Card(view:AnyView,size:CGSize) -> some View{
         return GeometryReader{g in
             let midX = g.frame(in: .global).midX
@@ -41,7 +42,7 @@ struct FancyHCarousel: View {
             
             
         }.frame(width: size.width, height: size.height, alignment: .center)
-        .gesture(DragGesture().onChanged(self.SP.onChanged(ges_value:)).onEnded(self.SP.onEnded(ges_value:)))
+            .gesture(DragGesture().onChanged(self.SP.onChanged(ges_value:)).onEnded(self.SP.onEnded(ges_value:)))
     }
     
     var offset:CGFloat{
@@ -50,7 +51,9 @@ struct FancyHCarousel: View {
     
     func onReceiveTimer(){
         if self.time == 10{
-            self.SP.swiped = self.SP.swiped + 1 <= self.views.count - 1 ? self.SP.swiped + 1 : 0
+            withAnimation(.easeInOut) {
+                self.SP.swiped = self.SP.swiped + 1 <= self.views.count - 1 ? self.SP.swiped + 1 : 0
+            }
         }else{
             self.time += 1
         }
@@ -76,11 +79,13 @@ struct FancyHCarousel: View {
             
             .offset(x: self.SP.extraOffset + self.offset)
             Spacer()
-        }.frame(width:size.width,height: size.height, alignment: .leading)
+        }
+//        .animation(.easeInOut)
+        .frame(width:size.width,height: size.height, alignment: .leading)
         .onReceive(self.timer, perform: { _ in
             self.onReceiveTimer()
         })
         .onChange(of: self.SP.swiped, perform: self.resetTimer)
-        .animation(.easeInOut)
+//        .animation(.easeInOut)
     }
 }

@@ -91,7 +91,7 @@ struct SystemButton: View {
             self.actionHandler()
         }, label: {
             self.labelView
-        })
+        }).springButton()
     }
 }
 

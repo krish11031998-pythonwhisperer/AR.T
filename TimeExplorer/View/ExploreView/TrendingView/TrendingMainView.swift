@@ -124,7 +124,9 @@ struct TrendingMainView: View {
     
 
     func updateViewState(){
-        self.showArt.toggle()
+        withAnimation(.easeInOut) {
+            self.showArt.toggle()
+        }
     }
 
 
@@ -147,13 +149,14 @@ struct TrendingMainView: View {
 
     var body: some View {
         ZStack(alignment:.top){
-            Color.black
             if !self.data.isEmpty && !self.mainStates.loading{
-                self.ContentScroll(w: totalWidth, h: totalHeight)
+                self.ContentScroll(w: totalWidth, h: totalHeight).zIndex(1)
                 if let data = self.currentCard.data as? ArtData,self.showArt{
                     ArtScrollMainView(data: data,showArt: $showArt)
                         .environmentObject(self.mainStates)
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                        .transition(.slideInOut)
+                        .animation(.easeInOut)
+                        .zIndex(2)
                 }
             }
         }

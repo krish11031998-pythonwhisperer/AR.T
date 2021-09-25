@@ -49,13 +49,15 @@ struct AVScrollView: View {
         return self.cardView != nil ? self.e_SP  : self._SP
     }
     
+    
     func checkTime(){
         if !self.haveTimer {return}
         if time < 10 {
             self.time += 1
         }else{
             self.time = 0
-            self.SP.swiped = self.SP.swiped + 1 < self.data.count - 1 ? self.SP.swiped + 1 : 0
+            let val = self.SP.swiped + 1 < self.data.count - 1 ? self.SP.swiped + 1 : 0
+            self.SP.updateSwipe(val: val)
         }
     }
     
@@ -91,7 +93,7 @@ struct AVScrollView: View {
                 .opacity(selected ? 1 : 0.2)
                 .gesture(DragGesture().onChanged(self.SP.onChanged(ges_value:)).onEnded(self.SP.onEnded(ges_value:)))
                 .onTapGesture {
-                    self.SP.swiped = idx
+                    self.SP.updateSwipe(val: idx - self.SP.swiped)
                 }
                 
                 return AnyView(view)
@@ -129,7 +131,7 @@ struct AVScrollView: View {
         .padding(.leading,10)
         .offset(x: self.scrolledOffset)
         .offset(x: self.SP.extraOffset)
-        .animation(.easeInOut(duration: 0.65))
+//        .animation(.easeInOut(duration: 0.65))
         
     }
     

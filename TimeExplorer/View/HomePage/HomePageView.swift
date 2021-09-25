@@ -3,7 +3,7 @@ import SwiftUI
 struct HomePageView: View {
     @EnvironmentObject var mainStates:AppStates
     @StateObject var CAPI:CAAPI = .init()
-    @Namespace var animation
+//    @Namespace var animation
     @State var chosenSection:String = ""
     @State var showSection:Bool = false
     @State var showArt:Bool = false
@@ -76,6 +76,7 @@ struct HomePageView: View {
     var sections:[String] = ["Hightlight of the Day","On Your Radar","Trending","Recommended Bids","Recent","Genre","Artists"]
     
     var body: some View {
+
         ScrollView(.vertical, showsIndicators: false){
             LazyVStack{
                 self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
@@ -89,7 +90,7 @@ struct HomePageView: View {
                 Spacer().frame(height: 200)
             }
         }
-        .background(Color.black)
+//        .background(mainBGView)
         .edgesIgnoringSafeArea(.all)
         .onAppear(perform: self.onAppear)
         .onReceive(self.mainStates.TabAPI[self.mainStates.tab]!.$artDatas, perform: self.parseData)
@@ -104,8 +105,8 @@ extension HomePageView{
         return LazyVGrid(columns: [GridItem(.adaptive(minimum: w, maximum: w), spacing: 10, alignment: .center)], alignment: .center, spacing: 10) {
             ForEach(Array(data.enumerated()),id: \.offset) { _data in
                 let d = _data.element
-                ImageView(url: d.img, heading: d.title, width: w, height: totalHeight * 0.35, contentMode: .fill, alignment: .center, isPost: true, headingSize: 12)
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                ImageView(url: d.img, heading: d.title, width: w, height: totalHeight * 0.35, contentMode: .fill, alignment: .center, isPost: true, headingSize: 12,clipping: .roundClipping)
+//                    .clipShape(RoundedRectangle(cornerRadius: 15))
             }
         }.padding(.bottom)
     }
@@ -114,7 +115,7 @@ extension HomePageView{
     var TrendingArtView:AnyView {
         var view = AnyView(Color.clear.frame(width: totalWidth, height: totalHeight * 0.7, alignment: .center))
         if !self.posts.isEmpty && self.posts.count >= 10{
-            view = AnyView(FancyHCarousel(views: Array(self.posts[1..<10]).map({AnyView(ImageView(url: $0.img, heading: $0.title, width: totalWidth - 20 , height: totalHeight * 0.7, contentMode: .fill, alignment: .center).clipShape(RoundedRectangle(cornerRadius: 20)))}), size: .init(width: totalWidth - 20, height: totalHeight * 0.7)))
+            view = AnyView(FancyHCarousel(views: Array(self.posts[1..<10]).map({AnyView(ImageView(url: $0.img, heading: $0.title, width: totalWidth - 20 , height: totalHeight * 0.7, contentMode: .fill, alignment: .center,clipping: .roundClipping))}), size: .init(width: totalWidth - 20, height: totalHeight * 0.7)))
         }
         return view
     }
@@ -129,8 +130,8 @@ extension HomePageView{
             LazyHGrid(rows: rows, alignment: .center, spacing: 10) {
                 ForEach(Array(data.enumerated()),id:\.offset) { _data in
                     let data = _data.element
-                    ImageView(url: data.img, heading: data.title, width: cardSize.width, height: cardSize.height, contentMode: .fill,alignment: .center, headingSize: 10, quality: .lowest)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                    ImageView(url: data.img, heading: data.title, width: cardSize.width, height: cardSize.height, contentMode: .fill,alignment: .center, headingSize: 10, quality: .lowest,clipping: .roundClipping)
+//                        .clipShape(RoundedRectangle(cornerRadius: 20))
                 }
             }
             .padding(.horizontal,20)

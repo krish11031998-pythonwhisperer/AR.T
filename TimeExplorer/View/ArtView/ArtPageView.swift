@@ -46,7 +46,6 @@ struct ArtPageView: View {
             let h = g.frame(in: .local).height
             VStack(alignment: .leading, spacing: 0) {
                 ImageView(url: self.data.thumbnail, width: totalWidth, height: h * 0.5, contentMode: .fill, alignment: .top)
-                    .clipShape(Rectangle())
                 self.biddingInfo(w: w, h: h)
                 
                 self.sellerInfo(name: "Krishna Venkatramani", w: w, h: h * 0.15)

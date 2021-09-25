@@ -37,8 +37,8 @@ struct ExploreColCard:View{
     
     var v2:some View{
         LazyVStack(alignment: .leading, spacing: 5) {
-            ImageView(url: self.data.img, width: width, height: (height * 0.75) - 5, contentMode: .fill, alignment: .center)
-                .clipShape(RoundedRectangle(cornerRadius: 20))
+            ImageView(url: self.data.img, width: width, height: (height * 0.75) - 5, contentMode: .fill, alignment: .center,clipping: .roundClipping)
+//                .clipShape(RoundedRectangle(cornerRadius: 20))
             VStack(alignment: .leading, spacing: 2.5){
                 Text("heading")
                     .font(.system(size: 12, weight: .regular, design: .serif))

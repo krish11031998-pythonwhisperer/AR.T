@@ -36,8 +36,8 @@ struct TopArtScroll: View {
                 let skewX:Double = viewing ? 0 : (idx < self.SP.swiped ? 1 : -1) * 10
                 
                 if let img_url = data.img,idx >= self.SP.swiped - cards  && idx <= self.SP.swiped + cards{
-                    ImageView(url: img_url,heading: data.title, width: cardSize.width, height: cardSize.height, contentMode: .fill,alignment: .center, isPost: false,headingSize: 15, isHidden: !viewing)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                    ImageView(url: img_url,heading: data.title, width: cardSize.width, height: cardSize.height, contentMode: .fill,alignment: .center, isPost: false,headingSize: 15, isHidden: !viewing,clipping: .roundClipping)
+//                        .clipShape(RoundedRectangle(cornerRadius: 20))
                         .scaleEffect(idx == self.SP.swiped ? 1.05 : 1)
                         .frame(width: cardSize.width, height: cardSize.height, alignment: .center)
                         .rotation3DEffect(.init(degrees: .init(skewX)),axis: (x: 0.0, y: 1.0, z: 0.0))

@@ -53,7 +53,7 @@ extension ArtStockView{
             let h = g.frame(in: .local).height
             ZStack(alignment: .top){
                 ImageView(url: self.data.img, width: w, height: h, contentMode: .fill, alignment: .top)
-                    .clipped()
+//                    .clipped()
                 HStack(alignment: .center, spacing: 10){
                     SystemButton(b_name: "arrow.left", b_content: "", action: self.backButton)
                     Spacer()

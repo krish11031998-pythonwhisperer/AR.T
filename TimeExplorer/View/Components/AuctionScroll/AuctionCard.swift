@@ -24,9 +24,13 @@ struct AuctionCard: View {
     var imgView:AnyView{
         return AnyView(
             self.data.img == nil ?
-                ImageView(img: .init(named: self.data.img ?? "monaLisa"), width: self.cardSize.width, height: self.cardSize.height, contentMode: .fill, alignment: .bottomLeading).clipped()
-                :
-                ImageView(url: self.data.img!, width: self.cardSize.width, height: self.cardSize.height, contentMode: .fill, alignment: .bottomLeading).clipped()
+                ImageView(img: .init(named: self.data.img ?? "monaLisa"), width: self.cardSize.width, height: self.cardSize.height, contentMode: .fill, alignment: .bottomLeading)
+            :
+            ImageView(url: self.data.img!, width: self.cardSize.width, height: self.cardSize.height, contentMode: .fill, alignment: .bottomLeading)
+//                .clipped()
+//                :
+//                ImageView(url: self.data.img!, width: self.cardSize.width, height: self.cardSize.height, contentMode: .fill, alignment: .bottomLeading)
+//                .clipped()
         )
     }
     

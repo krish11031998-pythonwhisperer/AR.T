@@ -14,7 +14,7 @@ import Introspect
 class AppStates:ObservableObject{
     @Published var coordinates:CLLocationCoordinate2D = .init()
     @Published var loading:Bool = true
-    @Published var tab:String = "feed"
+    @Published var tab:String = "home"
     @Published var showTab:Bool = true
     @Published var userAcc:Account = .init()
     @Published var photosManager:PhotoImages = .init()
@@ -83,7 +83,6 @@ struct AppView: View {
     var activeView: some View{
         self.getActiveView()
             .frame(width: totalWidth,height:totalHeight)
-            .animation(.linear)
     }
     
     func onAppear(){
@@ -96,7 +95,7 @@ struct AppView: View {
     
     var body: some View {
         ZStack(alignment: .bottom){
-            Color.black
+            mainBGView
             if self.showLoginPage{
                 LVLogin(){value in
                     self.showLoginPage = !value
@@ -106,7 +105,7 @@ struct AppView: View {
 //                self.activeView
                 self.getActiveView()
                     .frame(width: totalWidth,height:totalHeight)
-                    .animation(.linear)
+//                    .animation(.linear)
                 if self.mainStates.showTab{
                     TabBarView()
                 }

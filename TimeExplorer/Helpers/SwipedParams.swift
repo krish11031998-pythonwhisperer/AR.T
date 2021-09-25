@@ -48,8 +48,15 @@ class swipeParams:ObservableObject,Equatable{
     
     func onChanged(value:CGFloat){
         if self.swiped >= self.start || self.swiped < self.end{
-            self.extraOffset = value;
-//            print("swiped.extraOffset : \(self.extraOffset)")
+            withAnimation(.easeInOut) {
+                self.extraOffset = value;
+            }
+        }
+    }
+    
+    func updateSwipe(val:Int){
+        withAnimation(.easeInOut) {
+            self.swiped += val
         }
     }
     
@@ -69,9 +76,11 @@ class swipeParams:ObservableObject,Equatable{
                 case .Stack:
                     val = value < 0 && self.swiped < self.end ? 1 : value > 0 && self.swiped > self.start ? -1 : 0
             }
-            self.swiped += val
+            self.updateSwipe(val: val)
         }
-        self.extraOffset = 0
+        withAnimation(.easeInOut) {
+            self.extraOffset = 0
+        }
     }
     
     func onEnded(ges_value:DragGesture.Value){
