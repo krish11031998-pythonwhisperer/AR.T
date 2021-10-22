@@ -30,7 +30,7 @@ class FancyScrollStates:ObservableObject{
         self.static_off.height += res.height - cardSize.height * 0.25
     }
     
-    func centralizeContainer(rect:CGRect){
+    func  centralizeContainer(rect:CGRect){
         var diff_x : CGFloat = 0.0
         var diff_y : CGFloat = 0.0
         if rect.minY > 25{

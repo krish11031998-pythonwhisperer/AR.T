@@ -19,6 +19,8 @@ class AppStates:ObservableObject{
     @Published var userAcc:Account = .init()
     @Published var photosManager:PhotoImages = .init()
     @Published var CAAPI:CAAPI = .init()
+    @Published var selectedArt:ArtData? = nil
+    @Published var showArt:Bool = false
 //    @Published var LS:LocationSearch = .init(place:"",test:true)
     @Published var AAPI:ArtAPI = .init()
     @Published var TabAPI:[String:CAAPI] = ["home":.init(),"blogs":.init(),"feed":.init(),"attractions":.init(),"profile":.init()]
@@ -53,6 +55,18 @@ class AppStates:ObservableObject{
         }
     }
     
+    
+    func updateSelectedArt(data:Any){
+        guard let data = data as? CAData else {return}
+        self.updateSelectedArt(data: data.parseToArtData())
+    }
+    
+    func updateSelectedArt(data:ArtData?){
+        guard let art = data else{return}
+        withAnimation(.linear) {
+            self.selectedArt = art
+        }
+    }
 }
 
 struct AppView: View {
@@ -80,10 +94,6 @@ struct AppView: View {
         return view
     }
         
-    var activeView: some View{
-        self.getActiveView()
-            .frame(width: totalWidth,height:totalHeight)
-    }
     
     func onAppear(){
         self.mainStates.userAcc.autoLogIn(){success in
@@ -91,7 +101,7 @@ struct AppView: View {
         }
         self.locationManager.updateLocation()
     }
-    
+     
     
     var body: some View {
         ZStack(alignment: .bottom){
@@ -100,26 +110,31 @@ struct AppView: View {
                 LVLogin(){value in
                     self.showLoginPage = !value
                 }
-            }
-            if !self.showLoginPage{
-//                self.activeView
+            }else if !self.showLoginPage{
                 self.getActiveView()
-                    .frame(width: totalWidth,height:totalHeight)
-//                    .animation(.linear)
                 if self.mainStates.showTab{
                     TabBarView()
                 }
-                
                 if self.mainStates.loading{
                     LoadingView()
                 }
+                
+                if let selectedArt = self.mainStates.selectedArt{
+                    ArtScrollMainView(data: selectedArt, showArt: $mainStates.showArt)
+                        .transition(.slideInOut)
+                        .zIndex(2)
+                }
             }
-            
-        }
-        .frame(width: totalWidth,height:totalHeight)
-        .edgesIgnoringSafeArea(.all)
-        .onAppear(perform: self.onAppear)
-//        .onChange(of: self.locationManager.locationUpdated, perform: self.locationUpdate(update:))
+        }.frame(width: totalWidth,height:totalHeight)
+            .edgesIgnoringSafeArea(.all)
+            .onAppear(perform: self.onAppear)
+            .onChange(of: self.mainStates.selectedArt) { art in
+                if art == nil && !self.mainStates.showTab && self.mainStates.tab != "attractions"{
+                    withAnimation(.linear) {
+                        self.mainStates.showTab = true
+                    }
+                }
+            }
     }
 }
 

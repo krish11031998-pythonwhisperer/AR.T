@@ -123,6 +123,11 @@ class FirebaseAPI{
     
     static var firebase_shared:FirebaseAPI = .init(collectionName: "")
     
+    
+    var db:Firestore{
+        return Firestore.firestore()
+    }
+    
     func uploadImage(image:UIImage,folder:String,completion: @escaping (String?) -> Void){
         var final_url:String = ""
         if let safeData = image.pngData(){
@@ -175,7 +180,7 @@ class FirebaseAPI{
     
     
     func paginationQuery(user:String,lastDoc:QueryDocumentSnapshot? = nil,completion : @escaping ((QuerySnapshot?,Error?) -> Void)){
-        let db = Firestore.firestore()
+//        let db = Firestore.firestore()
         if let lastDoc = lastDoc{
             db.collection(self.collectionName)
                 .whereField("user", isEqualTo: user)

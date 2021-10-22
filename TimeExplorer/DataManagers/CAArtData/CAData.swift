@@ -84,23 +84,24 @@ class CAData:Codable{
         if let technique = data.technique{
             details["Technique"] = technique.capitalized
         }
-            
+        
         if let dim = data.dimensions{
             if let framed = dim.framed{
                 details["Framed"] = "\(framed.height ?? 0)m x \(framed.width ?? 0)m"
             }
-            
-//            if let unframed = dim.unframed{
-//                details["unframed"] = "\(unframed.height ?? 0)m x \(unframed.width ?? 0)m"
-//            }
         }
         
         return details.keys.count == 0 ? nil : details
-}
+    }
 
     func parseAVSData() -> AVSData?{
         guard let img = self.thumbnail, let title = self.title, let subtitle = self.artistName else {return nil}
         return AVSData(img: img, title: title, subtitle: subtitle, data: self)
+    }
+    
+    func parseToArtData() -> ArtData?{
+        let data = self
+        return .init(date: Date(), title:data.title ?? "No Title", introduction: data.wall_description ?? "Description",infoSnippets: self.PaintingInfo, painterName: data.artistName, thumbnail: data.thumbnail,model_img: data.original)
     }
 }
 

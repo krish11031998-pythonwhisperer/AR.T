@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-enum Clipping:CGFloat{
-    case roundClipping = 20
-    case squareClipping = 10
-    case clipped = 0
-}
-
 struct ImageView:View{
     @State var image:UIImage?
     @StateObject var IMD:ImageDownloader = .init()

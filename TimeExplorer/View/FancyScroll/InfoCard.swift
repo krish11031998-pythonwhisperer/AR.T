@@ -16,10 +16,10 @@ struct InfoCard: View {
     @Binding var selectedCard:Int
     @Binding var showArt:Bool
     
-    init(data:ExploreData,selectedCard:Binding<Int>,showArt:Binding<Bool>){
+    init(data:ExploreData,selectedCard:Binding<Int>? = nil,showArt:Binding<Bool>? = nil){
         self.data = data
-        self._selectedCard = selectedCard
-        self._showArt = showArt
+        self._selectedCard = selectedCard ?? .constant(-1)
+        self._showArt = showArt ?? .constant(false)
     }
     
     var info:(heading:String,subheadline:String,name:String,description:String)?{
@@ -36,7 +36,6 @@ struct InfoCard: View {
     
     func validText(str:String,options:(design:Font.Design,size:CGFloat,weight:Font.Weight)) -> AnyView?{
         if str != ""{
-//            return AnyView(BasicText(content: str, fontDesign: options.design, size: options.size, weight: options.weight))
             return AnyView(MainText(content: str, fontSize: options.size, color: .white, fontWeight: options.weight))
         }
         return AnyView(Color.clear.frame(width: 1, height: 1, alignment: .center))
@@ -63,18 +62,17 @@ struct InfoCard: View {
                 .frame(width: width - 20, alignment: .leading)
             self.validText(str: self.info!.subheadline, options: (design: .rounded, size: 17.5, weight: .regular))
             self.validText(str: "by \(self.info!.name)", options: (design: .serif, size: 15, weight: .medium))
-//            self.validText(str: self.info!.description, options: (design: .rounded, size: 12, weight: .regular))
             Spacer()
             SystemButton(b_name: "arrow.right", b_content: "View", color: .white, haveBG: true, bgcolor: .black) {
-                self.showArt = true
+                withAnimation(.linear) {
+                    self.showArt = true
+                }
             }.padding(.horizontal,5)
         }
         .padding(.horizontal)
         .padding(.vertical,20)
         .frame(width: width, height: height * 0.325, alignment: .center)
-//        .background(Color.white)
         .background(Color.clear)
-//        .clipShape(ArcCorners(corner: .topRight, curveFactor: 0.05, cornerRadius: 10, roundedCorner: [.topRight,.topLeft]))
         .overlay(self.closeButton)
     }
     

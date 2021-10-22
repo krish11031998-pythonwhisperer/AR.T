@@ -9,14 +9,14 @@ import SwiftUI
 
 struct SystemButton: View {
     var buttonName:String
-    var buttonContent:String
+    var buttonContent:String?
     var actionHandler: () -> Void
     var color:Color
     var haveBG:Bool
     var alignment:Axis.Set
     var size:CGSize = .init(width: 10, height: 10)
     fileprivate var bgcolor:Color? = nil
-    init(b_name:String,b_content:String,color:Color = .white,
+    init(b_name:String,b_content:String? = nil,color:Color = .white,
          haveBG:Bool = true,
          size:CGSize? = nil,
          bgcolor:Color? = nil,
@@ -69,16 +69,16 @@ struct SystemButton: View {
         if self.alignment == .vertical{
             view =  AnyView(VStack(alignment:.center,spacing:5){
                 self.ButtonImg
-                if self.buttonContent != ""{
-                    MainText(content: self.buttonContent, fontSize: size.width,color: bgColor)
+                if let content = self.buttonContent{
+                    MainText(content: content, fontSize: size.width,color: bgColor)
                 }
                 
             })
         }else if self.alignment == .horizontal{
-            view =  AnyView(HStack(alignment:.center,spacing:5){
+            view = AnyView(HStack(alignment:.center,spacing:5){
                 self.ButtonImg
-                if self.buttonContent != ""{
-                    MainText(content: self.buttonContent, fontSize: size.width,color: bgColor)
+                if let content = self.buttonContent{
+                    MainText(content: content, fontSize: size.width,color: bgColor)
                 }
                 
             })
@@ -88,6 +88,7 @@ struct SystemButton: View {
     
     var body: some View {
         Button(action: {
+            
             self.actionHandler()
         }, label: {
             self.labelView

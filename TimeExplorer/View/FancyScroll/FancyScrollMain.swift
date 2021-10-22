@@ -47,7 +47,7 @@ struct FancyScrollMain: View {
     
     var header:some View{
         HStack(alignment: .center, spacing: 10){
-            MainText(content: "Discover", fontSize: 50, color: .white, fontWeight: .bold, style: .heading)
+            MainText(content: "Discover", fontSize: 50, color: .white, fontWeight: .bold, style: .normal)
             Spacer()
             SystemButton(b_name: "homekit", b_content: "",color: .white, size: .init(width: 20, height: 20)) {
                 self.mainStates.tab = "home"
@@ -67,16 +67,8 @@ struct FancyScrollMain: View {
 
     var body: some View {
         ZStack(alignment: .top) {
-//            Color.black
-//            FancyScroll(selectedArt: $art,showArt:$showArt,data: self.exploreList)
             FancyScroll(selectedArt: $art,showArt:$showArt,data: self.exploreList,idx: $idx).zIndex(1)
             self.header.zIndex(1)
-            if self.showArt, let art = self.art{
-                ArtScrollMainView(data: art, showArt: $showArt)
-//                    .transition(.move(edge: .bottom).combined(with: .identity))
-                    .transition(.slideInOut)
-                    .zIndex(2)
-            }
         }.edgesIgnoringSafeArea(.all)
         .onAppear(perform: self.onAppear)
         .onReceive(self.mainStates.TabAPI[self.mainStates.tab]!.$artDatas, perform: self.parseData)

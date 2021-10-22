@@ -142,6 +142,8 @@
 		BCD7C8002690955500077D89 /* CurveChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD7C7F72690955500077D89 /* CurveChart.swift */; };
 		BCD7C8012690955500077D89 /* PriceTimeChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD7C7F82690955500077D89 /* PriceTimeChart.swift */; };
 		BCD7C8022690955500077D89 /* CircleChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD7C7F92690955500077D89 /* CircleChart.swift */; };
+		BCD8C9FC2722B1A1004BD59E /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD8C9FB2722B1A1004BD59E /* Container.swift */; };
+		BCD8C9FE2722B77A004BD59E /* HorizontalDragView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD8C9FD2722B77A004BD59E /* HorizontalDragView.swift */; };
 		BCE0B9E325398B9A0043EDEF /* LVLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE0B9E225398B9A0043EDEF /* LVLogin.swift */; };
 		BCE0B9F32539BC600043EDEF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE0B9F22539BC600043EDEF /* User.swift */; };
 		BCE0EF032620DF1900864E49 /* SCNViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE0EF022620DF1900864E49 /* SCNViewHelper.swift */; };
@@ -323,6 +325,8 @@
 		BCD7C7F72690955500077D89 /* CurveChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurveChart.swift; sourceTree = "<group>"; };
 		BCD7C7F82690955500077D89 /* PriceTimeChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriceTimeChart.swift; sourceTree = "<group>"; };
 		BCD7C7F92690955500077D89 /* CircleChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleChart.swift; sourceTree = "<group>"; };
+		BCD8C9FB2722B1A1004BD59E /* Container.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
+		BCD8C9FD2722B77A004BD59E /* HorizontalDragView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalDragView.swift; sourceTree = "<group>"; };
 		BCE0B9E225398B9A0043EDEF /* LVLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LVLogin.swift; sourceTree = "<group>"; };
 		BCE0B9F22539BC600043EDEF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		BCE0EF022620DF1900864E49 /* SCNViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNViewHelper.swift; sourceTree = "<group>"; };
@@ -787,6 +791,8 @@
 				BC5D47DF26667F5700C55A3F /* PinterestScroll.swift */,
 				BCFA55FF26CD8433003CE6FE /* FancyHCarousel.swift */,
 				BC3FA1D926EB7DB9009284C6 /* LargeVideoPlayerCard.swift */,
+				BCD8C9FB2722B1A1004BD59E /* Container.swift */,
+				BCD8C9FD2722B77A004BD59E /* HorizontalDragView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1191,6 +1197,7 @@
 				BC2AD920261F071C007F5921 /* SCNSceneHelper.swift in Sources */,
 				BC2743AB267E80D9007960E9 /* PersonalBidView.swift in Sources */,
 				BC1BDDCF264D45EB005B2C8A /* FancyScrollCard.swift in Sources */,
+				BCD8C9FC2722B1A1004BD59E /* Container.swift in Sources */,
 				BCE6FB8B25EF914000944D32 /* BlogViewMain.swift in Sources */,
 				BCD7C8022690955500077D89 /* CircleChart.swift in Sources */,
 				BCF1934D2549F45D0080DDCE /* UVDetail.swift in Sources */,
@@ -1250,6 +1257,7 @@
 				BC3DD5272539BE6900596F8F /* FireStoreAPI.swift in Sources */,
 				BC561D23261B9AD100130428 /* ImageView.swift in Sources */,
 				BCD7C8012690955500077D89 /* PriceTimeChart.swift in Sources */,
+				BCD8C9FE2722B77A004BD59E /* HorizontalDragView.swift in Sources */,
 				BCE1AC9F2599019B002A150F /* KeyBoardHelper.swift in Sources */,
 				BC96B6712615C41B0062B905 /* NormalGrid.swift in Sources */,
 				BCAFD5172514C7460072F161 /* LoadingView.swift in Sources */,

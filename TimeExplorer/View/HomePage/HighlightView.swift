@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HighlightView: View {
+    @EnvironmentObject var mainStates:AppStates
     var data:[AVSData]
     @StateObject var SP:swipeParams
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -46,9 +47,13 @@ struct HighlightView: View {
                     let scale:CGFloat = idx < self.SP.swiped ? 0.9 : 1
                     if idx >= self.SP.swiped - 1 && idx <= self.SP.swiped + 1{
                         AuctionCard(idx: idx, data: data, size: .init(width: w, height: h))
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .clipContent(clipping: .squareClipping)
+//                            .clipShape(RoundedRectangle(cornerRadius: 10))
                             .offset(x: off)
                             .scaleEffect(scale)
+                            .buttonify {
+                                self.mainStates.updateSelectedArt(data: data.data)
+                            }
 //                        ImageView(url: data.img, heading: data.title, width: w, height: h, contentMode: .fill, alignment: .center, quality: .lowest)
                         
                     }

@@ -49,8 +49,12 @@ struct RecommendArt: View {
         let row = [GridItem(.adaptive(minimum: h, maximum: h), spacing: 0)]
         return LazyHGrid(rows: row, alignment: .center, spacing: 10) {
             ForEach(Array(self.data.enumerated()),id:\.offset) { _data in
+                let data = _data.element
                 let idx = _data.offset
                 self.card(idx: idx)
+                    .buttonify {
+                        self.mainStates.updateSelectedArt(data: data.data)
+                    }
             }
         }.frame(height: tabSize.height, alignment: .leading)
     }

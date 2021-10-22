@@ -82,10 +82,8 @@ struct PortfolioMainView: View {
 extension PortfolioMainView{
     var artScrollView:some View{
         VStack(alignment: .leading, spacing: 5){
-            AVScrollView(attractions: Array(self.paintings[0..<5]),cardView: self.StockCard(_data:), leading: false)
+            AVScrollView(attractions: Array(self.paintings[0..<5]) , leading: false)
                 .environmentObject(self.SP)
-                
-            self.ArtDescriptionView
             MainText(content: "My Collection", fontSize: 35, color: .white, fontWeight: .semibold)
                 .padding()
                 .frame(width: totalWidth, alignment: .leading)

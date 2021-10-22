@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PinterestScroll: View {
-    
+    @EnvironmentObject var mainStates:AppStates
     var data:[AVSData]
     var equalSize:Bool
     init(data:[AVSData],equalSize:Bool = false){
@@ -25,6 +25,9 @@ struct PinterestScroll: View {
                 
                 if idx%2 == rem{
                     PinterestScrollCard(data: card, width: w)
+                        .buttonify {
+                            self.mainStates.updateSelectedArt(data: card.data)
+                        }
                 }
             }
         }
@@ -38,6 +41,9 @@ struct PinterestScroll: View {
             ForEach(Array(self.data.enumerated()),id: \.offset) { _data in
                 let data = _data.element
                 PinterestScrollCard(data: data, width: w, height: totalHeight * 0.3, equalSize: true)
+                    .buttonify {
+                        self.mainStates.updateSelectedArt(data: data.data)
+                    }
             }
         }
         .frame(width: totalWidth, alignment: .center)

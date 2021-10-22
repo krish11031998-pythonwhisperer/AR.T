@@ -29,6 +29,7 @@ extension CGRect{
 
 
 struct FancyScroll: View {
+    @EnvironmentObject var mainStates:AppStates
     @Namespace var animation
     @StateObject var scrollStates:FancyScrollStates
     @Binding var selectedArt:ArtData?
@@ -53,10 +54,13 @@ struct FancyScroll: View {
     let col = [GridItem.init(.adaptive(minimum: totalHeight * 0.3,maximum: totalHeight * 0.3), spacing: 0, alignment: .center)]
     
     func showArt(value : Bool){
-        if value && self.selectedArt == nil, let data = self.selectedArtData?.data as? CAData{
-            self.selectedArt = .init(date: Date(), title:data.title ?? "No Title", introduction: data.wall_description ?? "Description",infoSnippets: self.PaintingInfo, painterName: data.artistName, thumbnail: data.thumbnail,model_img: data.original)
+        if value{
+            self.mainStates.updateSelectedArt(data: self.selectedArtData?.data)
+//            withAnimation(.easeInOut) {
+//                self.mainStates.selectedArt = .init(date: Date(), title:data.title ?? "No Title", introduction: data.wall_description ?? "Description",infoSnippets: self.PaintingInfo, painterName: data.artistName, thumbnail: data.thumbnail,model_img: data.original)
+//            }
         }else if !value && self.selectedArt != nil{
-            self.selectedArt = nil
+            self.mainStates.selectedArt = nil
         }
     }
         
@@ -85,7 +89,6 @@ struct FancyScroll: View {
                         let selected = self.scrollStates.selectedCard == idx
                         let selectedOp = selected ? 1 : 0.15
                         FancyCardView(data: data, idx: idx)
-//                            .matchedGeometryEffect(id: idx, in: self.animation,properties: .init(arrayLiteral: [MatchedGeometryProperties.position]),isSource:true)
                             .environmentObject(self.scrollStates)
                             .scaleEffect(cardSelected ? selected ? 1.1 : 0.9 : viewing ? 1.1 : 0.9)
                             .opacity(cardSelected ? selectedOp : 1)
@@ -115,13 +118,11 @@ struct FancyScroll: View {
             if !self.data.isEmpty{
                 self.grid()
                 if let sD = self.selectedArtData, self.scrollStates.selectedCard != -1{
-//                    BlurView(style: .dark)
-//                    self.selectedArtImage
-                    InfoCard(data:sD,selectedCard: $scrollStates.selectedCard,showArt:self.$showArt)
+                    InfoCard(data:sD,selectedCard: $scrollStates.selectedCard,showArt:$scrollStates.showArt)
                 }
             }
         }.frame(width: totalWidth, height: totalHeight, alignment: .center)
-        .onChange(of: self.showArt, perform: self.showArt(value:))
+        .onChange(of: scrollStates.showArt, perform: self.showArt(value:))
 
     }
 }

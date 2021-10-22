@@ -150,7 +150,7 @@ struct TrendingMainCard:View{
     func infoView() -> some View{
         return VStack(alignment:.leading,spacing: 15){
             HStack{
-                MainText(content: "3D Art", fontSize: 50, color: .white, fontWeight: .black, style: .heading)
+                MainText(content: "3D Art", fontSize: 40, color: .white, fontWeight: .black, style: .normal)
                 Spacer()
             }.padding(.top,50)
             

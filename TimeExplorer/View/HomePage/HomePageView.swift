@@ -3,7 +3,6 @@ import SwiftUI
 struct HomePageView: View {
     @EnvironmentObject var mainStates:AppStates
     @StateObject var CAPI:CAAPI = .init()
-//    @Namespace var animation
     @State var chosenSection:String = ""
     @State var showSection:Bool = false
     @State var showArt:Bool = false
@@ -57,23 +56,21 @@ struct HomePageView: View {
             .frame(width: totalWidth, alignment: .leading)
     }
     
-    func subView(title:String) -> AnyView{
-        var view:AnyView = AnyView(Color.clear)
+    @ViewBuilder func subView(title:String) -> some View{
         switch title{
-            case "Featured Art": view = AnyView(FeaturedArt(art: posts.first ?? asm).padding(.bottom,10))
-            case "On Your Radar": view = AnyView(RecommendArt(data: Array(self.posts[20..<30])))
-            case "Trending": view = TrendingArtView
-            case "Recent" : view = AnyView(AVScrollView(attractions: Array(self.posts[30..<40]),haveTimer: true))
-            case "Genre": view = AnyView(AllArtView(genreData: Array(self.posts[40..<45])))
-            case "Hightlight of the Day": view = AnyView(HighlightView(data: Array(self.posts[45..<50])))
-            case "Recommended Bids" : view = AnyView(self.BidArt(data: Array(self.posts[50..<60])))
-            case "Artists": view = AnyView(self.artistArtView(data: Array(self.posts[60...])))
-            default: break
+            case "Featured Art": FeaturedArt(art: posts.first ?? asm).padding(.bottom,10)
+            case "On Your Radar": RecommendArt(data: Array(self.posts[20..<30]))
+            case "Trending": TrendingArtView
+            case "Recent" : AVScrollView(attractions: Array(self.posts[30..<40]))
+            case "Genre": AllArtView(genreData: Array(self.posts[40..<45]))
+            case "Hightlight of the Day": HighlightView(data: Array(self.posts[45..<50]))
+            case "Recommended Bids" : self.BidArt(data: Array(self.posts[50..<60]))
+            case "Artists": self.artistArtView(data: Array(self.posts[60...]))
+            default: Color.clear
         }
-        return view
     }
     
-    var sections:[String] = ["Hightlight of the Day","On Your Radar","Trending","Recommended Bids","Recent","Genre","Artists"]
+    var sections:[String] = ["Hightlight of the Day","On Your Radar","Trending","Recommended Bids","Recent","Genre"]
     
     var body: some View {
 
@@ -82,15 +79,14 @@ struct HomePageView: View {
                 self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
                 if !self.mainStates.loading && !self.posts.isEmpty && self.posts.count == self.target_limit{
                     ForEach(self.sections, id:\.self) { title in
-                        self.subSectionHeader(title: title).padding(.top,5)
-                        self.subView(title: title)
-                            .padding(.bottom,5)
+                        Container(heading: title, width: totalWidth, ignoreSides: true) { _ in
+                            self.subView(title: title)
+                        }.padding(.vertical,5)
                     }
                 }
                 Spacer().frame(height: 200)
             }
         }
-//        .background(mainBGView)
         .edgesIgnoringSafeArea(.all)
         .onAppear(perform: self.onAppear)
         .onReceive(self.mainStates.TabAPI[self.mainStates.tab]!.$artDatas, perform: self.parseData)
@@ -112,12 +108,21 @@ extension HomePageView{
     }
     
     
-    var TrendingArtView:AnyView {
-        var view = AnyView(Color.clear.frame(width: totalWidth, height: totalHeight * 0.7, alignment: .center))
+    func TrendingViewBuilder(data:AVSData) -> AnyView{
+        return AnyView(
+            ImageView(url: data.img, heading: data.title, width: totalWidth - 20 , height: totalHeight * 0.7, contentMode: .fill, alignment: .center,clipping: .roundClipping)
+                .buttonify {
+                    self.mainStates.updateSelectedArt(data: data.data)
+                }
+        )
+    }
+    
+    @ViewBuilder var TrendingArtView:some View {
         if !self.posts.isEmpty && self.posts.count >= 10{
-            view = AnyView(FancyHCarousel(views: Array(self.posts[1..<10]).map({AnyView(ImageView(url: $0.img, heading: $0.title, width: totalWidth - 20 , height: totalHeight * 0.7, contentMode: .fill, alignment: .center,clipping: .roundClipping))}), size: .init(width: totalWidth - 20, height: totalHeight * 0.7)))
+            FancyHCarousel(views: Array(self.posts[1..<10]).map({TrendingViewBuilder(data: $0)}), size: .init(width: totalWidth - 20, height: totalHeight * 0.7)).padding(.horizontal,10)
+        }else{
+            Color.clear.frame(width: totalWidth, height: totalHeight * 0.7, alignment: .center)
         }
-        return view
     }
     
     func BidArt(data:[AVSData])-> some View{
@@ -131,7 +136,9 @@ extension HomePageView{
                 ForEach(Array(data.enumerated()),id:\.offset) { _data in
                     let data = _data.element
                     ImageView(url: data.img, heading: data.title, width: cardSize.width, height: cardSize.height, contentMode: .fill,alignment: .center, headingSize: 10, quality: .lowest,clipping: .roundClipping)
-//                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .buttonify {
+                            self.mainStates.updateSelectedArt(data: data)
+                        }
                 }
             }
             .padding(.horizontal,20)
@@ -141,7 +148,7 @@ extension HomePageView{
     
     func artistArtView(data:[AVSData]) -> some View{
         let f = Int(floor(Double(data.count/3)))
-        let view = VStack(alignment: .center, spacing: 20) {
+        let view = Group{
             ForEach(Array(0..<f),id: \.self) { i in
                 let start = Int(i) * 3
                 let end = Int(i + 1) * 3

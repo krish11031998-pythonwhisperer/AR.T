@@ -8,16 +8,6 @@
 
 import SwiftUI
 
-enum TextStyle:String{
-//    case main = "Avenir Next Medium"
-    case main = "NeueMachina-Regular"
-    case heading = "BungeeShade-Regular"
-//    case title = "SortsMillGoudy-Regular"
-//    case normal = "Avenir Next Medium"
-//    case normal = "Cochin"
-//    case normal = "SpaceGrotesk"
-    case normal = "SortsMillGoudy-Regular"
-}
 struct BasicText: View {
     
     var content:String
@@ -58,24 +48,40 @@ struct MainText: View {
         self.font = .custom(self.style.rawValue, size: self.fontSize)
         self.fontWeight = fontWeight
         self.addBG = addBG
+    }
+    
+    struct CustomFontModifier:ViewModifier{
+        var addBG:Bool
+        var oppColor:Color
+        
+        func body(content: Content) -> some View {
+            content
+                .padding(.all,addBG ? 10 : 0)
+                .background(addBG ? self.oppColor : .clear)
+                .clipShape(RoundedRectangle(cornerRadius: addBG ? 20 : 0))
+                
+        }
         
     }
+    
     
     var oppColor:Color{
         return self.color == .black ? .white : .black
     }
-     
+    
+    var _font_:Font{
+        return self.style != .monospaced ? .custom(self.style.rawValue, size: self.fontSize) : Font.system(size: self.fontSize, weight: .regular, design: .monospaced)
+    }
+    
     var body: some View {
         Text(self.content)
-            .font(self.style == .normal ? self.font : Font.system(.body, design: .serif))
+            .font(_font_)
             .fontWeight(self.fontWeight)
             .foregroundColor(self.color)
-            .padding(.all,addBG ? 10 : 0)
-            .background(addBG ? self.oppColor : .clear)
-            .clipShape(RoundedRectangle(cornerRadius: addBG ? 20 : 0))
-            
+            .modifier(CustomFontModifier(addBG: addBG, oppColor: oppColor))
     }
 }
+
 
 
 

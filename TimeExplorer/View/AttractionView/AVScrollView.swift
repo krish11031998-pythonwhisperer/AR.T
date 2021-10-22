@@ -15,131 +15,120 @@ struct AVSData{
     var data:Any?
 }
 
-struct AVScrollView: View {
+struct AVScrollView:View {
+    @EnvironmentObject var mainStates:AppStates
     var data:[AVSData] = []
-    @EnvironmentObject var e_SP:swipeParams
-    @StateObject var IMD:ImageDownloader
-    @StateObject var _SP:swipeParams
-    var timer = Timer.publish(every: 1, on: .main, in: .common)
-    @State var time:Int = 0
-    var haveTimer:Bool
-    var cancellable =  Set<AnyCancellable>()
-//    var cardView:((AVSData,swipeParams) -> AnyView)? = nil
-    var cardView:((EnumeratedSequence<[AVSData]>.Element) -> AnyView)? = nil
     var leading:Bool
     var includeChart:Bool
 
-    init(attractions attr:[AVSData],cardView:((EnumeratedSequence<[AVSData]>.Element) -> AnyView)? = nil,haveTimer:Bool = false,leading:Bool = true,chart:Bool = false){
+    init(attractions attr:[AVSData],leading:Bool = true,chart:Bool = false){
         self.data = attr
-        self.cardView = cardView
-        self._IMD = StateObject(wrappedValue: .init(urls: attr.compactMap({$0.img}), mode: "multiple", quality: .low))
-        self.__SP = StateObject(wrappedValue: .init(0, attr.count - 1, 100))
         self.leading = leading
         self.includeChart = chart
-        self.haveTimer = haveTimer
-        if haveTimer{
-            self.timer.connect().store(in: &cancellable)
-        }
     }
-    
-    let cardSize:CGSize = .init(width: totalWidth * 0.6, height: totalHeight * 0.5)
-    
-    
-    var SP:swipeParams{
-        return self.cardView != nil ? self.e_SP  : self._SP
-    }
-    
-    
-    func checkTime(){
-        if !self.haveTimer {return}
-        if time < 10 {
-            self.time += 1
-        }else{
-            self.time = 0
-            let val = self.SP.swiped + 1 < self.data.count - 1 ? self.SP.swiped + 1 : 0
-            self.SP.updateSwipe(val: val)
-        }
-    }
-    
-    func imgView(idx:Int,data:AVSData) -> AnyView{
-        let view =
-            
-            GeometryReader{ g -> AnyView in
-                let local = g.frame(in: .local)
-//                let global = g.frame(in: .global)
-                let selected = self.SP.swiped == idx
-                let w = local.width
-                let h = local.height
-                let scale:CGFloat = selected ? 1.05 : 0.9
-                
-                let view = ZStack(alignment: .bottom) {
-                    ImageView(url: data.img, width: w, height: h, contentMode: .fill, alignment: .center)
-                    lightbottomShadow.frame(width: w + 1, alignment: .center)
-                    if selected && !self.includeChart{
-                            BasicText(content: data.title ?? "No Heading", fontDesign: .serif, size: 15, weight: .semibold)
-                                .foregroundColor(.white)
-                                .padding()
-                                .frame(width: w, alignment: .leading)
-                                .transition(.move(edge: .bottom).combined(with: .opacity))
-                    }
-                    if includeChart{
-                        CurveChart(data: [45,25,10,60,30,79], size: .init(width: w * 0.75, height: h * 0.3),bg: AnyView(Color.clear),lineColor: .white,chartShade: false)
-                            .frame(width: w, alignment: .leading)
-                    }
-                }
-                .clipShape(RoundedRectangle(cornerRadius: selected ? 20 : 10))
-                .shadow(radius: selected ? 10 : 0)
-                .scaleEffect(scale)
-                .opacity(selected ? 1 : 0.2)
-                .gesture(DragGesture().onChanged(self.SP.onChanged(ges_value:)).onEnded(self.SP.onEnded(ges_value:)))
-                .onTapGesture {
-                    self.SP.updateSwipe(val: idx - self.SP.swiped)
-                }
-                
-                return AnyView(view)
-                
-            }.padding()
-            .frame(width: self.cardSize.width , height: self.cardSize.height, alignment: .center)
-        
-        
-        
-        return AnyView(view.id(idx))
-    }
-    
 
-    var scrolledOffset:CGFloat{
-        let off =  CGFloat(self.SP.swiped >= 2 ? 2 : self.SP.swiped < 0 ? 0 : self.SP.swiped) * -(self.cardSize.width) - 10
-        return off
-    }
-    
-    
-    var v2:some View{
-        HStack(alignment: .center, spacing: 0){
-            Spacer().frame(width: self.leading ? (totalWidth - self.cardSize.width) * 0.5 : 0)
-            ForEach(Array(self.data.enumerated()),id: \.offset){ _attr in
-                let attr = _attr.element
-                let idx = _attr.offset
-                
-                if idx >= self.SP.swiped - 2 && idx <= self.SP.swiped + 2{
-                    self.cardView?(_attr) ?? self.imgView(idx:idx,data: attr)
+    let cardSize:CGSize = .init(width: totalWidth * 0.6, height: totalHeight * 0.5)
+
+
+    func imgView(idx:Int,data:AVSData) -> some View{
+        ImageView(url: data.img, width: self.cardSize.width, height: self.cardSize.height , contentMode: .fill, alignment: .center)
+            .modifier(ImageOverlayModifier(size: self.cardSize,clipping: .roundClipping, innerView: {
+                if !self.includeChart{
+                    BasicText(content: data.title ?? "No Heading", fontDesign: .serif, size: 15, weight: .semibold)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(width: self.cardSize.width, alignment: .leading)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                }else{
+                    CurveChart(data: [45,25,10,60,30,79], size: .init(width: self.cardSize.width * 0.75, height: self.cardSize.height * 0.3),bg: AnyView(Color.clear),lineColor: .white,chartShade: false)
+                        .frame(width: self.cardSize.width, alignment: .leading)
+                }
+            }))
+            .horizontalAnimation(size: self.cardSize)
+            .buttonify {
+                if let data = data.data as? CAData, let art = data.parseToArtData(), !self.mainStates.showArt && self.mainStates.selectedArt == nil{
+                    withAnimation(.linear) {
+                        self.mainStates.selectedArt = art
+                    }
                 }
             }
-            Spacer().frame(width: (totalWidth - self.cardSize.width) * 0.5)
+    }
+
+
+    var v2:some View{
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(alignment: .center, spacing: 10){
+                Spacer().frame(width: self.leading ? (totalWidth - self.cardSize.width) * 0.5 : 0)
+                ForEach(Array(self.data.enumerated()),id: \.offset){ _attr in
+                    let attr = _attr.element
+                        self.imgView(idx:idx,data: attr)
+                }
+                Spacer().frame(width: (totalWidth - self.cardSize.width) * 0.5)
+            }.animation(.easeInOut )
         }
         .edgesIgnoringSafeArea(.horizontal)
         .frame(width:totalWidth,height: cardSize.height * 1.01,alignment: .leading)
-        .padding(.leading,10)
-        .offset(x: self.scrolledOffset)
-        .offset(x: self.SP.extraOffset)
-//        .animation(.easeInOut(duration: 0.65))
         
     }
-    
+
     var body: some View{
             self.v2
-                .onReceive(self.timer, perform: {_ in self.checkTime()})
+//                .onReceive(self.timer, perform: {_ in self.checkTime()})
     }
 }
+//struct CardSize{
+//    static var slender = CGSize(width: totalWidth * 0.6, height: totalHeight * 0.5)
+//    static var small = CGSize(width: totalWidth * 0.45, height: totalHeight * 0.2)
+//}
+//
+//
+//struct CardSlidingView: View {
+//    var cardSize:CGSize
+//    var views:Array<AnyView>
+//    @StateObject var SP:swipeParams
+//    var leading:Bool
+//    init(cardSize:CGSize = CardSize.slender,views:Array<AnyView>,leading:Bool = true){
+//        self.cardSize = cardSize
+//        self.views = views
+//        self.leading = leading
+//        self._SP = .init(wrappedValue: .init(0, views.count - 1, 100, type: .Carousel))
+//    }
+//
+//    var scrolledOffset:CGFloat{
+//        let off =  CGFloat(self.SP.swiped >= 2 ? 2 : self.SP.swiped < 0 ? 0 : self.SP.swiped) * -(self.cardSize.width) - 10
+//        return off
+//    }
+//
+//
+//    func zoomInOut(view:AnyView) -> some View{
+//        GeometryReader{g in
+//            let midX = g.frame(in: .global).midX
+//            let diff = abs(midX - (totalWidth * 0.5))/totalWidth
+//            let diff_percent = (diff > 0.25 ? 1 : diff/0.25)
+//            let scale = 1 - 0.075 * diff_percent
+//
+//            view.scaleEffect(scale)
+//
+//        }.frame(width: cardSize.width, height: cardSize.height, alignment: .center)
+//    }
+//
+//
+//    var body: some View {
+//        ScrollView(.horizontal, showsIndicators: false) {
+//            LazyHStack(alignment: .center, spacing: 0){
+//                Spacer().frame(width: self.leading ? (totalWidth - self.cardSize.width) * 0.5 : 0)
+//                ForEach(Array(self.views.enumerated()),id: \.offset){ _view in
+//                    let view = _view.element
+//                    zoomInOut(view: view)
+//                }
+//                Spacer().frame(width: (totalWidth - self.cardSize.width) * 0.5)
+//            }
+//
+//        }
+//        .frame(height: cardSize.height * 1,alignment: .leading)
+//    }
+//}
+
 
 //struct AVScrollView_Previews: PreviewProvider {
 //    static var previews: some View {

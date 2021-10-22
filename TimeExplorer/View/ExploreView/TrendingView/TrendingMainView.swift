@@ -151,13 +151,13 @@ struct TrendingMainView: View {
         ZStack(alignment:.top){
             if !self.data.isEmpty && !self.mainStates.loading{
                 self.ContentScroll(w: totalWidth, h: totalHeight).zIndex(1)
-                if let data = self.currentCard.data as? ArtData,self.showArt{
-                    ArtScrollMainView(data: data,showArt: $showArt)
-                        .environmentObject(self.mainStates)
-                        .transition(.slideInOut)
-                        .animation(.easeInOut)
-                        .zIndex(2)
-                }
+//                if let data = self.currentCard.data as? ArtData,self.showArt{
+//                    ArtScrollMainView(data: data,showArt: $showArt)
+//                        .environmentObject(self.mainStates)
+//                        .transition(.slideInOut)
+//                        .animation(.easeInOut)
+//                        .zIndex(2)
+//                }
             }
         }
         .frame(width: totalWidth, height: totalHeight, alignment: .top)
