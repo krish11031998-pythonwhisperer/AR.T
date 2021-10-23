@@ -121,7 +121,7 @@ struct AppView: View {
                 
                 if let selectedArt = self.mainStates.selectedArt{
                     ArtScrollMainView(data: selectedArt, showArt: $mainStates.showArt)
-                        .transition(.slideInOut)
+//                        .transition(.slideInOut)
                         .zIndex(2)
                 }
             }

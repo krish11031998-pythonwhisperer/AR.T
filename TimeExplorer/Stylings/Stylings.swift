@@ -30,6 +30,13 @@ struct ColoredTextField:TextFieldStyle{
 }
 
 
+
+//struct DraggableButton:ViewModifier{
+//    @StateObject 
+//    
+//    
+//}
+
 struct ImageOverlayModifier<T:View>:ViewModifier{
     var innerView:T
     var clipping:Clipping

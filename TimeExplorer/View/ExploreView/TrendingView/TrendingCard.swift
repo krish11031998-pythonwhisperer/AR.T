@@ -10,6 +10,7 @@ import AVKit
 
 
 struct TrendingMainCard:View{
+    @EnvironmentObject var mainStates:AppStates
     var idx:Int?
     var data:TrendingCardData
     var width:CGFloat
@@ -69,29 +70,7 @@ struct TrendingMainCard:View{
             print("Got the Video !")
         }
     }
-    
-    var LandmarkTabs:some View{
-        let data = self.data.data as? TourData ?? nil
-        let view = GeometryReader{g in
-            let w = g.frame(in: .local).width
-            let h = g.frame(in: .local).height
-            let landmarks = data?.landmarks ?? []
-            let data = landmarks.compactMap { (lmg) -> CarouselData? in
-                return .init(mainTitle: lmg.title, mainImage: lmg.image)
-            }
-            TabView{
-                ForEach(Array(data.enumerated()),id:\.offset) { (_landmark) in
-                    let idx = _landmark.offset
-                    let landmark = _landmark.element
-                    CarouselSliderCard(idx, landmark, w - 10, h, nil, true, .cutRight).padding(10)
-                }
-            }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-        }
-        .frame(width:self.width * 0.8,height:self.height * 0.2,alignment:.center)
-        
-        return view
-    }
-    
+
         
     var color:Color{
         get{
@@ -123,30 +102,30 @@ struct TrendingMainCard:View{
         return ImageView(url: self.data.image, width: self.width, height: self.height, contentMode: .fill,quality: .medium)
     }
     
-    func dummyFunction(){
-        print("This is a dummy function !: you clicked the view button")
-    }
-    
-    func videoPlayerButton() -> some View{
-        return HStack(alignment: .center, spacing: 10) {
-            SystemButton(b_name: "gobackward.10", b_content: "", color: .white, haveBG: true, bgcolor: .black) {
-                DispatchQueue.main.async {
-                    self.playerObj.videoState = .seekBack
-                }
-            }
-            SystemButton(b_name: self.playerObj.videoState == .play ? "pause.fill" : "play.fill", b_content: "", color: .white, haveBG: true, bgcolor: .black) {
-                DispatchQueue.main.async {
-                    self.playerObj.videoState = self.playerObj.videoState == .play ? .pause : .play
-                }
-            }
-            SystemButton(b_name: "goforward.10", b_content: "", color: .white, haveBG: true, bgcolor: .black) {
-                DispatchQueue.main.async {
-                    self.playerObj.videoState = .seekForward
-                }
-            }
-        }
-    }
-    
+//    func dummyFunction(){
+//        print("This is a dummy function !: you clicked the view button")
+//    }
+//
+//    func videoPlayerButton() -> some View{
+//        return HStack(alignment: .center, spacing: 10) {
+//            SystemButton(b_name: "gobackward.10", b_content: "", color: .white, haveBG: true, bgcolor: .black) {
+//                DispatchQueue.main.async {
+//                    self.playerObj.videoState = .seekBack
+//                }
+//            }
+//            SystemButton(b_name: self.playerObj.videoState == .play ? "pause.fill" : "play.fill", b_content: "", color: .white, haveBG: true, bgcolor: .black) {
+//                DispatchQueue.main.async {
+//                    self.playerObj.videoState = self.playerObj.videoState == .play ? .pause : .play
+//                }
+//            }
+//            SystemButton(b_name: "goforward.10", b_content: "", color: .white, haveBG: true, bgcolor: .black) {
+//                DispatchQueue.main.async {
+//                    self.playerObj.videoState = .seekForward
+//                }
+//            }
+//        }
+//    }
+//
     func infoView() -> some View{
         return VStack(alignment:.leading,spacing: 15){
             HStack{
@@ -167,17 +146,13 @@ struct TrendingMainCard:View{
             BasicText(content: self.data.mainText ?? "", fontDesign: .serif, size: 30, weight: .bold)
                 .foregroundColor(.white)
             
-            if self.playerObj.player != nil && self.showVideo{
-                self.videoPlayerButton()
-            }
-
-            Button {
-                let fn = self.onTap ?? self.dummyFunction
-                fn()
-            } label: {
-                MainText(content: "View", fontSize: 17.5, color: .black, fontWeight: .regular, addBG: true)
-            }.springButton()
-            Spacer().frame(height: 50)
+//            if self.playerObj.player != nil && self.showVideo{
+//                self.videoPlayerButton()
+//            }
+            MainText(content: "View", fontSize: 17.5, color: .black, fontWeight: .regular, addBG: true)
+                .buttonify {
+                    self.mainStates.updateSelectedArt(data: self.data.data)
+                }
         }
 
     }
@@ -187,9 +162,6 @@ struct TrendingMainCard:View{
             let minY = g.frame(in: .global).minY
             ZStack{
                 self.imageView(minY: minY)
-//                if self.showVideo && self.playerObj.player != nil{
-//                    SimpleVideoPlayer(player: self.playerObj.player!, videoState: $playerObj.videoState, frame: .init(x: 0, y: 0, width: totalWidth, height: totalHeight))
-//                }
                 bottomShadow.opacity(detailOpacity)
                 self.infoView()
                 .padding(.horizontal,25).padding(.bottom,100).opacity(self.detailOpacity)

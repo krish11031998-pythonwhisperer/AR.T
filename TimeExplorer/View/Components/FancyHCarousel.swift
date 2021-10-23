@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct FancyHCarousel<T:View>: View {
-    var views:[T]
+    var data:[Any]
+    var viewGenrator:(Any) -> T
+    var onClickHandle:(Any) -> Void
+//    var views:[T]
     //    var view: (CGSize) -> AnyView
     var size:CGSize
     var headers:[String]?
@@ -16,9 +19,11 @@ struct FancyHCarousel<T:View>: View {
     var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State var time:Int = 0
     
-    init(views:[T],headers:[String]? = nil,size:CGSize){
-        self.views = views
-        self._SP = StateObject(wrappedValue: .init(0, views.count - 1, 100, type: .Carousel))
+    init(data:[Any],headers:[String]? = nil,size:CGSize, @ViewBuilder viewGen:@escaping (Any) -> T,clickHandle : @escaping (Any) -> Void){
+        self.data = data
+        self.viewGenrator = viewGen
+        self.onClickHandle = clickHandle
+        self._SP = StateObject(wrappedValue: .init(0, data.count - 1, 100, type: .Carousel))
         self.size = size
         self.headers = headers
     }
@@ -29,9 +34,9 @@ struct FancyHCarousel<T:View>: View {
     }
     
     func onReceiveTimer(){
-        if self.time == 10{
+        if self.time == 15{
             withAnimation(.easeInOut) {
-                self.SP.swiped = self.SP.swiped + 1 <= self.views.count - 1 ? self.SP.swiped + 1 : 0
+                self.SP.swiped = self.SP.swiped + 1 <= self.data.count - 1 ? self.SP.swiped + 1 : 0
             }
         }else{
             self.time += 1
@@ -42,19 +47,40 @@ struct FancyHCarousel<T:View>: View {
         self.time = 0
     }
     
+    func onChanged(val:DragGesture.Value){
+        let w_trans = val.translation.width
+        if abs(w_trans) > 10{
+            self.SP.onChanged(ges_value: val)
+        }
+    }
+    
+    
+    func onEnded(val:DragGesture.Value){
+        let w_trans = val.translation.width
+        let h_trans = val.translation.height
+        if abs(w_trans) > 10{
+            self.SP.onEnded(ges_value: val)
+        }else if abs(h_trans) == 0{
+            self.onClickHandle(data[self.SP.swiped])
+        }
+    }
+    
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             let timeBlob_h = self.size.height * 0.1 - 5
             let mainView_h = self.size.height * ( self.headers == nil ? 1 : 0.9) - 5
 
             HStack(alignment: .center, spacing: 20) {
-                ForEach(Array(self.views.enumerated()),id:\.offset) { _view in
-                    let view = _view.element
-                    let idx = _view.offset
+                ForEach(Array(self.data.enumerated()),id:\.offset) { _data in
+                    let data = _data.element
+                    let idx = _data.offset
                     
-                    view
+                    viewGenrator(data)
                         .horizontalAnimation(size: CGSize(width: size.width, height: mainView_h))
-                        .gesture(DragGesture().onChanged(self.SP.onChanged(ges_value:)).onEnded(self.SP.onEnded(ges_value:)))
+                        .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .global)
+                                    .onChanged(self.onChanged(val:))
+                                    .onEnded(self.onEnded(val:)))
                         .id(idx)
                         
                 }

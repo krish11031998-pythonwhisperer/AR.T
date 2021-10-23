@@ -1,0 +1,18 @@
+
+Polishing the App
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch NFT-Plugin-V5
+# Your branch is up to date with 'origin/NFT-Plugin-V5'.
+#
+# Changes to be committed:
+#	modified:   TimeExplorer.xcworkspace/xcuserdata/krishnavenkatramani.xcuserdatad/UserInterfaceState.xcuserstate
+#	modified:   TimeExplorer.xcworkspace/xcuserdata/krishnavenkatramani.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
+#	modified:   TimeExplorer/Stylings/Stylings.swift
+#	modified:   TimeExplorer/View/Components/FancyHCarousel.swift
+#	modified:   TimeExplorer/View/Constants.swift
+#	modified:   TimeExplorer/View/ContentView.swift
+#	modified:   TimeExplorer/View/ExploreView/TrendingView/TrendingCard.swift
+#	modified:   TimeExplorer/View/HomePage/HomePageView.swift
+#

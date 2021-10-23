@@ -111,15 +111,28 @@ extension HomePageView{
     func TrendingViewBuilder(data:AVSData) -> AnyView{
         return AnyView(
             ImageView(url: data.img, heading: data.title, width: totalWidth - 20 , height: totalHeight * 0.7, contentMode: .fill, alignment: .center,clipping: .roundClipping)
-                .buttonify {
-                    self.mainStates.updateSelectedArt(data: data.data)
-                }
+                .padding(.leading,10)
+//                .buttonify {
+//                    self.mainStates.updateSelectedArt(data: data.data)
+//                }
         )
     }
     
     @ViewBuilder var TrendingArtView:some View {
         if !self.posts.isEmpty && self.posts.count >= 10{
-            FancyHCarousel(views: Array(self.posts[1..<10]).map({TrendingViewBuilder(data: $0)}), size: .init(width: totalWidth - 20, height: totalHeight * 0.7)).padding(.horizontal,10)
+            FancyHCarousel(data: Array(self.posts[1..<10]), size: .init(width: totalWidth - 20, height: totalHeight * 0.7)) { data in
+                if let data = data as? AVSData{
+                    TrendingViewBuilder(data: data)
+                }else{
+                    Color.clear
+                }
+            } clickHandle: { data in
+                if let data = data as? AVSData{
+                    self.mainStates.updateSelectedArt(data: data.data)
+                }
+            }
+
+//            FancyHCarousel(views: Array(self.posts[1..<10]).map({TrendingViewBuilder(data: $0)}), size: .).padding(.horizontal,10)
         }else{
             Color.clear.frame(width: totalWidth, height: totalHeight * 0.7, alignment: .center)
         }
