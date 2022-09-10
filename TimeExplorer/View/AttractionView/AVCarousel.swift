@@ -62,31 +62,31 @@ struct AVCarousel: View {
     
     var HCarousel:some View{
         HStack{
-            ForEach(self.attractions){_attr in
-                let attraction = _attr.attraction
-                let idx = _attr.id
-                let cardOffset = 20 * CGFloat(idx - self.SP.swiped)
-                if idx >= self.SP.swiped && idx <= self.SP.swiped + 2{
-                    Button {
-                        self.showAttraction = true
-                        self.selctedAttraction = attraction
-                    } label: {
-                        AVCard(attraction: attraction, width: self.cardWidth, height: self.cardHeight, blur: self.SP.swiped != _attr.id)
-                            .gesture(
-                                DragGesture()
-                                    .onChanged({ (value) in
-                                        self.SP.onChanged(value: value.translation.width)
-                                    })
-                                    .onEnded({ (value) in
-                                        self.SP.onEnded(value: value.translation.width)
-                                    })
-                            )
-                            .offset(x: self.SP.extraOffset + cardOffset)
-                            .padding(.leading, self.SP.swiped == idx ? 20 : 0)
-                    }.buttonStyle(PlainButtonStyle())
-                }
-                
-            }
+//            ForEach(self.attractions){_attr in
+//                let attraction = _attr.attraction
+//                let idx = _attr.id
+//                let cardOffset = 20 * CGFloat(idx - self.SP.swiped)
+//                if idx >= self.SP.swiped && idx <= self.SP.swiped + 2{
+//                    Button {
+//                        self.showAttraction = true
+//                        self.selctedAttraction = attraction
+//                    } label: {
+//                        AVCard(attraction: attraction, width: self.cardWidth, height: self.cardHeight, blur: self.SP.swiped != _attr.id)
+//                            .gesture(
+//                                DragGesture()
+//                                    .onChanged({ (value) in
+//                                        self.SP.onChanged(value: value.translation.width)
+//                                    })
+//                                    .onEnded({ (value) in
+//                                        self.SP.onEnded(value: value.translation.width)
+//                                    })
+//                            )
+//                            .offset(x: self.SP.extraOffset + cardOffset)
+//                            .padding(.leading, self.SP.swiped == idx ? 20 : 0)
+//                    }.buttonStyle(PlainButtonStyle())
+//                }
+//                
+//            }
         }.frame(width: totalWidth,alignment:.leading)
         .onChange(of: self.SP.swiped) { (idx) in
             self.swiped = idx

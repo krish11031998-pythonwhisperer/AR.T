@@ -6,99 +6,77 @@
 //
 
 import SwiftUI
+import SUI
 
 struct AuctionCard: View {
     var data:AVSData = .init()
     var idx:Int
     var cardSize:CGSize = .init()
-    @State var opacity:Double = 1.0
-    @State var showInfo:Bool = false
+	@State var pct: CGFloat = 0
     
-    init(idx:Int,data:AVSData,size:CGSize = .init(width: totalWidth, height: totalHeight * 0.4)){
+    init(idx:Int,data:AVSData,size:CGSize = .init(width: totalWidth - 20, height: totalHeight * 0.4)){
         self.idx = idx
         self.data = data
         self.cardSize = size
     }
     
-    
-    var imgView:AnyView{
-        return AnyView(
-            self.data.img == nil ?
-                ImageView(img: .init(named: self.data.img ?? "monaLisa"), width: self.cardSize.width, height: self.cardSize.height, contentMode: .fill, alignment: .bottomLeading).clipped()
-                :
-                ImageView(url: self.data.img!, width: self.cardSize.width, height: self.cardSize.height, contentMode: .fill, alignment: .bottomLeading).clipped()
-        )
-    }
-    
     var overlayCaptionView:some View{
-        GeometryReader{g -> AnyView in
-            let w = g.frame(in: .local).width
-            
-            let line_h:CGFloat = 10
-            
-            let view = VStack(alignment: .leading, spacing: 25){
-                self.ownerInfo(w: w)
-                Spacer()
-                MainText(content: self.data.title ?? "Title", fontSize: 30, color: .white, fontWeight: .regular)
-                self.lineChart(w: w, h: line_h)
-                self.cardInfo(w: w)
-            }
-            
-            return AnyView(view)
-            
-        }.padding()
-        .frame(width: self.cardSize.width, height: self.cardSize.height, alignment: .leading)
+		VStack(alignment: .leading, spacing: 10){
+			ownerInfo
+			Spacer()
+			MainText(content: self.data.title ?? "Title", fontSize: 30, color: .white, fontWeight: .regular)
+			lineChart(h: 10)
+			cardInfo
+		}.padding()
+		.framed(size: cardSize, cornerRadius: .zero, alignment: .topLeading)
     }
     
-    var body: some View {
-        GeometryReader {g -> AnyView in
-            let w = g.frame(in: .local).width
-            let h = g.frame(in: .local).height
-            
-            
-            let view = ZStack(alignment: .center){
-                self.imgView
-                lightbottomShadow
-                    .frame(width: w, height: h, alignment: .center)
-                self.overlayCaptionView
-                    .transition(.move(edge: .bottom))
-                
-            }
-            
-            return AnyView(view)
-        }.frame(width: self.cardSize.width, height: self.cardSize.height, alignment: .center)
-    }
+	var body: some View {
+		ZStack(alignment: .center) {
+			SUI.ImageView(url: data.img)
+			lightbottomShadow.fillFrame()
+			overlayCaptionView
+		}
+		.framed(size: cardSize, cornerRadius: 14, alignment: .center)
+		.onAppear {
+			DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+				withAnimation(.default) {
+					self.pct = 0.5
+				}
+			}
+		}
+	}
 }
 
 extension AuctionCard{
     
-    func lineChart(w:CGFloat,h line_h:CGFloat) -> some View{
-        return ZStack(alignment: .leading){
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color.gray.opacity(0.2))
-                .frame(width: w, height: line_h, alignment: .center)
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color.white)
-                .frame(width: w * 0.65, height: line_h, alignment: .center)
-        }.frame(width: w, height: line_h, alignment: .center)
+    func lineChart(h line_h:CGFloat) -> some View{
+		RoundedRectangle(cornerRadius: 10)
+			.fill(Color.gray.opacity(0.2))
+			.horizontalProgressBar(pct: pct, lineColor: .white, size: .init(width: cardSize.width - 30, height: line_h))
+			.fillWidth()
+			.fixedHeight(height: line_h)
     }
     
-    func cardInfo(w:CGFloat) -> some View{
+	var cardInfo: some View{
         HStack(alignment: .center, spacing: 10){
             BasicText(content: "\(5999) BTC", fontDesign: .monospaced, size: 20, weight: .bold)
                 .foregroundColor(.white)
             Spacer()
             MainText(content: "30 bids", fontSize: 20, color: .white, fontWeight: .regular)
-        }.frame(width: w, alignment: .leading)
+        }
+		.fixedSize(horizontal: false, vertical: true)
     }
     
-    func ownerInfo(w:CGFloat) -> some View{
+	var ownerInfo: some View{
         HStack(alignment: .center, spacing: 10){
-            ImageView(width: w * 0.1, height: w * 0.1, contentMode: .fill, alignment: .center)
-                .clipShape(Circle())
+            Circle()
+				.fill(Color.black)
+				.framed(size: .init(squared: 20), cornerRadius: 10, alignment: .center)
             MainText(content: self.data.subtitle ?? "Krishna", fontSize: 15, color: .white, fontWeight: .semibold)
             Spacer()
-        }.frame(width: w, alignment: .center)
+        }
+		.fixedSize(horizontal: false, vertical: true)
     }
     
 }

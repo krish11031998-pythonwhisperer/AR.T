@@ -20,7 +20,7 @@ struct HomePageView: View {
                 Spacer()
                 ImageView(img: nil, width: totalWidth * 0.2, height: totalWidth * 0.2, contentMode: .fill, alignment: .center)
                     .clipShape(Circle())
-            }.padding().frame(width: dim.width, height: dim.height * 0.75, alignment: .center)
+            }.padding().frame(height: dim.height * 0.75, alignment: .center)
     }
     
     func topPostAction(){
@@ -77,15 +77,18 @@ struct HomePageView: View {
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
-            self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
-            if !self.mainStates.loading && !self.posts.isEmpty && self.posts.count == self.target_limit{
-                ForEach(self.sections, id:\.self) { title in
-                    self.subSectionHeader(title: title).padding(.top,5)
-                    self.subView(title: title)
-                        .padding(.bottom,5)
-                }
-            }
-            Spacer().frame(height: 200)
+			LazyVStack(alignment: .leading, spacing: 10) {
+				self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
+				if !self.mainStates.loading && !self.posts.isEmpty && self.posts.count == self.target_limit{
+					ForEach(self.sections, id:\.self) { title in
+						self.subSectionHeader(title: title)
+							//.padding(.top,5)
+						self.subView(title: title)
+							//.padding(.bottom,5)
+					}
+				}
+				Spacer().frame(height: 200)
+			}
         }
         .background(Color.black)
         .edgesIgnoringSafeArea(.all)

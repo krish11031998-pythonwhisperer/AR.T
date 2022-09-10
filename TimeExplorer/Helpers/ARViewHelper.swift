@@ -65,7 +65,7 @@ extension ARView{
         }
         model.name = "arModel"
         model.generateCollisionShapes(recursive: true)
-        let anchor = AnchorEntity(plane: .horizontal)
+        let anchor = AnchorEntity()
         if let pos = _pos{
             anchor.position = pos
         }

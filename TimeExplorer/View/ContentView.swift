@@ -9,6 +9,7 @@ import SwiftUI
 import Firebase
 import MapKit
 import Introspect
+import SUI
 
 
 class AppStates:ObservableObject{
@@ -114,7 +115,7 @@ struct AppView: View {
 //                self.activeView
                 self.getActiveView()
                     .frame(width: totalWidth,height:totalHeight)
-                    .animation(.linear)
+//                    .animation(.linear)
                 if self.mainStates.showTab{
                     TabBarView()
                 }

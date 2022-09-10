@@ -120,17 +120,17 @@ struct AVScrollView: View {
                 
                 if idx >= self.SP.swiped - 2 && idx <= self.SP.swiped + 2{
                     self.cardView?(_attr) ?? self.imgView(idx:idx,data: attr)
+						
                 }
             }
             Spacer().frame(width: (totalWidth - self.cardSize.width) * 0.5)
         }
+		.animation(.easeInOut(duration: 0.65))
         .edgesIgnoringSafeArea(.horizontal)
-        .frame(width:totalWidth,height: cardSize.height * 1.01,alignment: .leading)
         .padding(.leading,10)
         .offset(x: self.scrolledOffset)
         .offset(x: self.SP.extraOffset)
-        .animation(.easeInOut(duration: 0.65))
-        
+		.frame(width:totalWidth,height: cardSize.height * 1.01,alignment: .leading)
     }
     
     var body: some View{

@@ -48,7 +48,6 @@ struct TopArtScroll: View {
         }
         .frame(width:totalWidth,height: cardSize.height + 10, alignment: .leading)
         .offset(x: self.SP.st_off)
-        .animation(.easeInOut(duration: 0.5))
         .gesture(DragGesture().onChanged(self.onChanged(value:)).onEnded(self.onEnded(value:)))
     }
     
@@ -61,7 +60,12 @@ struct TopArtScroll: View {
 
 extension TopArtScroll{
     func onChanged(value:DragGesture.Value){
-        self.SP.dy_off = value.translation.width
+		DispatchQueue.main.async {
+			withAnimation(.easeInOut) {
+				self.SP.dy_off = value.translation.width
+			}
+		}
+        
     }
     
     var selectedArtDetail:AVSData?{
@@ -79,13 +83,17 @@ extension TopArtScroll{
     }
     
     func onEnded(value:DragGesture.Value){
-        let dragValue = value.translation.width
-        let incre = dragValue < 0 ? 1 : -1
-        if abs(dragValue) > 50 && self.SP.swiped + incre >= 0 && self.SP.swiped + incre <= self.data.count - 1{
-            self.SP.st_off += -CGFloat(incre) * cardSize.width
-            self.SP.swiped += incre
-        }
-        self.SP.dy_off = 0
+		DispatchQueue.main.async {
+			withAnimation(.easeInOut) {
+				let dragValue = value.translation.width
+				let incre = dragValue < 0 ? 1 : -1
+				if abs(dragValue) > 50 && self.SP.swiped + incre >= 0 && self.SP.swiped + incre <= self.data.count - 1{
+					self.SP.st_off += -CGFloat(incre) * cardSize.width
+					self.SP.swiped += incre
+				}
+				self.SP.dy_off = 0
+			}
+		}
     }
     
     var spacerWidth:CGFloat{
@@ -97,7 +105,7 @@ extension TopArtScroll{
     func computeParams(idx:Int) -> (Bool,CGFloat,CGFloat,Double){
         let isViewing = idx == self.SP.swiped
         let diff = CGFloat(idx - self.SP.swiped)
-        let x_off:CGFloat = isViewing ? self.SP.dy_off : -cardSize.width * (isViewing && diff == 0 ? 0 : diff * 0.7)
+        let x_off:CGFloat = isViewing ? self.SP.dy_off : -cardSize.width * (diff == 0 ? 0 : diff * 0.7)
         let zInd:Double = -Double(diff)
         return (isViewing,diff,x_off,zInd)
     }
