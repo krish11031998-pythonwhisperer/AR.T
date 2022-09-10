@@ -8,7 +8,7 @@
 import SwiftUI
 import SUI
 
-struct RecommendArt: View {
+struct OnRadarArt: View {
     var data:[AVSData] = []
     var tabSize:CGSize = .init(width: totalWidth * 0.7, height: totalHeight * 0.3)
     

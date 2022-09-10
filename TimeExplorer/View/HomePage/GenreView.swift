@@ -8,7 +8,7 @@
 import SwiftUI
 import SUI
 
-struct AllArtView: View {
+struct GenreView: View {
     var genreCards:[AVSData]
     
     init(genreData:[AVSData] = Array.init(repeating: AVSData(img: asm.img, title: "Classical", data: asm), count: 10)){
@@ -62,6 +62,6 @@ struct ArtViewCard:View{
 
 struct AllArtView_Previews: PreviewProvider {
     static var previews: some View {
-        AllArtView()
+        GenreView()
     }
 }

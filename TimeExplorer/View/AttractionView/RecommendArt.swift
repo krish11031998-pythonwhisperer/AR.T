@@ -16,13 +16,13 @@ struct AVSData{
     var data:Any?
 }
 
-struct AVScrollView: View {
+struct RecommendArt: View {
     var data:[AVSData] = []
 	init(attractions attr:[AVSData]){
 		self.data = attr
 	}
     
-    let cardSize:CGSize = .init(width: totalWidth * 0.6, height: totalHeight * 0.5)
+    let cardSize:CGSize = .init(width: 235, height: 350)
 
     var body: some View{
 		SlideCardView(data: data, itemSize: cardSize, spacing: 0, leading: false) { data, selected in

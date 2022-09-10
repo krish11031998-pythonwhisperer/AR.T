@@ -52,7 +52,7 @@ extension AuctionArtView{
             MainText(content: "Top Trending", fontSize: 25, color: .white, fontWeight: .semibold)
                 .padding()
 //            TopArtScroll(data: self.data)
-            AVScrollView(attractions: Array(self.data[0..<25]))
+            RecommendArt(attractions: Array(self.data[0..<25]))
         }
         .padding()
         .aspectRatio(contentMode: .fill)

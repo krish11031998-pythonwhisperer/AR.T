@@ -74,15 +74,15 @@ struct HomePageView: View {
 		case .highlight:
 			HighlightView(data: Array(self.posts[45..<50]))
 		case .trending:
-			TopArtScroll(data: Array(self.posts[1..<10]))
+			TrendingArt(data: Array(self.posts[1..<10]))
 		case .onRadar:
-			RecommendArt(data: Array(self.posts[20..<30]))
+			OnRadarArt(data: Array(self.posts[20..<30]))
 		case .recommended:
-			AVScrollView(attractions: Array(self.posts[30..<40]))
+			RecommendArt(attractions: Array(self.posts[30..<40]))
 		case .recent:
-			AVScrollView(attractions: Array(self.posts[30..<40]))
+			BidArt(data: Array(self.posts[30..<40]))
 		case .genre:
-			AllArtView(genreData: Array(self.posts[40..<45]))
+			GenreView(genreData: Array(self.posts[40..<45]))
 		case .artists:
 			artistArtView(data: Array(self.posts[60...]))
 		}
@@ -92,7 +92,7 @@ struct HomePageView: View {
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
-			LazyVStack(alignment: .leading, spacing: 10) {
+			VStack(alignment: .leading, spacing: 10) {
 				self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
 				if !self.mainStates.loading && !self.posts.isEmpty && self.posts.count == self.target_limit{
 					ForEach(sections, id:\.rawValue) { section in
@@ -111,20 +111,7 @@ struct HomePageView: View {
 
 extension HomePageView{
     
-    func RecentArtView(data:[AVSData]) ->some View{
-        let w = totalWidth * 0.5 - 10
-        
-        return LazyVGrid(columns: [GridItem(.adaptive(minimum: w, maximum: w), spacing: 10, alignment: .center)], alignment: .center, spacing: 10) {
-            ForEach(Array(data.enumerated()),id: \.offset) { _data in
-                let d = _data.element
-                ImageView(url: d.img, heading: d.title, width: w, height: totalHeight * 0.35, contentMode: .fill, alignment: .center, isPost: true, headingSize: 12)
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
-            }
-        }.padding(.bottom)
-    }
-    
-    
-    func BidArt(data:[AVSData])-> some View{
+    func BidArt(data: [AVSData])-> some View{
 		let h: CGFloat = 250
 		let w: CGFloat = 150
 		let cardSize: CGSize = .init(width: w, height: h - 10)

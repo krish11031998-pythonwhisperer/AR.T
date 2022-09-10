@@ -8,14 +8,7 @@
 import SwiftUI
 import SUI
 
-class TASScrollParams:ObservableObject{
-    @Published var dy_off:CGFloat = 0.0
-    @Published var st_off:CGFloat = 0.0
-    @Published var swiped:Int = 0
-    
-}
-
-struct TopArtScroll: View {
+struct TrendingArt: View {
 	var cardSize:CGSize = .init(width: .totalWidth.half.boundedTo(lower: 200, higher: 350), height: 350)
     var data:[AVSData] = []
     
