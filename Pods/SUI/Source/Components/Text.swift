@@ -12,12 +12,12 @@ import SwiftUI
 
 public struct HeaderSubHeadView: View {
 	
-	let title: String
-	let subTitle: String
+	let title: RenderableText
+	let subTitle: RenderableText?
 	let spacing: CGFloat
 	let alignment: Alignment
 	
-	public init(title: String, subTitle: String, spacing: CGFloat = 10, alignment: Alignment = .leading) {
+	public init(title: RenderableText, subTitle: RenderableText?, spacing: CGFloat = 10, alignment: Alignment = .leading) {
 		self.title = title
 		self.subTitle = subTitle
 		self.spacing = spacing
@@ -26,8 +26,10 @@ public struct HeaderSubHeadView: View {
 	
 	public var body: some View {
 		VStack(alignment: alignment.horizontal, spacing: 10) {
-			title.styled(font: .boldSystemFont(ofSize: 15), color: .black).text
-			subTitle.styled(font: .systemFont(ofSize: 12, weight: .regular), color: .black).text
+			title.text
+			if let validSubtitle = subTitle {
+				validSubtitle.text
+			}
 		}
 	}
 }

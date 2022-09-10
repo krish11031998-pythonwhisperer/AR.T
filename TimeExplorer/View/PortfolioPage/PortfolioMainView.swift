@@ -62,7 +62,7 @@ struct PortfolioMainView: View {
                 .padding()
                 .frame(width: totalWidth, alignment: .leading)
             if !self.paintings.isEmpty{
-                self.artScrollView
+                //self.artScrollView
             }else{
                 MainText(content: self.loadingText, fontSize: 25)
             }
@@ -80,19 +80,19 @@ struct PortfolioMainView: View {
 
 
 extension PortfolioMainView{
-    var artScrollView:some View{
-        VStack(alignment: .leading, spacing: 5){
-            AVScrollView(attractions: Array(self.paintings[0..<5]),cardView: self.StockCard(_data:), leading: false)
-                .environmentObject(self.SP)
-                
-            self.ArtDescriptionView
-            MainText(content: "My Collection", fontSize: 35, color: .white, fontWeight: .semibold)
-                .padding()
-                .frame(width: totalWidth, alignment: .leading)
-            PinterestScroll(data: Array(self.paintings[5...15]), equalSize: false)
-            Spacer().frame(height: 250, alignment: .center)
-        }.frame(width: totalWidth, alignment: .leading)
-    }
+//    var artScrollView:some View{
+//        VStack(alignment: .leading, spacing: 5){
+//            AVScrollView(attractions: Array(self.paintings[0..<5]),cardView: self.StockCard(_data:), leading: false)
+//                .environmentObject(self.SP)
+//
+//            self.ArtDescriptionView
+//            MainText(content: "My Collection", fontSize: 35, color: .white, fontWeight: .semibold)
+//                .padding()
+//                .frame(width: totalWidth, alignment: .leading)
+//            PinterestScroll(data: Array(self.paintings[5...15]), equalSize: false)
+//            Spacer().frame(height: 250, alignment: .center)
+//        }.frame(width: totalWidth, alignment: .leading)
+//    }
     
     func StockCard(_data: EnumeratedSequence<[AVSData]>.Element) -> AnyView{
         let data = _data.element

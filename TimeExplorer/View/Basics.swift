@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import SUI
 
 enum TextStyle:String{
 //    case main = "Avenir Next Medium"
@@ -18,6 +19,7 @@ enum TextStyle:String{
 //    case normal = "SpaceGrotesk"
     case normal = "SortsMillGoudy-Regular"
 }
+
 struct BasicText: View {
     
     var content:String
@@ -40,6 +42,22 @@ struct BasicText: View {
 //            .foregroundColor(.black)
     }
 
+}
+
+extension String {
+	
+	func normal(size: CGFloat, color: Color = .white) -> RenderableText {
+		styled(font: .init(name: TextStyle.normal.rawValue, size: size) ?? .systemFont(ofSize: size, weight: .regular), color: color)
+	}
+	
+	func main(size: CGFloat, color: Color = .white) -> RenderableText {
+		styled(font: .init(name: TextStyle.main.rawValue, size: size) ?? .systemFont(ofSize: size, weight: .regular), color: color)
+	}
+	
+	func heading(size: CGFloat, color: Color = .white) -> RenderableText {
+		styled(font: .init(name: TextStyle.heading.rawValue, size: size) ?? .systemFont(ofSize: size, weight: .regular), color: color)
+	}
+	
 }
 
 struct MainText: View {

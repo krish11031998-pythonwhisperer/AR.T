@@ -7,6 +7,9 @@
 
 import Foundation
 import SwiftUI
+import Combine
+
+//MARK: - SlideCard ViewModifier
 
 fileprivate struct SlideCard: ViewModifier {
 	
@@ -40,39 +43,113 @@ fileprivate extension View {
 	}
 }
 
+//MARK: - TimerViewModifier
+
+private struct TimerViewModifier: ViewModifier {
+	
+	let timeInterval: TimeInterval
+	let timer: Publishers.Autoconnect<Timer.TimerPublisher>
+	let action: Callback
+	init(timeInterval: TimeInterval, action: @escaping Callback) {
+		self.timeInterval = timeInterval
+		self.timer = Timer.publish(every: timeInterval, on: .main, in: .common).autoconnect()
+		self.action = action
+	}
+	
+	func body(content: Content) -> some View {
+		content
+			.onReceive(timer, perform: { _ in action() })
+	}
+}
+
+public extension View {
+	
+	func timer(timeInterval: TimeInterval, action: @escaping Callback) -> some View {
+		modifier(TimerViewModifier(timeInterval: timeInterval, action: action))
+	}
+}
+
+//MARK: - SlideOverCarousel Config
+
+public struct SlideOverCarouselConfig {
+	let hasTimer: Bool
+	let time: TimeInterval
+	let animation: Animation
+	
+	public init(hasTimer: Bool, time: TimeInterval = 0, animation: Animation = .linear(duration: 0.35)) {
+		self.hasTimer = hasTimer
+		self.time = time
+		self.animation = animation
+	}
+	
+	public static var noTimer: Self { .init(hasTimer: false) }
+	public static var withTimer: Self { .init(hasTimer: true, time: 10) }
+}
+
+//MARK: - SlideOverCarousel
+
+public typealias SlideOverCarouselCallback = (Int) -> Void
+
 public struct SlideOverCarousel<Content: View>: View {
 	
-	var data: [Any]
-	var viewBuilder: (Any) -> Content
+	let data: [Any]
+	let viewBuilder: (Any) -> Content
+	let config: SlideOverCarouselConfig
+	let actionHandler: SlideOverCarouselCallback?
 	@State var currentIdx: Int = .zero
 	
-	public init(data: [Any], @ViewBuilder viewBuilder: @escaping (Any) -> Content) {
+	public init(data: [Any],
+				config: SlideOverCarouselConfig = .noTimer,
+				@ViewBuilder viewBuilder: @escaping (Any) -> Content,
+				action: SlideOverCarouselCallback? = nil)
+	{
 		self.data = data
 		self.viewBuilder = viewBuilder
+		self.config = config
+		self.actionHandler = action
 	}
 	
 	private func handleTap() {
 		asyncMainAnimation {
-			currentIdx = currentIdx == data.count - 1 ? 0 : currentIdx + 1
+			if !config.hasTimer {
+				currentIdx = currentIdx == data.count - 1 ? 0 : currentIdx + 1
+			} else {
+				actionHandler?(currentIdx)
+			}
 		}
 	}
 	
-	public var body: some View {
+	func checkTime(){
+		withAnimation(.linear(duration: 0.35)) {
+			currentIdx = currentIdx + 1 < data.count ? currentIdx + 1 : 0
+		}
+	}
+	
+	private var carousel: some View {
 		ZStack(alignment: .center) {
 			ForEach(Array(data.enumerated()), id: \.offset) { data in
 				if data.offset >= currentIdx - 1 && data.offset <= currentIdx + 1 {
 					viewBuilder(data.element)
-						.onTapGesture (perform: handleTap)
+						.buttonify(action: handleTap)
 						.slideCard(isPrev: data.offset == currentIdx - 1, isNext: data.offset == currentIdx + 1)
 				}
 			}
+		}
+	}
+	
+	public var body: some View {
+		if config.hasTimer {
+			carousel
+				.timer(timeInterval: config.time, action: checkTime)
+		} else {
+			carousel
 		}
 	}
 }
 
 fileprivate struct SlideOverCarouselPreviewProvider: PreviewProvider {
 	static var previews: some View {
-		SlideOverCarousel(data:[Color.red, Color.blue, Color.brown, Color.mint]) { color in
+		SlideOverCarousel(data:[Color.red, Color.blue, Color.brown, Color.mint], config: .init(hasTimer: false)) { color in
 			RoundedRectangle(cornerRadius: 20)
 				.fill((color as? Color) ?? .black)
 				.frame(width: .totalWidth - 20, height: 200, alignment: .center)

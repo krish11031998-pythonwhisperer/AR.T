@@ -8,14 +8,34 @@
 import SwiftUI
 import SUI
 
+enum AuctionCardStyling {
+	case rounded(CGFloat)
+	case original
+}
+
+extension AuctionCardStyling {
+	
+	var cornerRadius: CGFloat {
+		switch self {
+		case .rounded(let radius):
+			return radius
+		case .original:
+			return 0
+		}
+	}
+}
+
 struct AuctionCard: View {
     var data:AVSData = .init()
-    var idx:Int
+	let cardStyling: AuctionCardStyling
     var cardSize:CGSize = .init()
 	@State var pct: CGFloat = 0
     
-    init(idx:Int,data:AVSData,size:CGSize = .init(width: totalWidth - 20, height: totalHeight * 0.4)){
-        self.idx = idx
+	init(data:AVSData,
+		 styling: AuctionCardStyling = .original,
+		 size:CGSize = .init(width: totalWidth - 20, height: totalHeight * 0.4)
+	){
+		self.cardStyling = styling
         self.data = data
         self.cardSize = size
     }
@@ -37,7 +57,7 @@ struct AuctionCard: View {
 			lightbottomShadow.fillFrame()
 			overlayCaptionView
 		}
-		.framed(size: cardSize, cornerRadius: 14, alignment: .center)
+		.framed(size: cardSize, cornerRadius: cardStyling.cornerRadius, alignment: .center)
 		.onAppear {
 			DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
 				withAnimation(.default) {
@@ -83,6 +103,6 @@ extension AuctionCard{
 
 struct AuctionCard_Previews: PreviewProvider {
     static var previews: some View {
-        AuctionCard(idx:0,data: .init(img: test.thumbnail, title: test.title, subtitle: test.painterName, data: test))
+        AuctionCard(data: .init(img: test.thumbnail, title: test.title, subtitle: test.painterName, data: test))
     }
 }

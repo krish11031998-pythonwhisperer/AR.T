@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SUI
 
 struct AllArtView: View {
     var genreCards:[AVSData]
@@ -33,19 +34,28 @@ struct AllArtView: View {
 }
 
 struct ArtViewCard:View{
-    var cardData:AVSData
-    var cardSize:CGSize = .init(width: totalWidth * 0.5, height: totalHeight * 0.3)
-    init(data:AVSData,cardSize:CGSize? = nil){
+    let cardData:AVSData
+	let cardSize: CGSize
+    init(data:AVSData, cardSize:CGSize = .init(width: totalWidth * 0.5, height: totalHeight * 0.3)){
         self.cardData = data
-        if let cs = cardSize{
-            self.cardSize = cs
-        }
-        
+		self.cardSize = cardSize
     }
     
     var body: some View{
-        ImageView(url: self.cardData.img,heading: self.cardData.title, width: cardSize.width, height: cardSize.height, contentMode: .fill, alignment: .center, autoHeight: false,headingSize: 25)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
+		ZStack(alignment: .bottomLeading) {
+			SUI.ImageView(url: cardData.img)
+				.framed(size: cardSize, cornerRadius: 0, alignment: .center)
+			VStack(alignment: .leading, spacing: 10) {
+				Spacer()
+				(cardData.title ?? "No Title").normal(size: 12).text
+				RoundedRectangle(cornerRadius: 20)
+					.fill(Color.white.opacity(0.35))
+					.fixedHeight(height: 2)
+					.padding(.bottom,10)
+			}
+			.padding()
+		}
+		.framed(size: cardSize, cornerRadius: 12, alignment: .center)
     }
     
 }

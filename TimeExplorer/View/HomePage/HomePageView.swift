@@ -1,4 +1,22 @@
+//
+//  HomePage.swift
+//  VerticalScroll
+//
+//  Created by Krishna Venkatramani on 28/05/2021.
+//
+
 import SwiftUI
+import SUI
+
+private enum HomeSection: String {
+	case highlight = "Hightlight of the Day"
+	case trending = "Trending"
+	case onRadar = "On Your Radar"
+	case recommended = "Recommended Bids"
+	case recent = "Recent"
+	case genre = "Genre"
+	case artists = "Artists"
+}
 
 struct HomePageView: View {
     @EnvironmentObject var mainStates:AppStates
@@ -50,45 +68,39 @@ struct HomePageView: View {
             }
         }
     }
-
-    func subSectionHeader(title:String) -> some View{
-        return MainText(content: title, fontSize: 30, color: .white, fontWeight: .bold, style: .normal)
-            .padding(.horizontal)
-            .frame(width: totalWidth, alignment: .leading)
-    }
     
-    func subView(title:String) -> AnyView{
-        var view:AnyView = AnyView(Color.clear)
-        switch title{
-            case "Featured Art": view = AnyView(FeaturedArt(art: posts.first ?? asm).padding(.bottom,10))
-            case "Trending": view = AnyView(TopArtScroll(data: Array(self.posts[1..<10])))
-            case "On Your Radar": view = AnyView(RecommendArt(data: Array(self.posts[20..<30])))
-            case "Recent" : view = AnyView(AVScrollView(attractions: Array(self.posts[30..<40]),haveTimer: true))
-            case "Genre": view = AnyView(AllArtView(genreData: Array(self.posts[40..<45])))
-            case "Hightlight of the Day": view = AnyView(HighlightView(data: Array(self.posts[45..<50])))
-            case "Recommended Bids" : view = AnyView(self.BidArt(data: Array(self.posts[50..<60])))
-            case "Artists": view = AnyView(self.artistArtView(data: Array(self.posts[60...])))
-            default: break
-        }
-        return view
+    @ViewBuilder private func subView(section: HomeSection) -> some View {
+		switch section {
+		case .highlight:
+			HighlightView(data: Array(self.posts[45..<50]))
+		case .trending:
+			TopArtScroll(data: Array(self.posts[1..<10]))
+		case .onRadar:
+			RecommendArt(data: Array(self.posts[20..<30]))
+		case .recommended:
+			AVScrollView(attractions: Array(self.posts[30..<40]))
+		case .recent:
+			AVScrollView(attractions: Array(self.posts[30..<40]))
+		case .genre:
+			AllArtView(genreData: Array(self.posts[40..<45]))
+		case .artists:
+			artistArtView(data: Array(self.posts[60...]))
+		}
     }
-//    var sections:[String] = ["Featured Art","Trending","Hightlight of the Day","On Your Radar","Recommended Bids","Recent","Genre","Artists"]
-    var sections:[String] = ["Hightlight of the Day","Trending","On Your Radar","Recommended Bids","Recent","Genre","Artists"]
+
+	private var sections: [HomeSection] = [.highlight, .trending, .onRadar, .recommended, .recent, .genre]
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
 			LazyVStack(alignment: .leading, spacing: 10) {
 				self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
 				if !self.mainStates.loading && !self.posts.isEmpty && self.posts.count == self.target_limit{
-					ForEach(self.sections, id:\.self) { title in
-						self.subSectionHeader(title: title)
-							//.padding(.top,5)
-						self.subView(title: title)
-							//.padding(.bottom,5)
+					ForEach(sections, id:\.rawValue) { section in
+						subView(section: section)
+							.containerize(header: section.rawValue.normal(size: 30).text.anyView)
 					}
 				}
-				Spacer().frame(height: 200)
-			}
+			}.padding(.bottom, .safeAreaInsets.bottom + 100)
         }
         .background(Color.black)
         .edgesIgnoringSafeArea(.all)
@@ -113,22 +125,17 @@ extension HomePageView{
     
     
     func BidArt(data:[AVSData])-> some View{
-        let h = totalHeight * 0.65
-        let w = totalWidth * 0.5
-        let cardSize = CGSize(width:(w * 0.85 - 20),height: (h * 0.5 - 20))
-        let rows = [GridItem.init(.adaptive(minimum: h * 0.5 - 20, maximum: h * 0.5 - 20), spacing: 10, alignment: .center)]
-        let containerW = (cardSize.width + 20) * CGFloat(data.count) * 0.5
+		let h: CGFloat = 250
+		let w: CGFloat = 150
+		let cardSize: CGSize = .init(width: w, height: h - 10)
+		let rows = [GridItem.init(.adaptive(minimum: h - 10, maximum: h - 10), spacing: 10, alignment: .center)]
         return ScrollView(.horizontal, showsIndicators: false) {
             LazyHGrid(rows: rows, alignment: .center, spacing: 10) {
-                ForEach(Array(data.enumerated()),id:\.offset) { _data in
-                    let data = _data.element
-                    let idx = _data.offset
-                    ImageView(url: data.img, heading: data.title, width: cardSize.width, height: cardSize.height, contentMode: .fill,alignment: .center, headingSize: 10, quality: .lowest)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .padding(.leading,idx == 0 ? 10 : 0)
+                ForEach(Array(data.enumerated()),id:\.offset) { data in
+					ArtViewCard(data: data.element, cardSize: cardSize)
                 }
             }
-            .frame(width:containerW,height:h,alignment:.leading)
+            .frame(height:h * 2,alignment:.leading)
         }
     }
     

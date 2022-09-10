@@ -66,7 +66,7 @@ extension AuctionArtView{
                 .frame(width: totalWidth, alignment: .leading)
             ForEach(Array(data.enumerated()),id:\.offset) { _data in
                 let data = _data.element
-                AuctionCard(idx:_data.offset,data: data,size: .init(width: totalWidth, height: totalHeight * 0.75))
+                AuctionCard(data: data, size: .init(width: totalWidth, height: totalHeight * 0.75))
             }
         }.padding(.vertical)
     }

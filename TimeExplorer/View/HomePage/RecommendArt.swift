@@ -6,70 +6,54 @@
 //
 
 import SwiftUI
+import SUI
 
 struct RecommendArt: View {
     var data:[AVSData] = []
-    @EnvironmentObject var mainStates:AppStates
-    @StateObject var IMD:ImageDownloader
     var tabSize:CGSize = .init(width: totalWidth * 0.7, height: totalHeight * 0.3)
     
     init(data:[AVSData]){
         self.data = data
-        self._IMD = StateObject(wrappedValue: .init(urls: data.compactMap({$0.img}), mode: "multiple", quality: .low))
     }
+	
+	var cardSize: CGSize {
+		.init(width: tabSize.width, height: tabSize.height.half - 10)
+	}
     
-    func card(idx:Int) -> AnyView{
-        var view = AnyView(Color.clear)
-        if idx < self.data.count{
-            let data = self.data[idx]
-            view = AnyView(
-                GeometryReader{g in
-                    let w = g.frame(in: .local).width
-                    let h = g.frame(in: .local).height
-                    HStack(alignment: .bottom, spacing: 15){
-
-//                        ImageView(img: self.IMD.images[data.img ?? ""], width: w * 0.4, height: h , contentMode: .fill, alignment: .bottom)
-                        ImageView(url: data.img, width: w * 0.4, height: h, contentMode: .fill, alignment: .bottom)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-//                            .shadow(color: .black.opacity(0.5), radius: 10, x: 0, y: 2)
-                        VStack(alignment: .leading, spacing: 10) {
-                            MainText(content: data.title ?? "", fontSize: 15, color: .white,fontWeight: .regular, style: .normal)
-                            MainText(content: "Bidding Price", fontSize: 12.5, color: .gray,fontWeight: .semibold, style: .normal)
-                            MainText(content: "3 BTC", fontSize: 13, color: .white,fontWeight: .bold, style: .normal)
-                        }.padding(.vertical)
-                        Spacer()
-                    }.frame(width: w, height: h, alignment: .center)
-                }.padding()
-                .frame(width: tabSize.width, height: tabSize.height * 0.5,alignment: .center)
-                
-            )
-        }
-        return view
+    @ViewBuilder func card(idx:Int) -> some View {
+		if idx >= 0 && idx < data.count {
+			HStack(alignment: .top, spacing: 8) {
+				SUI.ImageView(url: data[idx].img)
+					.framed(size: .init(width: tabSize.width * 0.4, height: cardSize.height), cornerRadius: 10, alignment: .center)
+				VStack(alignment: .leading, spacing: 10) {
+					(data[idx].title ?? "XXX").normal(size: 15).text.lineLimit(2)
+					"BiddingPrice".normal(size: 12.5, color: .gray).text
+					"3 BTC".normal(size: 13).text
+				}
+				.fillFrame(alignment: .leading)
+			}
+			.framed(size: cardSize)
+		} else {
+			Color.clear.frame(size: .zero)
+		}
+		
     }
     
     
     var grid:some View{
-        let row = [GridItem(.adaptive(minimum: tabSize.height * 0.5, maximum: tabSize.height * 0.5), spacing: 0)]
+		let row = [GridItem(.adaptive(minimum: tabSize.height.half, maximum: tabSize.height.half), spacing: 0)]
         return LazyHGrid(rows: row, alignment: .center, spacing: 10) {
-            ForEach(Array(self.data.enumerated()),id:\.offset) { _data in
-                let idx = _data.offset
-                self.card(idx: idx)
+            ForEach(Array(self.data.enumerated()),id:\.offset) { data in
+                card(idx: data.offset)
             }
-        }.frame(height: tabSize.height + 10, alignment: .center)
-    }
-    
-    
-    var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-//            if !self.IMD.loading && self.IMD.images.count > 0{
-                self.grid
-//            }
         }
+		.fixedHeight(height: tabSize.height)
     }
+    
+    
+	var body: some View {
+		ScrollView(.horizontal, showsIndicators: false) {
+			self.grid
+		}
+	}
 }
-
-//struct RecommendArt_Previews: PreviewProvider {
-//    static var previews: some View {
-//        RecommendArt()
-//    }
-//}

@@ -15,6 +15,14 @@ public protocol RenderableText {
 extension AttributedString: RenderableText {
 	
 	public var text: Text { .init(self) }
+	
+	public func styled(font: UIFont, color: Color) -> RenderableText {
+		var attributedString = self
+		attributedString.font = font
+		attributedString.foregroundColor = color
+		
+		return attributedString
+	}
 }
 
 extension String: RenderableText {
@@ -29,5 +37,20 @@ extension String: RenderableText {
 		attributedString.foregroundColor = color
 		
 		return attributedString
+	}
+}
+
+public extension String {
+	
+	func systemHeading1(color: Color = .black) -> RenderableText {
+		styled(font: .systemFont(ofSize: 15, weight: .semibold), color: color)
+	}
+	
+	func systemSubHeading(color: Color = .black) -> RenderableText {
+		styled(font: .systemFont(ofSize: 13, weight: .medium),color: color)
+	}
+	
+	func systemBody(color: Color = .black) -> RenderableText {
+		styled(font: .systemFont(ofSize: 12, weight: .regular),color: color)
 	}
 }
