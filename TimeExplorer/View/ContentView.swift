@@ -66,42 +66,52 @@ struct AppView: View {
             return self.mainStates.tab
         }
     }
+	
+	init() {
+		UITabBar.appearance().isHidden = true
+	}
     
-    func getActiveView(tab:String? = nil) -> AnyView{
-        var view:AnyView = AnyView(HomePageView())
-        switch(tab ?? self.tab){
-        case "feed": view = AnyView(ExploreViewMain())
-        case "post": view = AnyView(CameraView().onAppear {self.mainStates.toggleTab()}.onDisappear {self.mainStates.toggleTab()})
-        case "blogs": view = AnyView(ArtStoreMain())
-        case "attractions": view = AnyView(FancyScrollMain())
-        case "profile": view = AnyView(PortfolioMainView())
-        default:
-            break
-        }
-        return view
+    func getActiveView(tab:String? = nil) -> some View{
+		TabView(selection: $mainStates.tab) {
+			HomePageView()
+				.tag("home")
+			ArtStoreMain()
+				.tag("blogs")
+			FancyScrollMain()
+				.tag("attractions")
+			PortfolioMainView()
+				.tag("profile")
+			ExploreViewMain()
+				.tag("feed")
+		}
+//        var view:AnyView = AnyView(HomePageView())
+//        switch(tab ?? self.tab){
+//        case "feed": view = AnyView(ExploreViewMain())
+//        case "post": view = AnyView(CameraView().onAppear {self.mainStates.toggleTab()}.onDisappear {self.mainStates.toggleTab()})
+//        case "blogs": view = AnyView(ArtStoreMain())
+//        case "attractions": view = AnyView(FancyScrollMain())
+//        case "profile": view = AnyView(PortfolioMainView())
+//        default:
+//            break
+//        }
+//        return view
     }
         
-    var activeView: some View{
-        self.getActiveView()
-            .frame(width: totalWidth,height:totalHeight)
-            .animation(.linear)
-    }
-    
     func onAppear(){
         self.mainStates.userAcc.autoLogIn(){success in
             self.showLoginPage = !success
         }
-        self.locationManager.updateLocation()
+//        self.locationManager.updateLocation()
     }
     
-    func locationUpdate(update:Bool){
-        if let coord = self.locationManager.location?.coordinate{
-            self.mainStates.coordinates = coord
-            self.mainStates.LS.getCityName(coordinates: coord)
-            self.locationManager.locationUpdated = false
-        }
-
-    }
+//    func locationUpdate(update:Bool){
+//        if let coord = self.locationManager.location?.coordinate{
+//            self.mainStates.coordinates = coord
+//            self.mainStates.LS.getCityName(coordinates: coord)
+//            self.locationManager.locationUpdated = false
+//        }
+//
+//    }
     
     var body: some View {
         ZStack(alignment: .bottom){
@@ -112,12 +122,22 @@ struct AppView: View {
                 }
             }
             if !self.showLoginPage{
-//                self.activeView
-                self.getActiveView()
-                    .frame(width: totalWidth,height:totalHeight)
-//                    .animation(.linear)
+				TabView(selection: $mainStates.tab) {
+					HomePageView()
+						.tag("home")
+					ArtStoreMain()
+						.tag("blogs")
+					FancyScrollMain()
+						.tag("attractions")
+					PortfolioMainView()
+						.tag("profile")
+					ExploreViewMain()
+						.tag("feed")
+				}
+				.fillFrame()
                 if self.mainStates.showTab{
                     TabBarView()
+						.transitionFrom(.bottom)
                 }
                 
                 if self.mainStates.loading{
@@ -129,7 +149,7 @@ struct AppView: View {
         .frame(width: totalWidth,height:totalHeight)
         .edgesIgnoringSafeArea(.all)
         .onAppear(perform: self.onAppear)
-        .onChange(of: self.locationManager.locationUpdated, perform: self.locationUpdate(update:))
+//        .onChange(of: self.locationManager.locationUpdated, perform: self.locationUpdate(update:))
     }
 }
 

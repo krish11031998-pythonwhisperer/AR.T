@@ -92,15 +92,17 @@ struct HomePageView: View {
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
-			VStack(alignment: .leading, spacing: 10) {
+			VStack(alignment: .center, spacing: 10) {
 				self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
-				if !self.mainStates.loading && !self.posts.isEmpty && self.posts.count == self.target_limit{
+				if !self.posts.isEmpty {
 					ForEach(sections, id:\.rawValue) { section in
 						subView(section: section)
-							.containerize(header: section.rawValue.normal(size: 30).text.anyView)
+							.containerize(header: section.rawValue.normal(size: 24).text.padding(5).fillWidth(alignment: .leading).anyView)
 					}
 				}
-			}.padding(.bottom, .safeAreaInsets.bottom + 100)
+			}
+			.fixedWidth(width: .totalWidth)
+			.padding(.bottom, .safeAreaInsets.bottom + 100)
         }
         .background(Color.black)
         .edgesIgnoringSafeArea(.all)
@@ -118,10 +120,11 @@ extension HomePageView{
 		let rows = [GridItem.init(.adaptive(minimum: h - 10, maximum: h - 10), spacing: 10, alignment: .center)]
         return ScrollView(.horizontal, showsIndicators: false) {
             LazyHGrid(rows: rows, alignment: .center, spacing: 10) {
-                ForEach(Array(data.enumerated()),id:\.offset) { data in
-					ArtViewCard(data: data.element, cardSize: cardSize)
+                ForEach(Array(data.enumerated()),id:\.offset) { elData in
+					ArtViewCard(data: elData.element, cardSize: cardSize)
                 }
             }
+			.padding(.horizontal, 5)
             .frame(height:h * 2,alignment:.leading)
         }
     }

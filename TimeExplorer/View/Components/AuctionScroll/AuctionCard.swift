@@ -44,7 +44,7 @@ struct AuctionCard: View {
 		VStack(alignment: .leading, spacing: 10){
 			ownerInfo
 			Spacer()
-			MainText(content: self.data.title ?? "Title", fontSize: 30, color: .white, fontWeight: .regular)
+			MainText(content: self.data.title ?? "Title", fontSize: 20, color: .white, fontWeight: .regular)
 			lineChart(h: 10)
 			cardInfo
 		}.padding()

@@ -26,6 +26,5 @@ struct TrendingArt: View {
 				Color.clear.frame(size: .zero)
 			}
 		}
-		.background(Color.red)
     }
 }

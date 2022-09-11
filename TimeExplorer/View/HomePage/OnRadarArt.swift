@@ -20,7 +20,7 @@ struct OnRadarArt: View {
 		.init(width: tabSize.width, height: tabSize.height.half - 10)
 	}
     
-    @ViewBuilder func card(idx:Int) -> some View {
+    @ViewBuilder func card(idx: Int) -> some View {
 		if idx >= 0 && idx < data.count {
 			HStack(alignment: .top, spacing: 8) {
 				SUI.ImageView(url: data[idx].img)
@@ -30,7 +30,8 @@ struct OnRadarArt: View {
 					"BiddingPrice".normal(size: 12.5, color: .gray).text
 					"3 BTC".normal(size: 13).text
 				}
-				.fillFrame(alignment: .leading)
+				.padding(.vertical,5)
+				.fillFrame(alignment: .topLeading)
 			}
 			.framed(size: cardSize)
 		} else {
@@ -41,12 +42,13 @@ struct OnRadarArt: View {
     
     
     var grid:some View{
-		let row = [GridItem(.adaptive(minimum: tabSize.height.half, maximum: tabSize.height.half), spacing: 0)]
+		let row = [GridItem(.fixed(tabSize.height.half), spacing: 0),GridItem(.fixed(tabSize.height.half), spacing: 0)]
         return LazyHGrid(rows: row, alignment: .center, spacing: 10) {
             ForEach(Array(self.data.enumerated()),id:\.offset) { data in
                 card(idx: data.offset)
             }
         }
+		.padding(.horizontal, 5)
 		.fixedHeight(height: tabSize.height)
     }
     
