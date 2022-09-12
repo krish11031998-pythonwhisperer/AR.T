@@ -88,17 +88,7 @@ struct AppView: View {
         self.mainStates.userAcc.autoLogIn(){success in
             self.showLoginPage = !success
         }
-//        self.locationManager.updateLocation()
     }
-    
-//    func locationUpdate(update:Bool){
-//        if let coord = self.locationManager.location?.coordinate{
-//            self.mainStates.coordinates = coord
-//            self.mainStates.LS.getCityName(coordinates: coord)
-//            self.locationManager.locationUpdated = false
-//        }
-//
-//    }
     
     var body: some View {
         ZStack(alignment: .bottom){
@@ -124,7 +114,6 @@ struct AppView: View {
         .frame(width: totalWidth,height:totalHeight)
         .edgesIgnoringSafeArea(.all)
         .onAppear(perform: self.onAppear)
-//        .onChange(of: self.locationManager.locationUpdated, perform: self.locationUpdate(update:))
     }
 }
 

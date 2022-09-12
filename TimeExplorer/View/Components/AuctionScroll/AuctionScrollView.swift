@@ -38,7 +38,11 @@ extension AuctionArtView{
                 .frame(width: totalWidth, alignment: .leading)
             ForEach(Array(data.enumerated()),id:\.offset) { _data in
                 let data = _data.element
-                AuctionCard(data: data, size: .init(width: totalWidth, height: totalHeight * 0.75))
+				AuctionCard(data: data,
+							cardConfig: .init(bids: .init(bids: .random(in: 0...100), price: .random(in: 0...100), currency: "BTC"),
+											  showBar: false,
+											  cardStyling: .rounded(14),
+											  cardSize:  .init(width: totalWidth, height: totalHeight * 0.75)))
             }
         }.padding(.vertical)
     }

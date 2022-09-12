@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import SUI
 
 struct PortfolioMainView: View {
     
     @State var paintings:[AVSData] = []
     @EnvironmentObject var mainStates:AppStates
-   @StateObject var artAPI:ArtAPI = .init()
+	@StateObject var artAPI:ArtAPI = .init()
     @State var loadingText:String = "Loading..."
     @StateObject var SP:swipeParams = .init(100)
     
@@ -33,9 +34,7 @@ struct PortfolioMainView: View {
         }
        
     }
-    
-    let cardSize:CGSize = .init(width: totalWidth * 0.6, height: totalHeight * 0.5)
-    
+
     func onReceive(data : [CAData]){
         if !data.isEmpty{
             DispatchQueue.main.async {
@@ -58,17 +57,17 @@ struct PortfolioMainView: View {
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
-            MainText(content: "On View", fontSize: 35, color: .white, fontWeight: .semibold)
-                .padding()
-                .frame(width: totalWidth, alignment: .leading)
             if !self.paintings.isEmpty{
-                //self.artScrollView
+				artScrollView
+					.containerize(header: "On View".normal(size: 35).text.padding(10).fillWidth(alignment: .leading).anyView)
+				PinterestScroll(data: Array(self.paintings[5...15]), equalSize: false)
+					.containerize(header: "Items".normal(size: 25).text.padding(.horizontal,10).fillWidth(alignment: .leading).anyView)
             }else{
                 MainText(content: self.loadingText, fontSize: 25)
             }
             
         }
-        .padding(.top,25)
+		.padding(.top, .safeAreaInsets.top)
         .frame(width: totalWidth, alignment: .leading)
         .background(Color.black)
         .edgesIgnoringSafeArea(.all)
@@ -80,19 +79,22 @@ struct PortfolioMainView: View {
 
 
 extension PortfolioMainView{
-//    var artScrollView:some View{
-//        VStack(alignment: .leading, spacing: 5){
-//            AVScrollView(attractions: Array(self.paintings[0..<5]),cardView: self.StockCard(_data:), leading: false)
-//                .environmentObject(self.SP)
-//
-//            self.ArtDescriptionView
-//            MainText(content: "My Collection", fontSize: 35, color: .white, fontWeight: .semibold)
-//                .padding()
-//                .frame(width: totalWidth, alignment: .leading)
-//            PinterestScroll(data: Array(self.paintings[5...15]), equalSize: false)
-//            Spacer().frame(height: 250, alignment: .center)
-//        }.frame(width: totalWidth, alignment: .leading)
-//    }
+	
+	var cardSize: CGSize { .init(width: 200, height: 300) }
+	
+    var artScrollView:some View{
+		SlideCardView(data: Array(paintings[0..<5]), itemSize: .init(width: 200, height: 300), spacing: 0, leading: true) { data, isSelected in
+			if let avData = data as? AVSData {
+				AuctionCard(data: avData,
+							cardConfig: .init(bids: nil,
+											  showBar: false,
+											  cardStyling: .rounded(14),
+											  cardSize:  cardSize))
+			} else {
+				Color.clear.frame(size: cardSize)
+			}
+		}
+    }
     
     func StockCard(_data: EnumeratedSequence<[AVSData]>.Element) -> AnyView{
         let data = _data.element

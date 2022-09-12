@@ -51,7 +51,7 @@ struct PinterestScroll: View {
             LazyHStack(alignment: .top, spacing: 10) {
                 self.singleCol(col_dir: "left", width: (w * 0.5 - 5))
                 self.singleCol(col_dir: "right", width: (w * 0.5 - 5))
-            }.padding()
+			}.padding(.horizontal)
             .frame(width: totalWidth, alignment: .center)
         }
         
@@ -65,7 +65,7 @@ struct PinterestScrollCard: View{
     var equalSize:Bool
     var width:CGFloat = (totalWidth - 20) * 0.5
     var height:CGFloat? = nil
-    init(data:AVSData,width w:CGFloat? = nil,height:CGFloat? = nil,equalSize:Bool = false){
+    init(data:AVSData, width w:CGFloat? = nil, height:CGFloat? = nil, equalSize:Bool = false){
         self.data = data
         if let sw = w{
             self.width = sw
