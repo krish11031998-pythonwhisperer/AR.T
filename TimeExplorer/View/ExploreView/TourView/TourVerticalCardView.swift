@@ -31,30 +31,31 @@ struct TourVerticalCardView: View {
     }
     
     var mainImgView:some View{
-        let w = totalWidth
-        let h = totalHeight * 0.5
-        return StickyHeaderImage(w: w, h: h, url: self.tour.mainImage, namespace: self.animation, aid: "main-image")
-        .overlay(
-            GeometryReader{g in
-                let width = g.frame(in: .local).width
-                let height = g.frame(in: .local).height
-                ZStack(alignment: .top){
-                    lightbottomShadow
-                    VStack(alignment: .leading){
-                        HStack{
-                            TabBarButtons(bindingState: self.$showTour)
-                            Spacer()
-                        }
-                        .padding(.leading)
-                        .padding(.top,100)
-                        Spacer()
-                        MainText(content: self.tour.mainTitle ?? "", fontSize: 30, color: .white, fontWeight: .bold, style: .normal)
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: w, alignment: .center)
-                    }.padding(20)
-                }.frame(width: width, height: height, alignment: .center).clipShape(Corners(rect: [.bottomRight,.bottomLeft], size: .init(width: 50, height: 50)))
-            }.frame(width: w, height: h, alignment: .center).offset(y:-20)
-        )
+//        let w = totalWidth
+//        let h = totalHeight * 0.5
+//        return StickyHeaderImage(w: w, h: h, url: self.tour.mainImage, namespace: self.animation, aid: "main-image")
+//        .overlay(
+//            GeometryReader{g in
+//                let width = g.frame(in: .local).width
+//                let height = g.frame(in: .local).height
+//                ZStack(alignment: .top){
+//                    lightbottomShadow
+//                    VStack(alignment: .leading){
+//                        HStack{
+//                            TabBarButtons(bindingState: self.$showTour)
+//                            Spacer()
+//                        }
+//                        .padding(.leading)
+//                        .padding(.top,100)
+//                        Spacer()
+//                        MainText(content: self.tour.mainTitle ?? "", fontSize: 30, color: .white, fontWeight: .bold, style: .normal)
+//                            .aspectRatio(contentMode: .fill)
+//                            .frame(width: w, alignment: .center)
+//                    }.padding(20)
+//                }.frame(width: width, height: height, alignment: .center).clipShape(Corners(rect: [.bottomRight,.bottomLeft], size: .init(width: 50, height: 50)))
+//            }.frame(width: w, height: h, alignment: .center).offset(y:-20)
+//        )
+		Color.clear
     }
     
     var mainIntro:some View{

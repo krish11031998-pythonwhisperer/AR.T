@@ -54,21 +54,23 @@ struct LandMarkMainView: View {
     
     
     func imgView(w:CGFloat = totalWidth,h:CGFloat) -> some View{
-        _ = self.landmark.image ?? "image"
-        return StickyHeaderImage(w: w, h: h, url:self.landmark.image ?? "",namespace: .none, aid: .none, curvedCorner: true)
-        .overlay(
-            ZStack(alignment: .top){
-                VStack(alignment: .leading) {
-                    Spacer()
-                        .frame(height:50)
-                    HStack{
-                        TabBarButtons(bindingState: self.$show)
-                        Spacer()
-                    }
-                    Spacer()
-                }.padding()
-            }
-        )
+//        _ = self.landmark.image ?? "image"
+//        return StickyHeaderImage(w: w, h: h, url:self.landmark.image ?? "",namespace: .none, aid: .none, curvedCorner: true)
+//        .overlay(
+//            ZStack(alignment: .top){
+//                VStack(alignment: .leading) {
+//                    Spacer()
+//                        .frame(height:50)
+//                    HStack{
+//                        TabBarButtons(bindingState: self.$show)
+//                        Spacer()
+//                    }
+//                    Spacer()
+//                }.padding()
+//            }
+//        )
+		Color.clear
+		
 
     }
         

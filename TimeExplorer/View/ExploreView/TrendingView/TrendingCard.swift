@@ -70,28 +70,28 @@ struct TrendingMainCard:View{
         }
     }
     
-    var LandmarkTabs:some View{
-        let data = self.data.data as? TourData ?? nil
-        let view = GeometryReader{g in
-            let w = g.frame(in: .local).width
-            let h = g.frame(in: .local).height
-            let landmarks = data?.landmarks ?? []
-            let data = landmarks.compactMap { (lmg) -> CarouselData? in
-                return .init(mainTitle: lmg.title, mainImage: lmg.image)
-            }
-            TabView{
-                ForEach(Array(data.enumerated()),id:\.offset) { (_landmark) in
-                    let idx = _landmark.offset
-                    let landmark = _landmark.element
-                    CarouselSliderCard(idx, landmark, w - 10, h, nil, true, .cutRight).padding(10)
-                }
-            }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-        }
-        .frame(width:self.width * 0.8,height:self.height * 0.2,alignment:.center)
-        
-        return view
-    }
-    
+//    var LandmarkTabs:some View{
+//        let data = self.data.data as? TourData ?? nil
+//        let view = GeometryReader{g in
+//            let w = g.frame(in: .local).width
+//            let h = g.frame(in: .local).height
+//            let landmarks = data?.landmarks ?? []
+//            let data = landmarks.compactMap { (lmg) -> CarouselData? in
+//                return .init(mainTitle: lmg.title, mainImage: lmg.image)
+//            }
+//            TabView{
+//                ForEach(Array(data.enumerated()),id:\.offset) { (_landmark) in
+//                    let idx = _landmark.offset
+//                    let landmark = _landmark.element
+//                    CarouselSliderCard(idx, landmark, w - 10, h, nil, true, .cutRight).padding(10)
+//                }
+//            }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+//        }
+//        .frame(width:self.width * 0.8,height:self.height * 0.2,alignment:.center)
+//
+//        return view
+//    }
+//
         
     var color:Color{
         get{
@@ -196,7 +196,7 @@ struct TrendingMainCard:View{
         }.frame(width: self.width, height: self.height)
         .blur(radius: self.blurRadius)
 //        .clipShape(Corners(rect: .allCorners,size: .init(width: self.clipCorners ? 30 : 0, height: self.clipCorners ? 30 : 0)))
-        .animation(.easeIn)
+//        .animation(.easeIn)
         .scaleEffect(self.scale)
         .onAppear(perform: self.onAppear)
         .onReceive(self.playerObj.$player, perform: self.onReceiveVidURL(player:))

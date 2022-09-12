@@ -104,7 +104,7 @@ struct InstaImagePicker: View {
                 Button(action:{
                     self.updateSelectedImages(image)
                 },label:{
-                    GridImage(image)
+                    //GridImage(image)
                 })
                 
             }
@@ -244,33 +244,33 @@ struct InstaImagePicker: View {
         .statusBar(hidden: true)
     }
 }
-
-struct GridImage:View{
-    @ObservedObject var imgAsset:IDImage = .init(id: 0)
-//    @ObservedObject var IMD: ImageDownloader = .init()
-    var width:CGFloat = 0
-    var height:CGFloat = 0
-    init(_ imgAsset:IDImage,_ width:CGFloat = totalWidth/3,_ height:CGFloat = 125){
-        self.imgAsset = imgAsset
-        self.width = width
-        self.height = height
-    }
-    
-    var body: some View{
-        var image = self.imgAsset.image ?? .stockImage
-        return Image(uiImage: image)
-            .resizable()
-            .aspectRatio(UIImage.aspectRatio(img:image), contentMode: .fill)
-            .frame(width:width,height:height)
-            .clipped()
-            .edgesIgnoringSafeArea(.horizontal)
-            .onAppear {
-                if self.imgAsset.image == nil{
-                    self.imgAsset.getImage()
-                }
-            }
-    }
-}
+//
+//struct GridImage:View{
+//    @ObservedObject var imgAsset:IDImage = .init(id: 0)
+////    @ObservedObject var IMD: ImageDownloader = .init()
+//    var width:CGFloat = 0
+//    var height:CGFloat = 0
+//    init(_ imgAsset:IDImage,_ width:CGFloat = totalWidth/3,_ height:CGFloat = 125){
+//        self.imgAsset = imgAsset
+//        self.width = width
+//        self.height = height
+//    }
+//
+//    var body: some View{
+//        var image = self.imgAsset.image ?? .stockImage
+//        return Image(uiImage: image)
+//            .resizable()
+//            .aspectRatio(UIImage.aspectRatio(img:image), contentMode: .fill)
+//            .frame(width:width,height:height)
+//            .clipped()
+//            .edgesIgnoringSafeArea(.horizontal)
+//            .onAppear {
+//                if self.imgAsset.image == nil{
+//                    self.imgAsset.getImage()
+//                }
+//            }
+//    }
+//}
 
 //struct InstaImagePicker_Previews: PreviewProvider {
 //    static var previews: some View {

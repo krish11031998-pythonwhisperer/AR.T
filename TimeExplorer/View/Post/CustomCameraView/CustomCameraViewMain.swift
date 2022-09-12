@@ -45,16 +45,16 @@ struct CameraView:View{
     var imagePicker:some View{
         VStack(alignment: .center){
             Spacer().frame(height: 15)
-            InstaImagePicker(.single, selectedImages: self.$selectedImages,lastImage: self.$latestImageFromLibrary){
-                withAnimation(.easeInOut) {
-                    print("Done Button Pressed !")
-                    if let safeImage = self.selectedImages.last?.image{
-                        self.mainPhoto = safeImage
-                    }
-                    self.tabName = "camera"
-                }
-                
-            }
+//            InstaImagePicker(.single, selectedImages: self.$selectedImages,lastImage: self.$latestImageFromLibrary){
+//                withAnimation(.easeInOut) {
+//                    print("Done Button Pressed !")
+//                    if let safeImage = self.selectedImages.last?.image{
+//                        self.mainPhoto = safeImage
+//                    }
+//                    self.tabName = "camera"
+//                }
+//                
+//            }
         }.padding(.top)
     }
 

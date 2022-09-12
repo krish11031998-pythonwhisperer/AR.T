@@ -226,9 +226,9 @@ struct EditForm:View{
     
     var pickerView:some View{
         VStack {
-            InstaImagePicker(.single,self.$imagePicker,selectedImages: self.$selectedImages){
-                print("Done")
-            }
+//            InstaImagePicker(.single,self.$imagePicker,selectedImages: self.$selectedImages){
+//                print("Done")
+//            }
         }.frame(width: totalWidth, alignment: .center)
         .animation(.spring())
         .background(Color.mainBG)

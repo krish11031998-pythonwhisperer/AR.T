@@ -133,7 +133,7 @@ struct UVPosts: View {
                 }
             }
             if self.selectedTab == "blogs"{
-                BlogsCarousel()
+                //BlogsCarousel()
             }
         }
     }
