@@ -16,7 +16,7 @@ class Account:ObservableObject{
     @Published var error:String = ""
     @Published var loggedIn:Bool = false
     var UAPI:UserAPI = .init()
-    var PAPI:PostAPI = .init()
+//    var PAPI:PostAPI = .init()
 
     
     var username:String{
@@ -117,8 +117,8 @@ class Account:ObservableObject{
         UAPI.updateUserDetails(user: self.user,prev_user: self.prev_user,completion: handler)
     }
     
-    func addImagePosts(images:[UIImage] = [],caption:String = "", handler: @escaping (() -> Void)){
-        self.PAPI.newImagePost(images: images, caption: caption,username: self.user.username ?? "")
+    //func addImagePosts(images:[UIImage] = [],caption:String = "", handler: @escaping (() -> Void)){
+      //  self.PAPI.newImagePost(images: images, caption: caption,username: self.user.username ?? "")
 //        {doc in
 //            if self.user.posts == nil{
 //                self.user.posts = [doc]
@@ -128,9 +128,9 @@ class Account:ObservableObject{
 //            print("user Post Dic: \(self.user.posts ?? [])")
 //            self.updateUserDetails(handler: handler)
 //        }
-    }
+    //}
     
-    func addVideoPosts(videoURL:URL,caption:String = "", handler: @escaping (() -> Void)){
-        self.PAPI.newVideoPost(videoURL: videoURL, caption: caption, username: self.user.username ?? "")
-    }
+//    func addVideoPosts(videoURL:URL,caption:String = "", handler: @escaping (() -> Void)){
+//        self.PAPI.newVideoPost(videoURL: videoURL, caption: caption, username: self.user.username ?? "")
+//    }
 }

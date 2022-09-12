@@ -10,9 +10,6 @@ import SUI
 
 
 enum CardType:String{
-    case tour = "Tour"
-    case post = "Post"
-    case blog = "Blog"
     case art = "Art"
 }
 struct TrendingCardData:Identifiable{
@@ -37,15 +34,15 @@ struct TrendingData{
         var res:TrendingCardData? = nil
         let _data = self
         switch(self.type){
-            case .tour:
-                guard let data = _data.data as? TourData else {return res}
-                res = .init(image: data.mainImage, username: data.user, mainText: data.mainTitle, type: .tour,data:data,location:data.location,date:data.date ?? Date())
-            case .blog:
-                guard let data = _data.data as? BlogData else {return res}
-                res = .init(image: data.image?.first, username: data.user, mainText: data.headline, type: .blog,data:data,date:data.date ?? Date())
-            case .post:
-                guard let data = _data.data as? PostData else {return res}
-                res = .init(image: data.image?.first, vid_url: data.video?.first, username: data.user, mainText: data.caption, type: .post,data:data,date:data.date ?? Date())
+//            case .tour:
+//                guard let data = _data.data as? TourData else {return res}
+//                res = .init(image: data.mainImage, username: data.user, mainText: data.mainTitle, type: .tour,data:data,location:data.location,date:data.date ?? Date())
+//            case .blog:
+//                guard let data = _data.data as? BlogData else {return res}
+//                res = .init(image: data.image?.first, username: data.user, mainText: data.headline, type: .blog,data:data,date:data.date ?? Date())
+//            case .post:
+//                guard let data = _data.data as? PostData else {return res}
+//                res = .init(image: data.image?.first, vid_url: data.video?.first, username: data.user, mainText: data.caption, type: .post,data:data,date:data.date ?? Date())
             case .art:
                 guard let data = _data.data as? ArtData else {return res}
                 res = .init(image: data.thumbnail, vid_url:data.main_vid_url, mainText: data.title, type: .art, data: data,date: data.date)

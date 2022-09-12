@@ -222,237 +222,237 @@ class FirebaseAPI{
     
 }
 
-class PostAPI:FirebaseAPI,ObservableObject{
-    @Published var posts:[PostData] = []
-    @EnvironmentObject var mainStates:AppStates
-    @Published var lastDoc:QueryDocumentSnapshot? = nil
-    var loadedPosts:[String] = []
-    
-    init(){
-        super.init(collectionName: "posts")
-    }
-    
-    static var shared:PostAPI = .init()
-    
-    func newVideoPost(videoURL:URL,caption:String,username:String){
-        var videoURLs:[String] = []
-        var imgURLs:[String] = []
-        self.uploadVideo(videoURL: videoURL, folder: "videos") { (url) in
-            if let url = url{
-                videoURLs = [url]
-                UIImage.thumbnailImage(videoURL: videoURL) { (img) in
-                    guard let img = img else {return}
-                    self.uploadImage(image: img, folder: "thumbnailsImages") { (url) in
-                        guard let img_url = url else {return}
-                        imgURLs = [img_url]
-                        self.addPost(post: .init(image: imgURLs,video: videoURLs , caption: caption, user: username, date: Date(), likes: 0,isVideo: true)) { (id) in
-                            //                            if id != nil{
-                            do {
-                                try FileManager.default.removeItem(at: videoURL)
-                            }catch{
-                                print("There was an error while removing the video at videoURL: \(error)!")
-                            }
-                            
-                            //                            }
-                        }
-                    }
-                }
-            }else{
-                print("Video Upload was not a SUCCESS!")
-            }
-        }
-    }
-    
-    func newImagePost(images:[UIImage],caption:String,username:String){
-        self.uploadImages(images: images) { (urls) in
-            let newPost = PostData(image: urls, caption: caption, user: username, date: Date(), isVideo: false)
-            self.addPost(post: newPost)
-        }
-    }
-    
-    
-    func addPost(post:PostData,handler:((_ doc:String) -> Void)? = nil){
-        let db = Firestore.firestore()
-        do{
-            let doc = try db.collection("posts").addDocument(from: post, completion: { (err) in
-                if let err = err{
-                    print("There was an error (from addDocument completion handler) ! : \(err)")
-                }
-            })
-            if handler != nil{
-                handler!(doc.documentID)
-            }
-        }catch{
-            print("There was an error (addPost)! \(error.localizedDescription)")
-        }
-    }
-    
-    func updatePost(_ post:PostData){
-        var onlyKeys = ["likes","comments"]
-        guard let id = post.id else {return}
-        do{
-            var data = try post.allKeysValues(obj: nil)
-            data = data.filter({onlyKeys.contains($0.key)})
-            print(data)
-            self.updateDocument(id, data)
-        }catch{
-            print("There was an error (updatePost)! \(error.localizedDescription)")
-        }
-    }
-
-    func parseQueryDocuments(q:QuerySnapshot) -> [PostData]?{
-
-        var posts = q.documents.compactMap { (qds) -> PostData? in
-            var res:PostData? = nil
-            do{
-                res = try qds.data(as: PostData.self)
-            }catch{
-                print("There was an error! : \(error.localizedDescription)")
-            }
-//            res = FirebaseAPIHelper.parseData(q: qds, "PostData") as? PostData
-            return res
-        }
-        return posts
-    }
-        
-    
-    func processPosts(_ query:QuerySnapshot?,_ error:Error?){
-        guard let q = query,let lastDoc = q.documents.last else {
-            print("There was an error (processPost)!")
-            print("error : \(error?.localizedDescription ?? "")")
-            return
-        }
-        
-        self.lastDoc = lastDoc
-        
-        if let posts = self.parseQueryDocuments(q: q){
-//            let parsedPosts
-            let newPosts = self.posts.isEmpty ? posts : posts.filter({$0.id != nil ? !self.loadedPosts.contains($0.id!) : false})
-            self.loadedPosts.append(contentsOf: newPosts.compactMap({$0.id}))
-            DispatchQueue.main.async {
-//                if self.posts.isEmpty{
-//                    self.posts = posts
-//                }else{
-//                    var newPosts = posts.filter({$0.id != nil ? !self.loadedPosts.contains($0.id!) : false})
-//                    if !newPosts.isEmpty{
-//                        self.posts.append(contentsOf: newPosts)
+//class PostAPI:FirebaseAPI,ObservableObject{
+//    @Published var posts:[PostData] = []
+//    @EnvironmentObject var mainStates:AppStates
+//    @Published var lastDoc:QueryDocumentSnapshot? = nil
+//    var loadedPosts:[String] = []
+//
+//    init(){
+//        super.init(collectionName: "posts")
+//    }
+//
+//    static var shared:PostAPI = .init()
+//
+//    func newVideoPost(videoURL:URL,caption:String,username:String){
+//        var videoURLs:[String] = []
+//        var imgURLs:[String] = []
+//        self.uploadVideo(videoURL: videoURL, folder: "videos") { (url) in
+//            if let url = url{
+//                videoURLs = [url]
+//                UIImage.thumbnailImage(videoURL: videoURL) { (img) in
+//                    guard let img = img else {return}
+//                    self.uploadImage(image: img, folder: "thumbnailsImages") { (url) in
+//                        guard let img_url = url else {return}
+//                        imgURLs = [img_url]
+//                        self.addPost(post: .init(image: imgURLs,video: videoURLs , caption: caption, user: username, date: Date(), likes: 0,isVideo: true)) { (id) in
+//                            //                            if id != nil{
+//                            do {
+//                                try FileManager.default.removeItem(at: videoURL)
+//                            }catch{
+//                                print("There was an error while removing the video at videoURL: \(error)!")
+//                            }
+//
+//                            //                            }
+//                        }
 //                    }
 //                }
-//                self.loadedPosts = self.posts.compactMap({ (post) -> String? in
-//                    return post.id
-//                })
+//            }else{
+//                print("Video Upload was not a SUCCESS!")
+//            }
+//        }
+//    }
 //
-                self.posts = newPosts
-//                self.posts.sorted { (a, b) -> Bool in
-//                    a.date?.compare(b.date ?? Date()) == .orderedDescending
+//    func newImagePost(images:[UIImage],caption:String,username:String){
+//        self.uploadImages(images: images) { (urls) in
+//            let newPost = PostData(image: urls, caption: caption, user: username, date: Date(), isVideo: false)
+//            self.addPost(post: newPost)
+//        }
+//    }
+//
+//
+//    func addPost(post:PostData,handler:((_ doc:String) -> Void)? = nil){
+//        let db = Firestore.firestore()
+//        do{
+//            let doc = try db.collection("posts").addDocument(from: post, completion: { (err) in
+//                if let err = err{
+//                    print("There was an error (from addDocument completion handler) ! : \(err)")
 //                }
-                
-                print("Length of the posts : \(self.posts.count)")
-            }
-        }
-    }
-    
-    func getTopPosts(limit:Int = 4){
-        self.getTopItems(limit: limit, completion: processPosts)
-    }
-    
-    func getPosts(user:String){
-        self.paginationQuery(user:user,lastDoc: self.lastDoc, completion: processPosts)
-    }
-
-}
-
-class BlogAPI:FirebaseAPI,ObservableObject{
-    @Published var blogs:[BlogData] = []
-    @EnvironmentObject var mainStates:AppStates
-    @Published var lastBlog:QueryDocumentSnapshot? = nil
-    var loadedBlogs:[String] = []
-    
-    init(){
-        super.init(collectionName: "blogs")
-    }
-    
-    static var shared:BlogAPI = .init()
-    
-    func parseQueryDocuments(q:QuerySnapshot) -> [BlogData]?{
-
-        var posts = q.documents.compactMap { (qds) -> BlogData? in
-            var res:BlogData? = nil
-            do{
-                res = try qds.data(as: BlogData.self)
-            }catch{
-                print("There was an error! : \(error.localizedDescription)")
-            }
-            return res
-        }
-        return posts
-    }
-    
-    func newBlog(_ images:[UIImage],title:String,summary:String,article:String,user:String,location:String = "Dubai",handler:((Bool) -> Void)? = nil){
-        self.uploadImages(images: images,folder: "blogImages") { (urls) in
-            var newBlog = BlogData(image: urls, headline: title, articleText: article, summaryText: summary, user: user, date: Date(), location: location)
-            self.addNewBlog(newBlog,handler: handler)
-        }
-    }
-    
-    func addNewBlog(_ blog:BlogData,handler:((Bool) -> Void)? = nil){
-        let db = Firestore.firestore()
-        do{
-            let res = try db.collection("blogs").addDocument(from: blog,completion: { (err) in
-                if let err = err{
-                    print("There was an error (addNewBlog)! : \(err)")
-                }
-            })
-            print("Blog with id : \(res.documentID)")
-            if handler != nil{
-                handler!(true)
-            }
-        }catch{
-            print("There was an error (addNewBlog)2 ! : \(error.localizedDescription)")
-            if handler != nil{
-                handler!(false)
-            }
-        }
-    }
-    
-    
-    func processBlogs(_ q:QuerySnapshot?,_ error:Error?){
-        guard let q = q else{
-            if let err = error{
-                print("There was an error while processes the blogs! : \(err)")
-            }
-            return
-        }
-        self.lastBlog = q.documents.last
-        
-        if let SPR = self.parseQueryDocuments(q: q){
-            DispatchQueue.main.async {
-                if self.blogs.isEmpty{
-                    self.blogs = SPR
-                    self.loadedBlogs = SPR.compactMap({$0.id})
-                }else{
-                    var newBlogs = SPR.filter({$0.id != nil ? !self.loadedBlogs.contains($0.id!) : false})
-                    if !newBlogs.isEmpty{
-                        self.blogs.append(contentsOf: newBlogs)
-                        self.loadedBlogs.append(contentsOf: newBlogs.compactMap({$0.id}))
-                    }
-                    
-                }
-            }
-        }
-        
-    }
-
-    func getTopBlogs(limit:Int = 4){
-        self.getTopItems(limit: limit, completion: processBlogs)
-    }
-    
-    func getBlogs(user:String){
-        self.paginationQuery(user:user, lastDoc: self.lastBlog, completion: processBlogs)
-    }
+//            })
+//            if handler != nil{
+//                handler!(doc.documentID)
+//            }
+//        }catch{
+//            print("There was an error (addPost)! \(error.localizedDescription)")
+//        }
+//    }
 //
-    
-}
+//    func updatePost(_ post:PostData){
+//        var onlyKeys = ["likes","comments"]
+//        guard let id = post.id else {return}
+//        do{
+//            var data = try post.allKeysValues(obj: nil)
+//            data = data.filter({onlyKeys.contains($0.key)})
+//            print(data)
+//            self.updateDocument(id, data)
+//        }catch{
+//            print("There was an error (updatePost)! \(error.localizedDescription)")
+//        }
+//    }
+//
+//    func parseQueryDocuments(q:QuerySnapshot) -> [PostData]?{
+//
+//        var posts = q.documents.compactMap { (qds) -> PostData? in
+//            var res:PostData? = nil
+//            do{
+//                res = try qds.data(as: PostData.self)
+//            }catch{
+//                print("There was an error! : \(error.localizedDescription)")
+//            }
+////            res = FirebaseAPIHelper.parseData(q: qds, "PostData") as? PostData
+//            return res
+//        }
+//        return posts
+//    }
+//
+//
+//    func processPosts(_ query:QuerySnapshot?,_ error:Error?){
+//        guard let q = query,let lastDoc = q.documents.last else {
+//            print("There was an error (processPost)!")
+//            print("error : \(error?.localizedDescription ?? "")")
+//            return
+//        }
+//
+//        self.lastDoc = lastDoc
+//
+//        if let posts = self.parseQueryDocuments(q: q){
+////            let parsedPosts
+//            let newPosts = self.posts.isEmpty ? posts : posts.filter({$0.id != nil ? !self.loadedPosts.contains($0.id!) : false})
+//            self.loadedPosts.append(contentsOf: newPosts.compactMap({$0.id}))
+//            DispatchQueue.main.async {
+////                if self.posts.isEmpty{
+////                    self.posts = posts
+////                }else{
+////                    var newPosts = posts.filter({$0.id != nil ? !self.loadedPosts.contains($0.id!) : false})
+////                    if !newPosts.isEmpty{
+////                        self.posts.append(contentsOf: newPosts)
+////                    }
+////                }
+////                self.loadedPosts = self.posts.compactMap({ (post) -> String? in
+////                    return post.id
+////                })
+////
+//                self.posts = newPosts
+////                self.posts.sorted { (a, b) -> Bool in
+////                    a.date?.compare(b.date ?? Date()) == .orderedDescending
+////                }
+//
+//                print("Length of the posts : \(self.posts.count)")
+//            }
+//        }
+//    }
+//
+//    func getTopPosts(limit:Int = 4){
+//        self.getTopItems(limit: limit, completion: processPosts)
+//    }
+//
+//    func getPosts(user:String){
+//        self.paginationQuery(user:user,lastDoc: self.lastDoc, completion: processPosts)
+//    }
+//
+//}
+
+//class BlogAPI:FirebaseAPI,ObservableObject{
+//    @Published var blogs:[BlogData] = []
+//    @EnvironmentObject var mainStates:AppStates
+//    @Published var lastBlog:QueryDocumentSnapshot? = nil
+//    var loadedBlogs:[String] = []
+//    
+//    init(){
+//        super.init(collectionName: "blogs")
+//    }
+//    
+//    static var shared:BlogAPI = .init()
+//    
+//    func parseQueryDocuments(q:QuerySnapshot) -> [BlogData]?{
+//
+//        var posts = q.documents.compactMap { (qds) -> BlogData? in
+//            var res:BlogData? = nil
+//            do{
+//                res = try qds.data(as: BlogData.self)
+//            }catch{
+//                print("There was an error! : \(error.localizedDescription)")
+//            }
+//            return res
+//        }
+//        return posts
+//    }
+//    
+//    func newBlog(_ images:[UIImage],title:String,summary:String,article:String,user:String,location:String = "Dubai",handler:((Bool) -> Void)? = nil){
+//        self.uploadImages(images: images,folder: "blogImages") { (urls) in
+//            var newBlog = BlogData(image: urls, headline: title, articleText: article, summaryText: summary, user: user, date: Date(), location: location)
+//            self.addNewBlog(newBlog,handler: handler)
+//        }
+//    }
+//    
+//    func addNewBlog(_ blog:BlogData,handler:((Bool) -> Void)? = nil){
+//        let db = Firestore.firestore()
+//        do{
+//            let res = try db.collection("blogs").addDocument(from: blog,completion: { (err) in
+//                if let err = err{
+//                    print("There was an error (addNewBlog)! : \(err)")
+//                }
+//            })
+//            print("Blog with id : \(res.documentID)")
+//            if handler != nil{
+//                handler!(true)
+//            }
+//        }catch{
+//            print("There was an error (addNewBlog)2 ! : \(error.localizedDescription)")
+//            if handler != nil{
+//                handler!(false)
+//            }
+//        }
+//    }
+//    
+//    
+//    func processBlogs(_ q:QuerySnapshot?,_ error:Error?){
+//        guard let q = q else{
+//            if let err = error{
+//                print("There was an error while processes the blogs! : \(err)")
+//            }
+//            return
+//        }
+//        self.lastBlog = q.documents.last
+//        
+//        if let SPR = self.parseQueryDocuments(q: q){
+//            DispatchQueue.main.async {
+//                if self.blogs.isEmpty{
+//                    self.blogs = SPR
+//                    self.loadedBlogs = SPR.compactMap({$0.id})
+//                }else{
+//                    var newBlogs = SPR.filter({$0.id != nil ? !self.loadedBlogs.contains($0.id!) : false})
+//                    if !newBlogs.isEmpty{
+//                        self.blogs.append(contentsOf: newBlogs)
+//                        self.loadedBlogs.append(contentsOf: newBlogs.compactMap({$0.id}))
+//                    }
+//                    
+//                }
+//            }
+//        }
+//        
+//    }
+//
+//    func getTopBlogs(limit:Int = 4){
+//        self.getTopItems(limit: limit, completion: processBlogs)
+//    }
+//    
+//    func getBlogs(user:String){
+//        self.paginationQuery(user:user, lastDoc: self.lastBlog, completion: processBlogs)
+//    }
+////
+//    
+//}
 
 class MessageAPI:FirebaseAPI,ObservableObject{
     

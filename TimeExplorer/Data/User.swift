@@ -35,48 +35,48 @@ struct User:Codable,Loopable{
     }
 }
 
-struct PostData:Codable,Loopable,Identifiable,Equatable,Hashable{
-    @DocumentID var id:String?
-    var image:[String]?
-    var video:[String]?
-    var caption:String
-    var user:String?
-    var date:Date?
-    var likes:Int?
-    var comments:[String]?
-    var isVideo:Bool?
-    
-    func parseVisualData() -> TrendingCardData?{
-        let data = self
-        let res:TrendingCardData? = .init(image: data.image?.first, vid_url: data.video?.first, username: data.user, mainText: data.caption, type: .post,data:data,date:data.date ?? Date())
-        return res
-    }
-
-}
-
-struct BlogData:Codable,Loopable,Identifiable{
-    @DocumentID var id:String?
-    var image:[String]?
-    var headline:String?
-    var articleText:String?
-    var summaryText:String?
-    var user:String?
-    var date:Date?
-    var location:String?
-    
-    func parseToFancyCardData() -> FancyCardData{
-        return .init(headline: self.headline ?? "", mainImg: self.image?.first, subheadline: self.user, rowInfo: nil, data: self)
-    }
-    
-    func parseVisualData() -> TrendingCardData?{
-        let data = self
-        var res:TrendingCardData? = nil
-        res = .init(image: data.image?.first, username: data.user, mainText: data.headline, type: .blog,data:data,date:data.date ?? Date())
-        return res
-    }
-    
-
-}
+//struct PostData:Codable,Loopable,Identifiable,Equatable,Hashable{
+//    @DocumentID var id:String?
+//    var image:[String]?
+//    var video:[String]?
+//    var caption:String
+//    var user:String?
+//    var date:Date?
+//    var likes:Int?
+//    var comments:[String]?
+//    var isVideo:Bool?
+//
+//    func parseVisualData() -> TrendingCardData?{
+//        let data = self
+//        let res:TrendingCardData? = .init(image: data.image?.first, vid_url: data.video?.first, username: data.user, mainText: data.caption, type: .post,data:data,date:data.date ?? Date())
+//        return res
+//    }
+//
+//}
+//
+//struct BlogData:Codable,Loopable,Identifiable{
+//    @DocumentID var id:String?
+//    var image:[String]?
+//    var headline:String?
+//    var articleText:String?
+//    var summaryText:String?
+//    var user:String?
+//    var date:Date?
+//    var location:String?
+//
+//    func parseToFancyCardData() -> FancyCardData{
+//        return .init(headline: self.headline ?? "", mainImg: self.image?.first, subheadline: self.user, rowInfo: nil, data: self)
+//    }
+//
+//    func parseVisualData() -> TrendingCardData?{
+//        let data = self
+//        var res:TrendingCardData? = nil
+//        res = .init(image: data.image?.first, username: data.user, mainText: data.headline, type: .blog,data:data,date:data.date ?? Date())
+//        return res
+//    }
+//
+//
+//}
 
 
 struct TourData:Codable,Loopable,Identifiable{
@@ -91,7 +91,7 @@ struct TourData:Codable,Loopable,Identifiable{
     
     func parseVisualData() -> TrendingCardData?{
         var data = self
-        var res:TrendingCardData? = .init(image: data.mainImage, username: data.user, mainText: data.mainTitle, type: .tour,data:data,location:data.location,date:data.date ?? Date())
+        var res:TrendingCardData? = .init(image: data.mainImage, username: data.user, mainText: data.mainTitle, type: .art,data:data,location:data.location,date:data.date ?? Date())
         return res
     }
 }
@@ -183,5 +183,3 @@ struct ArtData:Codable,Hashable,Identifiable,Loopable{
     }
     
 }
-
-var blogExample = BlogData(image: ["https://firebasestorage.googleapis.com/v0/b/trippin-89b8b.appspot.com/o/blogImages%2F9FEF7991-5ACB-4B2E-8DD3-C7248B191546.jpg?alt=media&token=01373f41-05a2-440f-bfab-3c5ab03b7e5d","https://firebasestorage.googleapis.com/v0/b/trippin-89b8b.appspot.com/o/blogImages%2F6BFAAAEF-2B46-4FA3-8388-F4AF98A4FEBD.jpg?alt=media&token=f6eb2895-4b19-4253-8477-e8204b68d9c3"], headline: "Test2", articleText: "Test2", summaryText: "Test2", user: "krish.Venkat", date: Date(), location: "Dubai")

@@ -1,4 +1,4 @@
-//
+ //
 //  FireBaseStorageHelper.swift
 //  TimeExplorer
 //
@@ -52,10 +52,7 @@ class FirebaseAPIHelper{
 //            decoder.keyDecodingStrategy = .convertFromSnakeCase
             if type == "User"{
                 res = try decoder.decode(User.self, from: json)
-            }else if type == "Post"{
-                res = try decoder.decode(PostData.self, from: json)
-            }
-            
+			}
         }catch{
             print("There was an error ! : \(error)")
         }
