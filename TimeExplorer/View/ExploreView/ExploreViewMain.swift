@@ -44,7 +44,7 @@ struct ExploreViewMain: View {
     
     func recentTabView(width:CGFloat, height:CGFloat) -> some View{
         
-        let view =  TrendingMainView(tab:.constant(""),tabstate: self.$loadTours, showTrending: Binding.constant(false))
+        let view =  TrendingMainView()
                         .tag("tours")
         return view
     }
@@ -57,7 +57,7 @@ struct ExploreViewMain: View {
 
             ZStack(alignment:.top){
                 self.recentTabView(width: width, height: height)
-            }.animation(.spring())
+            }
             .edgesIgnoringSafeArea(.all)
             .frame(width: width, height: height, alignment: .center)
             .navigationTitle("")

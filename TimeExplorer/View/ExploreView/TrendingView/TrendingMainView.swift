@@ -6,10 +6,8 @@
 //
 import SwiftUI
 import FirebaseFirestoreSwift
-enum Swipe{
-    case up
-    case down
-}
+import SUI
+
 
 enum CardType:String{
     case tour = "Tour"
@@ -57,36 +55,10 @@ struct TrendingData{
 }
 
 struct TrendingMainView: View {
-    @Binding var changeTab:String
     @State var data:[TrendingCardData] = []
-    @Binding var showTrending:Bool
     @EnvironmentObject var mainStates:AppStates
-    @StateObject var SP:swipeParams = .init(0, 0, 100, type: .Stack)
     @State var showArt:Bool = false
-
-    @State var selectedcard:TrendingCardData = .init(type: .post, date: .init())
-    var dispatchGroup:DispatchGroup = .init()
-    @Binding var loadTours:Bool
-
-
-    init(tab:Binding<String>,tabstate:Binding<Bool>,showTrending:Binding<Bool>?){
-        self._changeTab = tab
-        self._loadTours = tabstate
-        self._showTrending = showTrending != nil ? showTrending! : Binding.constant(false)
-    }
-
-    var currentCard:TrendingCardData{
-        get{
-            if self.SP.swiped >= 0 && self.SP.swiped < self.data.count{
-                return self.data[self.SP.swiped]
-            }
-            return self.selectedcard
-        }
-    }
-   
-    var swipedOffset:CGFloat{
-        return -CGFloat(self.SP.swiped > 0 ? 1 : 0) * totalHeight
-    }
+	@State var currentCard: TrendingCardData? = nil
 
     func onAppear(){
         self.mainStates.loading = true
@@ -128,7 +100,6 @@ struct TrendingMainView: View {
             let _data = data.compactMap({ TrendingCardData(image: $0.thumbnail, username: $0.artistName, mainText: $0.title, type: .art, data: ArtData(date: Date(), title:$0.title ?? "No Title", introduction: $0.wall_description ?? "Description",infoSnippets: $0.PaintingInfo, painterName: $0.artistName, thumbnail: $0.thumbnail,model_img: $0.original), date: Date())})
             DispatchQueue.main.async {
                 self.data.append(contentsOf: _data)
-                self.SP.end = self.data.count - 1
                 withAnimation(.easeInOut) {
                     self.mainStates.loading = false
                 }
@@ -143,52 +114,61 @@ struct TrendingMainView: View {
     }
 
 
+	func trendingCardBuilder(data: TrendingCardData, isSelected: Bool) -> some View {
+		if isSelected {
+			DispatchQueue.main.async {
+				currentCard = data
+			}
+		}
+		return TrendingMainCard(data, handler: updateViewState)
+		
+	}
+	
+	var paginatedData: [TrendingCardData] {
+		return data.count > 20 ? Array(data[0...20]) : data
+	}
+	
     func ContentScroll(w:CGFloat,h:CGFloat) -> some View{
-        return VStack(alignment: .center, spacing: 0) {
-            ForEach(Array(self.data.enumerated()),id:\.offset){_data in
-                let idx = _data.offset
-                let data = _data.element
-                if idx >= self.SP.swiped - 1 && idx <= self.SP.swiped + 1{
-                    TrendingMainCard(idx, data, w, h,handler: self.updateViewState)
-                        .gesture(DragGesture().onChanged(self.SP.onChanged(ges_value:)).onEnded(self.SP.onEnded(ges_value:)))
-                }
-            }
-        }.edgesIgnoringSafeArea(.all)
-        .frame(width: totalWidth, height: totalHeight, alignment: .top)
-        .animation(.easeInOut)
-        .offset(y: self.swipedOffset + self.SP.extraOffset)
+
+		StackedScroll(data: paginatedData) { pageData, isSelected in
+			if let trendingData = pageData as? TrendingCardData {
+				trendingCardBuilder(data: trendingData, isSelected: isSelected)
+			} else {
+				Color.clear
+					.frame(size: .zero)
+			}
+		}
     }
     
+	@ViewBuilder func artInnerView() -> some View {
+		if let data = self.currentCard?.data as? ArtData,self.showArt {
+			ArtScrollMainView(data: data,showArt: $showArt)
+				.environmentObject(self.mainStates)
+		} else {
+			Color.black
+				.framed(size: .init(width: .totalWidth, height: .totalHeight), cornerRadius: 0, alignment: .center)
+		}
+	}
 
     var body: some View {
         ZStack(alignment:.top){
             Color.black
             if !self.data.isEmpty && !self.mainStates.loading{
-                self.ContentScroll(w: totalWidth, h: totalHeight)
-//                if let data = self.currentCard.data as? ArtData,self.showArt{
-//                    ArtScrollMainView(data: data,showArt: $showArt)
-//                        .environmentObject(self.mainStates)
-//                        .transition(.move(edge: .bottom).combined(with: .opacity))
-//                }
+				StackedScroll(data: paginatedData) { pageData, isSelected in
+					if let trendingData = pageData as? TrendingCardData {
+						trendingCardBuilder(data: trendingData, isSelected: isSelected)
+					} else {
+						Color.clear
+							.frame(size: .zero)
+					}
+				}
             }
         }
         .frame(width: totalWidth, height: totalHeight, alignment: .top)
         .onAppear(perform: self.onAppear)
         .onReceive(self.mainStates.AAPI.$arts, perform: self.receiveArt(arts:))
         .onReceive(self.mainStates.TabAPI[self.mainStates.tab]!.$artDatas, perform: self.parseData)
-        .onChange(of: self.SP.swiped, perform: { swiped in
-            print("swiped : \(swiped)")
-        })
-		.fullScreenModal(isActive: $showArt, config: .init(isDraggable: true, showCloseIndicator: true), innerContent: {
-			if let data = self.currentCard.data as? ArtData,self.showArt{
-				ArtScrollMainView(data: data,showArt: $showArt)
-					.environmentObject(self.mainStates)
-//					.transition(.move(edge: .bottom).combined(with: .opacity))
-			} else {
-				Color.black
-					.framed(size: .init(width: .totalWidth, height: .totalHeight), cornerRadius: 0, alignment: .center)
-			}
-		})
+		.fullScreenModal(isActive: $showArt, config: .init(isDraggable: true, showCloseIndicator: true), innerContent: artInnerView)
         .navigationTitle("")
         .navigationBarHidden(true)
     }
