@@ -8,7 +8,7 @@
 import SwiftUI
 import SUI
 
-struct ScrollInfoCard:View{
+struct ArtIntroMain:View{
     var data:ArtData
     @State var showMore:Bool = false
     @Namespace var animation
@@ -56,7 +56,7 @@ struct ScrollInfoCard:View{
     
 }
 
-extension ScrollInfoCard{
+extension ArtIntroMain{
 	@ViewBuilder var extraIntroView : some View{
 		let w = CGFloat.totalWidth
 		let h = CGFloat.totalHeight
@@ -121,7 +121,7 @@ extension ScrollInfoCard{
 
 struct ScrollInfoCard_Preview:PreviewProvider{
     static var previews: some View{
-        ScrollInfoCard(data: test)
+        ArtIntroMain(data: test)
             .edgesIgnoringSafeArea(.all)
     }
 }

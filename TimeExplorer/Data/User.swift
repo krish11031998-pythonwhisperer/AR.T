@@ -35,50 +35,6 @@ struct User:Codable,Loopable{
     }
 }
 
-//struct PostData:Codable,Loopable,Identifiable,Equatable,Hashable{
-//    @DocumentID var id:String?
-//    var image:[String]?
-//    var video:[String]?
-//    var caption:String
-//    var user:String?
-//    var date:Date?
-//    var likes:Int?
-//    var comments:[String]?
-//    var isVideo:Bool?
-//
-//    func parseVisualData() -> TrendingCardData?{
-//        let data = self
-//        let res:TrendingCardData? = .init(image: data.image?.first, vid_url: data.video?.first, username: data.user, mainText: data.caption, type: .post,data:data,date:data.date ?? Date())
-//        return res
-//    }
-//
-//}
-//
-//struct BlogData:Codable,Loopable,Identifiable{
-//    @DocumentID var id:String?
-//    var image:[String]?
-//    var headline:String?
-//    var articleText:String?
-//    var summaryText:String?
-//    var user:String?
-//    var date:Date?
-//    var location:String?
-//
-//    func parseToFancyCardData() -> FancyCardData{
-//        return .init(headline: self.headline ?? "", mainImg: self.image?.first, subheadline: self.user, rowInfo: nil, data: self)
-//    }
-//
-//    func parseVisualData() -> TrendingCardData?{
-//        let data = self
-//        var res:TrendingCardData? = nil
-//        res = .init(image: data.image?.first, username: data.user, mainText: data.headline, type: .blog,data:data,date:data.date ?? Date())
-//        return res
-//    }
-//
-//
-//}
-
-
 struct TourData:Codable,Loopable,Identifiable{
     @DocumentID var id:String?
     var mainImage:String?
@@ -147,9 +103,6 @@ struct FIRAnnotationData:Codable,Loopable{
     var detail:String?
     var name:String?
     var vid_url:String?
-//    var coord:VectorData?
-//    var info:AnnotationData?
-//    var name:String?
 }
 
 struct ArtData:Codable,Hashable,Identifiable,Loopable{

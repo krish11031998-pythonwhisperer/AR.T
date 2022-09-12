@@ -42,7 +42,7 @@ struct ArtScrollMainView: View {
 		StackedScroll(data: Array(0...1)) { data, isSelected in
 			if let idx = data as? Int {
 				if idx == 0 {
-					ScrollInfoCard(data: self.data)
+					ArtIntroMain(data: self.data)
 				} else if idx == 1 {
 					ArtView(data: self.data)
 				}

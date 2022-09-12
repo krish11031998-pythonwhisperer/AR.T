@@ -76,7 +76,7 @@ struct AppView: View {
 				.tag("home")
 			ArtStoreMain()
 				.tag("blogs")
-			FancyScrollMain()
+			DiscoverView()
 				.tag("attractions")
 			PortfolioMainView()
 				.tag("profile")

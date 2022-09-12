@@ -8,7 +8,7 @@
 import SwiftUI
 import SUI
 
-struct FancyScrollMain: View {
+struct DiscoverView: View {
     @EnvironmentObject var mainStates:AppStates
     @State var exploreList : [ExploreData] = []
     @State var art:ArtData? = nil
@@ -98,6 +98,6 @@ struct FancyScrollMain: View {
 
 struct FancyScrollMain_Previews: PreviewProvider {
     static var previews: some View {
-        FancyScrollMain()
+        DiscoverView()
     }
 }
