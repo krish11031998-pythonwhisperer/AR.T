@@ -11,7 +11,7 @@ struct PortfolioMainView: View {
     
     @State var paintings:[AVSData] = []
     @EnvironmentObject var mainStates:AppStates
-//    @StateObject var artAPI:CAAPI = .init()
+   @StateObject var artAPI:CAAPI = .init()
     @State var loadingText:String = "Loading..."
     @StateObject var SP:swipeParams = .init(100)
     

@@ -55,7 +55,6 @@ class CAData:Codable{
         guard let artist_name = self.creators?.first?.description else {return nil}
         let name_split = artist_name.split(separator: "(").first ?? "No Name"
         
-//        return name_split.count > 2 ? Array(name_split[0...2]).joined(separator: " ") : name_split.joined(separator: " ")
         return String(name_split).stripSpaces()
     }
     
@@ -89,10 +88,6 @@ class CAData:Codable{
             if let framed = dim.framed{
                 details["Framed"] = "\(framed.height ?? 0)m x \(framed.width ?? 0)m"
             }
-            
-//            if let unframed = dim.unframed{
-//                details["unframed"] = "\(unframed.height ?? 0)m x \(unframed.width ?? 0)m"
-//            }
         }
         
         return details.keys.count == 0 ? nil : details

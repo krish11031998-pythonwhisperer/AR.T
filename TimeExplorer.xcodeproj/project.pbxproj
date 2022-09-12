@@ -36,7 +36,6 @@
 		BC52DEB0265FDDC3009D7A4E /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DEAF265FDDC3009D7A4E /* HomePageView.swift */; };
 		BC52DEB2265FEC98009D7A4E /* FeaturedArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DEB1265FEC98009D7A4E /* FeaturedArt.swift */; };
 		BC561D23261B9AD100130428 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC561D22261B9AD100130428 /* ImageView.swift */; };
-		BC561D2D261C411400130428 /* ImageCaptionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC561D2C261C411400130428 /* ImageCaptionCard.swift */; };
 		BC561D40261DF3DE00130428 /* SystemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC561D3F261DF3DE00130428 /* SystemButton.swift */; };
 		BC5AFFF825FA3D0100A9E202 /* TrendingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5AFFF725FA3D0100A9E202 /* TrendingCard.swift */; };
 		BC5D47DE26667AC800C55A3F /* GenreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5D47DD26667AC800C55A3F /* GenreView.swift */; };
@@ -53,7 +52,6 @@
 		BC78837E2637FC9A00511836 /* SwipedParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78837D2637FC9A00511836 /* SwipedParams.swift */; };
 		BC7D02372645DF12002D2E9D /* ArtIntroMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7D02362645DF12002D2E9D /* ArtIntroMainView.swift */; };
 		BC80F6AF25ACDCB100F8E450 /* Raleway-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC80F6AE25ACDCB100F8E450 /* Raleway-VariableFont_wght.ttf */; };
-		BC915766254390530089CD3D /* InstaImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC915765254390530089CD3D /* InstaImagePicker.swift */; };
 		BC95150E2655A37000FFE1A1 /* RecommendArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95150D2655A37000FFE1A1 /* RecommendArt.swift */; };
 		BC9515112655AAA000FFE1A1 /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = BC9515102655AAA000FFE1A1 /* FocusEntity */; };
 		BC96B68026171BE90062B905 /* César_-_Louvre_Museum.usdz in Resources */ = {isa = PBXBuildFile; fileRef = BC96B67F26171BE90062B905 /* César_-_Louvre_Museum.usdz */; };
@@ -62,7 +60,6 @@
 		BC9A324B2643137500882AB1 /* ArtTopFactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9A324A2643137500882AB1 /* ArtTopFactView.swift */; };
 		BC9F13E52580A37E00F5BE45 /* StringHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9F13E42580A37D00F5BE45 /* StringHelper.swift */; };
 		BCA038A9257930FF00C6713C /* FireBaseStorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA038A8257930FF00C6713C /* FireBaseStorageHelper.swift */; };
-		BCA038AE2579312D00C6713C /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA038AD2579312D00C6713C /* ImagePicker.swift */; };
 		BCA038B32579314A00C6713C /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA038B22579314A00C6713C /* Account.swift */; };
 		BCA038B82579315700C6713C /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA038B72579315700C6713C /* Color.swift */; };
 		BCA038BD2579317000C6713C /* CLLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA038BC2579317000C6713C /* CLLocation.swift */; };
@@ -114,7 +111,6 @@
 		BCE1AC9F2599019B002A150F /* KeyBoardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE1AC9E2599019A002A150F /* KeyBoardHelper.swift */; };
 		BCE95E862624E73800B04852 /* SCNSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE95E852624E73800B04852 /* SCNSceneView.swift */; };
 		BCEA9736266BFE8900ADBF14 /* NetflixSansThin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCEA9735266BFE8900ADBF14 /* NetflixSansThin.ttf */; };
-		BCECE8C02555674700DB2EB6 /* CustomCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCECE8BF2555674700DB2EB6 /* CustomCameraView.swift */; };
 		BCF486482627782D001A28E9 /* ArtViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF486472627782D001A28E9 /* ArtViewHelper.swift */; };
 		BCF4864D26277855001A28E9 /* FactCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF4864C26277855001A28E9 /* FactCard.swift */; };
 		C3B796F7C0AADC51EA420CE3 /* Pods_TimeExplorer_TimeExplorerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6655C8DB5E8432C375F6F710 /* Pods_TimeExplorer_TimeExplorerUITests.framework */; };
@@ -176,7 +172,6 @@
 		BC52DEAF265FDDC3009D7A4E /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
 		BC52DEB1265FEC98009D7A4E /* FeaturedArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedArt.swift; sourceTree = "<group>"; };
 		BC561D22261B9AD100130428 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
-		BC561D2C261C411400130428 /* ImageCaptionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCaptionCard.swift; sourceTree = "<group>"; };
 		BC561D3F261DF3DE00130428 /* SystemButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemButton.swift; sourceTree = "<group>"; };
 		BC5AFFF725FA3D0100A9E202 /* TrendingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingCard.swift; sourceTree = "<group>"; };
 		BC5D47DD26667AC800C55A3F /* GenreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreView.swift; sourceTree = "<group>"; };
@@ -192,7 +187,6 @@
 		BC78837D2637FC9A00511836 /* SwipedParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipedParams.swift; sourceTree = "<group>"; };
 		BC7D02362645DF12002D2E9D /* ArtIntroMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtIntroMainView.swift; sourceTree = "<group>"; };
 		BC80F6AE25ACDCB100F8E450 /* Raleway-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-VariableFont_wght.ttf"; sourceTree = "<group>"; };
-		BC915765254390530089CD3D /* InstaImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstaImagePicker.swift; sourceTree = "<group>"; };
 		BC95150D2655A37000FFE1A1 /* RecommendArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendArt.swift; sourceTree = "<group>"; };
 		BC96B67F26171BE90062B905 /* César_-_Louvre_Museum.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = "César_-_Louvre_Museum.usdz"; sourceTree = "<group>"; };
 		BC96B68726175DAE0062B905 /* SpeechModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechModel.swift; sourceTree = "<group>"; };
@@ -200,7 +194,6 @@
 		BC9A324A2643137500882AB1 /* ArtTopFactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtTopFactView.swift; sourceTree = "<group>"; };
 		BC9F13E42580A37D00F5BE45 /* StringHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringHelper.swift; sourceTree = "<group>"; };
 		BCA038A8257930FF00C6713C /* FireBaseStorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireBaseStorageHelper.swift; sourceTree = "<group>"; };
-		BCA038AD2579312D00C6713C /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		BCA038B22579314A00C6713C /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		BCA038B72579315700C6713C /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		BCA038BC2579317000C6713C /* CLLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocation.swift; sourceTree = "<group>"; };
@@ -254,7 +247,6 @@
 		BCE1AC9E2599019A002A150F /* KeyBoardHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyBoardHelper.swift; sourceTree = "<group>"; };
 		BCE95E852624E73800B04852 /* SCNSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNSceneView.swift; sourceTree = "<group>"; };
 		BCEA9735266BFE8900ADBF14 /* NetflixSansThin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NetflixSansThin.ttf; sourceTree = "<group>"; };
-		BCECE8BF2555674700DB2EB6 /* CustomCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCameraView.swift; sourceTree = "<group>"; };
 		BCF486472627782D001A28E9 /* ArtViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtViewHelper.swift; sourceTree = "<group>"; };
 		BCF4864C26277855001A28E9 /* FactCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactCard.swift; sourceTree = "<group>"; };
 		D21C6C833AA25BBD2A543CED /* Pods-TimeExplorer-TimeExplorerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TimeExplorer-TimeExplorerUITests.release.xcconfig"; path = "Target Support Files/Pods-TimeExplorer-TimeExplorerUITests/Pods-TimeExplorer-TimeExplorerUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -413,15 +405,6 @@
 			path = PortfolioPage;
 			sourceTree = "<group>";
 		};
-		BC694786264DCA7000FE5FF1 /* Post */ = {
-			isa = PBXGroup;
-			children = (
-				BCECE8BE2555673500DB2EB6 /* CustomCameraView */,
-				BC91575825438A790089CD3D /* InstaImagePickerView */,
-			);
-			path = Post;
-			sourceTree = "<group>";
-		};
 		BC694788264DCB6200FE5FF1 /* ARMainView */ = {
 			isa = PBXGroup;
 			children = (
@@ -431,21 +414,12 @@
 			path = ARMainView;
 			sourceTree = "<group>";
 		};
-		BC91575825438A790089CD3D /* InstaImagePickerView */ = {
-			isa = PBXGroup;
-			children = (
-				BC915765254390530089CD3D /* InstaImagePicker.swift */,
-			);
-			path = InstaImagePickerView;
-			sourceTree = "<group>";
-		};
 		BCA038A7257930D800C6713C /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
 				BC1410F92585E0A500AAA0B4 /* lottieFiles */,
 				BCA038A8257930FF00C6713C /* FireBaseStorageHelper.swift */,
 				BC618C6225A9F3C000377140 /* YoutubePlayerHelper.swift */,
-				BCA038AD2579312D00C6713C /* ImagePicker.swift */,
 				BCA038B22579314A00C6713C /* Account.swift */,
 				BCA038B72579315700C6713C /* Color.swift */,
 				BCA038BC2579317000C6713C /* CLLocation.swift */,
@@ -564,7 +538,6 @@
 				BC52DEAE265FDDB5009D7A4E /* HomePage */,
 				BCA1840D265EDF5B007C3845 /* ArtStore */,
 				BC694788264DCB6200FE5FF1 /* ARMainView */,
-				BC694786264DCA7000FE5FF1 /* Post */,
 				BC027B2C25A05F4900CB58B5 /* ExploreView */,
 				BC3DD52B253A2FF300596F8F /* UserView */,
 				BCE0B9D925398A7B0043EDEF /* LoginView */,
@@ -594,7 +567,6 @@
 				BCE95E842624E6D700B04852 /* SceneModelViews */,
 				BCC4E05E2619C59C00988164 /* FancyCard.swift */,
 				BC561D22261B9AD100130428 /* ImageView.swift */,
-				BC561D2C261C411400130428 /* ImageCaptionCard.swift */,
 				BC561D3F261DF3DE00130428 /* SystemButton.swift */,
 				BC5D47DF26667F5700C55A3F /* PinterestScroll.swift */,
 			);
@@ -683,14 +655,6 @@
 				BCE95E852624E73800B04852 /* SCNSceneView.swift */,
 			);
 			path = SceneModelViews;
-			sourceTree = "<group>";
-		};
-		BCECE8BE2555673500DB2EB6 /* CustomCameraView */ = {
-			isa = PBXGroup;
-			children = (
-				BCECE8BF2555674700DB2EB6 /* CustomCameraView.swift */,
-			);
-			path = CustomCameraView;
 			sourceTree = "<group>";
 		};
 		D366001FC5681DFA06CF2A9F /* Pods */ = {
@@ -994,9 +958,7 @@
 				BCD7C7D926903BF000077D89 /* CAAPI.swift in Sources */,
 				BC561D40261DF3DE00130428 /* SystemButton.swift in Sources */,
 				BCD7C7FE2690955500077D89 /* ChartsMainView.swift in Sources */,
-				BC915766254390530089CD3D /* InstaImagePicker.swift in Sources */,
 				BC5D47DE26667AC800C55A3F /* GenreView.swift in Sources */,
-				BC561D2D261C411400130428 /* ImageCaptionCard.swift in Sources */,
 				BCB25F1325B0C17900290E18 /* TrendingMainView.swift in Sources */,
 				BCE95E862624E73800B04852 /* SCNSceneView.swift in Sources */,
 				BCF4864D26277855001A28E9 /* FactCard.swift in Sources */,
@@ -1038,7 +1000,6 @@
 				BC2AD92A261F1584007F5921 /* SceneModelView.swift in Sources */,
 				BCC224EA25528ED800AE6769 /* TabBarButtons.swift in Sources */,
 				BC69478A264DCB7000FE5FF1 /* ARHelpers.swift in Sources */,
-				BCA038AE2579312D00C6713C /* ImagePicker.swift in Sources */,
 				BCD7C7FF2690955500077D89 /* CurvedChartHelpers.swift in Sources */,
 				BC96B68826175DAE0062B905 /* SpeechModel.swift in Sources */,
 				BC5D47E026667F5700C55A3F /* PinterestScroll.swift in Sources */,
@@ -1054,7 +1015,6 @@
 				BCC4E0682619DACF00988164 /* Animations.swift in Sources */,
 				BCE0B9E325398B9A0043EDEF /* LVLogin.swift in Sources */,
 				BC52DEB2265FEC98009D7A4E /* FeaturedArt.swift in Sources */,
-				BCECE8C02555674700DB2EB6 /* CustomCameraView.swift in Sources */,
 				BC2AD930261FAEA7007F5921 /* ArtView.swift in Sources */,
 				BCD7B08F26A983D3008E057D /* HighlightView.swift in Sources */,
 				BCCDBE3A2587B04900E6A2C1 /* CMBufferHelper.swift in Sources */,

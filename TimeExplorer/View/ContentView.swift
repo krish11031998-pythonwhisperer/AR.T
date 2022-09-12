@@ -18,7 +18,6 @@ class AppStates:ObservableObject{
     @Published var tab:String = "home"
     @Published var showTab:Bool = true
     @Published var userAcc:Account = .init()
-    @Published var photosManager:PhotoImages = .init()
     @Published var CAAPI:CAAPI = .init()
     @Published var AAPI:ArtAPI = .init()
     @Published var TabAPI:[String:CAAPI] = ["home":.init(),"blogs":.init(),"feed":.init(),"attractions":.init(),"profile":.init()]
@@ -59,7 +58,7 @@ struct AppView: View {
     @EnvironmentObject var mainStates:AppStates
 //
     @State var showLoginPage:Bool = false
-    var locationManager:LocationManager = .init()
+//    var locationManager:LocationManager = .init()
     var tab:String{
         get{
             return self.mainStates.tab
