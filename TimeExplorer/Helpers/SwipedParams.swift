@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+enum SliderType{
+	case Carousel
+	case Stack
+}
+
 class swipeParams:ObservableObject,Equatable{
     static func == (lhs: swipeParams, rhs: swipeParams) -> Bool {
         return lhs.swiped == rhs.swiped

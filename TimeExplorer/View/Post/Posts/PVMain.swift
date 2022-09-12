@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PostID:Identifiable{
     var id:Int
-    var post:InstaPostData
+    var post:Any
     var date:Date?
 }
 

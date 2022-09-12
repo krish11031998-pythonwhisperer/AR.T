@@ -20,7 +20,6 @@ class AppStates:ObservableObject{
     @Published var userAcc:Account = .init()
     @Published var photosManager:PhotoImages = .init()
     @Published var CAAPI:CAAPI = .init()
-    @Published var LS:LocationSearch = .init(place:"",test:true)
     @Published var AAPI:ArtAPI = .init()
     @Published var TabAPI:[String:CAAPI] = ["home":.init(),"blogs":.init(),"feed":.init(),"attractions":.init(),"profile":.init()]
     var imageQuality:JPEGQuality = .medium
