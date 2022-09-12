@@ -85,12 +85,17 @@ struct AuctionCard: View {
 
 extension AuctionCard{
     
-    func lineChart(h line_h:CGFloat) -> some View{
-		RoundedRectangle(cornerRadius: 10)
-			.fill(Color.gray.opacity(0.2))
-			.horizontalProgressBar(pct: pct, lineColor: .white, size: .init(width: cardConfig.cardSize.width - 30, height: line_h))
-			.fillWidth()
-			.fixedHeight(height: line_h)
+    @ViewBuilder func lineChart(h line_h:CGFloat) -> some View{
+		if cardConfig.showBar {
+			RoundedRectangle(cornerRadius: 10)
+				.fill(Color.gray.opacity(0.2))
+				.horizontalProgressBar(pct: pct, lineColor: .white, size: .init(width: cardConfig.cardSize.width - 30, height: line_h))
+				.fillWidth()
+				.fixedHeight(height: line_h)
+		} else {
+			EmptyView().body
+		}
+		
     }
     
 	@ViewBuilder var cardInfo: some View{

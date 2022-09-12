@@ -43,8 +43,6 @@ struct PortfolioMainView: View {
             }
             let paintings = data.compactMap({$0.images != nil ? AVSData(img: $0.images?.web?.url, title: $0.title, subtitle: $0.creators?.first?.description, data: $0) : nil})
             DispatchQueue.main.async {
-                self.SP.start = 0
-                self.SP.end = 4
                 self.paintings = paintings
                 self.loadingText = "Assigned!"
                 if self.mainStates.loading{
@@ -94,48 +92,6 @@ extension PortfolioMainView{
 				Color.clear.frame(size: cardSize)
 			}
 		}
-    }
-    
-    func StockCard(_data: EnumeratedSequence<[AVSData]>.Element) -> AnyView{
-        let data = _data.element
-        let idx = _data.offset
-        return AnyView(GeometryReader{ g -> AnyView in
-            let local = g.frame(in: .local)
-            let selected = self.SP.swiped == idx
-            let w = local.width
-            let h = local.height
-            let scale:CGFloat = selected ? 1.05 : 0.9
-            
-            let view = ZStack(alignment: .bottom) {
-                ImageView(url: data.img, width: w, height: h, contentMode: .fill, alignment: .center)
-                lightbottomShadow.frame(width: w + 1, alignment: .center)
-                CurveChart(data: [45,25,10,60,30,79],interactions: false, size: .init(width: w * 0.75, height: h * 0.3),bg: .clear,lineColor: .white,chartShade: false)
-                        .frame(width: w, alignment: .leading)
-                MainText(content: "250 BTC", fontSize: 15, color: .white, fontWeight: .regular)
-                    .padding()
-                    .frame(width: w, alignment: .trailing)
-            }
-            .clipShape(RoundedRectangle(cornerRadius: selected ? 20 : 10))
-            .shadow(radius: selected ? 10 : 0)
-            .scaleEffect(scale)
-            .opacity(selected ? 1 : 0.2)
-            .gesture(DragGesture().onChanged(self.SP.onChanged(ges_value:)).onEnded(self.SP.onEnded(ges_value:)))
-            .onTapGesture {
-                self.SP.swiped = idx
-            }
-            
-            return AnyView(view)
-            
-        }.padding()
-        .frame(width: self.cardSize.width , height: self.cardSize.height, alignment: .center))
-    }
-    
-    var ArtDescriptionView : some View{
-        VStack(alignment: .leading, spacing: 10){
-            MainText(content: self.paintings[self.SP.swiped].title ?? "Art#342", fontSize: 35, color: .white, fontWeight: .semibold)
-            MainText(content: self.paintings[self.SP.swiped].subtitle ?? "Art#342", fontSize: 15, color: .white, fontWeight: .semibold)
-        }.padding()
-        .frame(width: totalWidth, alignment: .leading)
     }
     
     var chartView:some View{

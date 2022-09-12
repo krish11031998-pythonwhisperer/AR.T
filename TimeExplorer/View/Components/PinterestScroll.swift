@@ -48,10 +48,12 @@ struct PinterestScroll: View {
         if self.equalSize{
             self.CollectionView
         }else{
-            LazyHStack(alignment: .top, spacing: 10) {
+            HStack(alignment: .top, spacing: 10) {
                 self.singleCol(col_dir: "left", width: (w * 0.5 - 5))
                 self.singleCol(col_dir: "right", width: (w * 0.5 - 5))
-			}.padding(.horizontal)
+			}
+			.padding(.horizontal)
+			.padding(.bottom, .safeAreaInsets.bottom + 50)
             .frame(width: totalWidth, alignment: .center)
         }
         
