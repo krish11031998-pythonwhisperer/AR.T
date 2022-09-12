@@ -47,7 +47,7 @@ public extension String {
 	}
 	
 	func systemSubHeading(color: Color = .black) -> RenderableText {
-		styled(font: .systemFont(ofSize: 13, weight: .medium),color: color)
+		styled(font: .systemFont(ofSize: 13, weight: .regular),color: color)
 	}
 	
 	func systemBody(color: Color = .black) -> RenderableText {

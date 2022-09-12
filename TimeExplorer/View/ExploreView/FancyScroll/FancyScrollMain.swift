@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SUI
 
 struct FancyScrollMain: View {
     @EnvironmentObject var mainStates:AppStates
@@ -32,6 +33,7 @@ struct FancyScrollMain: View {
                 withAnimation(.easeInOut) {
                     self.mainStates.loading = false
                 }
+				self.art = _data.first?.data as? ArtData
             }
         }
        
@@ -64,23 +66,32 @@ struct FancyScrollMain: View {
         .frame(width: totalWidth, alignment: .leading)
         .background(bottomShadow.rotationEffect(.init(degrees: .init(180))))
     }
+	
+	@ViewBuilder var selectedArtView: some View {
+		if let art = self.art{
+			ArtScrollMainView(data: art, showArt: $showArt)
+		} else {
+			Color.clear.frame(size: .zero)
+		}
+	}
 
     var body: some View {
         ZStack(alignment: .top) {
             Color.black
-//            FancyScroll(selectedArt: $art,showArt:$showArt,data: self.exploreList)
-            FancyScroll(selectedArt: $art,showArt:$showArt,data: self.exploreList,idx: $idx)
-            self.header
-            if self.showArt, let art = self.art{
-                ArtScrollMainView(data: art, showArt: $showArt)
-                    .transition(.move(edge: .bottom).combined(with: .identity))
-            }
-        }.edgesIgnoringSafeArea(.all)
+			DiscoveryView(data: exploreList, model: .init(cardSize: .init(width: 200, height: 350), rows: 4, spacing: 10, bgColor: .clear)) { data in
+				SUI.ImageView(url: (data as? ExploreData)?.img)
+					.framed(size: .init(width: 200, height: 350), cornerRadius: 15, alignment: .center)
+			}
+			header
+        }
+		.edgesIgnoringSafeArea(.all)
         .onAppear(perform: self.onAppear)
         .onReceive(self.mainStates.TabAPI[self.mainStates.tab]!.$artDatas, perform: self.parseData)
         .onChange(of: self.art, perform: self.updateShowArt(art:))
         .onDisappear(perform: self.mainStates.toggleTab)
-        .animation(.easeInOut)
+		.fullScreenModal(isActive: $showArt, config: .init(isDraggable: false, showCloseIndicator: true)) {
+			selectedArtView
+		}
 
     }
 }

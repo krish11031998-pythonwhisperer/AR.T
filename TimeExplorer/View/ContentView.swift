@@ -70,8 +70,8 @@ struct AppView: View {
 	init() {
 		UITabBar.appearance().isHidden = true
 	}
-    
-    func getActiveView(tab:String? = nil) -> some View{
+ 
+	var tabView: some View {
 		TabView(selection: $mainStates.tab) {
 			HomePageView()
 				.tag("home")
@@ -83,19 +83,8 @@ struct AppView: View {
 				.tag("profile")
 			ExploreViewMain()
 				.tag("feed")
-		}
-//        var view:AnyView = AnyView(HomePageView())
-//        switch(tab ?? self.tab){
-//        case "feed": view = AnyView(ExploreViewMain())
-//        case "post": view = AnyView(CameraView().onAppear {self.mainStates.toggleTab()}.onDisappear {self.mainStates.toggleTab()})
-//        case "blogs": view = AnyView(ArtStoreMain())
-//        case "attractions": view = AnyView(FancyScrollMain())
-//        case "profile": view = AnyView(PortfolioMainView())
-//        default:
-//            break
-//        }
-//        return view
-    }
+		}.fillFrame()
+	}
         
     func onAppear(){
         self.mainStates.userAcc.autoLogIn(){success in
@@ -122,19 +111,7 @@ struct AppView: View {
                 }
             }
             if !self.showLoginPage{
-				TabView(selection: $mainStates.tab) {
-					HomePageView()
-						.tag("home")
-					ArtStoreMain()
-						.tag("blogs")
-					FancyScrollMain()
-						.tag("attractions")
-					PortfolioMainView()
-						.tag("profile")
-					ExploreViewMain()
-						.tag("feed")
-				}
-				.fillFrame()
+				tabView
                 if self.mainStates.showTab{
                     TabBarView()
 						.transitionFrom(.bottom)

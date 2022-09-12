@@ -6,27 +6,18 @@
 //
 
 import SwiftUI
+import SUI
 
 struct ScrollInfoCard:View{
     var data:ArtData
-    @Binding var minY:CGFloat
-    @Binding var showArt:Bool
     @State var showMore:Bool = false
     @Namespace var animation
-    var onChanged:((DragGesture.Value) -> Void)? = nil
-    var onEnded:((DragGesture.Value) -> Void)? = nil
-    init(data:ArtData,minY:Binding<CGFloat>? = nil,showArt:Binding<Bool>? = nil,onChanged:((DragGesture.Value) -> Void)? = nil,onEnded:((DragGesture.Value) -> Void)? = nil){
+    init(data:ArtData){
         self.data = data
-        self._minY = minY ?? .constant(0)
-        self._showArt = showArt ?? .constant(false)
-        self.onChanged = onChanged
-        self.onEnded = onEnded
     }
-    
     
     func infoOverlay(w:CGFloat,h:CGFloat) -> some View{
         VStack(alignment: .leading, spacing: 10){
-//            TabBarButtons(bindingState: $showArt)
             Spacer()
             ScrollView(.vertical, showsIndicators: false) {
                 HeadingInfoText(heading: self.data.title, subhead: "1503 - 1506", headingSize: 35, headingColor: .white, headingDesign: .serif, subheadSize: 20, subheadColor: .white, subheadDesign: .rounded)
@@ -38,79 +29,64 @@ struct ScrollInfoCard:View{
         .frame(width: w, height: h, alignment: .bottomLeading)
     }
     
-    
-    
-    
-    var body: some View{
-        return GeometryReader {g -> AnyView in
-            let w = g.frame(in: .local).width
-            let h = g.frame(in: .local).height
-            let minY = g.frame(in: .global).minY
-            DispatchQueue.main.async {
-                self.minY = minY
-            }
-            return AnyView(
-                ZStack(alignment:.top){
-                    Color.black
-                    VStack(alignment: .leading, spacing: 20){
-                        ImageView(url: self.data.thumbnail, width: w, height: h * 0.45, contentMode: .fill,alignment:.topLeading)
-                            .clipShape(Rectangle())
-                            .overlay(self.infoOverlay(w: w, h: h * 0.45))
-                        self.introInfoSection(w: w, h: h * 0.25)
-                        self.infoBody(w: w)
-                        Spacer()
-                        
-                    }.frame(width: w, height: h, alignment: .leading)
-                    if self.showMore{
-                        self.extraIntroView(size: .init(width: w, height: h))
-                    }
-                }.frame(width: w, height: h, alignment: .leading))
-            
-        }.frame(width: totalWidth, height: totalHeight, alignment: .center)
-        .gesture(DragGesture()
-                    .onChanged(!self.showMore ? self.onChanged ?? { _ in} : { _ in})
-                    .onEnded(!self.showMore ? self.onEnded ?? { _ in} : { _ in})
-                 
-        )
-    }
+	var body: some View{
+		ZStack(alignment:.top){
+			Color.black
+			VStack(alignment: .leading, spacing: 20){
+				ZStack(alignment: .bottom) {
+					SUI.ImageView(url: data.thumbnail)
+						.framed(size: .init(width: .totalWidth, height: .totalHeight * 0.45),cornerRadius: 0,alignment: .top)
+					lightbottomShadow.fillFrame()
+					data.title.normal(size: 30).text
+						.padding()
+						.fillWidth(alignment: .leading)
+				}.framed(size: .init(width: .totalWidth, height: .totalHeight * 0.45),cornerRadius: 0)
+				
+				self.introInfoSection(w: .totalWidth, h: .totalHeight * 0.25)
+				self.infoBody(w: .totalWidth)
+			}
+			if showMore {
+				extraIntroView
+					.transitionFrom(.bottom)
+			}
+		}
+		.framed(size: .init(width: .totalWidth, height: .totalHeight), cornerRadius: 0, alignment: .topLeading)
+		.scrollToggle(state: !showMore)
+	}
     
 }
 
 extension ScrollInfoCard{
-    func extraIntroView (size:CGSize) -> some View{
-        let w = size.width
-        let h = size.height
-        return Group{
-            BlurView(style: .dark)
-            VStack{
-                ScrollView(.vertical, showsIndicators: false) {
-                    MainText(content: self.data.introduction, fontSize: 25, color: .white, fontWeight: .semibold)
-                        .lineLimit(Int.max)
-                        .matchedGeometryEffect(id: "intro", in: self.animation)
-                }
-                .padding(.top,50)
-                .frame(width: w - 20, height: h - 120, alignment: .leading)
-                SystemButton(b_name: "arrow.up", b_content: "", color: .white, haveBG: false, size: .init(width: 25, height: 25), alignment: .horizontal) {
-                    self.showMore.toggle()
-                }
-                .padding(.bottom)
-                .frame(width: w - 20,height:100, alignment: .leading)
-            }.edgesIgnoringSafeArea(.all)
-            .padding()
-            .frame(width: w, height: h, alignment: .leading)
-            
-        }
-    }
+	@ViewBuilder var extraIntroView : some View{
+		let w = CGFloat.totalWidth
+		let h = CGFloat.totalHeight
+		ZStack(alignment: .center) {
+			Color.clear
+			BlurView(style: .dark)
+			ScrollView(.vertical, showsIndicators: false) {
+				MainText(content: self.data.introduction, fontSize: 25, color: .white, fontWeight: .semibold)
+					.lineLimit(Int.max)
+					.padding()
+					.padding(.top,.safeAreaInsets.top)
+			}.fillFrame()
+			CustomButton(config: .init(imageName: .back, size: .init(squared: 15), padding: 5, foregroundColor: .white, backgroundColor: .clear)) {
+				showMore = false
+			}
+			.padding(.horizontal,20)
+			.padding(.bottom)
+			.fillFrame(alignment: .bottomLeading)
+		}
+		.frame(width: .totalWidth, height: .totalHeight, alignment: .topLeading)
+		.edgesIgnoringSafeArea(.all)
+	}
 
     func infoBody(w:CGFloat) -> some View{
         VStack(alignment: .leading, spacing: 10){
-            MainText(content: self.data.introduction, fontSize: 15, color: .white, fontWeight: .regular)
-                .opacity(self.showMore ? 0 : 1)
-                .lineLimit(5)
-                .matchedGeometryEffect(id: "intro", in: self.animation, isSource: true)
-            SystemButton(b_name: "arrow.down", b_content: "", color: .white, haveBG: false, size: .init(width: 15, height: 15), alignment: .horizontal) {
-                self.showMore.toggle()
-            }
+			data.introduction.normal(size: 15).text
+				.padding(.horizontal,5)
+			CustomButton(config: .init(imageName: .next, size: .init(squared: 15), padding: 5, foregroundColor: .white, backgroundColor: .clear)) {
+				showMore = true
+			}
         }.padding()
         .frame(width: w,alignment: .topLeading)
     }
@@ -118,28 +94,26 @@ extension ScrollInfoCard{
     func introInfoSection(w:CGFloat,h:CGFloat) -> some View{
         HStack(alignment: .center, spacing: 10) {
             VStack(alignment: .center, spacing: 10){
-                ImageView(url: self.data.painterImg, width: w * 0.45, height: h * 0.9, contentMode: .fill,alignment: .top)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-//                Text(self.data.painterName ?? "Artisan")
-//                    .font(.system(size: 20, weight: .bold, design: .serif))
-//                    .foregroundColor(.white)
-//                    .fixedSize(horizontal: false, vertical: true)
-                BasicText(content: self.data.painterName ?? "Artisan", fontDesign: .serif, size: 20, weight: .bold)
-                    .foregroundColor(.white)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .frame(height: h * 0.1, alignment: .center)
+				SUI.ImageView(url: data.painterImg)
+					.fixedWidth(width: w * 0.45)
+					.fillHeight(alignment: .center)
+					.clipContent(radius: 20)
+				(data.painterName ?? "Artisan").normal(size: 20).text
             }.padding(.leading, 20)
             Spacer()
             if self.data.infoSnippets != nil{
                 VStack(alignment: .leading, spacing: 10){
-                    ForEach(Array(self.data.infoSnippets!.keys),id:\.self) { key in
+					ForEach(Array(self.data.infoSnippets!.keys).sorted(),id:\.self) { key in
                         let value = self.data.infoSnippets![key] ?? "No Info"
-                        HeadingInfoText(heading: key, subhead: value, headingSize: 15, headingColor: .gray, headingDesign: .default, subheadSize: 18, subheadColor: .white, subheadDesign: .serif)
+						HeaderSubHeadView(title: key.normal(size: 15, color: .gray),
+										  subTitle: value.normal(size: 18, color: .white),
+										  spacing: 0,
+										  alignment: .leading)
                     }
                 }
                 Spacer()
             }
-        }.frame(width: w, height: h, alignment: .leading)
+		}.framed(size: .init(width: w, height: h), cornerRadius: 0, alignment: .leading)
     }
 }
 

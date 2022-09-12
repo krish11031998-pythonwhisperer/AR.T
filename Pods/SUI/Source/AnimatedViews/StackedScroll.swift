@@ -8,14 +8,37 @@
 import Foundation
 import SwiftUI
 
+//MARK: - StackScrollPreferenceKey
+
+public struct StackScrollPreferenceKey: PreferenceKey {
+	
+	public static var defaultValue: Bool = true
+	
+	public static func reduce(value: inout Bool, nextValue: () -> Bool) {
+		value = value && nextValue()
+	}
+	
+}
+
+public extension View {
+	
+	func scrollToggle(state: Bool) -> some View {
+		preference(key: StackScrollPreferenceKey.self, value: state)
+	}
+}
+
+
+//MARK: - StackedScroll
+
 public struct StackedScroll<Page: View>: View {
 	
 	let data: [Any]
-	let pageBuilder: (Any) -> Page
+	let pageBuilder: (Any, Bool) -> Page
 	@State var currentIdx: Int = .zero
 	@State var offset: CGFloat = .zero
+	@State var scrollEnabled: Bool = true
 	
-	public init(data: [Any], @ViewBuilder pageBuilder: @escaping (Any) -> Page) {
+	public init(data: [Any], @ViewBuilder pageBuilder: @escaping (Any, Bool) -> Page) {
 		self.data = data
 		self.pageBuilder = pageBuilder
 	}
@@ -50,13 +73,17 @@ public struct StackedScroll<Page: View>: View {
 	public var body: some View {
 		LazyVStack(alignment: .center, spacing: 0) {
 			ForEach(Array(data.enumerated()), id:\.offset) { data in
-				pageBuilder(data.element)
+				pageBuilder(data.element, data.offset == currentIdx)
 					.frame(size: .init(width: .totalWidth, height: .totalHeight))
 			}
 		}
+		.onPreferenceChange(StackScrollPreferenceKey.self) { newValue in
+			print("(DEBUG) Updating the scrollState : ", newValue)
+			scrollEnabled = newValue
+		}
 		.offset(x: .zero, y: scrolledOffset + offset)
 		.frame(width: .totalWidth, height: .totalHeight, alignment: .top)
-		.gesture(dragGesture)
+		.gesture(scrollEnabled ? dragGesture : nil)
 		.clipped()
 		.edgesIgnoringSafeArea(.all)
 	}
@@ -65,7 +92,7 @@ public struct StackedScroll<Page: View>: View {
 private struct StackedScroll_Preview: PreviewProvider {
 
 	static var previews: some View {
-		StackedScroll(data: [Color.red, Color.blue, Color.green]) { data in
+		StackedScroll(data: [Color.red, Color.blue, Color.green]) { data, isSelected in
 			
 			VStack(alignment: .leading, spacing: 10) {
 				RoundedButton(model: .testModel)
@@ -80,8 +107,6 @@ private struct StackedScroll_Preview: PreviewProvider {
 			.padding(.init(top: .safeAreaInsets.top, leading: 20, bottom: .safeAreaInsets.bottom, trailing: 20))
 			.frame(width: .totalWidth, height: .totalHeight, alignment: .topLeading)
 			.background((data as? Color) ?? .black)
-			
-			
 		}
 	}
 }

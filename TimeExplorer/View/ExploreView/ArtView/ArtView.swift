@@ -8,6 +8,16 @@
 import SwiftUI
 import SceneKit
 import AVKit
+import SUI
+
+struct FrameReader: PreferenceKey {
+	
+	static var defaultValue: CGRect = .zero
+	
+	static func reduce(value: inout CGRect, nextValue: () -> CGRect) {
+		value = nextValue()
+	}
+}
 
 struct AnnotationData:Codable,Hashable,Loopable{
     var heading:String?
@@ -18,7 +28,6 @@ struct ArtView: View {
     @State var data:ArtData
     @EnvironmentObject var mainStates:AppStates
     @Binding var showArt:Bool
-    @Binding var minY:CGFloat
     @StateObject var viewStates:ArtViewStates = .init()
     @Namespace var animation
     @State var mainTab:Int = 0
@@ -27,24 +36,16 @@ struct ArtView: View {
     @State var tabData:[(heading:String,detail:String,key:String?)]? = nil
     @State var showInfoCard:Bool = false
     @State var viewAR:Bool = false
-    
-    var onChanged:((DragGesture.Value) -> ())?
-    var onEnded:((DragGesture.Value) -> ())?
+	
     var tabs:[String] = ["Introduction","Top Features","Top Facts"]
-    init(data:ArtData,showArt : Binding<Bool> = .constant(false),minY:Binding<CGFloat>? = nil,onChanged:((DragGesture.Value) -> Void)? = nil,onEnded:((DragGesture.Value) -> Void)? = nil){
+    init(data:ArtData,showArt : Binding<Bool> = .constant(false)){
         self._data = State(initialValue: data)
         self._showArt = showArt
-        self._minY = minY ?? .constant(0)
-        self.onChanged = onChanged
-        self.onEnded = onEnded
     }
     
     //MARK: - Header
     var header:some View{
         HStack{
-//            TabBarButtons(bindingState: $showArt)
-
-            
             if self.viewStates.inspect{
                 SystemButton(b_name: "xmark", b_content: "",color: .black,bgcolor: .white) {
                     self.viewStates.inspect.toggle()
@@ -56,10 +57,7 @@ struct ArtView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .onTapGesture(perform: self.updateArtData)
                 Spacer()
-                
-                
             }
-            
         }
     }
     
@@ -210,24 +208,19 @@ struct ArtView: View {
     }
 
     //MARK: - SceneView
-    func sceneView(w:CGFloat,h:CGFloat) -> AnyView?{
-        var view:AnyView? = nil
+    @ViewBuilder func sceneView(w: CGFloat, h: CGFloat) -> some View {
         let radius = self.viewStates.inspect ? 0 : 15
         if let model_url  = self.data.model_url{
-            view =  AnyView(SceneModelView(w: w, h: h, name: self.name, model_url_str: model_url, player: nil, handler: self.updateAfterSceneInteraction(name:vector:))
+         SceneModelView(w: w, h: h, name: self.name, model_url_str: model_url, player: nil, handler: self.updateAfterSceneInteraction(name:vector:))
                 .environmentObject(viewStates)
                 .background(BlurView(style: .dark))
-                .animation(.easeInOut)
-                .clipShape(Corners(rect: .bottomRight,size: .init(width: radius, height: radius))))
+                .clipShape(Corners(rect: .bottomRight,size: .init(width: radius, height: radius)))
         }else if let img = self.data.model_img{
-            view =  AnyView(SceneModelView(w: w, h: h, name: self.name, img_url_str: img, player: nil, handler: self.updateAfterSceneInteraction(name:vector:))
+            SceneModelView(w: w, h: h, name: self.name, img_url_str: img, player: nil, handler: self.updateAfterSceneInteraction(name:vector:))
                 .environmentObject(viewStates)
                 .background(BlurView(style: .dark))
-                .animation(.easeInOut)
-                .clipShape(Corners(rect: .bottomRight,size: .init(width: radius, height: radius))))
+                .clipShape(Corners(rect: .bottomRight,size: .init(width: radius, height: radius)))
         }
-        return view
-        
     }
     
     func addAnnotationButton(w:CGFloat,h:CGFloat) -> some View{
@@ -316,77 +309,50 @@ struct ArtView: View {
     
     func mainBody(w:CGFloat,h:CGFloat) -> some View{
         ZStack(alignment: .center){
-            Color.black
             self.mainScene(w: totalWidth, h: totalHeight)
             if !self.viewStates.inspect{
+				lightbottomShadow
+					.fillFrame()
                 VStack(alignment: .leading, spacing: 10){
-                    Spacer()
-                    Text("AR Tour")
-                        .font(.system(size: 45, weight: .bold, design: .serif))
-                        .foregroundColor(.white)
-                        .padding(.vertical)
+					"AR Experience"
+						.normal(size: 45, color: .white)
+						.text
                     SystemButton(b_name: "cube", b_content: "View",color: .black,bgcolor: .white) {
                         DispatchQueue.main.async {
                             self.viewStates.inspect = true
                         }
                     }
                 }.padding(20)
-                .frame(width: totalWidth, height: totalHeight, alignment: .leading)
-                .background(Color.black.aspectRatio(contentMode: .fill).opacity(0.5))
-                .gesture(DragGesture()
-                            .onChanged(self.onChanged ?? {_ in})
-                            .onEnded(self.onEnded ?? {_ in})
-                )
+				.fillFrame(alignment: .bottomLeading)
             }
             
-            if self.viewAR{
-                ARMainView(name: self.name, model_url: self.data.model_url, img_url: self.data.model_img, show: $viewAR)
-//                ARMainView(name: self.name, url: self.data.model_url ?? "", show: $viewAR)
-                    .environmentObject(viewStates)
-            }
-            
-        }.frame(width: w, height: h, alignment: .center)
+        }
+		.framed(size: .init(width: .totalWidth, height: .totalHeight), cornerRadius: 0, alignment: .center)
+		.fullScreenModal(isActive: $viewAR, config: .init(isDraggable: true, showCloseIndicator: true)) {
+			ARMainView(name: self.name, model_url: self.data.model_url, img_url: self.data.model_img, show: $viewAR)
+				.environmentObject(viewStates)
+		}
+		.scrollToggle(state: !viewStates.inspect)
     }
     
     var body: some View {
-        GeometryReader { g -> AnyView in
-            let w = g.frame(in: .local).width
-            let h = g.frame(in: .local).height
-            let minY = g.frame(in: .global).minY
-            
-            DispatchQueue.main.async {
-                self.minY = minY
-//                if self.
-                if minY == 0 && self.viewStates.infoEmpty{
-                    self.onAppear()
-                }
-            }
-            return AnyView (
-                self.mainBody(w: w, h: h)
-            )
-            
-        }
-        .frame(width: totalWidth, height: totalHeight, alignment: .center)
-        .background(Color.white)
-//        .onAppear(perform: self.onAppear)
-        .onDisappear(perform: {
-            if !self.mainStates.showTab && self.mainStates.tab != "attractions"{
-                self.mainStates.showTab = true
-            }
-            
-        })
-        .onChange(of: self.viewStates.selectedAnnotation, perform: { annotation in
-            if self.showInfoCard{
-                self.showInfoCard.toggle()
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
-                self.showInfoCard.toggle()
-            }
-        })
-//        .onChange(of: self.playerObj.videoState, perform: self.playerObj.updateVideoState(state:))
-        .animation(.easeInOut)
-        
+		mainBody(w: .totalWidth, h: .totalHeight)
+			.frame(width: totalWidth, height: totalHeight, alignment: .center)
+			.background(Color.white)
+			.onDisappear(perform: {
+				if !self.mainStates.showTab && self.mainStates.tab != "attractions"{
+					self.mainStates.showTab = true
+				}
+			})
+			.onChange(of: self.viewStates.selectedAnnotation, perform: { annotation in
+				if self.showInfoCard{
+					self.showInfoCard.toggle()
+				}
+				
+				DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+					self.showInfoCard.toggle()
+				}
+			})
     }
 }
 

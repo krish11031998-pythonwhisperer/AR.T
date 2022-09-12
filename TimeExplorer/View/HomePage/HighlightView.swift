@@ -18,7 +18,7 @@ struct HighlightView: View {
     var body: some View {
 		SlideOverCarousel(data: data, config: .withTimer){ viewData in
 			if let artData = viewData as? AVSData {
-				AuctionCard(data: artData, styling: .rounded(14), size: .init(width: .totalWidth - 10, height: 275))
+				AuctionCard(data: artData, styling: .rounded(14), size: .init(width: .totalWidth - 10, height: 350))
 			} else {
 				Color.brown
 			}

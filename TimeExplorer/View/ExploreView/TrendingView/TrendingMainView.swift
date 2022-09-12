@@ -165,11 +165,11 @@ struct TrendingMainView: View {
             Color.black
             if !self.data.isEmpty && !self.mainStates.loading{
                 self.ContentScroll(w: totalWidth, h: totalHeight)
-                if let data = self.currentCard.data as? ArtData,self.showArt{
-                    ArtScrollMainView(data: data,showArt: $showArt)
-                        .environmentObject(self.mainStates)
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
-                }
+//                if let data = self.currentCard.data as? ArtData,self.showArt{
+//                    ArtScrollMainView(data: data,showArt: $showArt)
+//                        .environmentObject(self.mainStates)
+//                        .transition(.move(edge: .bottom).combined(with: .opacity))
+//                }
             }
         }
         .frame(width: totalWidth, height: totalHeight, alignment: .top)
@@ -179,6 +179,16 @@ struct TrendingMainView: View {
         .onChange(of: self.SP.swiped, perform: { swiped in
             print("swiped : \(swiped)")
         })
+		.fullScreenModal(isActive: $showArt, config: .init(isDraggable: true, showCloseIndicator: true), innerContent: {
+			if let data = self.currentCard.data as? ArtData,self.showArt{
+				ArtScrollMainView(data: data,showArt: $showArt)
+					.environmentObject(self.mainStates)
+//					.transition(.move(edge: .bottom).combined(with: .opacity))
+			} else {
+				Color.black
+					.framed(size: .init(width: .totalWidth, height: .totalHeight), cornerRadius: 0, alignment: .center)
+			}
+		})
         .navigationTitle("")
         .navigationBarHidden(true)
     }

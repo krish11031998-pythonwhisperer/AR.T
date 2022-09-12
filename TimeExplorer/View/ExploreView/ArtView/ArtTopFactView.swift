@@ -17,8 +17,6 @@ struct ArtTopFactView: View {
     var ver_onEnded:(DragGesture.Value) -> Void
 //    @State var changeFocus:Bool = false
 //    let no_cards:Int = 4
-
-    
     
     var mainBody:some View{
         HStack(alignment: .center, spacing: 0) {

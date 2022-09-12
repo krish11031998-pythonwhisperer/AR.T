@@ -115,7 +115,5 @@ struct SceneModelView: View {
         .frame(width: w, height: h, alignment: .center)
 //        .onAppear(perform: self.onAppear)
         .onReceive(self.mdD.$url, perform: self.onReceive)
-        .animation(.easeInOut)
-        
     }
 }

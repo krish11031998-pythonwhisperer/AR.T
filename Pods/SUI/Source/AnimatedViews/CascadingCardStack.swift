@@ -31,7 +31,6 @@ fileprivate struct CascadingCard: ViewModifier {
 			.scaleEffect(scale)
 			.rotation3DEffect(-pivot, axis: (x: 0, y: 1, z: 0))
 			.zIndex(delta == 0 ? 1 : -delta.abs.double)
-			.opacity(delta == 0 ? 1 : 0.75)
 	}
 }
 
@@ -48,14 +47,17 @@ public struct CascadingCardStack<Content: View>: View {
 	@State var currentIdx: Int
 	@State var offset: CGFloat = .zero
 	@State var off: CGFloat = .zero
-	
-	
+
 	let data: [Any]
-	let viewBuilder: (Any) -> Content
+	let viewBuilder: (Any,Bool) -> Content
 	let offFactor: CGFloat
 	let pivotFactor: CGFloat
 	
-	public init(data: [Any], offFactor: CGFloat = 50, pivotFactor: CGFloat = 10, @ViewBuilder viewBuilder: @escaping (Any) -> Content) {
+	public init(data: [Any],
+				offFactor: CGFloat = 50,
+				pivotFactor: CGFloat = 10,
+				@ViewBuilder viewBuilder: @escaping (Any,Bool) -> Content)
+	{
 		self.data = data
 		_currentIdx = .init(initialValue: Int(Double(data.count) * 0.5))
 		self.viewBuilder = viewBuilder
@@ -92,7 +94,7 @@ public struct CascadingCardStack<Content: View>: View {
 				let delta = data.offset - currentIdx
 				
 				if data.offset >= currentIdx - 3 &&  data.offset <= currentIdx + 3 {
-					viewBuilder(data.element)
+					viewBuilder(data.element, currentIdx == data.offset)
 						.cascadingCard(delta: delta, offFactor: offFactor, pivotFactor: pivotFactor)
 						.offset(x: data.offset == currentIdx ? off : 0)
 				}
@@ -107,7 +109,7 @@ public struct CascadingCardStack<Content: View>: View {
 fileprivate struct CascadingCardStack_Preview: PreviewProvider {
 	
 	static var previews: some View {
-		CascadingCardStack(data: [Color.red, Color.blue, Color.mint,Color.red, Color.blue]) { color in
+		CascadingCardStack(data: [Color.red, Color.blue, Color.mint,Color.red, Color.blue]) { color, isSelected in
 			RoundedRectangle(cornerRadius: 20)
 				.fill((color as? Color) ?? .red)
 				.frame(width: 200, height: 350)

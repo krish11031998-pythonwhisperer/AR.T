@@ -25,7 +25,7 @@ public struct HeaderSubHeadView: View {
 	}
 	
 	public var body: some View {
-		VStack(alignment: alignment.horizontal, spacing: 10) {
+		VStack(alignment: alignment.horizontal, spacing: spacing) {
 			title.text
 			if let validSubtitle = subTitle {
 				validSubtitle.text
@@ -52,7 +52,7 @@ public struct HeaderCaptionView: View {
 	}
 	
 	public var body: some View {
-		HStack(alignment: alignment.vertical, spacing: 10) {
+		HStack(alignment: alignment.vertical, spacing: spacing) {
 			title.styled(font: .boldSystemFont(ofSize: 15), color: .black).text
 			Spacer()
 			subTitle.styled(font: .systemFont(ofSize: 12, weight: .regular), color: .black).text

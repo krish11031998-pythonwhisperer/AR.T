@@ -18,10 +18,14 @@ struct TrendingArt: View {
     
     
     var body: some View {
-		CascadingCardStack(data: data, offFactor: .totalWidth * 0.25,pivotFactor: 5) { data in
+		CascadingCardStack(data: data, offFactor: .totalWidth * 0.25,pivotFactor: 5) { data, isSelected in
 			if let data = data as? AVSData {
-				SUI.ImageView(url: data.img)
-					.framed(size: cardSize, cornerRadius: 14, alignment: .center)
+				ZStack(alignment: .center) {
+					SUI.ImageView(url: data.img)
+					if !isSelected {
+						BlurView(style: .light)
+					}
+				}.framed(size: cardSize, cornerRadius: 14, alignment: .center)
 			} else {
 				Color.clear.frame(size: .zero)
 			}
