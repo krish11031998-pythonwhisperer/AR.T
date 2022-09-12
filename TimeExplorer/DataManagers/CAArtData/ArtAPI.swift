@@ -9,12 +9,12 @@ import SwiftUI
 import Foundation
 import Combine
 
-class CAAPI:ObservableObject{
+class ArtAPI:ObservableObject{
     @Published var artDatas:[CAData] = []
     @Published var artData:CAData? = nil
     var url = "https://openaccess-api.clevelandart.org/api/artworks/"
     var cancellable = Set<AnyCancellable>()
-    static let shared = CAAPI()
+    static let shared = ArtAPI()
     
     init(limit:Int? = nil ,department:String?=nil,type:String?=nil,skip:Int? = nil){
         guard let limit = limit, let dpt = department, let type = type, let skip = skip else {return}

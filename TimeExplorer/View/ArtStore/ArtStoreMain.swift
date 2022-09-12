@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftUICharts
+import SUI
 
 let asm = AVSData(img: test.thumbnail, title: test.title, subtitle: test.painterName, data: test as Any)
 
@@ -19,7 +20,7 @@ enum BlobIcons:String{
 
 struct ArtStoreMain: View {
     @EnvironmentObject var mainStates:AppStates
-    @StateObject var ArtAPI:CAAPI = .init()
+    @StateObject var ArtAPI:ArtAPI = .init()
     @State var posts:[AVSData] = []
     func ValueBlob(info:(String,String),color:Color,size:CGSize,font_size:(CGFloat,CGFloat) = (18,28),percent:(Int,Int)? = nil,img_name:BlobIcons = .btc) -> some View{
         let (heading,value) = info
@@ -93,7 +94,10 @@ struct ArtStoreMain: View {
             if !self.posts.isEmpty && !self.mainStates.loading{
                 AuctionArtView(data: self.posts)
             }
-        }.onAppear(perform: self.onAppear)
+        }
+		.frame(size: .init(width: .totalWidth, height: .totalHeight))
+		.edgesIgnoringSafeArea(.all)
+		.onAppear(perform: self.onAppear)
         .onReceive(self.mainStates.TabAPI[self.mainStates.tab]!.$artDatas, perform: self.parseData)
         
     }

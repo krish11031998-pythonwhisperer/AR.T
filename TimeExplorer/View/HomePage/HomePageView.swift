@@ -20,7 +20,7 @@ private enum HomeSection: String {
 
 struct HomePageView: View {
     @EnvironmentObject var mainStates:AppStates
-    @StateObject var CAPI:CAAPI = .init()
+    @StateObject var CAPI:ArtAPI = .init()
     @Namespace var animation
     @State var chosenSection:String = ""
     @State var showSection:Bool = false

@@ -18,9 +18,9 @@ class AppStates:ObservableObject{
     @Published var tab:String = "home"
     @Published var showTab:Bool = true
     @Published var userAcc:Account = .init()
-    @Published var CAAPI:CAAPI = .init()
-    @Published var AAPI:ArtAPI = .init()
-    @Published var TabAPI:[String:CAAPI] = ["home":.init(),"blogs":.init(),"feed":.init(),"attractions":.init(),"profile":.init()]
+    @Published var CAAPI:ArtAPI = .init()
+    @Published var AAPI:FirebaseArtAPI = .init()
+    @Published var TabAPI:[String:ArtAPI] = ["home":.init(),"blogs":.init(),"feed":.init(),"attractions":.init(),"profile":.init()]
     var imageQuality:JPEGQuality = .medium
     var testMode:Bool = false
     var uniqueTabs = ["attractions"]

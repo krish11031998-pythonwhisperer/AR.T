@@ -98,7 +98,6 @@ struct ArtView: View {
         return FactCard(q: cardDetails?.heading ?? "no Question", ans: cardDetails?.detail ?? "no Detail", width: w, height: h * (video != nil ? 1.5 : 1),vid_url: video)
             .transition(.move(edge: .bottom).combined(with: .opacity))
             .animation(.easeInOut)
-        
     }
     
     //MARK: - updateStates

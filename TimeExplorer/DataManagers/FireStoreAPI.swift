@@ -176,20 +176,16 @@ class FirebaseAPI{
     
     func paginationQuery(user:String,lastDoc:QueryDocumentSnapshot? = nil,completion : @escaping ((QuerySnapshot?,Error?) -> Void)){
         let db = Firestore.firestore()
+		var query: Query = db.collection(self.collectionName)
+								.whereField("user", isEqualTo: user)
+								.order(by: "date",descending: true)
+								.limit(to: 10)
         if let lastDoc = lastDoc{
-            db.collection(self.collectionName)
-                .whereField("user", isEqualTo: user)
-                .order(by: "date",descending: true)
-                .start(afterDocument: lastDoc)
-                .limit(to: 10)
-                .addSnapshotListener(completion)
-        }else{
-            db.collection(self.collectionName)
-                .whereField("user", isEqualTo: user)
-                .order(by: "date",descending: true)
-                .limit(to: 10)
-                .addSnapshotListener(completion)
+			query = query
+				.start(afterDocument: lastDoc)
         }
+		
+		query.addSnapshotListener(completion)
     }
     
     
@@ -197,17 +193,14 @@ class FirebaseAPI{
     func getTopItems(limit:Int = 4,collectionName:String? = nil,completion: @escaping ((QuerySnapshot?,Error?) -> Void)){
         let db = Firestore.firestore()
         let collectionName = collectionName ?? self.collectionName
-        if limit < 0{
-            db.collection(collectionName)
-                .order(by: "date",descending: true)
-                .addSnapshotListener(completion)
-            
-        }else{
-            db.collection(collectionName)
-                .limit(to:limit)
-                .order(by: "date",descending: true)
-                .addSnapshotListener(completion)
+		var query: Query = db.collection(collectionName)
+							 .order(by: "date",descending: true)
+			
+		if limit > 0 {
+			query = query.limit(to:limit)
         }
+	
+		query.addSnapshotListener(completion)
     }
     
     func updateDocument(_ id:String, _ data:[String:Any]){
@@ -222,14 +215,14 @@ class FirebaseAPI{
     
 }
 
-class ArtAPI:FirebaseAPI,ObservableObject{
+class FirebaseArtAPI:FirebaseAPI,ObservableObject{
     
     @Published var arts:[ArtData] = []
     @EnvironmentObject var mainStates:AppStates
     @Published var lastDoc:QueryDocumentSnapshot? = nil
     var artSet:Set<ArtData> = .init()
     
-    static var shared:ArtAPI = .init()
+    static var shared:FirebaseArtAPI = .init()
     
     init(){
         super.init(collectionName: "paintings")

@@ -177,7 +177,7 @@ extension UIImage{
     
     static func dimension(name:String? = nil,img:UIImage? = nil) -> (width:CGFloat,height:CGFloat){
         var res:(width:CGFloat,height:CGFloat) = (width:0,height:0)
-        if let safeImg = name != nil ? UIImage(named: name!) : img, let cgImage = safeImg.cgImage{
+        if let safeImg = UIImage(named: name ?? "") ?? img, let cgImage = safeImg.cgImage{
             res.height = CGFloat(cgImage.height)
             res.width = CGFloat(cgImage.width)
         }
@@ -193,8 +193,6 @@ extension UIImage{
         let maxHeight = ARatio * maxWidth
         let compressedQuality: CGFloat = 0.75
         
-        _ = dimensions.width <= maxWidth ? 0 : dimensions.width - maxWidth
-        _ = dimensions.height <= maxHeight ? 0 : dimensions.height - maxHeight
         let rect : CGRect = .init(x: 0, y: 0, width: maxWidth, height: maxHeight)
         UIGraphicsBeginImageContext(rect.size)
         image.draw(in: rect)
