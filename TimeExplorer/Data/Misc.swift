@@ -43,3 +43,13 @@ extension CGRect{
 	}
 	
 }
+
+enum ViewFrameType{
+	case like
+	case play
+	case pause
+	case forward
+	case backward
+	case idle
+//    case videoControl
+}
