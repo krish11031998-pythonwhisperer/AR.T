@@ -10,7 +10,6 @@ import SUI
 
 struct HomePageView: View {
     @EnvironmentObject var mainStates:AppStates
-//    @StateObject var CAPI:ArtAPI = .init()
 	@StateObject var viewModel = HomeViewModel()
     
     func header(dim:CGSize) -> some View{
@@ -82,7 +81,6 @@ struct HomePageView: View {
 				} else {
 					Color.clear.frame(size: .zero)
 				}
-				
 			}
 		}
 		.background(Color.black)
