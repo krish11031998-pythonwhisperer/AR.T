@@ -26,29 +26,30 @@ class CADim:Codable{
 }
 
 class CAData:Codable{
-    var id:Int?
-    var accession_number:String?
-    var share_license_status:String?
-    var tombstone:String?
-    var title:String?
-    var title_in_original_language:String?
-    var series:String?
-    var series_in_original_language:String?
-    var creation_date:String?
-    var creation_date_earliest:Int?
-    var creation_date_latest:Int?
-    var creators:[CACreators]?
-    var culture:[String]?
-    var technique:String?
-    var department:String?
-    var collection:String?
-    var type:String?
-    var measurements:String?
-    var dimensions:CADim?
-    var images:CAImages?
-    var wall_description:String?
-    var url:String?
-    var fun_fact:String?
+    let id:Int?
+    let accession_number:String?
+    let share_license_status:String?
+    let tombstone:String?
+    let title:String?
+    let title_in_original_language:String?
+    let series:String?
+    let series_in_original_language:String?
+    let creation_date:String?
+    let creation_date_earliest:Int?
+    let creation_date_latest:Int?
+    let creators:[CACreators]?
+    let culture:[String]?
+    let technique:String?
+    let department:String?
+    let collection:String?
+    let type:String?
+    let measurements:String?
+    let dimensions:CADim?
+    let images:CAImages?
+    let wall_description:String?
+	let digital_description: String?
+    let url:String?
+    let fun_fact:String?
     
     
     var artistName:String?{

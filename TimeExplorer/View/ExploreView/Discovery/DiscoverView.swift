@@ -92,6 +92,7 @@ struct DiscoverView: View {
 		.fullScreenModal(isActive: $showArt, config: .init(isDraggable: false, showCloseIndicator: true)) {
 			selectedArtView
 		}
+		.navigationBarHidden(true)
 
     }
 }

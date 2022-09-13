@@ -99,7 +99,7 @@ struct ArtStoreMain: View {
 		.edgesIgnoringSafeArea(.all)
 		.onAppear(perform: self.onAppear)
         .onReceive(self.mainStates.TabAPI[self.mainStates.tab]!.$artDatas, perform: self.parseData)
-        
+		.navigationBarHidden(true)
     }
 }
 

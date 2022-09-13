@@ -5,11 +5,21 @@
 [![License](https://img.shields.io/cocoapods/l/SUI.svg?style=flat)](https://cocoapods.org/pods/SUI)
 [![Platform](https://img.shields.io/cocoapods/p/SUI.svg?style=flat)](https://cocoapods.org/pods/SUI)
 
+## SUI: SwiftUI StyleUI
+
+Its a simple, easy to use , easy to integrate and configure library that you can use in your SwiftUI apps for UI development. From Buttons to Collections, here you can/will find new views that you can utilize in your project !
+
+Pls use and it and let me know what you think of it !!
+Any feedback is more that appreciated !
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ## Requirements
+
+Deployment Target : iOS 15.0
+
 
 ## Installation
 
@@ -22,7 +32,7 @@ pod 'SUI'
 
 ## Author
 
-56647167, krishna@rain.bh
+krish11031998-pythonwhisperer, Krishna Venkatramani
 
 ## License
 

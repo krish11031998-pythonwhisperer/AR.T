@@ -10,9 +10,10 @@ import Foundation
 import Combine
 
 class ArtAPI:ObservableObject{
+	
     @Published var artDatas:[CAData] = []
-    @Published var artData:CAData? = nil
     var url = "https://openaccess-api.clevelandart.org/api/artworks/"
+	
     var cancellable = Set<AnyCancellable>()
     static let shared = ArtAPI()
     
@@ -28,24 +29,6 @@ class ArtAPI:ObservableObject{
             throw URLError(.badServerResponse)
         }
         return data
-    }
-    
-    
-    func parseSingleData(data:Data){
-        let decoder = JSONDecoder()
-        var res:CAResultSingle? = nil
-        do{
-            res = try decoder.decode(CAResultSingle.self, from: data)
-        }catch{
-            print("There was an error while trying to decoding CAResult : \(error.localizedDescription)")
-        }
-        
-        if let safeRes = res, let safeData = safeRes.data{
-            DispatchQueue.main.async {
-                self.artData = safeData
-            }
-            
-        }
     }
     
     
@@ -65,10 +48,8 @@ class ArtAPI:ObservableObject{
         }
     }
     
-    func parseData(data:Data,type:String){
+    func parseData(data: Data,type: String){
         switch type{
-            case "single":
-                self.parseSingleData(data: data)
             case "batch":
                 self.parseBatchData(data: data)
             default:
@@ -77,7 +58,7 @@ class ArtAPI:ObservableObject{
     }
     
     
-    func getBatchArt(limit:Int = 50,department:String?=nil,type:String?=nil,skip:Int? = nil){
+    func getBatchArt(limit:Int = 50,department: String?=nil,type: String?=nil,skip: Int? = nil){
         url += "?"
         
         
@@ -108,7 +89,7 @@ class ArtAPI:ObservableObject{
     }
     
     
-    func getArt(id:String = "1922.1133"){
+    func getArt(id: String = "1922.1133"){
         url += "\(id)?indent=1"
         guard let url = URL(string: url) else {return}
         URLSession.shared.dataTaskPublisher(for: url)
@@ -119,9 +100,7 @@ class ArtAPI:ObservableObject{
                 self?.parseData(data: data, type: "single")
             }
             .store(in: &cancellable)
-
-            
-    }
+	}
 }
 
 

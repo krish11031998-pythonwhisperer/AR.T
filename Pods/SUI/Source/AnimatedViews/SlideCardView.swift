@@ -13,45 +13,24 @@ public struct SlideCardView<Content: View>: View {
 	
 	let data:[Any]
 	let viewBuilder: (Any,Bool) -> Content
-	let spacing: CGFloat
 	let leading: Bool
 	let size: CGSize
+	let action: ((Any) -> Void)?
 	
 	@State var selected: Int = .zero
 	@State var swipeOffset: CGFloat = .zero
 	
-	public init(data: [Any], itemSize: CGSize, spacing: CGFloat, leading: Bool = false, @ViewBuilder viewBuilder: @escaping (Any,Bool) -> Content) {
+	public init(data: [Any],
+				itemSize: CGSize,
+				leading: Bool = false,
+				action: ((Any) -> Void)? = nil,
+				@ViewBuilder viewBuilder: @escaping (Any,Bool) -> Content) {
 		self.data = data
-		self.spacing = spacing
+		self.action = action
 		self.viewBuilder = viewBuilder
 		self.leading = leading
 		self.size = itemSize
 	}
-	
-	private var backButton: some View {
-		ZStack(alignment: .leading) {
-			HStack(alignment: .center, spacing: 5) {
-				Image(systemName: "arrow.left")
-					.resizable()
-					.scaledToFit()
-					.frame(width: 12.5, height: 12.5, alignment: .center)
-					.foregroundColor(.white)
-					.padding(5)
-					.background(Color.black)
-					.clipShape(Circle())
-				"Back".text
-			}.frame(alignment: .leading)
-		}
-		.frame(size: size)
-		.background(Color.blue.blur(radius: 1))
-		.clipShape(RoundedRectangle(cornerRadius: 20))
-		.onTapGesture {
-			asyncMainAnimation(animation: .easeInOut) {
-				selected = .zero
-			}
-		}
-	}
-	
 	
 	private var offset: CGFloat {
 		-(selected.cgFloat).boundedTo(higher: 2) * size.width
@@ -81,25 +60,33 @@ public struct SlideCardView<Content: View>: View {
 		}
 	}
 
-	private var dragGesture: _EndedGesture<_ChangedGesture<DragGesture>> {
+	
+	private var dragGesture: some Gesture{
 		DragGesture().onChanged(onChanged(_:)).onEnded(onEnded(_:))
 	}
 	
+	private func tapGesture(idx: Int) -> some Gesture {
+		TapGesture().onEnded { _ in
+			if idx == selected {
+				action?(idx)
+			} else {
+				asyncMainAnimation {
+					self.selected = idx
+				}
+			}
+		}
+	}
+	
 	public var body: some View {
-		HStack(alignment: .center, spacing: spacing) {
+		HStack(alignment: .center) {
 			Spacer().frame(size: .init(width: leading ? 0 : (.totalWidth - size.width).half, height: 10))
 			ForEach(Array(data.enumerated()), id: \.offset) { data in
 				if data.offset >= selected - 2 && data.offset <= selected + 2 {
 					viewBuilder(data.element,data.offset == selected)
 						.scaleEffect(selected == data.offset ? 1 : 0.85)
-						.gesture(dragGesture.simultaneously(with: TapGesture().onEnded{ _ in
-							asyncMainAnimation {
-								self.selected = data.offset
-							}
-						}))
+						.gesture(dragGesture.simultaneously(with: tapGesture(idx: data.offset)))
 				}
 			}
-			if leading { backButton.scaleEffect(0.85) }
 			Spacer().frame(size: .init(width: (.totalWidth - size.width).half, height: 10))
 		}
 		.offset(x: offset + swipeOffset)
@@ -109,9 +96,15 @@ public struct SlideCardView<Content: View>: View {
 
 fileprivate struct SlideCardView_Preview: PreviewProvider {
 	
+	static var data: [Any] { [Color.red, Color.blue, Color.mint,Color.red, Color.blue,Color.red, Color.blue, Color.mint,Color.red, Color.blue] }
+	
+	static func action(idx: Any) {
+		print("(DEBUG) clicked on: ",idx)
+	}
+	
 	static var previews: some View {
 		ZStack(alignment: .center) {
-			SlideCardView(data: [Color.red, Color.blue, Color.mint,Color.red, Color.blue,Color.red, Color.blue, Color.mint,Color.red, Color.blue], itemSize: .init(width: 200, height: 200), spacing: 0, leading: false) { color,isSelected in
+			SlideCardView(data: Self.data, itemSize: .init(width: 200, height: 200), leading: false, action: Self.action(idx:)) { color,isSelected in
 				RoundedRectangle(cornerRadius: 20)
 					.fill((color as? Color) ?? .red)
 					.frame(width: 200, height: 200)

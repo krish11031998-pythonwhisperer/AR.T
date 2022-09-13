@@ -52,10 +52,12 @@ public struct CascadingCardStack<Content: View>: View {
 	let viewBuilder: (Any,Bool) -> Content
 	let offFactor: CGFloat
 	let pivotFactor: CGFloat
+	let action: ((Any) -> Void)?
 	
 	public init(data: [Any],
 				offFactor: CGFloat = 50,
 				pivotFactor: CGFloat = 10,
+				action: ((Any) -> Void)? = nil,
 				@ViewBuilder viewBuilder: @escaping (Any,Bool) -> Content)
 	{
 		self.data = data
@@ -63,6 +65,7 @@ public struct CascadingCardStack<Content: View>: View {
 		self.viewBuilder = viewBuilder
 		self.offFactor = offFactor
 		self.pivotFactor = pivotFactor
+		self.action = action
 	}
 	
 	private func change(_ value: DragGesture.Value) {
@@ -87,6 +90,19 @@ public struct CascadingCardStack<Content: View>: View {
 		DragGesture().onChanged(change(_:)).onEnded(end(_:))
 	}
 	
+	private func tapGesture(idx: Int) -> some Gesture {
+		TapGesture().onEnded { _ in
+			if idx == currentIdx {
+				action?(currentIdx)
+			} else {
+				asyncMainAnimation {
+					self.currentIdx = idx
+				}
+			}
+			
+		}
+	}
+	
 	public var body: some View {
 		ZStack(alignment: .center) {
 			ForEach(Array(data.enumerated()), id: \.offset) { data in
@@ -97,10 +113,10 @@ public struct CascadingCardStack<Content: View>: View {
 					viewBuilder(data.element, currentIdx == data.offset)
 						.cascadingCard(delta: delta, offFactor: offFactor, pivotFactor: pivotFactor)
 						.offset(x: data.offset == currentIdx ? off : 0)
+						.gesture(dragGesture.simultaneously(with: tapGesture(idx: data.offset)))
 				}
 			}
 		}
-		.gesture(dragGesture)
 		.frame(width: .totalWidth)
 	}
 }

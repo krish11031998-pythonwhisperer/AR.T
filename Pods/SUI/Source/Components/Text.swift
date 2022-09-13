@@ -8,6 +8,12 @@
 import Foundation
 import SwiftUI
 
+//MARK: - Heading Type
+public enum HeadingType {
+	case headSubhead
+	case headCaption
+}
+
 //MARK: - Head SubHead View
 
 public struct HeaderSubHeadView: View {
@@ -15,9 +21,9 @@ public struct HeaderSubHeadView: View {
 	let title: RenderableText
 	let subTitle: RenderableText?
 	let spacing: CGFloat
-	let alignment: Alignment
+	let alignment: HorizontalAlignment
 	
-	public init(title: RenderableText, subTitle: RenderableText?, spacing: CGFloat = 10, alignment: Alignment = .leading) {
+	public init(title: RenderableText, subTitle: RenderableText?, spacing: CGFloat = 10, alignment: HorizontalAlignment = .leading) {
 		self.title = title
 		self.subTitle = subTitle
 		self.spacing = spacing
@@ -25,7 +31,7 @@ public struct HeaderSubHeadView: View {
 	}
 	
 	public var body: some View {
-		VStack(alignment: alignment.horizontal, spacing: spacing) {
+		VStack(alignment: alignment, spacing: spacing) {
 			title.text
 			if let validSubtitle = subTitle {
 				validSubtitle.text
@@ -39,12 +45,12 @@ public struct HeaderSubHeadView: View {
 
 public struct HeaderCaptionView: View {
 	
-	let title: String
-	let subTitle: String
+	let title: RenderableText
+	let subTitle: RenderableText?
 	let spacing: CGFloat
-	let alignment: Alignment
+	let alignment: VerticalAlignment
 	
-	public init(title: String, subTitle: String, spacing: CGFloat = 10, alignment: Alignment = .leading) {
+	public init(title: RenderableText, subTitle: RenderableText? = nil, spacing: CGFloat = 10, alignment: VerticalAlignment = .center) {
 		self.title = title
 		self.subTitle = subTitle
 		self.spacing = spacing
@@ -52,10 +58,13 @@ public struct HeaderCaptionView: View {
 	}
 	
 	public var body: some View {
-		HStack(alignment: alignment.vertical, spacing: spacing) {
-			title.styled(font: .boldSystemFont(ofSize: 15), color: .black).text
+		HStack(alignment: alignment, spacing: spacing) {
+			title.text
 			Spacer()
-			subTitle.styled(font: .systemFont(ofSize: 12, weight: .regular), color: .black).text
+			if let validSubTitle = subTitle {
+				validSubTitle.text
+			}
+			
 		}
 	}
 }

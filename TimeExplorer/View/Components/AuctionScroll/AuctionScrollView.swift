@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SUI
 
 struct AuctionArtView: View {
 	var data:[AVSData] = []
@@ -16,7 +17,7 @@ struct AuctionArtView: View {
 	
 	var body: some View {
 		ScrollView(.vertical, showsIndicators: false){
-			Spacer().frame(height: 50, alignment: .center)
+			Spacer().frame(height: .safeAreaInsets.top, alignment: .center)
 			self.auctionCardView
 			self.recentAdditions
 			Spacer().frame(height: 150)
@@ -33,9 +34,6 @@ extension AuctionArtView{
     var auctionCardView:some View{
         let data = self.data.count > 5 ? Array(self.data[10..<25] ): self.data
         return VStack(alignment: .center, spacing: 0) {
-            MainText(content: "Recent Bids", fontSize: 25, color: .white, fontWeight: .semibold)
-                .padding()
-                .frame(width: totalWidth, alignment: .leading)
             ForEach(Array(data.enumerated()),id:\.offset) { _data in
                 let data = _data.element
 				AuctionCard(data: data,
@@ -44,7 +42,8 @@ extension AuctionArtView{
 											  cardStyling: .rounded(14),
 											  cardSize:  .init(width: totalWidth, height: totalHeight * 0.75)))
             }
-        }.padding(.vertical)
+		}
+		.containerize(header: "Recent Bids".normal(size: 25).text.padding().fillWidth(alignment: .leading).anyView)
     }
     
     var recentAdditions:some View{

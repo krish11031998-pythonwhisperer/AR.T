@@ -9,11 +9,11 @@ import Foundation
 import SwiftUI
 
 public class NetworkRequest {
-	static var cache:NSCache<NSString,NSData> = .init()
+	public static var cache:NSCache<NSString,NSData> = .init()
 	
-	static var shared: NetworkRequest = .init()
+	public static var shared: NetworkRequest = .init()
 	
-	func loadData<T:Codable>(urlStr: String, completion: @escaping (Result<T,Error>) -> Void) {
+	public func loadData<T:Codable>(urlStr: String, completion: @escaping (Result<T,Error>) -> Void) {
 		if let validData = Self.cache.object(forKey: urlStr as NSString) as? Data {
 			completion(self.parseData(data: validData))
 		} else {
@@ -39,7 +39,7 @@ public class NetworkRequest {
 		}
 	}
 	
-	func parseData<T:Codable>(data: Data) -> Result<T,Error> {
+	private func parseData<T:Codable>(data: Data) -> Result<T,Error> {
 		let decoder = JSONDecoder()
 		do {
 			let data = try decoder.decode(T.self, from: data)

@@ -8,26 +8,10 @@
 import SwiftUI
 import SUI
 
-private enum HomeSection: String {
-	case highlight = "Hightlight of the Day"
-	case trending = "Trending"
-	case onRadar = "On Your Radar"
-	case recommended = "Recommended Bids"
-	case recent = "Recent"
-	case genre = "Genre"
-	case artists = "Artists"
-}
-
 struct HomePageView: View {
     @EnvironmentObject var mainStates:AppStates
-    @StateObject var CAPI:ArtAPI = .init()
-    @Namespace var animation
-    @State var chosenSection:String = ""
-    @State var showSection:Bool = false
-    @State var showArt:Bool = false
-    @State var posts:[AVSData] = []
-    let target_limit:Int = 100
-//    @State var loading:Bool = true
+//    @StateObject var CAPI:ArtAPI = .init()
+	@StateObject var viewModel = HomeViewModel()
     
     func header(dim:CGSize) -> some View{
             HStack(alignment: .center, spacing: 10) {
@@ -41,73 +25,78 @@ struct HomePageView: View {
             }.padding().frame(height: dim.height * 0.75, alignment: .center)
     }
     
-    func topPostAction(){
-        withAnimation(.easeInOut) {
-            self.showArt = true
-        }
-        
-    }
-
-    
-    func onAppear(){
-        if let data = self.mainStates.getArt(limit: target_limit){
-            self.parseData(data)
-        }
-    }
-    
-    func parseData(_ data:[CAData]?){
-        guard let data = data else {return}
-        if !data.isEmpty{
-            let _data = data.compactMap({$0.images?.web?.url != nil ? AVSData(img: $0.images?.web?.url, title: $0.title, data: $0) : nil})
-            DispatchQueue.main.async {
-                self.posts = _data
-                print("home page data : ",data.count)
-                withAnimation(.easeInOut) {
-                    self.mainStates.loading = false
-                }
-            }
-        }
-    }
+	var posts: [AVSData] {
+		viewModel.artworks
+	}
     
     @ViewBuilder private func subView(section: HomeSection) -> some View {
 		switch section {
 		case .highlight:
-			HighlightView(data: Array(self.posts[45..<50]))
+			HighlightView(data: Array(self.posts[45..<50]), art: $viewModel.selectedArt)
 		case .trending:
-			TrendingArt(data: Array(self.posts[1..<10]))
+			TrendingArt(data: Array(self.posts[0..<10]))
 		case .onRadar:
 			OnRadarArt(data: Array(self.posts[20..<30]))
 		case .recommended:
 			RecommendArt(attractions: Array(self.posts[30..<40]))
 		case .recent:
-			BidArt(data: Array(self.posts[30..<40]))
-		case .genre:
+			BidArt(data: Array(self.posts[50..<60]))
+		case .new:
 			GenreView(genreData: Array(self.posts[40..<45]))
 		case .artists:
 			artistArtView(data: Array(self.posts[60...]))
 		}
     }
 
-	private var sections: [HomeSection] = [.highlight, .trending, .onRadar, .recommended, .recent, .genre]
-    
+	private var sections: [HomeSection] = [.highlight, .trending, .onRadar, .recommended, .recent, .new]
+	
+	private func onAppear() {
+		if viewModel.artworks.isEmpty {
+			viewModel.loadData()
+		} else {
+			asyncMainAnimation {
+				mainStates.loading = false
+			}
+		}
+	}
+	
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false){
-			VStack(alignment: .center, spacing: 10) {
-				self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
-				if !self.posts.isEmpty {
-					ForEach(sections, id:\.rawValue) { section in
-						subView(section: section)
-							.containerize(header: section.rawValue.normal(size: 24).text.padding(5).fillWidth(alignment: .leading).anyView)
+		ZStack(alignment: .center) {
+			ScrollView(.vertical, showsIndicators: false){
+				LazyVStack(alignment: .center, spacing: 10) {
+					self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
+					if !self.posts.isEmpty {
+						ForEach(sections, id:\.rawValue) { section in
+							subView(section: section)
+								.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
+						}
 					}
 				}
+				.fixedWidth(width: .totalWidth)
+				.padding(.bottom, .safeAreaInsets.bottom + 100)
 			}
-			.fixedWidth(width: .totalWidth)
-			.padding(.bottom, .safeAreaInsets.bottom + 100)
-        }
-        .background(Color.black)
+			
+			NavLink(isActive: $viewModel.showArt) {
+				if let validSelectedArt = viewModel.selectedArt {
+					ArtScrollMainView(data: validSelectedArt, showArt: $viewModel.showArt)
+				} else {
+					Color.clear.frame(size: .zero)
+				}
+				
+			}
+		}
+		.background(Color.black)
         .edgesIgnoringSafeArea(.all)
-        .onAppear(perform: self.onAppear)
-        .onReceive(self.mainStates.TabAPI[self.mainStates.tab]!.$artDatas, perform: self.parseData)
+		.onAppear(perform: onAppear)
+		.onReceive(viewModel.$artworks) { output in
+			asyncMainAnimation(animation: .easeInOut) {
+				self.mainStates.loading = output.isEmpty
+			}
+		}
+		.onChange(of: viewModel.showArt) { newValue in
+			mainStates.showTab = !newValue
+		}
+		.navigationBarHidden(true)
     }
 }
 

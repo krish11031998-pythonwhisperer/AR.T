@@ -116,6 +116,8 @@
 		C3B796F7C0AADC51EA420CE3 /* Pods_TimeExplorer_TimeExplorerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6655C8DB5E8432C375F6F710 /* Pods_TimeExplorer_TimeExplorerUITests.framework */; };
 		C6F159552BE8EAE85855D645 /* Pods_TimeExplorer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48B7826299716B621E89AED8 /* Pods_TimeExplorer.framework */; };
 		EF45E59928CF066D0019E229 /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF45E59828CF066D0019E229 /* Misc.swift */; };
+		EFF96C8028D034E900A70550 /* CAArtAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF96C7F28D034E900A70550 /* CAArtAPI.swift */; };
+		EFF96C8428D097EE00A70550 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF96C8328D097EE00A70550 /* HomeViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -251,6 +253,8 @@
 		BCF4864C26277855001A28E9 /* FactCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactCard.swift; sourceTree = "<group>"; };
 		D21C6C833AA25BBD2A543CED /* Pods-TimeExplorer-TimeExplorerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TimeExplorer-TimeExplorerUITests.release.xcconfig"; path = "Target Support Files/Pods-TimeExplorer-TimeExplorerUITests/Pods-TimeExplorer-TimeExplorerUITests.release.xcconfig"; sourceTree = "<group>"; };
 		EF45E59828CF066D0019E229 /* Misc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
+		EFF96C7F28D034E900A70550 /* CAArtAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAArtAPI.swift; sourceTree = "<group>"; };
+		EFF96C8328D097EE00A70550 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -393,6 +397,7 @@
 				BC1FD16C2686137900177E1A /* ArtistView.swift */,
 				BCD7B08E26A983D3008E057D /* HighlightView.swift */,
 				BCD7B09526B407CD008E057D /* ArtistArtView.swift */,
+				EFF96C8328D097EE00A70550 /* HomeViewModel.swift */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -612,6 +617,7 @@
 			children = (
 				BCD7C7D726903BF000077D89 /* ArtAPI.swift */,
 				BCD7C7D826903BF000077D89 /* CAData.swift */,
+				EFF96C7F28D034E900A70550 /* CAArtAPI.swift */,
 			);
 			path = CAArtData;
 			sourceTree = "<group>";
@@ -988,6 +994,7 @@
 				BC2B4376258C7D3500854668 /* VideoHelper.swift in Sources */,
 				BC37DE382514DE2C000BC15E /* Constants.swift in Sources */,
 				BCAFD4C22514C5170072F161 /* TimeExplorerApp.swift in Sources */,
+				EFF96C8028D034E900A70550 /* CAArtAPI.swift in Sources */,
 				BC7D02372645DF12002D2E9D /* ArtIntroMainView.swift in Sources */,
 				BC645DDD2595124A0054F2FE /* MessageData.swift in Sources */,
 				BC37DE4F2516041F000BC15E /* TabBarView.swift in Sources */,
@@ -1006,6 +1013,7 @@
 				BC9F13E52580A37E00F5BE45 /* StringHelper.swift in Sources */,
 				BC5AFFF825FA3D0100A9E202 /* TrendingCard.swift in Sources */,
 				BCD7C7FA2690955500077D89 /* WeekBarChart.swift in Sources */,
+				EFF96C8428D097EE00A70550 /* HomeViewModel.swift in Sources */,
 				BC618C6325A9F3C000377140 /* YoutubePlayerHelper.swift in Sources */,
 				BCAFD4FC2514C7020072F161 /* Stylings.swift in Sources */,
 				BCA038C72579319E00C6713C /* ImageHelper.swift in Sources */,

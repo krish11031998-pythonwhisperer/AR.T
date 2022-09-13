@@ -57,13 +57,12 @@ struct PortfolioMainView: View {
         ScrollView(.vertical, showsIndicators: false){
             if !self.paintings.isEmpty{
 				artScrollView
-					.containerize(header: "On View".normal(size: 35).text.padding(10).fillWidth(alignment: .leading).anyView)
+					.containerize(title: "On View".normal(size: 35), alignment: .leading)
 				PinterestScroll(data: Array(self.paintings[5...15]), equalSize: false)
 					.containerize(header: "Items".normal(size: 25).text.padding(.horizontal,10).fillWidth(alignment: .leading).anyView)
             }else{
                 MainText(content: self.loadingText, fontSize: 25)
             }
-            
         }
 		.padding(.top, .safeAreaInsets.top)
         .frame(width: totalWidth, alignment: .leading)
@@ -71,7 +70,7 @@ struct PortfolioMainView: View {
         .edgesIgnoringSafeArea(.all)
         .onAppear(perform: self.onAppear)
         .onReceive(self.mainStates.TabAPI[self.mainStates.tab]!.$artDatas, perform: self.parseData)
-        
+		.navigationBarHidden(true)
     }
 }
 
@@ -81,7 +80,7 @@ extension PortfolioMainView{
 	var cardSize: CGSize { .init(width: 200, height: 300) }
 	
     var artScrollView:some View{
-		SlideCardView(data: Array(paintings[0..<5]), itemSize: .init(width: 200, height: 300), spacing: 0, leading: true) { data, isSelected in
+		SlideCardView(data: Array(paintings[0..<5]), itemSize: .init(width: 200, height: 300), leading: true) { data, isSelected in
 			if let avData = data as? AVSData {
 				AuctionCard(data: avData,
 							cardConfig: .init(bids: nil,

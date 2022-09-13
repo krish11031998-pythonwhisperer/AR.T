@@ -46,11 +46,23 @@ public extension String {
 		styled(font: .systemFont(ofSize: 15, weight: .semibold), color: color)
 	}
 	
+	func systemHeading2(color: Color = .black) -> RenderableText {
+		styled(font: .systemFont(ofSize: 13, weight: .semibold), color: color)
+	}
+	
 	func systemSubHeading(color: Color = .black) -> RenderableText {
-		styled(font: .systemFont(ofSize: 13, weight: .regular),color: color)
+		styled(font: .systemFont(ofSize: 12, weight: .regular),color: color)
 	}
 	
 	func systemBody(color: Color = .black) -> RenderableText {
 		styled(font: .systemFont(ofSize: 12, weight: .regular),color: color)
+	}
+	
+	func sectionHeader(color: Color = .black) -> RenderableText {
+		styled(font: .systemFont(ofSize: 25, weight: .semibold), color: color)
+	}
+	
+	func sectionSubHeading(color: Color = .black) -> RenderableText {
+		styled(font: .systemFont(ofSize: 17.5, weight: .regular), color: color)
 	}
 }

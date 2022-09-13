@@ -25,7 +25,7 @@ struct RecommendArt: View {
     let cardSize:CGSize = .init(width: 235, height: 350)
 
     var body: some View{
-		SlideCardView(data: data, itemSize: cardSize, spacing: 0, leading: false) { data, selected in
+		SlideCardView(data: data, itemSize: cardSize, leading: false) { data, selected in
 			if let data = data as? AVSData {
 				ZStack(alignment: .bottom) {
 					SUI.ImageView(url: data.img)

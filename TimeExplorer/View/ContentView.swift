@@ -13,9 +13,8 @@ import SUI
 
 
 class AppStates:ObservableObject{
-    @Published var coordinates:CLLocationCoordinate2D = .init()
     @Published var loading:Bool = true
-    @Published var tab:String = "home"
+    @Published var tab:String = "blogs"
     @Published var showTab:Bool = true
     @Published var userAcc:Account = .init()
     @Published var CAAPI:ArtAPI = .init()
@@ -56,9 +55,7 @@ class AppStates:ObservableObject{
 
 struct AppView: View {
     @EnvironmentObject var mainStates:AppStates
-//
     @State var showLoginPage:Bool = false
-//    var locationManager:LocationManager = .init()
     var tab:String{
         get{
             return self.mainStates.tab
@@ -68,20 +65,36 @@ struct AppView: View {
 	init() {
 		UITabBar.appearance().isHidden = true
 	}
+	
+	private let navBarAppearance: UINavigationBarAppearance = {
+		let bar: UINavigationBarAppearance = .init()
+		bar.backgroundColor = .clear
+		bar.backgroundImage = nil
+		bar.shadowColor = .clear
+		bar.titleTextAttributes = [.foregroundColor : UIColor.white, .font : UIFont(name: TextStyle.normal.rawValue, size: 20) as Any]
+		return bar
+	}()
  
 	var tabView: some View {
 		TabView(selection: $mainStates.tab) {
 			HomePageView()
+				.customNavbarAppearance(standardAppearance: navBarAppearance, scrollEdgeAppearance: navBarAppearance, compactAppearance: navBarAppearance)
 				.tag("home")
 			ArtStoreMain()
+				.customNavbarAppearance(standardAppearance: navBarAppearance, scrollEdgeAppearance: navBarAppearance, compactAppearance: navBarAppearance)
 				.tag("blogs")
 			DiscoverView()
+				.customNavbarAppearance(standardAppearance: navBarAppearance, scrollEdgeAppearance: navBarAppearance, compactAppearance: navBarAppearance)
 				.tag("attractions")
 			PortfolioMainView()
+				.customNavbarAppearance(standardAppearance: navBarAppearance, scrollEdgeAppearance: navBarAppearance, compactAppearance: navBarAppearance)
 				.tag("profile")
 			ExploreViewMain()
+				.customNavbarAppearance(standardAppearance: navBarAppearance, scrollEdgeAppearance: navBarAppearance, compactAppearance: navBarAppearance)
 				.tag("feed")
-		}.fillFrame()
+		}
+		.fillFrame()
+		
 	}
         
     func onAppear(){

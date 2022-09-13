@@ -798,7 +798,7 @@ PODS:
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
   - PromisesObjC (2.1.1)
-  - SUI (0.1.2)
+  - SUI (0.1.4)
   - XCDYouTubeKit (2.15.2)
   - youtube-ios-player-helper (1.0.4)
   - YouTubePlayer (0.7.2)
@@ -882,7 +882,7 @@ SPEC CHECKSUMS:
   MapboxMobileEvents: 5a172cc9bbf8ac0e45ba86095cbee685ede248cc
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
-  SUI: a2047eb27552901eb0dbc568284ae752245857e7
+  SUI: c8f1f3191644f0ef72bb933ca539abe93f89a071
   XCDYouTubeKit: b120aced3d8638ffb570c5450cddb5a1dac448c7
   youtube-ios-player-helper: e9b97535e816db3152179d84d999bc1807ecd689
   YouTubePlayer: 2b5f2830d8f9b2cde942083211291e382c9e6bd5

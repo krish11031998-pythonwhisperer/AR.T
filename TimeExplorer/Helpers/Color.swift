@@ -19,9 +19,17 @@ extension Color{
         return LinearGradient(gradient: .init(colors: [Color(colorOne),Color(colorTwo)]), startPoint: .top, endPoint: .bottom)
     }
     
-//    static var fourthColor:Color = Color.colorConvert(red: 237, green: 242, blue: 243)
+	enum Catalogue: String {
+		case surfaceBackground
+		case textColor
+	}
 }
 
+extension Color.Catalogue {
+	
+	var color: Color { .init(self.rawValue) }
+	
+}
 
 extension UIColor{
     public convenience init?(hex: String) {
