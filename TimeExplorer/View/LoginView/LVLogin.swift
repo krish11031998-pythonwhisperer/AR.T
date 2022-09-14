@@ -115,10 +115,6 @@ struct LVLogin: View {
                 Spacer()
             }.padding(.horizontal)
             Spacer()
-            Image("009-palm tree")
-                .resizable()
-                .aspectRatio(UIImage.aspectRatio(name: "009-palm tree"),contentMode: .fit)
-                .frame(height: 150)
             MainText(content: "\(self.type.rawValue)", fontSize: 25, color: .purple, fontWeight: .bold)
                 .fixedSize(horizontal: false, vertical: true)
             if type == .signIn{
@@ -140,6 +136,7 @@ struct LVLogin: View {
     
     var body: some View{
         ZStack(alignment: .center){
+			Color.white
             self.mainBody
             if self.showError{
                 self.errorModal

@@ -8,6 +8,18 @@
 import Foundation
 import SwiftUI
 
+public extension CustomButtonConfig {
+	
+	static var `default`: Self {
+		.init(imageName: .close,
+			  text: "Close".systemHeading1(color: .white),
+			  size: .init(squared: 7.5),
+			  foregroundColor: .white,
+			  backgroundColor: .black,
+			  buttonStyle: .button)
+	}
+}
+
 //MARK: - FullScreen Modal
 
 public struct FullScreenModalConfig {
@@ -25,16 +37,19 @@ public struct FullScreenModalConfig {
 private struct FullScreenModal<InnerContent: View>: ViewModifier {
 	
 	let config: FullScreenModalConfig
-	@Binding var isActive: Bool
 	let innerContent: InnerContent
+	let modalButtonConfig: CustomButtonConfig
+	@Binding var isActive: Bool
 	@State var dragIndicator: CGFloat = .zero
 	
 	init(isActive: Binding<Bool>,
 		 config: FullScreenModalConfig = .init(isDraggable: false, showCloseIndicator: true),
+		 modalButtonConfig: CustomButtonConfig = .default,
 		 @ViewBuilder innerContent: @escaping () -> InnerContent)
 	{
 		self._isActive = isActive
 		self.config = config
+		self.modalButtonConfig = modalButtonConfig
 		self.innerContent = innerContent()
 	}
 	
@@ -43,7 +58,7 @@ private struct FullScreenModal<InnerContent: View>: ViewModifier {
 			.onChanged { value in
 				guard value.translation.height > 0 && value.translation.height <= 20  else { return }
 				asyncMainAnimation {
-					self.dragIndicator = value.translation.height
+					self.dragIndicator = value.translation.height * 1.5
 				}
 			}
 			.onEnded { value in
@@ -61,19 +76,12 @@ private struct FullScreenModal<InnerContent: View>: ViewModifier {
 	
 	@ViewBuilder var closeIndicators: some View {
 		if config.isDraggable {
-			HStack(alignment: .center, spacing: 10) {
-				"Close".styled(font: .systemFont(ofSize: 12, weight: .semibold), color: .white).text
-				CustomButton(config: .init(imageName: .close, size: .init(squared: 10), padding: 0, foregroundColor: .white, backgroundColor: .clear))
-			}
-			.padding(.horizontal,7.5)
-			.padding(.vertical, 10)
-			.background(Color.black)
-			.clipShape(Capsule())
+			CustomButton(config: modalButtonConfig)
 			.padding(.top, .safeAreaInsets.top)
 			.offset(y: dragIndicator)
 			.gesture(dragGesture)
 			.transitionFrom(.top)
-		} else {
+		} else if config.showCloseIndicator {
 			CustomButton(config: .init(imageName: .close, size: .init(squared: 15), foregroundColor: .black, backgroundColor: .white)) {
 				self.isActive.toggle()
 			}
@@ -90,6 +98,7 @@ private struct FullScreenModal<InnerContent: View>: ViewModifier {
 				closeIndicators
 			}
 		}
+		.edgesIgnoringSafeArea(.all)
 		.fillFrame(alignment: .top)
 	}
 	
@@ -106,7 +115,8 @@ public extension View {
 	
 	func fullScreenModal<InnerContent: View>(isActive: Binding<Bool>,
 											 config: FullScreenModalConfig =  .init(isDraggable: false, showCloseIndicator: true),
+											 buttonConfig: CustomButtonConfig = .default,
 											 @ViewBuilder innerContent: @escaping () -> InnerContent) -> some View {
-		modifier(FullScreenModal(isActive: isActive, config: config, innerContent: { innerContent() }))
+		modifier(FullScreenModal(isActive: isActive, config: config, modalButtonConfig: buttonConfig, innerContent: { innerContent() }))
 	}
 }

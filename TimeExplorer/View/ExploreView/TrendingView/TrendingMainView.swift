@@ -45,7 +45,7 @@ struct TrendingData{
 //                res = .init(image: data.image?.first, vid_url: data.video?.first, username: data.user, mainText: data.caption, type: .post,data:data,date:data.date ?? Date())
             case .art:
                 guard let data = _data.data as? ArtData else {return res}
-                res = .init(image: data.thumbnail, vid_url:data.main_vid_url, mainText: data.title, type: .art, data: data,date: data.date)
+			res = .init(image: data.thumbnail, vid_url:data.main_vid_url, mainText: data.title, type: .art, data: data,date: .now)
         }
         return res
     }

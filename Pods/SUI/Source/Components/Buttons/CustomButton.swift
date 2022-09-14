@@ -29,27 +29,38 @@ public extension Image.SystemCatalogue {
 
 // MARK: - CustomButton
 
+public enum CustomButtonStyleType {
+	case image
+	case button
+}
+
 public struct CustomButtonConfig {
-	let imageName: Image.SystemCatalogue
-	let text: String?
+	let imageName: Image.SystemCatalogue?
+	let image: UIImage?
+	let text: RenderableText?
 	let size: CGSize
-	let padding: CGFloat
+	let padding: EdgeInsets
 	let foregroundColor: Color
 	let backgroundColor: Color
+	let buttonStyle: CustomButtonStyleType
 	
-	public init(imageName: Image.SystemCatalogue,
-		 text: String? = nil,
-		 size: CGSize = .init(squared: 10),
-		 padding: CGFloat = 10,
-		 foregroundColor: Color = .white,
-		 backgroundColor: Color = .black)
+	public init(imageName: Image.SystemCatalogue? = nil,
+				img: UIImage? = nil,
+				text: RenderableText? = nil,
+				size: CGSize = .init(squared: 10),
+				padding: EdgeInsets = .init(vertical: 7.5, horizontal: 10),
+				foregroundColor: Color = .white,
+				backgroundColor: Color = .black,
+				buttonStyle: CustomButtonStyleType = .image)
 	{
 		self.imageName = imageName
+		self.image = img
 		self.text = text
 		self.size = size
 		self.foregroundColor = foregroundColor
 		self.backgroundColor = backgroundColor
 		self.padding = padding
+		self.buttonStyle = buttonStyle
 	}
 }
 
@@ -63,23 +74,55 @@ public struct CustomButton: View {
 		self.action = action
 	}
 	
-	public var body: some View {
-		HStack(alignment: .center, spacing: 5) {
-			config.imageName.image
-				.resizable()
-				.scaledToFit()
-				.foregroundColor(config.foregroundColor)
-				.frame(size: config.size)
-				.padding(config.padding)
-				.background(config.backgroundColor)
-				.clipShape(Circle())
-			if let validText = config.text {
-				validText.text
+	@ViewBuilder private var imageView: some View {
+		if let validImgName = config.imageName {
+			validImgName.image
+				.scaleToFit()
+		} else if let validImg = config.image{
+			Image(uiImage: validImg)
+				.scaleToFit()
+		} else {
+			Color.clear.frame(size: .zero)
+		}
+	}
+	
+	@ViewBuilder var buttonBody: some View {
+		if config.buttonStyle == .image {
+			HStack(alignment: .center, spacing: 5) {
+				imageView
+					.foregroundColor(config.foregroundColor)
+					.frame(size: config.size)
+					.padding(config.padding)
+					.background(config.backgroundColor)
+					.clipShape(Circle())
+				if let validText = config.text {
+					validText.text
+				}
 			}
+		} else {
+			HStack(alignment: .center, spacing: 5) {
+				imageView
+					.foregroundColor(config.foregroundColor)
+					.frame(size: config.size)
+				
+				if let validText = config.text {
+					validText.text
+				}
+			}
+			.padding(config.padding)
+			.background(config.backgroundColor)
+			.clipShape(Capsule())
 		}
-		.buttonify {
-			action?()
+	}
+	
+	public var body: some View {
+		if let action = action {
+			buttonBody
+				.buttonify(action: action)
+		} else {
+			buttonBody
 		}
+		
 	}
 }
 

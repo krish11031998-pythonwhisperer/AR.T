@@ -91,9 +91,7 @@ struct HomePageView: View {
 				self.mainStates.loading = output.isEmpty
 			}
 		}
-		.onChange(of: viewModel.showArt) { newValue in
-			mainStates.showTab = !newValue
-		}
+		.onChange(of: viewModel.showArt) { mainStates.showTab = !$0 }
 		.navigationBarHidden(true)
     }
 }

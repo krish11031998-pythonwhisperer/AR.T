@@ -98,20 +98,20 @@ struct AppView: View {
 	}
         
     func onAppear(){
-        self.mainStates.userAcc.autoLogIn(){success in
-            self.showLoginPage = !success
-        }
+//        self.mainStates.userAcc.autoLogIn(){success in
+//            self.showLoginPage = !success
+//        }
     }
     
     var body: some View {
         ZStack(alignment: .bottom){
             Color.black
-            if self.showLoginPage{
-                LVLogin(){value in
-                    self.showLoginPage = !value
-                }
-            }
-            if !self.showLoginPage{
+//            if self.showLoginPage{
+//                LVLogin(){value in
+//                    self.showLoginPage = !value
+//                }
+//            }
+//            if !self.showLoginPage{
 				tabView
                 if self.mainStates.showTab{
                     TabBarView()
@@ -121,7 +121,7 @@ struct AppView: View {
                 if self.mainStates.loading{
                     LoadingView()
                 }
-            }
+//            }
             
         }
         .frame(width: totalWidth,height:totalHeight)

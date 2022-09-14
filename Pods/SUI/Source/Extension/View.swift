@@ -84,14 +84,20 @@ fileprivate struct CustomNavigatonStyle: ViewModifier {
 
 public extension View {
 	
-	func customNavbarAppearance(navbarAppearance: UINavigationBarAppearance) -> some View {
+	func customNavbarWithAppearance(navbarAppearance: UINavigationBarAppearance) -> some View {
 		modifier(CustomNavigatonStyle(navbarAppearance: navbarAppearance))
 	}
 	
-	func customNavbarAppearance(standardAppearance: UINavigationBarAppearance,
+	func customNavbarWithAppearance(standardAppearance: UINavigationBarAppearance,
 								scrollEdgeAppearance: UINavigationBarAppearance,
 								compactAppearance: UINavigationBarAppearance) -> some View {
 		modifier(CustomNavigatonStyle(standardAppearance: standardAppearance, scrollEdgeAppearance: scrollEdgeAppearance, compactAppearance: compactAppearance))
+	}
+	
+	func transparentNavBackground() -> some View {
+		let navBarAppearance = UINavigationBarAppearance()
+		navBarAppearance.configureWithTransparentBackground()
+		return modifier(CustomNavigatonStyle(standardAppearance: navBarAppearance, scrollEdgeAppearance: navBarAppearance, compactAppearance: navBarAppearance))
 	}
 }
 

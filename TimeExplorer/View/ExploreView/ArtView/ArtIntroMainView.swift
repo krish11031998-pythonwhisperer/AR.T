@@ -42,12 +42,15 @@ struct ArtIntroMain:View{
 					SUI.ImageView(url: data.thumbnail)
 						.framed(size: .init(width: .totalWidth, height: .totalHeight * 0.45),cornerRadius: 0,alignment: .top)
 					lightbottomShadow.fillFrame()
-					data.title.normal(size: 30).text
-						.padding()
-						.fillWidth(alignment: .leading)
+					HeaderSubHeadView(title: data.title.normal(size: 30),
+									  subTitle: data.painterName?.normal(size: 20),
+									  spacing: 10, alignment: .leading)
+					.padding(.leading, 10)
+					.fillWidth(alignment: .leading)
+						
 				}.framed(size: .init(width: .totalWidth, height: .totalHeight * 0.45),cornerRadius: 0)
 				
-				self.introInfoSection(w: .totalWidth, h: .totalHeight * 0.25)
+				//self.introInfoSection(w: .totalWidth, h: .totalHeight * 0.25)
 				self.infoBody(w: .totalWidth)
 			}
 			if showMore {
@@ -96,30 +99,39 @@ extension ArtIntroMain{
         .frame(width: w,alignment: .topLeading)
     }
     
-    func introInfoSection(w:CGFloat,h:CGFloat) -> some View{
-        HStack(alignment: .center, spacing: 10) {
-            VStack(alignment: .center, spacing: 10){
-				SUI.ImageView(url: data.painterImg)
-					.fixedWidth(width: w * 0.45)
-					.fillHeight(alignment: .center)
-					.clipContent(radius: 20)
-				(data.painterName ?? "Artisan").normal(size: 20).text
-            }.padding(.leading, 20)
-            Spacer()
-            if self.data.infoSnippets != nil{
-                VStack(alignment: .leading, spacing: 10){
-					ForEach(Array(self.data.infoSnippets!.keys).sorted(),id:\.self) { key in
-                        let value = self.data.infoSnippets![key] ?? "No Info"
-						HeaderSubHeadView(title: key.normal(size: 15, color: .gray),
-										  subTitle: value.normal(size: 18, color: .white),
-										  spacing: 0,
-										  alignment: .leading)
-                    }
-                }
-                Spacer()
-            }
-		}.framed(size: .init(width: w, height: h), cornerRadius: 0, alignment: .leading)
-    }
+//    func introInfoSection(w:CGFloat,h:CGFloat) -> some View{
+//        HStack(alignment: .center, spacing: 10) {
+//            VStack(alignment: .center, spacing: 10){
+//				SUI.ImageView(url: data.painterImg)
+//					.fixedWidth(width: w * 0.45)
+//					.fillHeight(alignment: .center)
+//					.clipContent(radius: 20)
+//				(data.painterName ?? "Artisan").normal(size: 20).text
+//            }.padding(.leading, 20)
+//            Spacer()
+//            if self.data.infoSnippets != nil{
+//                VStack(alignment: .leading, spacing: 10){
+//					ForEach(Array(self.data.infoSnippets!.keys).sorted(),id:\.self) { key in
+//                        let value = self.data.infoSnippets![key] ?? "No Info"
+//						HeaderSubHeadView(title: key.normal(size: 15, color: .gray),
+//										  subTitle: value.normal(size: 18, color: .white),
+//										  spacing: 0,
+//										  alignment: .leading)
+//                    }
+//                }
+//                Spacer()
+//            }
+//		}.framed(size: .init(width: w, height: h), cornerRadius: 0, alignment: .leading)
+//		VStack(alignment: .leading, spacing: 5) {
+//			<#code#>
+//		}
+//    }
+	
+//	var infoKeyValue: [(key:String, value:String?)] {
+//		[(key: "Creation Date", value: data.date),
+//		 (key: "Origin", value: data.[])
+//		]
+//	}
 }
 
 
