@@ -11,7 +11,7 @@ import SUI
 struct HomePageView: View {
     @EnvironmentObject var mainStates:AppStates
 	@StateObject var viewModel = HomeViewModel()
-    
+	
     func header(dim:CGSize) -> some View{
             HStack(alignment: .center, spacing: 10) {
                 VStack(alignment: .leading, spacing: 10, content: {
@@ -29,47 +29,41 @@ struct HomePageView: View {
 	}
     
     @ViewBuilder private func subView(section: HomeSection) -> some View {
-		switch section {
-		case .highlight:
-			HighlightView(data: Array(self.posts[45..<50]), art: $viewModel.selectedArt)
-		case .trending:
-			TrendingArt(data: Array(self.posts[0..<10]))
-		case .onRadar:
-			OnRadarArt(data: Array(self.posts[20..<30]))
-		case .recommended:
-			RecommendArt(attractions: Array(self.posts[30..<40]))
-		case .recent:
-			BidArt(data: Array(self.posts[50..<60]))
-		case .new:
-			GenreView(genreData: Array(self.posts[40..<45]))
-		case .artists:
-			artistArtView(data: Array(self.posts[60...]))
+		if let data = viewModel.sectionData[section] {
+			switch section {
+			case .highlight:
+				HighlightView(data: data, art: $viewModel.selectedArt)
+			case .trending:
+				TrendingArt(data: data)
+			case .onRadar:
+				OnRadarArt(data: data)
+			case .recommended:
+				RecommendArt(attractions: data)
+			case .recent:
+				BidArt(data: data)
+			case .new:
+				GenreView(genreData: data)
+			case .artists:
+				artistArtView(data: data)
+			}
+		} else {
+			EmptyView().body
 		}
     }
 
-	private var sections: [HomeSection] = [.highlight, .trending, .onRadar, .recommended, .recent, .new]
-	
-	private func onAppear() {
-		if viewModel.artworks.isEmpty {
-			viewModel.loadData()
-		} else {
-			asyncMainAnimation {
-				mainStates.loading = false
-			}
-		}
-	}
-	
+	private var sections: [HomeSection] = HomeSection.allCases  //[.highlight, .trending, .onRadar, .recommended, .recent, .new]
+
     var body: some View {
 		ZStack(alignment: .center) {
 			ScrollView(.vertical, showsIndicators: false){
 				LazyVStack(alignment: .center, spacing: 10) {
 					self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
-					if !self.posts.isEmpty {
+//					if !self.posts.isEmpty {
 						ForEach(sections, id:\.rawValue) { section in
 							subView(section: section)
 								.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
 						}
-					}
+//					}
 				}
 				.fixedWidth(width: .totalWidth)
 				.padding(.bottom, .safeAreaInsets.bottom + 100)
@@ -85,12 +79,8 @@ struct HomePageView: View {
 		}
 		.background(Color.black)
         .edgesIgnoringSafeArea(.all)
-		.onAppear(perform: onAppear)
-		.onReceive(viewModel.$artworks) { output in
-			asyncMainAnimation(animation: .easeInOut) {
-				self.mainStates.loading = output.isEmpty
-			}
-		}
+		.onAppear { mainStates.loading = !viewModel.finishedLoading }
+		.onChange(of: viewModel.finishedLoading) { mainStates.loading = !$0}
 		.onChange(of: viewModel.showArt) { mainStates.showTab = !$0 }
 		.navigationBarHidden(true)
     }

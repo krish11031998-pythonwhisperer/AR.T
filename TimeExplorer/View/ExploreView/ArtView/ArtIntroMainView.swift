@@ -77,7 +77,7 @@ extension ArtIntroMain{
 					.padding()
 					.padding(.top,.safeAreaInsets.top)
 			}.fillFrame()
-			CustomButton(config: .init(imageName: .back, size: .init(squared: 15), padding: 5, foregroundColor: .white, backgroundColor: .clear)) {
+			CustomButton(config: .init(imageName: .back, size: .init(squared: 15), padding: .init(by: 5), foregroundColor: .white, backgroundColor: .clear)) {
 				showMore = false
 			}
 			.padding(.horizontal,20)
@@ -92,7 +92,7 @@ extension ArtIntroMain{
         VStack(alignment: .leading, spacing: 10){
 			data.introduction.normal(size: 15).text
 				.padding(.horizontal,5)
-			CustomButton(config: .init(imageName: .next, size: .init(squared: 15), padding: 5, foregroundColor: .white, backgroundColor: .clear)) {
+			CustomButton(config: .init(imageName: .next, size: .init(squared: 15), padding: .init(by: 5), foregroundColor: .white, backgroundColor: .clear)) {
 				showMore = true
 			}
         }.padding()

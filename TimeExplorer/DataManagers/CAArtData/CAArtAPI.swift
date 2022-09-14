@@ -13,8 +13,8 @@ struct SearchParam: Loopable {
 	let q: String?
 	let artist: String?
 	let title: String?
-	let department: String?
-	let type: String?
+	let department: Department?
+	let type: Types?
 	let has_image: Bool
 	let skip: Int?
 	let limit: Int
@@ -22,11 +22,11 @@ struct SearchParam: Loopable {
 	init(q: String? = nil,
 		 artist: String? = nil,
 		 title: String? = nil,
-		 department: String? = nil,
-		 type: String? = nil,
+		 department: Department? = nil,
+		 type: Types? = nil,
 		 has_image: Bool = true,
 		 skip: Int? = nil,
-		 limit: Int = 100
+		 limit: Int = 10
 	) {
 		self.q = q
 		self.artist = artist
@@ -39,17 +39,15 @@ struct SearchParam: Loopable {
 	}
 	
 	func queryItems() -> [URLQueryItem] {
-		guard let items = try? allKeysValues(obj: self) else { return [] }
-		return items.compactMap { el in
-			if let strVal = el.value as? String {
-				return .init(name: el.key, value: strVal)
-			} else if let intVal = el.value as? Int {
-				return .init(name: el.key, value: "\(intVal)")
-			} else if el.key == "has_image" , let cond = el.value as? Bool {
-				return .init(name: el.key, value: "\(cond ? 1 : 0)")
-			}
-			return nil
-		}
+		return [.init(name: "q", value: q),
+		 .init(name: "artist", value: artist),
+		 .init(name: "title", value: title),
+		 .init(name: "department", value: department?.rawValue),
+		 .init(name: "type", value: type?.rawValue),
+		 .init(name: "has_image", value: has_image ? "1" : "0"),
+		 .init(name: "skip", value: "\(skip ?? 0)"),
+		 .init(name: "limit", value: "\(limit)"),
+		].filter { $0.value != nil }
 	}
 }
 
@@ -112,27 +110,3 @@ extension ArtAPIEndpoint: EndPoint {
 		NetworkRequest.shared.loadData(urlStr: url, completion: completion)
 	}
 }
-//
-//class ArtService: ObservableObject {
-//
-//	let endpoint: ArtAPIEndpoint
-//	
-//	init(endpoint: ArtAPIEndpoint) {
-//		self.endpoint = endpoint
-//	}
-//	
-//
-//	func fetchArt() {
-//		endpoint.execute { [weak self] (result: Result<[CAData],Error>) in
-//			switch result {
-//			case .success(let data):
-//				DispatchQueue.main.async {
-//					self?.art = data
-//				}
-//			case .failure(let err):
-//				print("(DEBUG) err : ",err.localizedDescription)
-//			}
-//		}
-//	}
-//
-//}

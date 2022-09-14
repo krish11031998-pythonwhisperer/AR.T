@@ -79,7 +79,7 @@ struct DiscoverView: View {
         ZStack(alignment: .top) {
             Color.black
 			if !mainStates.loading{
-				DiscoveryView(data: exploreList, model: .init(cardSize: .init(width: 200, height: 350), rows: 4, spacing: 10, bgColor: .clear)) { data in
+				DiscoveryView(data: exploreList.enumerated().map { .init(id: $0.offset, data: $0.element) }, model: .init(cardSize: .init(width: 200, height: 350), rows: 4, spacing: 10, bgColor: .clear)) { data in
 					SUI.ImageView(url: (data as? ExploreData)?.img)
 						.framed(size: .init(width: 200, height: 350), cornerRadius: 15, alignment: .center)
 				}
