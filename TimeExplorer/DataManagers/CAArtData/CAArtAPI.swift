@@ -21,6 +21,9 @@ struct SearchParam: Loopable {
 	let currently_on_view: Bool
 	let recently_acquired: Bool
 	let may_show_artists: Bool
+	let cia_alumni_artists: Bool
+	let african_american_artists: Bool
+	let female_artists: Bool
 	
 	
 	init(q: String? = nil,
@@ -33,7 +36,10 @@ struct SearchParam: Loopable {
 		 limit: Int = 10,
 		 currently_on_view: Bool = false,
 		 recently_acquired: Bool = false,
-		 may_show_artists: Bool = false
+		 may_show_artists: Bool = false,
+		 cia_alumni_artists: Bool = false,
+		 african_american_artists: Bool = false,
+		 female_artists: Bool = false
 	) {
 		self.q = q
 		self.artist = artist
@@ -46,6 +52,9 @@ struct SearchParam: Loopable {
 		self.currently_on_view = currently_on_view
 		self.recently_acquired = recently_acquired
 		self.may_show_artists = may_show_artists
+		self.cia_alumni_artists =  cia_alumni_artists
+		self.african_american_artists = african_american_artists
+		self.female_artists = female_artists
 	}
 	
 	func queryItems() -> [URLQueryItem] {
@@ -69,6 +78,18 @@ struct SearchParam: Loopable {
 		
 		if may_show_artists {
 			items.append(.init(name: "may_show_artists", value: nil))
+		}
+		
+		if cia_alumni_artists {
+			items.append(.init(name: "cia_alumni_artists", value: nil))
+		}
+		
+		if african_american_artists {
+			items.append(.init(name: "african_american_artists", value: nil))
+		}
+		
+		if female_artists {
+			items.append(.init(name: "female_artists", value: nil))
 		}
 		
 		return items

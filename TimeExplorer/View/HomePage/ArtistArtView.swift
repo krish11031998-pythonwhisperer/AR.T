@@ -9,9 +9,9 @@ import SwiftUI
 
 struct ArtistArtView: View {
     
-    var data:[AVSData]
+    var data:[CAData]
     
-    init(data:[AVSData] = .init(repeating: asm, count: 4)){
+    init(data:[CAData]){
         self.data = data
     }
     
@@ -21,12 +21,12 @@ struct ArtistArtView: View {
         return
             GeometryReader{g in
                 HStack(alignment: .center, spacing: 5) {
-                    ImageView(url: self.data.first?.img, width: w * 0.5 - 2.5, height: h - 5, contentMode: .fill, alignment: .center, headingSize: 10, quality: .lowest)
+                    ImageView(url: self.data.first?.thumbnail, width: w * 0.5 - 2.5, height: h - 5, contentMode: .fill, alignment: .center, headingSize: 10, quality: .lowest)
                         .clipShape(RoundedRectangle(cornerRadius: 5))
                     VStack(alignment: .center, spacing: 5) {
                         ForEach(Array(self.data[1...].enumerated()),id: \.offset) { _data in
                             let data = _data.element
-                            ImageView(url: data.img, width: w * 0.5 - 2.5, height: h * 0.5 - 5, contentMode: .fill, alignment: .center, quality: .lowest)
+                            ImageView(url: data.thumbnail, width: w * 0.5 - 2.5, height: h * 0.5 - 5, contentMode: .fill, alignment: .center, quality: .lowest)
                                 .clipShape(RoundedRectangle(cornerRadius: 5))
                         }
                     }
@@ -61,8 +61,8 @@ struct ArtistArtView: View {
     }
 }
 
-struct ArtistArtView_Previews: PreviewProvider {
-    static var previews: some View {
-        ArtistArtView()
-    }
-}
+//struct ArtistArtView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ArtistArtView()
+//    }
+//}

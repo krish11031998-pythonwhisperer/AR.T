@@ -9,9 +9,9 @@ import SwiftUI
 import SUI
 
 struct GenreView: View {
-    var genreCards:[AVSData]
+    var genreCards:[CAData]
     
-    init(genreData:[AVSData] = Array.init(repeating: AVSData(img: asm.img, title: "Classical", data: asm), count: 10)){
+    init(genreData:[CAData]){
         self.genreCards = genreData
     }
     
@@ -19,7 +19,7 @@ struct GenreView: View {
     var artGenres:some View{
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(alignment: .center, spacing: 10) {
-                ForEach(Array(self.genreCards.enumerated()), id: \.offset){ _art in
+                ForEach(Array(genreCards.enumerated()), id: \.offset){ _art in
                     ArtViewCard(data: _art.element)
                         .shadow(radius: 5)
                         .padding(.leading,_art.offset == 0 ? 10 : 0)
@@ -34,16 +34,16 @@ struct GenreView: View {
 }
 
 struct ArtViewCard:View{
-    let cardData:AVSData
+    let cardData:CAData
 	let cardSize: CGSize
-    init(data:AVSData, cardSize:CGSize = .init(width: totalWidth * 0.5, height: totalHeight * 0.3)){
+    init(data:CAData, cardSize:CGSize = .init(width: totalWidth * 0.5, height: totalHeight * 0.3)){
         self.cardData = data
 		self.cardSize = cardSize
     }
     
     var body: some View{
 		ZStack(alignment: .bottomLeading) {
-			SUI.ImageView(url: cardData.img)
+			SUI.ImageView(url: cardData.thumbnail)
 				.framed(size: cardSize, cornerRadius: 0, alignment: .center)
 			lightbottomShadow.fillFrame()
 			VStack(alignment: .leading, spacing: 10) {
@@ -61,8 +61,8 @@ struct ArtViewCard:View{
     
 }
 
-struct AllArtView_Previews: PreviewProvider {
-    static var previews: some View {
-        GenreView()
-    }
-}
+//struct AllArtView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GenreView()
+//    }
+//}

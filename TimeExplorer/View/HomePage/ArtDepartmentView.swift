@@ -30,42 +30,27 @@ class ArtDepartmentViewModel: ObservableObject {
 //MARK: - ArtDepartmentView
 struct ArtDepartmentView: View {
 	@StateObject var viewModel: ArtDepartmentViewModel
-	var data: [AVSData]
-	init(data: [AVSData]) {
+	var data: [CAData]
+	init(data: [CAData]) {
 		self.data = data
 		self._viewModel = .init(wrappedValue: .init(department: .allCases.first ?? .japanese))
 	}
 
+	private var grid: some View {
+		LazyHGrid(rows: [.init(.fixed(240), spacing: 10, alignment: .center),.init(.fixed(240), spacing: 10, alignment: .center)], alignment: .center, spacing: 10) {
+			ForEach(data, id: \.title) {
+				ArtViewCard(data: $0, cardSize: .init(width: 150, height: 240))
+			}
+		}
+	}
 	
     var body: some View {
 		VStack(alignment: .leading, spacing: 15) {
 			ScrollView(.horizontal, showsIndicators: false) {
-				HStack(alignment: .center, spacing: 8) {
-					ForEach(Array(Department.allCases.enumerated()), id: \.offset) { department in
-						BlobButton(text: department.element.rawValue.systemBody(color: viewModel.selectedColor(department.element)),
-								   config: viewModel.blobButtonConfig(department: department.element)) {
-							viewModel.selectedDepartment = department.element
-						}
-						.padding(.leading, department.offset == 0 ? 10 : 0)
-						.padding(.trailing, department.offset == Department.allCases.count - 1 ? 10 : 0)
-					}
-				}
+				grid
 			}
-			ScrollView(.horizontal, showsIndicators: false) {
-				HStack(alignment: .center, spacing: 8) {
-					ForEach(Array(data.enumerated()), id: \.offset) {
-						ArtViewCard(data: $0.element, cardSize: .init(width: 150, height: 250))
-							.padding(.leading, $0.offset == 0 ? 10 : 0)
-							.padding(.trailing, $0.offset == data.count - 1 ? 10 : 0)
-					}
-				}
-			}
+			.fixedHeight(height: 500)
 		}
     }
 }
 
-//struct ArtDepartmentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ArtDepartmentView()
-//    }
-//}

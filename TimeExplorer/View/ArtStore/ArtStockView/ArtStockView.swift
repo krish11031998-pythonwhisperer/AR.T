@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct ArtStockView: View {
-    var data:AVSData
+    var data:CAData
     @Binding var close:Bool
     var closeFn: (() -> Void)? = nil
-    init(data:AVSData,close:Binding<Bool>,closeFn: @escaping () -> Void){
+    init(data:CAData,close:Binding<Bool>,closeFn: @escaping () -> Void){
         self.data = data
         self._close = close
         self.closeFn = closeFn
@@ -52,7 +52,7 @@ extension ArtStockView{
             let w = g.frame(in: .local).width
             let h = g.frame(in: .local).height
             ZStack(alignment: .top){
-                ImageView(url: self.data.img, width: w, height: h, contentMode: .fill, alignment: .top)
+                ImageView(url: self.data.thumbnail, width: w, height: h, contentMode: .fill, alignment: .top)
                     .clipped()
                 HStack(alignment: .center, spacing: 10){
                     SystemButton(b_name: "arrow.left", b_content: "", action: self.backButton)

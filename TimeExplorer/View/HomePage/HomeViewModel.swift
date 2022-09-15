@@ -11,26 +11,35 @@ import SUI
 
 enum HomeSection: String, CaseIterable {
 	case highlight = "Hightlight of the Day"
+	case departments = "Departments"
 	case currentlyOnView = "Current On View"
+	case types = "Types"
+	case recent = "Recently Acquired"
 	case onRadar = "On Your Radar"
 	case mayShow = "CMA May Artist"
-	case recent = "Recently Acquired"
 	case new = "New"
 	case artists = "Artists"
 }
 
-extension AVSData {
-	
-	init(_ data: CAData) {
-		self.init(img: data.images?.web?.url, title: data.title, data: data)
-	}
-}
-
 class HomeViewModel: ObservableObject {
 	
-	@Published var artworks: [AVSData] = []
-	@Published var sectionData: [HomeSection: [AVSData]] = [:]
+	@Published var artworks: [CAData] = []
+	@Published var sectionData: [HomeSection : Any] = [:]
 	@Published var showArt: Bool = false
+	@Published var showDepartments: Bool = false {
+		didSet {
+			if !showDepartments && selectedDepartment != .none {
+				selectedDepartment = .none
+			}
+		}
+	}
+	@Published var showTypes: Bool = false
+	@Published var selectedDepartment: Department = .none {
+		didSet {
+			showDepartments = selectedDepartment != .none
+		}
+	}
+	@Published var selectedType: Types = .none
 	@Published var selectedArt: ArtData? = nil {
 		didSet {
 			showArt = selectedArt != nil
@@ -41,20 +50,20 @@ class HomeViewModel: ObservableObject {
 	private let group: DispatchGroup = .init()
 	
 	private var sectionParams: [HomeSection:SearchParam] = [
-		.highlight : .init(),
+		.highlight : .init(skip: 20,limit: 10),
 		.currentlyOnView : .init(limit: 5, currently_on_view: true),
-		.onRadar : .init(department: .modern_european),
+		.onRadar : .init(limit: 15, cia_alumni_artists: true),
 		.mayShow : .init(may_show_artists: true),
 		.recent : .init(recently_acquired: true),
-		.new : .init(type: .illumination)
+		.new : .init(female_artists: true)
 	]
 	
 	init() {
 		print("(DEBUG) Home View Model is init!")
+		sectionData[.departments] = Department.allCases
+		sectionData[.types] = Types.allCases
 		loadData()
 	}
-	
-	
 	
 	func loadData() {
 		sectionParams.forEach {
@@ -74,7 +83,7 @@ class HomeViewModel: ObservableObject {
 				case .success(let art):
 					guard let validArt = art.data else { return }
 					asyncMainAnimation {
-						self?.sectionData[section] = validArt.compactMap { .init($0) }
+						self?.sectionData[section] = validArt
 						self?.group.leave()
 					}
 				case .failure(let err):

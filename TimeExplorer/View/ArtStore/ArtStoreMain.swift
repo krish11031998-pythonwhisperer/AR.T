@@ -9,8 +9,6 @@ import SwiftUI
 import SwiftUICharts
 import SUI
 
-let asm = AVSData(img: test.thumbnail, title: test.title, subtitle: test.painterName, data: test as Any)
-
 enum BlobIcons:String{
     case btc = "btc_icon"
     case likes = "like_icon"
@@ -21,7 +19,7 @@ enum BlobIcons:String{
 struct ArtStoreMain: View {
     @EnvironmentObject var mainStates:AppStates
     @StateObject var ArtAPI:ArtAPI = .init()
-    @State var posts:[AVSData] = []
+    @State var posts:[CAData] = []
     func ValueBlob(info:(String,String),color:Color,size:CGSize,font_size:(CGFloat,CGFloat) = (18,28),percent:(Int,Int)? = nil,img_name:BlobIcons = .btc) -> some View{
         let (heading,value) = info
         let w = size.width
@@ -71,9 +69,8 @@ struct ArtStoreMain: View {
     
     func parseData(_ data:[CAData]){
         if !data.isEmpty{
-            let _data = data.compactMap({ $0.thumbnail != "" ? AVSData(img: $0.thumbnail, title: $0.title, subtitle: $0.artistName, data: $0) : nil})
             DispatchQueue.main.async {
-                self.posts = _data
+                self.posts = data
                 withAnimation(.easeInOut) {
                     self.mainStates.loading = false
                 }

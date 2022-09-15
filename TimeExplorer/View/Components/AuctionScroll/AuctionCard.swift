@@ -44,11 +44,11 @@ extension AuctionCardConfig.Bid {
 }
 
 struct AuctionCard: View {
-    var data:AVSData = .init()
+    let data:CAData
 	let cardConfig: AuctionCardConfig
 	@State var pct: CGFloat = 0
     
-	init(data:AVSData,
+	init(data:CAData,
 		 cardConfig: AuctionCardConfig
 	){
 		self.cardConfig = cardConfig
@@ -60,6 +60,7 @@ struct AuctionCard: View {
 			ownerInfo
 			Spacer()
 			MainText(content: self.data.title ?? "Title", fontSize: 20, color: .white, fontWeight: .regular)
+				.lineLimit(3)
 			lineChart(h: 10)
 			cardInfo
 		}.padding()
@@ -68,7 +69,7 @@ struct AuctionCard: View {
     
 	var body: some View {
 		ZStack(alignment: .center) {
-			SUI.ImageView(url: data.img)
+			SUI.ImageView(url: data.thumbnail)
 			lightbottomShadow.fillFrame()
 			overlayCaptionView
 		}
@@ -89,7 +90,7 @@ extension AuctionCard{
 		if cardConfig.showBar {
 			RoundedRectangle(cornerRadius: 10)
 				.fill(Color.gray.opacity(0.2))
-				.horizontalProgressBar(pct: pct, lineColor: .white, size: .init(width: cardConfig.cardSize.width - 30, height: line_h))
+				.horizontalProgressBar(pct: pct, lineColor: .white)
 				.fillWidth()
 				.fixedHeight(height: line_h)
 		} else {
@@ -118,7 +119,7 @@ extension AuctionCard{
             Circle()
 				.fill(Color.black)
 				.framed(size: .init(squared: 20), cornerRadius: 10, alignment: .center)
-			MainText(content: self.data.subtitle ?? "Krishna", fontSize: 15, color: .white, fontWeight: .semibold).lineLimit(1)
+			MainText(content: self.data.creators?.first?.description ?? "Krishna", fontSize: 15, color: .white, fontWeight: .semibold).lineLimit(1)
             Spacer()
         }
 		.fixedSize(horizontal: false, vertical: true)
@@ -126,9 +127,9 @@ extension AuctionCard{
     
 }
 
-struct AuctionCard_Previews: PreviewProvider {
-    static var previews: some View {
-		AuctionCard(data: .init(img: test.thumbnail, title: test.title, subtitle: test.painterName, data: test),
-					cardConfig: .init(bids: .test, showBar: true, cardStyling: .rounded(14), cardSize: .init(width: 200, height: 300)))
-    }
-}
+//struct AuctionCard_Previews: PreviewProvider {
+//    static var previews: some View {
+//		AuctionCard(data: .init(img: test.thumbnail, title: test.title, subtitle: test.painterName, data: test),
+//					cardConfig: .init(bids: .test, showBar: true, cardStyling: .rounded(14), cardSize: .init(width: 200, height: 300)))
+//    }
+//}

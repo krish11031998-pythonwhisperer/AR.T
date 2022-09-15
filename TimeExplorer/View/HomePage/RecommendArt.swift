@@ -9,16 +9,16 @@ import SwiftUI
 import Combine
 import SUI
 
-struct AVSData{
-    var img:String?
-    var title:String?
-    var subtitle:String?
-    var data:Any?
-}
+//struct AVSData{
+//    var img:String?
+//    var title:String?
+//    var subtitle:String?
+//    var data:Any?
+//}
 
 struct RecommendArt: View {
-    var data:[AVSData] = []
-	init(attractions attr:[AVSData]){
+    var data:[CAData] = []
+	init(attractions attr:[CAData]){
 		self.data = attr
 	}
     
@@ -26,9 +26,9 @@ struct RecommendArt: View {
 
     var body: some View{
 		SlideCardView(data: data, itemSize: cardSize, leading: false) { data, selected in
-			if let data = data as? AVSData {
+//			if let data = data as? AVSData {
 				ZStack(alignment: .bottom) {
-					SUI.ImageView(url: data.img)
+					SUI.ImageView(url: data.thumbnail)
 						.framed(size: cardSize, cornerRadius: 0, alignment: .center)
 					if selected {
 						lightbottomShadow.fillFrame()
@@ -41,10 +41,10 @@ struct RecommendArt: View {
 					}
 				}
 				.framed(size: cardSize, cornerRadius: 12, alignment: .bottomLeading)
-			} else {
-				Color.orange
-					.framed(size: cardSize, cornerRadius: 12, alignment: .center)
-			}
+//			} else {
+//				Color.orange
+//					.framed(size: cardSize, cornerRadius: 12, alignment: .center)
+//			}
 			
 		}
 

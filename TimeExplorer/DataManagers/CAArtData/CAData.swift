@@ -26,78 +26,75 @@ class CADim:Codable{
 }
 
 class CAData:Codable{
-    let id:Int?
-    let accession_number:String?
-    let share_license_status:String?
-    let tombstone:String?
-    let title:String?
-    let title_in_original_language:String?
-    let series:String?
-    let series_in_original_language:String?
-    let creation_date:String?
-    let creation_date_earliest:Int?
-    let creation_date_latest:Int?
-    let creators:[CACreators]?
-    let culture:[String]?
-    let technique:String?
-    let department:String?
-    let collection:String?
-    let type:String?
-    let measurements:String?
-    let dimensions:CADim?
-    let images:CAImages?
-    let wall_description:String?
+	let id:Int?
+	let accession_number:String?
+	let share_license_status:String?
+	let tombstone:String?
+	let title:String?
+	let title_in_original_language:String?
+	let series:String?
+	let series_in_original_language:String?
+	let creation_date:String?
+	let creation_date_earliest:Int?
+	let creation_date_latest:Int?
+	let creators:[CACreators]?
+	let culture:[String]?
+	let technique:String?
+	let department:String?
+	let collection:String?
+	let type:String?
+	let measurements:String?
+	let dimensions:CADim?
+	let images:CAImages?
+	let wall_description:String?
 	let digital_description: String?
-    let url:String?
-    let fun_fact:String?
-    
-    
-    var artistName:String?{
-        guard let artist_name = self.creators?.first?.description else {return nil}
-        let name_split = artist_name.split(separator: "(").first ?? "No Name"
-        
-        return String(name_split).stripSpaces()
-    }
-    
-    var thumbnail:String?{
-        return self.images?.web?.url
-    }
-    
-    var original:String?{
-        return self.images?.print?.url
-    }
-    
-    
-    var PaintingInfo:[String:String]?{
-        let data = self
-        var details:[String:String] = [:]
-        
-        if let department = data.department{
-            details["Department"] = department
-        }
-        
-        if let culture = data.culture?.first{
-            details["Culture"] = culture
-        }
-        
-        
-        if let technique = data.technique{
-            details["Technique"] = technique.capitalized
-        }
-            
-        if let dim = data.dimensions{
-            if let framed = dim.framed{
-                details["Framed"] = "\(framed.height ?? 0)m x \(framed.width ?? 0)m"
-            }
-        }
-        
-        return details.keys.count == 0 ? nil : details
-}
+	let url:String?
+	let fun_fact:String?
+	let sketch_fab_id: String?
+	let sketchfab_url: String?
 
-    func parseAVSData() -> AVSData?{
-        guard let img = self.thumbnail, let title = self.title, let subtitle = self.artistName else {return nil}
-        return AVSData(img: img, title: title, subtitle: subtitle, data: self)
-    }
+	
+	var artistName:String?{
+		guard let artist_name = self.creators?.first?.description else {return nil}
+		let name_split = artist_name.split(separator: "(").first ?? "No Name"
+		
+		return String(name_split).stripSpaces()
+	}
+	
+	var thumbnail:String?{
+		return self.images?.web?.url
+	}
+	
+	var original:String?{
+		return self.images?.print?.url
+	}
+	
+	
+	var PaintingInfo:[String:String]?{
+		let data = self
+		var details:[String:String] = [:]
+		
+		if let department = data.department{
+			details["Department"] = department
+		}
+		
+		if let culture = data.culture?.first{
+			details["Culture"] = culture
+		}
+		
+		
+		if let technique = data.technique{
+			details["Technique"] = technique.capitalized
+		}
+		
+		if let dim = data.dimensions{
+			if let framed = dim.framed{
+				details["Framed"] = "\(framed.height ?? 0)m x \(framed.width ?? 0)m"
+			}
+		}
+		
+		return details.keys.count == 0 ? nil : details
+	}
 }
 
 

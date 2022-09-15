@@ -14,7 +14,7 @@ import SUI
 
 class AppStates:ObservableObject{
     @Published var loading:Bool = true
-    @Published var tab:String = "blogs"
+    @Published var tab:String = "home"
     @Published var showTab:Bool = true
     @Published var userAcc:Account = .init()
     @Published var CAAPI:ArtAPI = .init()
@@ -78,19 +78,24 @@ struct AppView: View {
 	var tabView: some View {
 		TabView(selection: $mainStates.tab) {
 			HomePageView()
-				.customNavbarWithAppearance(standardAppearance: navBarAppearance, scrollEdgeAppearance: navBarAppearance, compactAppearance: navBarAppearance)
+				.transparentNavBackground()
+				//.customNavbarWithAppearance(standardAppearance: navBarAppearance, scrollEdgeAppearance: navBarAppearance, compactAppearance: navBarAppearance)
 				.tag("home")
 			ArtStoreMain()
-				.customNavbarWithAppearance(standardAppearance: navBarAppearance, scrollEdgeAppearance: navBarAppearance, compactAppearance: navBarAppearance)
+				.transparentNavBackground()
+				//.customNavbarWithAppearance(standardAppearance: navBarAppearance, scrollEdgeAppearance: navBarAppearance, compactAppearance: navBarAppearance)
 				.tag("blogs")
 			DiscoverView()
-				.customNavbarWithAppearance(standardAppearance: navBarAppearance, scrollEdgeAppearance: navBarAppearance, compactAppearance: navBarAppearance)
+				.transparentNavBackground()
+				//.customNavbarWithAppearance(standardAppearance: navBarAppearance, scrollEdgeAppearance: navBarAppearance, compactAppearance: navBarAppearance)
 				.tag("attractions")
 			PortfolioMainView()
-				.customNavbarWithAppearance(standardAppearance: navBarAppearance, scrollEdgeAppearance: navBarAppearance, compactAppearance: navBarAppearance)
+				.transparentNavBackground()
+				//.customNavbarWithAppearance(standardAppearance: navBarAppearance, scrollEdgeAppearance: navBarAppearance, compactAppearance: navBarAppearance)
 				.tag("profile")
 			ExploreViewMain()
-				.customNavbarWithAppearance(standardAppearance: navBarAppearance, scrollEdgeAppearance: navBarAppearance, compactAppearance: navBarAppearance)
+				.transparentNavBackground()
+				//.customNavbarWithAppearance(standardAppearance: navBarAppearance, scrollEdgeAppearance: navBarAppearance, compactAppearance: navBarAppearance)
 				.tag("feed")
 		}
 		.fillFrame()
@@ -104,29 +109,22 @@ struct AppView: View {
     }
     
     var body: some View {
-        ZStack(alignment: .bottom){
-            Color.black
-//            if self.showLoginPage{
-//                LVLogin(){value in
-//                    self.showLoginPage = !value
-//                }
-//            }
-//            if !self.showLoginPage{
-				tabView
-                if self.mainStates.showTab{
-                    TabBarView()
-						.transitionFrom(.bottom)
-                }
-                
-                if self.mainStates.loading{
-                    LoadingView()
-                }
-//            }
-            
-        }
-        .frame(width: totalWidth,height:totalHeight)
-        .edgesIgnoringSafeArea(.all)
-        .onAppear(perform: self.onAppear)
+		ZStack(alignment: .bottom){
+			Color.black
+			tabView
+			if self.mainStates.showTab{
+				TabBarView()
+					.transitionFrom(.bottom)
+			}
+			
+			if self.mainStates.loading{
+				LoadingView()
+			}
+
+		}
+		.frame(width: totalWidth,height:totalHeight)
+		.edgesIgnoringSafeArea(.all)
+		.onAppear(perform: self.onAppear)
     }
 }
 

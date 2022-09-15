@@ -8,28 +8,8 @@
 import SwiftUI
 
 public enum AnimatableProgressBarConfig {
-	case horizontal(alignment: Alignment,lineColor: Color, size: CGSize)
-	case circle(lineWidth: CGFloat,lineColor: Color, size: CGSize)
-}
-
-extension AnimatableProgressBarConfig {
-	var size: CGSize {
-		switch self {
-		case .horizontal(_, _, let size):
-			return size
-		case .circle(_, _, let size):
-			return size
-		}
-	}
-	
-	var alignment: Alignment {
-		switch self {
-		case .horizontal(let alignment, _, _):
-			return alignment
-		default:
-			return .center
-		}
-	}
+	case horizontal(lineColor: Color)
+	case circle(lineWidth: CGFloat,lineColor: Color)
 }
 
 
@@ -47,11 +27,12 @@ private struct AnimatableProgressBarModifer: Animatable, ViewModifier {
 	
 	@ViewBuilder var progressBar: some View {
 		switch type {
-		case .horizontal(let alignment, let lineColor, let size):
-			RoundedRectangle(cornerRadius: 20)
+		case .horizontal(let lineColor):
+			Line(pct: pct)
 				.fill(lineColor)
-				.frame(width: pct * size.width, height: size.height, alignment: alignment)
-		case .circle(let lineWidth, let lineColor, _):
+				.cornerRadius(20)
+				.foregroundColor(lineColor)
+		case .circle(let lineWidth, let lineColor):
 			ArcShape(pct: pct,style: .init(lineWidth: lineWidth))
 				.foregroundColor(lineColor)
 		}
@@ -60,8 +41,7 @@ private struct AnimatableProgressBarModifer: Animatable, ViewModifier {
 	
 	func body(content: Content) -> some View {
 		content
-			//.frame(size: type.size)
-			.overlay(alignment: type.alignment) {
+			.overlay {
 				progressBar
 			}
 	}
@@ -70,12 +50,12 @@ private struct AnimatableProgressBarModifer: Animatable, ViewModifier {
 
 public extension View {
 	
-	func horizontalProgressBar(pct: CGFloat, lineColor: Color = .blue, size: CGSize) -> some View {
-		modifier(AnimatableProgressBarModifer(pct: pct, type: .horizontal(alignment: .leading, lineColor: lineColor, size: size)))
+	func horizontalProgressBar(pct: CGFloat, lineColor: Color = .blue) -> some View {
+		modifier(AnimatableProgressBarModifer(pct: pct, type: .horizontal(lineColor: lineColor)))
 	}
 	
-	func circularProgressBar(pct: CGFloat, lineWidth: CGFloat, lineColor: Color = .black, size: CGSize) -> some View {
-		modifier(AnimatableProgressBarModifer(pct: pct, type: .circle(lineWidth: lineWidth, lineColor: .red, size: size)))
+	func circularProgressBar(pct: CGFloat, lineWidth: CGFloat, lineColor: Color = .black) -> some View {
+		modifier(AnimatableProgressBarModifer(pct: pct, type: .circle(lineWidth: lineWidth, lineColor: .red)))
 	}
 }
 
@@ -88,7 +68,7 @@ fileprivate struct AnimatableProgressBar: View {
 		VStack(alignment: .center, spacing: 20) {
 			RoundedRectangle(cornerRadius: 20)
 				.fill(Color.gray.opacity(0.5))
-				.horizontalProgressBar(pct: pct, size: .init(width: .totalWidth - 30, height: 20))
+				.horizontalProgressBar(pct: pct)
 				.containerize(header: HeaderCaptionView(title: "Horizontal Progress Bar", subTitle: "Click for animation").anyView)
 				.padding(.horizontal)
 				.frame(width: .totalWidth, height: 20, alignment: .leading)
@@ -97,14 +77,14 @@ fileprivate struct AnimatableProgressBar: View {
 				.fill(Color.cyan)
 				.frame(size: .init(squared: 200))
 				.clipped()
-				.circularProgressBar(pct: pct, lineWidth: 10, lineColor: .red, size: .init(squared: 200))
+				.circularProgressBar(pct: pct, lineWidth: 10, lineColor: .red)
 				.containerize(header: HeaderCaptionView(title: "Circular Progress Bar", subTitle: "Click for animation").anyView)
 				.padding(.horizontal)
 		}
 		.fillFrame(alignment: .top)
 		.onTapGesture {
 			withAnimation(.easeInOut(duration: 0.75)) {
-				self.pct = pct == 1 ? 0 : 1
+				self.pct = pct != 0 ? 0 : CGFloat.random(in: 0...1)
 			}
 		}
     }

@@ -12,11 +12,6 @@ struct ArtScrollMainView: View {
     @EnvironmentObject var mainStates:AppStates
     var data:ArtData
     @Binding var showArt:Bool
-    @State var minY:CGFloat = 0
-    @State var swiped:Int = 0
-    @State var offset:CGFloat = 0
-    @State var changeFocus:Bool = false
-    
 	//TODO: - Add ArtTopFactView and ArtStockView
 	
     var body:some View{

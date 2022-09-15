@@ -10,7 +10,7 @@ import SUI
 
 struct PortfolioMainView: View {
     
-    @State var paintings:[AVSData] = []
+    @State var paintings:[CAData] = []
     @EnvironmentObject var mainStates:AppStates
 	@StateObject var artAPI:ArtAPI = .init()
     @State var loadingText:String = "Loading..."
@@ -25,7 +25,7 @@ struct PortfolioMainView: View {
     func parseData(_ data:[CAData]){
         if !data.isEmpty{
             DispatchQueue.main.async {
-                self.paintings = self.mainStates.CAAPI.artDatas.compactMap({AVSData(img: $0.images?.web?.url, title: $0.title, subtitle: $0.artistName, data: $0)})
+                self.paintings = self.mainStates.CAAPI.artDatas
                 withAnimation(.easeInOut) {
                     self.mainStates.loading = false
                 }
@@ -41,7 +41,7 @@ struct PortfolioMainView: View {
                 self.loadingText = "Received..."
                 
             }
-            let paintings = data.compactMap({$0.images != nil ? AVSData(img: $0.images?.web?.url, title: $0.title, subtitle: $0.creators?.first?.description, data: $0) : nil})
+            let paintings = data
             DispatchQueue.main.async {
                 self.paintings = paintings
                 self.loadingText = "Assigned!"
@@ -81,15 +81,11 @@ extension PortfolioMainView{
 	
     var artScrollView:some View{
 		SlideCardView(data: Array(paintings[0..<5]), itemSize: .init(width: 200, height: 300), leading: true) { data, isSelected in
-			if let avData = data as? AVSData {
-				AuctionCard(data: avData,
-							cardConfig: .init(bids: nil,
-											  showBar: false,
-											  cardStyling: .rounded(14),
-											  cardSize:  cardSize))
-			} else {
-				Color.clear.frame(size: cardSize)
-			}
+			AuctionCard(data: data,
+						cardConfig: .init(bids: nil,
+										  showBar: false,
+										  cardStyling: .rounded(14),
+										  cardSize:  cardSize))
 		}
     }
     

@@ -9,22 +9,22 @@ import Foundation
 import SwiftUI
 
 //MARK: - SlideCardView
-public struct SlideCardView<Content: View>: View {
+public struct SlideCardView<T: Codable, Content: View>: View {
 	
-	let data:[Any]
-	let viewBuilder: (Any,Bool) -> Content
+	let data:[T]
+	let viewBuilder: (T,Bool) -> Content
 	let leading: Bool
 	let size: CGSize
-	let action: ((Any) -> Void)?
+	let action: ((T) -> Void)?
 	
 	@State var selected: Int = .zero
 	@State var swipeOffset: CGFloat = .zero
 	
-	public init(data: [Any],
+	public init(data: [T],
 				itemSize: CGSize,
 				leading: Bool = false,
-				action: ((Any) -> Void)? = nil,
-				@ViewBuilder viewBuilder: @escaping (Any,Bool) -> Content) {
+				action: ((T) -> Void)? = nil,
+				@ViewBuilder viewBuilder: @escaping (T,Bool) -> Content) {
 		self.data = data
 		self.action = action
 		self.viewBuilder = viewBuilder
@@ -68,7 +68,7 @@ public struct SlideCardView<Content: View>: View {
 	private func tapGesture(idx: Int) -> some Gesture {
 		TapGesture().onEnded { _ in
 			if idx == selected {
-				action?(idx)
+				action?(data[idx])
 			} else {
 				asyncMainAnimation {
 					self.selected = idx
@@ -95,18 +95,18 @@ public struct SlideCardView<Content: View>: View {
 }
 
 fileprivate struct SlideCardView_Preview: PreviewProvider {
-	
-	static var data: [Any] { [Color.red, Color.blue, Color.mint,Color.red, Color.blue,Color.red, Color.blue, Color.mint,Color.red, Color.blue] }
-	
+
+	static var data: [ColorCodable] { CodableColors.allCases.map { ColorCodable(data: $0) } }
+
 	static func action(idx: Any) {
 		print("(DEBUG) clicked on: ",idx)
 	}
-	
+
 	static var previews: some View {
 		ZStack(alignment: .center) {
 			SlideCardView(data: Self.data, itemSize: .init(width: 200, height: 200), leading: false, action: Self.action(idx:)) { color,isSelected in
 				RoundedRectangle(cornerRadius: 20)
-					.fill((color as? Color) ?? .red)
+					.fill(color.data.color)
 					.frame(width: 200, height: 200)
 					.overlay {
 						VStack(alignment: .leading) {

@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct FeaturedArt: View {
-    var art:AVSData = .init(img: test.thumbnail, title: test.title, data: test)
+    var art:CAData
     var body: some View {
-        ImageView(url: self.art.img, heading: self.art.title, width: totalWidth - 10, height: totalHeight * 0.5, contentMode: .fill, alignment: .center, autoHeight: false, quality: .lowest)
+        ImageView(url: self.art.thumbnail, heading: self.art.title, width: totalWidth - 10, height: totalHeight * 0.5, contentMode: .fill, alignment: .center, autoHeight: false, quality: .lowest)
             .clipShape(RoundedRectangle(cornerRadius: 20))
     }
 }
-
-struct FeaturedArt_Previews: PreviewProvider {
-    static var previews: some View {
-        FeaturedArt()
-    }
-}
+//
+//struct FeaturedArt_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FeaturedArt()
+//    }
+//}

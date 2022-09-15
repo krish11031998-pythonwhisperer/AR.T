@@ -66,8 +66,6 @@ struct ArtIntroMain:View{
 
 extension ArtIntroMain{
 	@ViewBuilder var extraIntroView : some View{
-		let w = CGFloat.totalWidth
-		let h = CGFloat.totalHeight
 		ZStack(alignment: .center) {
 			Color.clear
 			BlurView(style: .dark)

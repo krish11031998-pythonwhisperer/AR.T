@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ArtistView: View {
-    var data:[AVSData]
-    init(data: [AVSData]){
+    var data:[CAData]
+    init(data: [CAData]){
         self.data = data
     }
     
@@ -24,7 +24,7 @@ struct ArtistView: View {
                     let data = _data.element
                     let idx = _data.offset
                     
-                    ImageView(url: data.img, width: w, height: w, contentMode: .fill, alignment: .center)
+                    ImageView(url: data.thumbnail, width: w, height: w, contentMode: .fill, alignment: .center)
                         .clipShape(Circle())
                 }
             }
@@ -36,8 +36,8 @@ struct ArtistView: View {
     }
 }
 
-struct ArtistView_Previews: PreviewProvider {
-    static var previews: some View {
-        ArtistView(data: Array(repeating: asm, count: 10))
-    }
-}
+//struct ArtistView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ArtistView(data: Array(repeating: asm, count: 10))
+//    }
+//}

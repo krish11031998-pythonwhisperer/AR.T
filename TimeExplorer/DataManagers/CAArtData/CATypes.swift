@@ -29,6 +29,7 @@ enum Department: String, CaseIterable {
 	case photography = "Photography"
 	case prints = "Prints"
 	case textile = "Textiles"
+	case none
 }
 
 enum Types: String, CaseIterable {
@@ -102,4 +103,5 @@ enum Types: String, CaseIterable {
 	case vessels = "Vessels"
 	case wood = "Wood"
 	case woodblock = "Woodblock"
+	case none
 }

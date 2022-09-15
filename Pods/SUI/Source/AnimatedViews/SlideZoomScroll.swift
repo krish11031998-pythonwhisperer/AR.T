@@ -11,33 +11,23 @@ import SwiftUI
 //MARK: - View Modifier
 
 fileprivate struct SlideZoomCard: ViewModifier {
-	
-	let size: CGSize
 	@State var scale: CGFloat = 1
-	init(size: CGSize) {
-		self.size = size
-	}
 	
 	func scaleFactor(midX: CGFloat){
-		scale = midX > .totalWidth * 0.5 ? 0.9 : 1
+		asyncMainAnimation(animation: .default) {
+			scale = midX > .totalWidth * 0.5 ? 0.9 : 1
+		}
+	}
+	
+	func clearViewBuilder(g: GeometryProxy) -> some View {
+		scaleFactor(midX: g.frame(in: .global).midX)
+		return Color.clear
 	}
 	
 	func body(content: Content) -> some View {
-		GeometryReader { g -> AnyView in
-			let midX = g.frame(in: .global).midX
-			
-			DispatchQueue.main.async {
-				withAnimation {
-					scaleFactor(midX: midX)
-				}
-			}
-			
-			let view = content
-				.scaleEffect(scale)
-			
-			return AnyView(view)
-		}
-		.frame(size: size, alignment: .center)
+		content
+			.scaleEffect(scale)
+			.background(GeometryReader(content: clearViewBuilder(g:)))
 	}
 }
 
@@ -45,22 +35,22 @@ fileprivate struct SlideZoomCard: ViewModifier {
 
 fileprivate extension View {
 	
-	func slideZoomCard(size: CGSize) -> some View { modifier(SlideZoomCard(size: size)) }
+	func slideZoomCard() -> some View { modifier(SlideZoomCard()) }
 }
 
 //MARK: - SlideZoomScroll
 
-public struct SlideZoomScroll<Content: View>: View {
+public struct SlideZoomScroll<T: Codable, Content: View>: View {
 	
 	@State var currentIdx: Int = .zero
 	@State var off: CGFloat = .zero
 	
 	let size: CGSize
 	let spacing: CGFloat
-	let data: [Any]
-	let cardBuilder: (Any) -> Content
+	let data: [T]
+	let cardBuilder: (T) -> Content
 	
-	public init(data: [Any], itemSize: CGSize, spacing: CGFloat = 10, @ViewBuilder cardBuilder: @escaping (Any) -> Content) {
+	public init(data: [T], itemSize: CGSize, spacing: CGFloat = 10, @ViewBuilder cardBuilder: @escaping (T) -> Content) {
 		self.data = data
 		self.cardBuilder = cardBuilder
 		self.spacing = spacing
@@ -68,16 +58,10 @@ public struct SlideZoomScroll<Content: View>: View {
 	}
 	
 	public var body: some View {
-		ScrollView(.horizontal, showsIndicators: false) {
-			HStack(alignment: .center, spacing: spacing) {
-				ForEach(Array(data.enumerated()), id: \.offset) { data in
-					cardBuilder(data.element)
-						.slideZoomCard(size: size)
-						.fixedSize()
-				}
-				Spacer().frame(size: .init(width: .totalWidth.half.half, height: size.height))
-			}
-			.frame(height: size.height, alignment: .leading)
+		SimpleHScroll(data: data, config: .original) {
+			cardBuilder($0)
+				.slideZoomCard()
+				.fixedSize()
 		}
 	}
 }
@@ -86,9 +70,9 @@ public struct SlideZoomScroll<Content: View>: View {
 fileprivate struct SlideZoomCardCarousel_Preview: PreviewProvider {
 	
 	static var previews: some View {
-		SlideZoomScroll(data: [Color.red, Color.blue, Color.mint,Color.red, Color.blue,Color.red, Color.blue, Color.mint,Color.red, Color.blue], itemSize: .init(width: 200, height: 200)) { color in
+		SlideZoomScroll(data: Array(repeating: ColorCodable(data: CodableColors.allCases.randomElement() ?? .black), count: 10), itemSize: .init(width: 200, height: 200)) { color in
 			RoundedRectangle(cornerRadius: 20)
-				.fill((color as? Color) ?? .red)
+				.fill(color.data.color)
 				.frame(width: 200, height: 200)
 		}
 	}

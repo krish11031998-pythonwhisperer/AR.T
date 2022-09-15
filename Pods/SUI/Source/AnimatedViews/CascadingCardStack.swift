@@ -42,23 +42,23 @@ fileprivate extension View {
 	}
 }
 
-public struct CascadingCardStack<Content: View>: View {
+public struct CascadingCardStack<T:Codable, Content: View>: View {
 	
 	@State var currentIdx: Int
 	@State var offset: CGFloat = .zero
 	@State var off: CGFloat = .zero
 
-	let data: [Any]
-	let viewBuilder: (Any,Bool) -> Content
+	let data: [T]
+	let viewBuilder: (T,Bool) -> Content
 	let offFactor: CGFloat
 	let pivotFactor: CGFloat
-	let action: ((Any) -> Void)?
+	let action: ((T) -> Void)?
 	
-	public init(data: [Any],
+	public init(data: [T],
 				offFactor: CGFloat = 50,
 				pivotFactor: CGFloat = 10,
-				action: ((Any) -> Void)? = nil,
-				@ViewBuilder viewBuilder: @escaping (Any,Bool) -> Content)
+				action: ((T) -> Void)? = nil,
+				@ViewBuilder viewBuilder: @escaping (T,Bool) -> Content)
 	{
 		self.data = data
 		_currentIdx = .init(initialValue: Int(Double(data.count) * 0.5))
@@ -93,7 +93,7 @@ public struct CascadingCardStack<Content: View>: View {
 	private func tapGesture(idx: Int) -> some Gesture {
 		TapGesture().onEnded { _ in
 			if idx == currentIdx {
-				action?(currentIdx)
+				action?(data[currentIdx])
 			} else {
 				asyncMainAnimation {
 					self.currentIdx = idx
@@ -123,11 +123,11 @@ public struct CascadingCardStack<Content: View>: View {
 
 
 fileprivate struct CascadingCardStack_Preview: PreviewProvider {
-	
+
 	static var previews: some View {
-		CascadingCardStack(data: [Color.red, Color.blue, Color.mint,Color.red, Color.blue]) { color, isSelected in
+		CascadingCardStack(data: CodableColors.allCases.map { ColorCodable(data: $0) }) { color, isSelected in
 			RoundedRectangle(cornerRadius: 20)
-				.fill((color as? Color) ?? .red)
+				.fill(color.data.color)
 				.frame(width: 200, height: 350)
 		}
 	}

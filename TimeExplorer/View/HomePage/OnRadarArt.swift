@@ -9,10 +9,10 @@ import SwiftUI
 import SUI
 
 struct OnRadarArt: View {
-    var data:[AVSData] = []
+    var data:[CAData] = []
     var tabSize:CGSize = .init(width: totalWidth * 0.7, height: totalHeight * 0.3)
     
-    init(data:[AVSData]){
+    init(data:[CAData]){
         self.data = data
     }
 	
@@ -23,7 +23,7 @@ struct OnRadarArt: View {
     @ViewBuilder func card(idx: Int) -> some View {
 		if idx >= 0 && idx < data.count {
 			HStack(alignment: .top, spacing: 8) {
-				SUI.ImageView(url: data[idx].img)
+				SUI.ImageView(url: data[idx].thumbnail)
 					.framed(size: .init(width: tabSize.width * 0.4, height: cardSize.height), cornerRadius: 10, alignment: .center)
 				VStack(alignment: .leading, spacing: 10) {
 					(data[idx].title ?? "XXX").normal(size: 15).text.lineLimit(2)

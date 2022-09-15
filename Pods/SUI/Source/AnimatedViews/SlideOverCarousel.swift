@@ -90,17 +90,17 @@ public struct SlideOverCarouselConfig {
 
 public typealias SlideOverCarouselCallback = (Int) -> Void
 
-public struct SlideOverCarousel<Content: View>: View {
+public struct SlideOverCarousel<T:Codable, Content: View>: View {
 	
-	let data: [Any]
-	let viewBuilder: (Any) -> Content
+	let data: [T]
+	let viewBuilder: (T) -> Content
 	let config: SlideOverCarouselConfig
 	let actionHandler: SlideOverCarouselCallback?
 	@State var currentIdx: Int = .zero
 	
-	public init(data: [Any],
+	public init(data: [T],
 				config: SlideOverCarouselConfig = .noTimer,
-				@ViewBuilder viewBuilder: @escaping (Any) -> Content,
+				@ViewBuilder viewBuilder: @escaping (T) -> Content,
 				action: SlideOverCarouselCallback? = nil)
 	{
 		self.data = data
@@ -149,9 +149,9 @@ public struct SlideOverCarousel<Content: View>: View {
 
 fileprivate struct SlideOverCarouselPreviewProvider: PreviewProvider {
 	static var previews: some View {
-		SlideOverCarousel(data:[Color.red, Color.blue, Color.brown, Color.mint], config: .init(hasTimer: false)) { color in
+		SlideOverCarousel(data: CodableColors.allCases.map { ColorCodable(data: $0) } , config: .init(hasTimer: false)) { color in
 			RoundedRectangle(cornerRadius: 20)
-				.fill((color as? Color) ?? .black)
+				.fill(color.data.color)
 				.frame(width: .totalWidth - 20, height: 200, alignment: .center)
 		}
 	}

@@ -24,7 +24,7 @@ struct HomePageView: View {
             }.padding().frame(height: dim.height * 0.75, alignment: .center)
     }
     
-	var posts: [AVSData] {
+	var posts: [CAData] {
 		viewModel.artworks
 	}
     
@@ -32,19 +32,23 @@ struct HomePageView: View {
 		if let data = viewModel.sectionData[section] {
 			switch section {
 			case .highlight:
-				HighlightView(data: data, art: $viewModel.selectedArt)
+				HighlightView(data: data as? [CAData] ?? [], art: $viewModel.selectedArt)
 			case .currentlyOnView:
-				TrendingArt(data: data)
+				TrendingArt(data: data as? [CAData] ?? [])
 			case .onRadar:
-				OnRadarArt(data: data)
+				OnRadarArt(data: data as? [CAData] ?? [])
 			case .mayShow:
-				RecommendArt(attractions: data)
+				ArtDepartmentView(data: data as? [CAData] ?? [])
 			case .recent:
-				ArtDepartmentView(data: data)
+				RecommendArt(attractions: data as? [CAData] ?? [])
 			case .new:
-				GenreView(genreData: data)
+				GenreView(genreData: data as? [CAData] ?? [])
 			case .artists:
-				artistArtView(data: data)
+				artistArtView(data: data as? [CAData] ?? [])
+			case .departments:
+				departmentView
+			case .types:
+				typesView
 			}
 		} else {
 			Color.gray.opacity(0.15)
@@ -75,6 +79,12 @@ struct HomePageView: View {
 					Color.clear.frame(size: .zero)
 				}
 			}
+			
+			NavLink(isActive: $viewModel.showDepartments, titleView: {
+				"Departments".main(size: 20).text.anyView
+			}) {
+				DepartmentView(department: viewModel.selectedDepartment)
+			}
 		}
 		.background(Color.black)
         .edgesIgnoringSafeArea(.all)
@@ -87,7 +97,7 @@ struct HomePageView: View {
 
 extension HomePageView{
     
-    func BidArt(data: [AVSData])-> some View{
+    func BidArt(data: [CAData])-> some View{
 		let h: CGFloat = 250
 		let w: CGFloat = 150
 		let cardSize: CGSize = .init(width: w, height: h - 10)
@@ -103,7 +113,7 @@ extension HomePageView{
         }
     }
     
-    func artistArtView(data:[AVSData]) -> some View{
+    func artistArtView(data:[CAData]) -> some View{
         let f = Int(floor(Double(data.count/3)))
         let view = VStack(alignment: .center, spacing: 20) {
             ForEach(Array(0..<f),id: \.self) { i in
@@ -119,6 +129,47 @@ extension HomePageView{
         return view
     }
     
+	var departmentView: some View {
+		ScrollView(.horizontal, showsIndicators: false) {
+			HStack(alignment: .center, spacing: 8) {
+				ForEach(Department.allCases, id: \.rawValue) { dpt in
+					VStack(alignment: .leading, spacing: 0) {
+						dpt.rawValue.systemBody(color: .white).text
+							.fillFrame(alignment: .bottomLeading)
+					}
+					.padding()
+					.background(Color.purple.opacity(0.05))
+					.framed(size: .init(width: 125, height: 175))
+					.borderCard(borderColor: .purple.opacity(0.35), radius: 16, borderWidth: 1)
+					.onTapGesture {
+						withAnimation(.default) {
+							viewModel.selectedDepartment = dpt
+						}
+					}
+				}
+			}
+		}
+	}
+
+	
+	var typesView: some View {
+		ScrollView(.horizontal, showsIndicators: false) {
+			HStack(alignment: .center, spacing: 8) {
+				ForEach(Types.allCases, id: \.rawValue) { dpt in
+					VStack(alignment: .leading, spacing: 0) {
+						dpt.rawValue.systemBody(color: .white).text
+							.fillFrame(alignment: .bottomLeading)
+					}
+					.padding()
+					.background(Color.purple.opacity(0.05))
+					.framed(size: .init(width: 125, height: 175))
+					.borderCard(borderColor: .purple.opacity(0.35), radius: 16, borderWidth: 1)
+				}
+			}
+		}
+	}
+
+	
 }
 
 

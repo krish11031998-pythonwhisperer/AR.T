@@ -9,9 +9,9 @@ import SwiftUI
 import SUI
 
 struct AuctionArtView: View {
-	var data:[AVSData] = []
+	var data:[CAData] = []
 	@Namespace var animation
-	init(data:[AVSData]){
+	init(data:[CAData]){
 		self.data = data
 	}
 	
@@ -56,9 +56,9 @@ extension AuctionArtView{
     }
 }
 
-struct AuctionArtView_Previews: PreviewProvider {
-
-    static var previews: some View {
-        AuctionArtView(data: Array(repeating: .init(img: test.thumbnail, title: test.title, data: test), count: 5))
-    }
-}
+//struct AuctionArtView_Previews: PreviewProvider {
+//
+//    static var previews: some View {
+//        AuctionArtView(data: Array(repeating: .init(img: test.thumbnail, title: test.title, data: test), count: 5))
+//    }
+//}
