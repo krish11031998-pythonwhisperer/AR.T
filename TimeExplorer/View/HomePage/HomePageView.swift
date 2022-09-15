@@ -33,21 +33,22 @@ struct HomePageView: View {
 			switch section {
 			case .highlight:
 				HighlightView(data: data, art: $viewModel.selectedArt)
-			case .trending:
+			case .currentlyOnView:
 				TrendingArt(data: data)
 			case .onRadar:
 				OnRadarArt(data: data)
-			case .recommended:
+			case .mayShow:
 				RecommendArt(attractions: data)
 			case .recent:
-				BidArt(data: data)
+				ArtDepartmentView(data: data)
 			case .new:
 				GenreView(genreData: data)
 			case .artists:
 				artistArtView(data: data)
 			}
 		} else {
-			EmptyView().body
+			Color.gray.opacity(0.15)
+				.framed(size: .init(width: .totalWidth - 10, height: 300))
 		}
     }
 
@@ -58,12 +59,10 @@ struct HomePageView: View {
 			ScrollView(.vertical, showsIndicators: false){
 				LazyVStack(alignment: .center, spacing: 10) {
 					self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
-//					if !self.posts.isEmpty {
-						ForEach(sections, id:\.rawValue) { section in
-							subView(section: section)
-								.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
-						}
-//					}
+					ForEach(sections, id:\.rawValue) { section in
+						subView(section: section)
+							.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
+					}
 				}
 				.fixedWidth(width: .totalWidth)
 				.padding(.bottom, .safeAreaInsets.bottom + 100)

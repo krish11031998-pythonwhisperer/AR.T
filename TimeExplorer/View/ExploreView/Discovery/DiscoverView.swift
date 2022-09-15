@@ -13,8 +13,7 @@ struct DiscoverView: View {
     @State var exploreList : [ExploreData] = []
     @State var art:ArtData? = nil
     @State var showArt:Bool = false
-    @State var idx:Int = 0
-    var dispatchGroup:DispatchGroup = .init()
+    @State var idx:Int = -1
     
     func onAppear(){
         self.mainStates.toggleTab()
@@ -79,9 +78,17 @@ struct DiscoverView: View {
         ZStack(alignment: .top) {
             Color.black
 			if !mainStates.loading{
-				DiscoveryView(data: exploreList.enumerated().map { .init(id: $0.offset, data: $0.element) }, model: .init(cardSize: .init(width: 200, height: 350), rows: 4, spacing: 10, bgColor: .clear)) { data in
-					SUI.ImageView(url: (data as? ExploreData)?.img)
+				DiscoveryView(data: exploreList.enumerated().map { .init(id: $0.offset, data: $0.element) },
+							  model: .init(cardSize: .init(width: 200, height: 350), rows: 4, spacing: 10, bgColor: .clear)) { data in
+					SUI.ImageView(url: (data.data as? ExploreData)?.img)
 						.framed(size: .init(width: 200, height: 350), cornerRadius: 15, alignment: .center)
+						.onTapGesture {
+							withAnimation(.easeInOut(duration: 0.5)) {
+								art = (data.data as? ExploreData)?.data as? ArtData
+								idx = data.id
+							}
+						}
+						.cardSelected(idx)
 				}
 			}
 			header

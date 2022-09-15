@@ -11,10 +11,10 @@ import SUI
 
 enum HomeSection: String, CaseIterable {
 	case highlight = "Hightlight of the Day"
-	case trending = "Trending"
+	case currentlyOnView = "Current On View"
 	case onRadar = "On Your Radar"
-	case recommended = "Recommendation"
-	case recent = "Recent"
+	case mayShow = "CMA May Artist"
+	case recent = "Recently Acquired"
 	case new = "New"
 	case artists = "Artists"
 }
@@ -42,10 +42,10 @@ class HomeViewModel: ObservableObject {
 	
 	private var sectionParams: [HomeSection:SearchParam] = [
 		.highlight : .init(),
-		.trending : .init(department: .japanese),
+		.currentlyOnView : .init(limit: 5, currently_on_view: true),
 		.onRadar : .init(department: .modern_european),
-		.recommended : .init(type: .calligraphy),
-		.recent : .init(type: .armsAndArmor),
+		.mayShow : .init(may_show_artists: true),
+		.recent : .init(recently_acquired: true),
 		.new : .init(type: .illumination)
 	]
 	

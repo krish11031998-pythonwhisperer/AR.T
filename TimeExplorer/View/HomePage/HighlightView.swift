@@ -17,6 +17,17 @@ struct HighlightView: View {
 		self._art = art
     }
 	
+	private var cardSize: CGSize {
+		.init(width: .totalWidth - 10, height: 350)
+	}
+	
+	private func action(_ idx: Int) {
+		print("(DEBUG) selected : ", data[idx])
+		guard let artData = data[idx].data as? CAData else { return }
+		self.art = .init(id: "\(artData.id ?? 0)", date: .now, title: artData.title ?? "", model_url: nil, introduction: artData.digital_description ?? artData.wall_description ?? ""
+						 , painterName: artData.artistName ?? "", painterImg: artData.title ?? "", top_facts: nil, thumbnail: artData.thumbnail)
+	}
+	
     var body: some View {
 		SlideOverCarousel(data: data, config: .withTimer){ viewData in
 			if let artData = viewData as? AVSData {
@@ -24,17 +35,11 @@ struct HighlightView: View {
 							cardConfig: .init(bids: nil,
 											  showBar: false,
 											  cardStyling: .rounded(14),
-											  cardSize:  .init(width: .totalWidth - 10, height: 350)))
+											  cardSize: cardSize ))
 			} else {
 				Color.brown
 			}
-		} action: { idx in
-			print("(DEBUG) selected : ", data[idx])
-			guard let artData = data[idx].data as? CAData else { return }
-			self.art = .init(id: "\(artData.id ?? 0)", date: .now, title: artData.title ?? "", model_url: nil, introduction: artData.digital_description ?? artData.wall_description ?? ""
-							 , painterName: artData.artistName ?? "", painterImg: artData.title ?? "", top_facts: nil, thumbnail: artData.thumbnail)
-//			self.art = .init(date: data[idx].data, title: data[idx].title ?? "", introduction: data[idx].subtitle)
-		}
+		} action: {action($0)}
     }
 }
 

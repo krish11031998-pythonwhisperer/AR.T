@@ -18,6 +18,10 @@ struct SearchParam: Loopable {
 	let has_image: Bool
 	let skip: Int?
 	let limit: Int
+	let currently_on_view: Bool
+	let recently_acquired: Bool
+	let may_show_artists: Bool
+	
 	
 	init(q: String? = nil,
 		 artist: String? = nil,
@@ -26,7 +30,10 @@ struct SearchParam: Loopable {
 		 type: Types? = nil,
 		 has_image: Bool = true,
 		 skip: Int? = nil,
-		 limit: Int = 10
+		 limit: Int = 10,
+		 currently_on_view: Bool = false,
+		 recently_acquired: Bool = false,
+		 may_show_artists: Bool = false
 	) {
 		self.q = q
 		self.artist = artist
@@ -36,10 +43,13 @@ struct SearchParam: Loopable {
 		self.has_image = has_image
 		self.skip = skip
 		self.limit = limit
+		self.currently_on_view = currently_on_view
+		self.recently_acquired = recently_acquired
+		self.may_show_artists = may_show_artists
 	}
 	
 	func queryItems() -> [URLQueryItem] {
-		return [.init(name: "q", value: q),
+		var items: [URLQueryItem] = [.init(name: "q", value: q),
 		 .init(name: "artist", value: artist),
 		 .init(name: "title", value: title),
 		 .init(name: "department", value: department?.rawValue),
@@ -48,6 +58,20 @@ struct SearchParam: Loopable {
 		 .init(name: "skip", value: "\(skip ?? 0)"),
 		 .init(name: "limit", value: "\(limit)"),
 		].filter { $0.value != nil }
+		
+		if currently_on_view {
+			items.append(.init(name: "currently_on_view", value: nil))
+		}
+		
+		if recently_acquired {
+			items.append(.init(name: "recently_acquired", value: nil))
+		}
+		
+		if may_show_artists {
+			items.append(.init(name: "may_show_artists", value: nil))
+		}
+		
+		return items
 	}
 }
 

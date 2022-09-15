@@ -117,6 +117,7 @@
 		C6F159552BE8EAE85855D645 /* Pods_TimeExplorer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48B7826299716B621E89AED8 /* Pods_TimeExplorer.framework */; };
 		EF45E59928CF066D0019E229 /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF45E59828CF066D0019E229 /* Misc.swift */; };
 		EF82553928D2220D000447F0 /* CATypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF82553828D2220D000447F0 /* CATypes.swift */; };
+		EF82553B28D25722000447F0 /* ArtDepartmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF82553A28D25722000447F0 /* ArtDepartmentView.swift */; };
 		EFF96C8028D034E900A70550 /* CAArtAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF96C7F28D034E900A70550 /* CAArtAPI.swift */; };
 		EFF96C8428D097EE00A70550 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF96C8328D097EE00A70550 /* HomeViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -255,6 +256,7 @@
 		D21C6C833AA25BBD2A543CED /* Pods-TimeExplorer-TimeExplorerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TimeExplorer-TimeExplorerUITests.release.xcconfig"; path = "Target Support Files/Pods-TimeExplorer-TimeExplorerUITests/Pods-TimeExplorer-TimeExplorerUITests.release.xcconfig"; sourceTree = "<group>"; };
 		EF45E59828CF066D0019E229 /* Misc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
 		EF82553828D2220D000447F0 /* CATypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CATypes.swift; sourceTree = "<group>"; };
+		EF82553A28D25722000447F0 /* ArtDepartmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtDepartmentView.swift; sourceTree = "<group>"; };
 		EFF96C7F28D034E900A70550 /* CAArtAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAArtAPI.swift; sourceTree = "<group>"; };
 		EFF96C8328D097EE00A70550 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -400,6 +402,7 @@
 				BCD7B08E26A983D3008E057D /* HighlightView.swift */,
 				BCD7B09526B407CD008E057D /* ArtistArtView.swift */,
 				EFF96C8328D097EE00A70550 /* HomeViewModel.swift */,
+				EF82553A28D25722000447F0 /* ArtDepartmentView.swift */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -967,6 +970,7 @@
 				BCD7C7D926903BF000077D89 /* ArtAPI.swift in Sources */,
 				BC561D40261DF3DE00130428 /* SystemButton.swift in Sources */,
 				BCD7C7FE2690955500077D89 /* ChartsMainView.swift in Sources */,
+				EF82553B28D25722000447F0 /* ArtDepartmentView.swift in Sources */,
 				BC5D47DE26667AC800C55A3F /* GenreView.swift in Sources */,
 				BCB25F1325B0C17900290E18 /* TrendingMainView.swift in Sources */,
 				BCE95E862624E73800B04852 /* SCNSceneView.swift in Sources */,

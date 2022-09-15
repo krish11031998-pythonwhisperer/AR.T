@@ -45,8 +45,8 @@ struct ArtViewCard:View{
 		ZStack(alignment: .bottomLeading) {
 			SUI.ImageView(url: cardData.img)
 				.framed(size: cardSize, cornerRadius: 0, alignment: .center)
+			lightbottomShadow.fillFrame()
 			VStack(alignment: .leading, spacing: 10) {
-				Spacer()
 				(cardData.title ?? "No Title").normal(size: 12).text
 				RoundedRectangle(cornerRadius: 20)
 					.fill(Color.white.opacity(0.35))
@@ -54,6 +54,7 @@ struct ArtViewCard:View{
 					.padding(.bottom,10)
 			}
 			.padding()
+			.fillFrame(alignment: .bottomLeading)
 		}
 		.framed(size: cardSize, cornerRadius: 12, alignment: .center)
     }

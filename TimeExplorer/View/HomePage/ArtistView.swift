@@ -17,7 +17,7 @@ struct ArtistView: View {
         return totalWidth * 0.33
     }
     
-    var HScroll:some View{
+    private var HScroll:some View{
         ScrollView(.horizontal, showsIndicators: false) {
             HStack{
                 ForEach(Array(self.data.enumerated()),id: \.offset) { _data in
