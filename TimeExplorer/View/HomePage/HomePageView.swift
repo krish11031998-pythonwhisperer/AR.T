@@ -33,22 +33,30 @@ struct HomePageView: View {
 			switch section {
 			case .highlight:
 				HighlightView(data: data as? [CAData] ?? [], art: $viewModel.selectedArt)
+					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
 			case .currentlyOnView:
 				TrendingArt(data: data as? [CAData] ?? [])
+					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
 			case .onRadar:
 				OnRadarArt(data: data as? [CAData] ?? [])
+					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
 			case .mayShow:
 				ArtDepartmentView(data: data as? [CAData] ?? [])
+					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
 			case .recent:
 				RecommendArt(attractions: data as? [CAData] ?? [])
+					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
 			case .new:
 				GenreView(genreData: data as? [CAData] ?? [])
+					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
 			case .artists:
 				artistArtView(data: data as? [CAData] ?? [])
+					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
 			case .departments:
 				departmentView
 			case .types:
 				typesView
+					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
 			}
 		} else {
 			Color.gray.opacity(0.15)
@@ -65,7 +73,6 @@ struct HomePageView: View {
 					self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
 					ForEach(sections, id:\.rawValue) { section in
 						subView(section: section)
-							.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
 					}
 				}
 				.fixedWidth(width: .totalWidth)
@@ -80,10 +87,8 @@ struct HomePageView: View {
 				}
 			}
 			
-			NavLink(isActive: $viewModel.showDepartments, titleView: {
-				"Departments".main(size: 20).text.anyView
-			}) {
-				DepartmentView(department: viewModel.selectedDepartment)
+			NavLink(isActive: $viewModel.showDepartments) {
+				DepartmentView(department: viewModel.selectedDepartment ?? .contemporary)
 			}
 		}
 		.background(Color.black)
@@ -130,25 +135,33 @@ extension HomePageView{
     }
     
 	var departmentView: some View {
-		ScrollView(.horizontal, showsIndicators: false) {
-			HStack(alignment: .center, spacing: 8) {
-				ForEach(Department.allCases, id: \.rawValue) { dpt in
-					VStack(alignment: .leading, spacing: 0) {
-						dpt.rawValue.systemBody(color: .white).text
-							.fillFrame(alignment: .bottomLeading)
-					}
-					.padding()
-					.background(Color.purple.opacity(0.05))
-					.framed(size: .init(width: 125, height: 175))
-					.borderCard(borderColor: .purple.opacity(0.35), radius: 16, borderWidth: 1)
-					.onTapGesture {
-						withAnimation(.default) {
-							viewModel.selectedDepartment = dpt
+		VStack(alignment: .leading, spacing: 10) {
+			"Departments".normal(size: 25).text
+				.padding()
+			Spacer()
+			ScrollView(.horizontal, showsIndicators: false) {
+				HStack(alignment: .center, spacing: 8) {
+					ForEach(Array(Department.allCases[0..<Department.allCases.count/2]), id: \.rawValue) { data in
+						BlobButton(text: data.rawValue.normal(size: 16, color: .white), config: viewModel.blobConfig) {
+							viewModel.selectedDepartment = data
 						}
 					}
-				}
+				}.padding(.horizontal)
+				.fillWidth(alignment: .leading)
+				
+				HStack(alignment: .center, spacing: 8) {
+					ForEach(Array(Department.allCases[Department.allCases.count/2..<Department.allCases.count]), id: \.rawValue) { data in
+						BlobButton(text: data.rawValue.normal(size: 16, color: .white), config: viewModel.blobConfig) {
+							viewModel.selectedDepartment = data
+						}
+					}
+				}.padding(.horizontal).fillWidth(alignment: .leading)
 			}
+			.padding(.bottom)
 		}
+		.fixedHeight(height: 250)
+		.background(Color.purple.opacity(0.15))
+		.borderCard(borderColor: .purple, radius: 20, borderWidth: 1.25)
 	}
 
 	

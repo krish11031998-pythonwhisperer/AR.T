@@ -38,6 +38,12 @@ class DepartmentViewModel: ObservableObject {
 			}
 	}
 	
+	public func blobButtonConfig(_ dpt: Department) -> BlobButtonConfig {
+		let selected = department == dpt
+		return .init(color: selected ? .purple.opacity(0.15) : .clear, cornerRadius: 16,
+					 border: .init(color: department == dpt ? .purple : .white, borderWidth: 1))
+	}
+	
 }
 
 struct DepartmentView: View {
@@ -47,7 +53,11 @@ struct DepartmentView: View {
 	
 	init(department: Department) {
 		self._viewModel = .init(wrappedValue: .init(department: department))
-		setupNavBar()
+//		let navigationBarAppearance = UINavigationBarAppearance()
+//		navigationBarAppearance.configureWithTransparentBackground()
+//		UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
+//		UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+//		UINavigationBar.appearance().compactAppearance = navigationBarAppearance
 	}
 	
 	private func setupNavBar() {
@@ -59,35 +69,34 @@ struct DepartmentView: View {
 	}
 		
 	private var departmentOptions: some View {
-//		SimpleHScroll(data: Department.allCases, config: .original) { dpt in
-//
-//			BlobButton(text: dpt.rawValue.systemBody(color: .white),
-//					   config: .init(color: .purple.opacity(0.15), cornerRadius: 16,
-//									 border: .init(color: .purple, borderWidth: 1))) {
-//				withAnimation(.default) {
-//					viewModel.department = dpt
-//				}
-//			}
-//		}
-		Color.clear.frame(size: .zero)
+		SimpleHScroll(data: Department.allCases, config: .original) { dpt in
+			BlobButton(text: dpt.rawValue.normal(size: 16, color: .white),
+					   config: viewModel.blobButtonConfig(dpt)) {
+				withAnimation(.default) {
+					viewModel.department = dpt
+				}
+			}
+		}
 	}
 	
 	var gridScrollView: some View {
 		LazyVGrid(columns: Array(repeating: .init(.fixed((.totalWidth - 20).half - 5), spacing: 10, alignment: .center), count: 2),
 				  alignment: .leading, spacing: 10) {
 			ForEach(viewModel.artData, id: \.title) { data in
-				VStack(alignment: .leading, spacing: 8) {
-					SUI.ImageView(url: data.thumbnail)
-						.framed(size: .init(width: (.totalWidth - 20).half - 5, height: 150),cornerRadius: 4, alignment: .top)
-					(data.title ?? "No Title").normal(size: 14).text
-				}
+				ArtViewCard(data: data, cardSize: .init(width: (.totalWidth - 20).half - 5, height: 250))
 			}
 		}.padding(.horizontal, 10)
 	}
 	
     var body: some View {
 		ScrollView {
-			departmentOptions
+			VStack(alignment: .leading, spacing: 8) {
+				"Choose a Department".normal(size: 25, color: .white).text
+					.padding(.horizontal)
+					.fillWidth(alignment: .leading)
+				departmentOptions
+			}.padding(.vertical, 16)
+			
 			gridScrollView
 				.padding(.bottom, .safeAreaInsets.bottom)
 		}
@@ -96,9 +105,3 @@ struct DepartmentView: View {
 		.edgesIgnoringSafeArea(.bottom)
     }
 }
-
-//struct DepartmentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DepartmentView()
-//    }
-//}

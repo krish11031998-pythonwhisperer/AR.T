@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Department: String, CaseIterable {
+enum Department: String, CaseIterable, Codable {
 	case african = "African Art"
 	case american = "American Painting and Sculpture"
 	case americas = "Art of the Americas"
@@ -29,7 +29,6 @@ enum Department: String, CaseIterable {
 	case photography = "Photography"
 	case prints = "Prints"
 	case textile = "Textiles"
-	case none
 }
 
 enum Types: String, CaseIterable {

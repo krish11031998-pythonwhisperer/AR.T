@@ -28,15 +28,15 @@ class HomeViewModel: ObservableObject {
 	@Published var showArt: Bool = false
 	@Published var showDepartments: Bool = false {
 		didSet {
-			if !showDepartments && selectedDepartment != .none {
-				selectedDepartment = .none
+			if !showDepartments && selectedDepartment != nil {
+				selectedDepartment = nil
 			}
 		}
 	}
 	@Published var showTypes: Bool = false
-	@Published var selectedDepartment: Department = .none {
+	@Published var selectedDepartment: Department? = nil {
 		didSet {
-			showDepartments = selectedDepartment != .none
+			showDepartments = selectedDepartment != nil
 		}
 	}
 	@Published var selectedType: Types = .none
@@ -95,6 +95,8 @@ class HomeViewModel: ObservableObject {
 	
 	var sections: [HomeSection] = HomeSection.allCases
 	
-	
+	var blobConfig: BlobButtonConfig {
+		.init(color: .white.opacity(0.15), cornerRadius: 14, border: .init(color: .white, borderWidth: 1.25))
+	}
 	
 }

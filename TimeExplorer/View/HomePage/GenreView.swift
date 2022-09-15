@@ -44,10 +44,11 @@ struct ArtViewCard:View{
     var body: some View{
 		ZStack(alignment: .bottomLeading) {
 			SUI.ImageView(url: cardData.thumbnail)
-				.framed(size: cardSize, cornerRadius: 0, alignment: .center)
+				.framed(size: cardSize, cornerRadius: 0, alignment: .top)
 			lightbottomShadow.fillFrame()
 			VStack(alignment: .leading, spacing: 10) {
 				(cardData.title ?? "No Title").normal(size: 12).text
+					.lineLimit(2)
 				RoundedRectangle(cornerRadius: 20)
 					.fill(Color.white.opacity(0.35))
 					.fixedHeight(height: 2)
