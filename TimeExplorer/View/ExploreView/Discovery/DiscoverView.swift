@@ -10,41 +10,9 @@ import SUI
 
 struct DiscoverView: View {
     @EnvironmentObject var mainStates:AppStates
-    @State var exploreList : [ExploreData] = []
-    @State var art:ArtData? = nil
-    @State var showArt:Bool = false
-    @State var idx:Int = -1
-    
-    func onAppear(){
-        self.mainStates.toggleTab()
-        if let data = self.mainStates.getArt(limit: 100,skip: 300){
-            self.parseData(data)
-        }
-    }
+	@StateObject var viewModel: DiscoverViewModel = .init()
     
     
-    
-    func parseData(_ data:[CAData]){
-        if !data.isEmpty{
-            let _data = data.compactMap({$0.images?.web?.url != nil ? ExploreData(img: $0.images?.web?.url, data: $0) : nil})
-            DispatchQueue.main.async {
-                self.exploreList = _data
-                withAnimation(.easeInOut) {
-                    self.mainStates.loading = false
-                }
-				self.art = _data.first?.data as? ArtData
-            }
-        }
-       
-    }
-    
-    func updateShowArt(art: ArtData?){
-        if art != nil{
-            self.showArt = true
-        }else if self.showArt{
-            self.showArt = false
-        }
-    }
     
     var header:some View{
         HStack(alignment: .center, spacing: 10){
@@ -54,10 +22,10 @@ struct DiscoverView: View {
                 self.mainStates.tab = "home"
             }
             SystemButton(b_name: "arrow.clockwise", b_content: "", color: .white, haveBG: true, size: .init(width: 20, height: 20), bgcolor: .black) {
-                if (self.idx + 2) * 25 <= self.exploreList.count{
-                    self.idx += 1
+                if (viewModel.idx + 2) * 25 <= viewModel.exploreList.count{
+					viewModel.idx += 1
                 }else{
-                    self.idx = 0
+                    viewModel.idx = 0
                 }
             }
         }.padding()
@@ -67,8 +35,8 @@ struct DiscoverView: View {
     }
 	
 	@ViewBuilder var selectedArtView: some View {
-		if let art = self.art{
-			ArtScrollMainView(data: art, showArt: $showArt)
+		if let art = viewModel.art{
+			ArtScrollMainView(data: art, showArt: $viewModel.showArt)
 		} else {
 			Color.clear.frame(size: .zero)
 		}
@@ -78,27 +46,30 @@ struct DiscoverView: View {
         ZStack(alignment: .top) {
             Color.black
 			if !mainStates.loading{
-				DiscoveryView(data: exploreList.enumerated().map { .init(id: $0.offset, data: $0.element) },
+				DiscoveryView(data: viewModel.paginatedData,
 							  model: .init(cardSize: .init(width: 200, height: 350), rows: 4, spacing: 10, bgColor: .clear)) { data in
 					SUI.ImageView(url: (data.data as? ExploreData)?.img)
 						.framed(size: .init(width: 200, height: 350), cornerRadius: 15, alignment: .center)
 						.onTapGesture {
 							withAnimation(.easeInOut(duration: 0.5)) {
-								art = (data.data as? ExploreData)?.data as? ArtData
-								idx = data.id
+								viewModel.art = (data.data as? ExploreData)?.data as? ArtData
+								viewModel.idx = data.id
 							}
 						}
-						.cardSelected(idx)
+						.cardSelected(viewModel.idx)
 				}
 			}
 			header
         }
 		.edgesIgnoringSafeArea(.all)
-        .onAppear(perform: self.onAppear)
-        .onReceive(self.mainStates.TabAPI[self.mainStates.tab]!.$artDatas, perform: self.parseData)
-        .onChange(of: self.art, perform: self.updateShowArt(art:))
+		.onReceive(viewModel.$exploreList, perform: { newValue in
+			withAnimation(.default) {
+				mainStates.loading = newValue.isEmpty
+			}
+		})
+        .onChange(of: viewModel.art, perform: viewModel.updateShowArt(art:))
         .onDisappear(perform: self.mainStates.toggleTab)
-		.fullScreenModal(isActive: $showArt, config: .init(isDraggable: false, showCloseIndicator: true)) {
+		.fullScreenModal(isActive: $viewModel.showArt, config: .init(isDraggable: false, showCloseIndicator: true)) {
 			selectedArtView
 		}
 		.navigationBarHidden(true)
