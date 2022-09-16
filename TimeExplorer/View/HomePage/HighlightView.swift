@@ -9,12 +9,11 @@ import SwiftUI
 import SUI
 
 struct HighlightView: View {
+	@EnvironmentObject var homePage: HomeViewModel
     var data:[CAData]
-	@Binding var art: ArtData?
 	
-	init(data:[CAData], art: Binding<ArtData?> = .constant(nil)){
+	init(data:[CAData]){
         self.data = data
-		self._art = art
     }
 	
 	private var cardSize: CGSize {
@@ -23,9 +22,21 @@ struct HighlightView: View {
 	
 	private func action(_ idx: Int) {
 		print("(DEBUG) selected : ", data[idx])
-			let artData = data[idx]
-		self.art = .init(id: "\(artData.id ?? 0)", date: .now, title: artData.title ?? "", model_url: nil, introduction: artData.digital_description ?? artData.wall_description ?? ""
-						 , painterName: artData.artistName ?? "", painterImg: artData.title ?? "", top_facts: nil, thumbnail: artData.thumbnail)
+		let artData = data[idx]
+		let infoSnippets: [String: String] = ["Creation Date" : artData.creation_date ?? "",
+											  "Technique" : artData.technique ?? "",
+											  "Department" : artData.department ?? "" ,
+											  "Type" : artData.type ?? ""]
+		homePage.selectedArt = .init(id: "\(artData.id ?? 0)",
+									 date: .now,
+									 title: artData.title ?? "",
+									 model_url: nil,
+									 introduction: artData.digital_description ?? artData.wall_description ?? "",
+									 infoSnippets: infoSnippets,
+									 painterName: artData.artistName ?? "",
+									 painterImg: artData.title ?? "",
+									 top_facts: nil,
+									 thumbnail: artData.thumbnail)
 	}
 	
     var body: some View {

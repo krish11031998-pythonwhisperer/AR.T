@@ -112,9 +112,9 @@ struct ArcCorners:Shape{
     
     func CornerPoint(_ rect:CGRect,_ corner:UIRectCorner) -> CGPoint{
         var point:CGPoint = .init()
-        var topCorner = self.corner == corner ? rect.height * self.curveFactor : 0
-        var bottomCorner = self.corner == corner ? rect.height * (1 - self.curveFactor) : rect.height
-        var val = corner == .topRight || corner == .topLeft ? topCorner : bottomCorner
+        let topCorner = self.corner == corner ? rect.height * self.curveFactor : 0
+        let bottomCorner = self.corner == corner ? rect.height * (1 - self.curveFactor) : rect.height
+        let val = corner == .topRight || corner == .topLeft ? topCorner : bottomCorner
         switch (corner){
             case .topLeft:
                 point = CGPoint(x:0 , y: val)
@@ -141,10 +141,10 @@ struct ArcCorners:Shape{
     
     func path(in rect: CGRect) -> Path {
         return Path{path in
-            var topRight = self.CornerPoint(rect, .topRight)
-            var topLeft = self.CornerPoint(rect, .topLeft)
-            var bottomLeft = self.CornerPoint(rect, .bottomLeft)
-            var bottomRight = self.CornerPoint(rect, .bottomRight)
+            let topRight = self.CornerPoint(rect, .topRight)
+            let topLeft = self.CornerPoint(rect, .topLeft)
+            let bottomLeft = self.CornerPoint(rect, .bottomLeft)
+            let bottomRight = self.CornerPoint(rect, .bottomRight)
             
             switch (corner){
             case .topLeft, .bottomLeft:

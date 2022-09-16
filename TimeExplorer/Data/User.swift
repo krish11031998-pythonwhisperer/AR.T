@@ -105,12 +105,11 @@ struct FIRAnnotationData:Codable,Loopable{
     var vid_url:String?
 }
 
-struct ArtData:Codable,Hashable,Identifiable,Loopable{
+struct ArtData: Codable,Hashable,Identifiable,Loopable{
     static func == (lhs: ArtData, rhs: ArtData) -> Bool {
         return lhs._id == rhs._id
     }
-    
-    
+	
     func hash(into hasher: inout Hasher) {
         return hasher.combine(self._id)
     }

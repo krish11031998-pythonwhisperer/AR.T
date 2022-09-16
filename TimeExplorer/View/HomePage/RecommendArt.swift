@@ -17,6 +17,7 @@ import SUI
 //}
 
 struct RecommendArt: View {
+	@EnvironmentObject var homePage: HomeViewModel
     var data:[CAData] = []
 	init(attractions attr:[CAData]){
 		self.data = attr
@@ -24,28 +25,27 @@ struct RecommendArt: View {
     
     let cardSize:CGSize = .init(width: 235, height: 350)
 
+	func action(_ artData: CAData) {
+		homePage.selectedArt = .init(id: "\(artData.id ?? 0)", date: .now, title: artData.title ?? "", model_url: nil, introduction: artData.digital_description ?? artData.wall_description ?? ""
+						 , painterName: artData.artistName ?? "", painterImg: artData.title ?? "", top_facts: nil, thumbnail: artData.thumbnail)
+	}
+	
     var body: some View{
-		SlideCardView(data: data, itemSize: cardSize, leading: false) { data, selected in
-//			if let data = data as? AVSData {
-				ZStack(alignment: .bottom) {
-					SUI.ImageView(url: data.thumbnail)
-						.framed(size: cardSize, cornerRadius: 0, alignment: .center)
-					if selected {
-						lightbottomShadow.fillFrame()
-						(data.title ?? "No Heading")
-							.normal(size: 15)
-							.text
-							.fillWidth(alignment: .leading)
-							.transitionFrom(.bottom)
-							.padding()
-					}
+		SlideCardView(data: data, itemSize: cardSize, leading: false, action: action(_:)) { data, selected in
+			ZStack(alignment: .bottom) {
+				SUI.ImageView(url: data.thumbnail)
+					.framed(size: cardSize, cornerRadius: 0, alignment: .center)
+				if selected {
+					lightbottomShadow.fillFrame()
+					(data.title ?? "No Heading")
+						.normal(size: 15)
+						.text
+						.fillWidth(alignment: .leading)
+						.transitionFrom(.bottom)
+						.padding()
 				}
-				.framed(size: cardSize, cornerRadius: 12, alignment: .bottomLeading)
-//			} else {
-//				Color.orange
-//					.framed(size: cardSize, cornerRadius: 12, alignment: .center)
-//			}
-			
+			}
+			.framed(size: cardSize, cornerRadius: 12, alignment: .bottomLeading)
 		}
 
     }

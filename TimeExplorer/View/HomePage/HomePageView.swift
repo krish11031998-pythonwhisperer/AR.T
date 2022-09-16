@@ -32,10 +32,12 @@ struct HomePageView: View {
 		if let data = viewModel.sectionData[section] {
 			switch section {
 			case .highlight:
-				HighlightView(data: data as? [CAData] ?? [], art: $viewModel.selectedArt)
+				HighlightView(data: data as? [CAData] ?? [])
+					.environmentObject(viewModel)
 					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
 			case .currentlyOnView:
 				TrendingArt(data: data as? [CAData] ?? [])
+					.environmentObject(viewModel)
 					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
 			case .onRadar:
 				OnRadarArt(data: data as? [CAData] ?? [])
@@ -45,6 +47,7 @@ struct HomePageView: View {
 					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
 			case .recent:
 				RecommendArt(attractions: data as? [CAData] ?? [])
+					.environmentObject(viewModel)
 					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
 			case .new:
 				GenreView(genreData: data as? [CAData] ?? [])

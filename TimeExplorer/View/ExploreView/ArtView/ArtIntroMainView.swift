@@ -50,8 +50,12 @@ struct ArtIntroMain:View{
 						
 				}.framed(size: .init(width: .totalWidth, height: .totalHeight * 0.45),cornerRadius: 0)
 				
-				//self.introInfoSection(w: .totalWidth, h: .totalHeight * 0.25)
-				self.infoBody(w: .totalWidth)
+				Group {
+					intoInfosection()
+					infoBody(w: .totalWidth)
+				}
+				.padding()
+				.fillWidth(alignment: .topLeading)
 			}
 			if showMore {
 				extraIntroView
@@ -89,47 +93,29 @@ extension ArtIntroMain{
     func infoBody(w:CGFloat) -> some View{
         VStack(alignment: .leading, spacing: 10){
 			data.introduction.normal(size: 15).text
-				.padding(.horizontal,5)
+				.lineLimit(3)
 			CustomButton(config: .init(imageName: .next, size: .init(squared: 15), padding: .init(by: 5), foregroundColor: .white, backgroundColor: .clear)) {
 				showMore = true
 			}
-        }.padding()
-        .frame(width: w,alignment: .topLeading)
+        }
+		.fillHeight(alignment: .bottomLeading)
     }
     
-//    func introInfoSection(w:CGFloat,h:CGFloat) -> some View{
-//        HStack(alignment: .center, spacing: 10) {
-//            VStack(alignment: .center, spacing: 10){
-//				SUI.ImageView(url: data.painterImg)
-//					.fixedWidth(width: w * 0.45)
-//					.fillHeight(alignment: .center)
-//					.clipContent(radius: 20)
-//				(data.painterName ?? "Artisan").normal(size: 20).text
-//            }.padding(.leading, 20)
-//            Spacer()
-//            if self.data.infoSnippets != nil{
-//                VStack(alignment: .leading, spacing: 10){
-//					ForEach(Array(self.data.infoSnippets!.keys).sorted(),id:\.self) { key in
-//                        let value = self.data.infoSnippets![key] ?? "No Info"
-//						HeaderSubHeadView(title: key.normal(size: 15, color: .gray),
-//										  subTitle: value.normal(size: 18, color: .white),
-//										  spacing: 0,
-//										  alignment: .leading)
-//                    }
-//                }
-//                Spacer()
-//            }
-//		}.framed(size: .init(width: w, height: h), cornerRadius: 0, alignment: .leading)
-//		VStack(alignment: .leading, spacing: 5) {
-//			<#code#>
-//		}
-//    }
-	
-//	var infoKeyValue: [(key:String, value:String?)] {
-//		[(key: "Creation Date", value: data.date),
-//		 (key: "Origin", value: data.[])
-//		]
-//	}
+	@ViewBuilder func intoInfosection() -> some View {
+		if let validInfoSnippet = data.infoSnippets {
+			LazyVGrid(columns:Array(repeating: .init(.flexible(minimum: .totalWidth * 0.25, maximum: .totalWidth *  0.5 - 5), spacing: 10, alignment: .topLeading),count: 2), alignment: .leading, spacing: 10) {
+				ForEach(validInfoSnippet.map{ $0 }.sorted { $0.key < $1.key }, id: \.key) {
+					HeaderSubHeadView(title: $0.key.normal(size: 14,color: .gray),
+									  subTitle: $0.value.normal(size: 16, color: .white),
+									  spacing: 8,
+									  alignment: .leading)
+				}
+			}
+			.fixedSize(horizontal: false, vertical: true)
+		} else {
+			Color.clear.frame(size: .zero)
+		}
+	}
 }
 
 
