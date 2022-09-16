@@ -21,13 +21,14 @@ struct DiscoverView: View {
             SystemButton(b_name: "homekit", b_content: "",color: .white, size: .init(width: 20, height: 20)) {
                 self.mainStates.tab = "home"
             }
-            SystemButton(b_name: "arrow.clockwise", b_content: "", color: .white, haveBG: true, size: .init(width: 20, height: 20), bgcolor: .black) {
-                if (viewModel.idx + 2) * 25 <= viewModel.exploreList.count{
-					viewModel.idx += 1
-                }else{
-                    viewModel.idx = 0
-                }
-            }
+            SystemButton(b_name: "arrow.clockwise",
+						 b_content: "",
+						 color: .white,
+						 haveBG: true,
+						 size: .init(squared: 20),
+						 bgcolor: .black) {
+				viewModel.updateOffset(1)
+			}
         }.padding()
         .padding(.top,35)
         .frame(width: totalWidth, alignment: .leading)

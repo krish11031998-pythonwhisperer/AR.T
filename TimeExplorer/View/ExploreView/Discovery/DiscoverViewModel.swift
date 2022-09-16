@@ -14,21 +14,28 @@ class DiscoverViewModel: ObservableObject {
 	@Published var art:ArtData? = nil
 	@Published var showArt:Bool = false
 	@Published var idx:Int = -1
+	@Published var offset: Int = 0
 	
 	init() {
 		getArt()
 	}
 	
 	var paginatedData: [DiscoveryCardData] {
-		guard exploreList.count > 25 else { return exploreList.enumerated().map { .init(id: $0.offset, data: $0.element) } }
-		return Array(exploreList[0..<25]).enumerated().map { .init(id: $0.offset, data: $0.element)}
+		guard (offset + 1) * 25 < exploreList.count else { return exploreList.enumerated().map { .init(id: $0.offset, data: $0.element) } }
+		return Array(exploreList[offset..<(offset + 1) * 25]).enumerated().map { .init(id: $0.offset, data: $0.element)}
 	}
 	
 	func updateShowArt(art: ArtData?){
 		if art != nil{
 			showArt = true
-		}else if showArt{
+		}else if showArt {
 			showArt = false
+		}
+	}
+	
+	func updateOffset(_ newValue: Int) {
+		if (offset + newValue) * 25 < exploreList.count {
+			offset += newValue
 		}
 	}
 	
