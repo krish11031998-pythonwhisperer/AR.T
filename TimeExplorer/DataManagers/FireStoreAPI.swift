@@ -13,6 +13,10 @@ import FirebaseStorage
 import SwiftUI
 import AVFoundation
 
+enum FirebaseErr: String, Error {
+	case noCollection = "No Collection available"
+}
+
 class UserAPI{
     
     @EnvironmentObject var mainStates:AppStates
@@ -272,8 +276,8 @@ class FirebaseArtAPI:FirebaseAPI,ObservableObject{
         return data
     }
     
-    func getArts(_name:String? = nil){
-        self.getTopItems(limit: 10, collectionName: "paintings") { qs, err in
+	func getArts(limit: Int = 10){
+        self.getTopItems(limit: limit, collectionName: "paintings") { qs, err in
             guard let q = qs, let last = qs?.documents.last else {return}
             self.lastDoc = last
             
@@ -282,6 +286,17 @@ class FirebaseArtAPI:FirebaseAPI,ObservableObject{
             }
         }
     }
-    
-    
+	
+	func getArts(limit: Int = 10, completion: @escaping (Result<[ArtData],FirebaseErr>) -> Void){
+		self.getTopItems(limit: limit, collectionName: "paintings") { qs, err in
+			guard let q = qs, let last = qs?.documents.last else {return}
+			self.lastDoc = last
+			
+			if let safeArtData = self.parseQueryDocuments(q: q){
+				completion(.success(safeArtData))
+			} else {
+				completion(.failure(.noCollection))
+			}
+		}
+	}
 }

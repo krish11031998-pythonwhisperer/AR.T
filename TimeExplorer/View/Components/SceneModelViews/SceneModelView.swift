@@ -23,6 +23,7 @@ struct SceneModelView: View {
     @Binding var player:AVPlayer?
     @State var idx:Int = 1
     @State var img:UIImage? = nil
+	@State var firstLoad: Bool = false
     var sendAnnotation: ((String,SCNVector3?) -> Void)? = nil
     
     

@@ -36,6 +36,7 @@ struct ArtView: View {
     @State var tabData:[(heading:String,detail:String,key:String?)]? = nil
     @State var showInfoCard:Bool = false
     @State var viewAR:Bool = false
+	@State var onLoad: Bool = false
 	
     var tabs:[String] = ["Introduction","Top Features","Top Facts"]
     init(data:ArtData,showArt : Binding<Bool> = .constant(false)){
@@ -214,7 +215,7 @@ struct ArtView: View {
                 .environmentObject(viewStates)
                 .background(BlurView(style: .dark))
                 .clipShape(Corners(rect: .bottomRight,size: .init(width: radius, height: radius)))
-        }else if let img = self.data.model_img{
+        } else if let img = self.data.model_img{
             SceneModelView(w: w, h: h, name: self.name, img_url_str: img, player: nil, handler: self.updateAfterSceneInteraction(name:vector:))
                 .environmentObject(viewStates)
                 .background(BlurView(style: .dark))

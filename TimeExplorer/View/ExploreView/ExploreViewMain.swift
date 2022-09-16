@@ -17,15 +17,10 @@ class TabLoadState:ObservableObject{
 struct ExploreViewMain: View {
     @State var show:Bool = true
     @EnvironmentObject var mainStates:AppStates
-    
-    func recentTabView(width:CGFloat, height:CGFloat) -> some View{
-        
-        let view =  TrendingMainView()
-        return view
-    }
-    
+	
 	var body: some View {
-		recentTabView(width: .totalWidth, height: .totalHeight)
+		TrendingMainView()
+			.frame(width: .totalWidth, height: .totalHeight)
 			.edgesIgnoringSafeArea(.all)
 			.navigationBarHidden(true)
 	}
