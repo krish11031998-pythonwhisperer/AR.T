@@ -126,20 +126,16 @@ extension ArtIntroMain {
 	
 	@ViewBuilder var infoText: some View {
 		if let facts = data.top_facts?.first {
-//			SimpleHScroll(data: Array(facts.keys), config: .original) { fact in
-//				VStack(alignment: .leading, spacing: 16) {
-//					fact
-//				}
-//			}
 			VStack(alignment: .leading, spacing: 16) {
 				facts.key.normal(size: 20, color: .white).text
+				Spacer()
 				facts.value.normal(size: 13, color: .white).text
 			}
 			.padding()
 			.fillWidth(alignment: .leading)
+			.fixedHeight(height: 140)
 			.background(BlurView(style: .dark))
 			.cornerRadius(12)
-//			.fillHeight(alignment: .leading)
 		} else {
 			Color.clear.frame(size: .zero)
 		}
