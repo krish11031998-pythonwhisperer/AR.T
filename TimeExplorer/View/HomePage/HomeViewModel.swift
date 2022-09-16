@@ -48,6 +48,13 @@ class HomeViewModel: ObservableObject {
 	@Published var finishedLoading: Bool = false
 	let target_limit:Int = 100
 	private let group: DispatchGroup = .init()
+	var sections: [HomeSection] = HomeSection.allCases
+	
+	var blobConfig: BlobButtonConfig {
+		.init(color: .white.opacity(0.15),
+			  cornerRadius: 14,
+			  border: .init(color: .white, borderWidth: 1.25))
+	}
 	
 	private var sectionParams: [HomeSection:SearchParam] = [
 		.highlight : .init(skip: 20,limit: 10),
@@ -59,7 +66,6 @@ class HomeViewModel: ObservableObject {
 	]
 	
 	init() {
-		print("(DEBUG) Home View Model is init!")
 		sectionData[.departments] = Department.allCases
 		sectionData[.types] = Types.allCases
 		loadData()
@@ -93,10 +99,24 @@ class HomeViewModel: ObservableObject {
 			}
 	}
 	
-	var sections: [HomeSection] = HomeSection.allCases
-	
-	var blobConfig: BlobButtonConfig {
-		.init(color: .white.opacity(0.15), cornerRadius: 14, border: .init(color: .white, borderWidth: 1.25))
+	func setArt(_ artData: CAData) {
+		let infoSnippets: [String: String] = ["Creation Date" : artData.creation_date ?? "",
+											  "Technique" : artData.technique ?? "",
+											  "Department" : artData.department ?? "" ,
+											  "Type" : artData.type ?? ""]
+		selectedArt = .init(id: "\(artData.id ?? 0)",
+									 date: .now,
+									 title: artData.title ?? "",
+									 model_url: nil,
+									 introduction: artData.digital_description ?? artData.wall_description ?? "",
+									 infoSnippets: infoSnippets,
+									 painterName: artData.artistName ?? "",
+									 painterImg: artData.title ?? "",
+									 top_facts: nil,
+									 thumbnail: artData.thumbnail,
+									 annotations: nil,
+									 main_vid_url:nil,
+									 model_img: artData.images?.print?.url)
 	}
 	
 }

@@ -24,14 +24,9 @@ struct RecommendArt: View {
 	}
     
     let cardSize:CGSize = .init(width: 235, height: 350)
-
-	func action(_ artData: CAData) {
-		homePage.selectedArt = .init(id: "\(artData.id ?? 0)", date: .now, title: artData.title ?? "", model_url: nil, introduction: artData.digital_description ?? artData.wall_description ?? ""
-						 , painterName: artData.artistName ?? "", painterImg: artData.title ?? "", top_facts: nil, thumbnail: artData.thumbnail)
-	}
 	
     var body: some View{
-		SlideCardView(data: data, itemSize: cardSize, leading: false, action: action(_:)) { data, selected in
+		SlideCardView(data: data, itemSize: cardSize, leading: false, action: homePage.setArt(_:)) { data, selected in
 			ZStack(alignment: .bottom) {
 				SUI.ImageView(url: data.thumbnail)
 					.framed(size: cardSize, cornerRadius: 0, alignment: .center)

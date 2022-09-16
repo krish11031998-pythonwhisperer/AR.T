@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import SUI
 
 struct TabBarView: View {
     var tabs:[(name:String,icon:String)] = [(name:"home",icon:"house.fill"),(name:"blogs",icon:"newspaper"),(name:"feed",icon:"play.tv"),(name:"attractions",icon:"globe"),(name:"profile",icon:"person.fill")]
     @EnvironmentObject var mainStates:AppStates
-    @State var tabMidPoints:[String:CGFloat] = [:]
+//    @State var tabMidPoints:[String:CGFloat] = [:]
     @Namespace var animation
     var tab:String{
         get{
@@ -33,8 +34,8 @@ struct TabBarView: View {
         }
     }
     
-    func selected(index:Int) -> Bool{
-        return self.tabs[index].name == self.tab
+    func selected(_ name: String) -> Bool{
+        return name == self.tab
     }
     
     var largeAddButton:some View{
@@ -59,68 +60,45 @@ struct TabBarView: View {
     }
     
     func tabButton(name:String,icon:String,isSelected:Bool) -> some View{
-        return GeometryReader{g -> AnyView in
-            let midX = g.frame(in: .global).midX
-            DispatchQueue.main.async {
-                if !self.tabMidPoints.keys.contains(name){
-                    self.tabMidPoints[name] = midX
-                }
-            }
-            
-            return AnyView(
-                Button(action: {
-                    withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.6, blendDuration: 0.5)) {
-                        self.mainStates.tab = name
-                        self.mainStates.loading = true
-                    }
-                }, label: {
-                    Image(systemName: icon)
-                        .foregroundColor(isSelected ? .black : .white)
-                        .frame(width: 10, height: 10, alignment: .center)
-                        .padding()
-                        .background(
-                            ZStack{
-                                Color.clear
-                                if isSelected{
-                                    Circle()
-                                        .fill(Color.white)
-                                        .matchedGeometryEffect(id: "highlight" , in: self.animation,properties: .position)
-                                        .aspectRatio(contentMode: .fit)
-                                }
-                            }
-                        )
-                })
-                
-                
-            )
-            
-        }.frame(width: AppWidth/5  - 20, height: 30, alignment: .center)
-    }
-    
-    func getCurvePoint() -> CGFloat{
-        let value = self.tabMidPoints[self.tab] ?? 10
-        print("value : \(value)")
-        return value 
+
+		let img: UIImage? = .init(systemName: icon)?.withRenderingMode(.alwaysOriginal)
+			img?.withTintColor(isSelected ? .black : .white)
+			return Image(systemName: icon)
+				.foregroundColor(isSelected ? .black : .white)
+				.frame(size: .init(squared: 20))
+				//.framed(size: .init(squared: 10), cornerRadius: 0, alignment: .center)
+				.padding()
+				.background(
+					ZStack{
+						Color.clear
+						if isSelected{
+							Circle()
+								.fill(Color.white)
+								.matchedGeometryEffect(id: "highlight" , in: self.animation,properties: .position)
+								.aspectRatio(contentMode: .fit)
+						}
+					}
+				)
+				.buttonify {
+					self.mainStates.tab = name
+					self.mainStates.loading = true
+				}
     }
     
     var Tabs:some View{
-        VStack {
-            Spacer()
-            HStack(spacing: 0){
-                Spacer()
-                ForEach(0..<self.tabs.count){i in
-                    let isSelected = self.selected(index: i)
-                    self.tabButton(name: self.tabs[i].name, icon: self.tabs[i].icon, isSelected: isSelected)
-                        .padding(10)
-                }
-                Spacer()
-            }
-            .padding(.horizontal)
-            .padding(.bottom,50)
-            .frame(width: totalWidth)
-        }
-        .frame(width: totalWidth,height: totalHeight)
-        .animation(.easeInOut)
+		HStack(alignment: .center, spacing: 8) {
+			ForEach(tabs, id: \.name){ tab in
+				let isSelected = self.selected(tab.name)
+				self.tabButton(name: tab.name, icon: tab.icon, isSelected: isSelected)
+			}
+		}
+		.frame(alignment: .center)
+		.padding()
+		.background(BlurView(style: .dark))
+		.clipShape(Capsule())
+		.padding(.bottom, .safeAreaInsets.bottom)
+		.fillWidth(alignment: .center)
+		.fillHeight(alignment: .bottom)
     }
     
     var body: some View {
