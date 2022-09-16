@@ -16,6 +16,8 @@ class DepartmentViewModel: ObservableObject {
 		}
 	}
 	@Published var artData: [CAData] = []
+	@Published var selectedArt: ArtData? = nil
+	@Published var showArt: Bool = false
 	
 	init(department: Department) {
 		self._department = .init(initialValue: department)
@@ -49,7 +51,7 @@ class DepartmentViewModel: ObservableObject {
 struct DepartmentView: View {
 	
 	@StateObject var viewModel: DepartmentViewModel
-	
+	@EnvironmentObject var mainStates: AppStates
 	
 	init(department: Department) {
 		self._viewModel = .init(wrappedValue: .init(department: department))
@@ -84,6 +86,10 @@ struct DepartmentView: View {
 				  alignment: .leading, spacing: 10) {
 			ForEach(viewModel.artData, id: \.title) { data in
 				ArtViewCard(data: data, cardSize: .init(width: (.totalWidth - 20).half - 5, height: 250))
+					.buttonify {
+						viewModel.selectedArt = .init(data)
+						viewModel.showArt = true
+					}
 			}
 		}.padding(.horizontal, 10)
 	}
@@ -99,9 +105,28 @@ struct DepartmentView: View {
 			
 			gridScrollView
 				.padding(.bottom, .safeAreaInsets.bottom)
+			
+			NavLink(isActive: $viewModel.showArt) {
+				if let validSelectedArt = viewModel.selectedArt {
+					ArtScrollMainView(data: validSelectedArt, showArt: $viewModel.showArt)
+				} else {
+					Color.clear.frame(size: .zero)
+				}
+			}
 		}
 		.background(Color.black)
 		.clipped()
 		.edgesIgnoringSafeArea(.bottom)
+//		.onChange(of: viewModel.showArt) { newValue in
+//			mainStates.showTab = !newValue
+//		}
+		.onChange(of: viewModel.showArt) { newValue in
+			withAnimation(.default) {
+				if !newValue && viewModel.selectedArt != nil {
+					viewModel.selectedArt = nil
+				}
+				mainStates.showTab = !newValue
+			}
+		}
     }
 }

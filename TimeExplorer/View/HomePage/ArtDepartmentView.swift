@@ -11,6 +11,19 @@ import SUI
 //MARK: - ArtDepartmentViewModel
 class ArtDepartmentViewModel: ObservableObject {
 	@Published var selectedDepartment: Department
+	@Published var selectedArt: ArtData? = nil {
+		didSet {
+			showArt = selectedArt != nil
+		}
+	}
+	@Published var showArt: Bool = false {
+		didSet {
+			if !showArt {
+				selectedArt = nil
+			}
+		}
+	}
+	
 	
 	init(department: Department) {
 		self._selectedDepartment = .init(initialValue: department)
@@ -38,8 +51,11 @@ struct ArtDepartmentView: View {
 
 	private var grid: some View {
 		LazyHGrid(rows: [.init(.fixed(240), spacing: 10, alignment: .center),.init(.fixed(240), spacing: 10, alignment: .center)], alignment: .center, spacing: 10) {
-			ForEach(data, id: \.title) {
-				ArtViewCard(data: $0, cardSize: .init(width: 150, height: 240))
+			ForEach(data, id: \.title) { art in
+				ArtViewCard(data: art, cardSize: .init(width: 150, height: 240))
+					.buttonify {
+						viewModel.selectedArt = .init(art)
+					}
 			}
 		}
 	}
@@ -50,6 +66,14 @@ struct ArtDepartmentView: View {
 				grid
 			}
 			.fixedHeight(height: 500)
+		}
+		
+		NavLink(isActive: $viewModel.showArt) {
+			if let validSelectedArt = viewModel.selectedArt {
+				ArtScrollMainView(data: validSelectedArt, showArt: $viewModel.showArt)
+			} else {
+				Color.clear.frame(size: .zero)
+			}
 		}
     }
 }
