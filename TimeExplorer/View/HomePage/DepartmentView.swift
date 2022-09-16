@@ -88,12 +88,13 @@ struct DepartmentView: View {
 				.edgesIgnoringSafeArea(.all)
 			ScrollView {
 				VStack(alignment: .leading, spacing: 8) {
-					"Choose a Department".normal(size: 25, color: .white).text
+					"Choose a Department".normal(size: 20, color: .white).text
 						.padding(.horizontal)
 						.fillWidth(alignment: .leading)
 					departmentOptions
 				}
 				.padding(.top, 16)
+				
 				gridScrollView
 					.padding(.bottom, .safeAreaInsets.bottom + 100)
 				
