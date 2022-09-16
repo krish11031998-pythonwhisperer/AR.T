@@ -100,23 +100,7 @@ class HomeViewModel: ObservableObject {
 	}
 	
 	func setArt(_ artData: CAData) {
-		let infoSnippets: [String: String] = ["Creation Date" : artData.creation_date ?? "",
-											  "Technique" : artData.technique ?? "",
-											  "Department" : artData.department ?? "" ,
-											  "Type" : artData.type ?? ""]
-		selectedArt = .init(id: "\(artData.id ?? 0)",
-									 date: .now,
-									 title: artData.title ?? "",
-									 model_url: nil,
-									 introduction: artData.digital_description ?? artData.wall_description ?? "",
-									 infoSnippets: infoSnippets,
-									 painterName: artData.artistName ?? "",
-									 painterImg: artData.title ?? "",
-									 top_facts: nil,
-									 thumbnail: artData.thumbnail,
-									 annotations: nil,
-									 main_vid_url:nil,
-									 model_img: artData.images?.print?.url)
+		selectedArt = .init(artData)
 	}
 	
 }

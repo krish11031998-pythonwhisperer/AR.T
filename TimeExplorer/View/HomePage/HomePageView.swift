@@ -163,8 +163,8 @@ extension HomePageView{
 			.padding(.bottom)
 		}
 		.fixedHeight(height: 250)
-		.background(Color.purple.opacity(0.15).clipShape(RoundedRectangle(cornerRadius: 20)))
-		.borderCard(borderColor: .purple, radius: 20, borderWidth: 1.25)
+		.background(Color.gray.opacity(0.15).clipShape(RoundedRectangle(cornerRadius: 20)))
+		.borderCard(borderColor: .white, radius: 20, borderWidth: 1.25)
 	}
 
 	

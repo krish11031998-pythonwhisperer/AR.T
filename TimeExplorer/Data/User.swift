@@ -128,10 +128,36 @@ struct ArtData: Codable,Hashable,Identifiable,Loopable{
     var model_img:String?
 //    var data:Any?
     
-    func parseVisualData() -> TrendingCardData?{
-        let data = self
-        let res:TrendingCardData? = .init(image: data.thumbnail, vid_url:main_vid_url, mainText: data.title, type: .art, data: data,date: data.date)
-        return res
-    }
+   
     
+}
+
+extension ArtData {
+	
+	func parseVisualData() -> TrendingCardData?{
+		let data = self
+		let res:TrendingCardData? = .init(image: data.thumbnail, vid_url:main_vid_url, mainText: data.title, type: .art, data: data,date: data.date)
+		return res
+	}
+	
+	init(_ artData: CAData) {
+		let infoSnippets: [String: String] = ["Creation Date" : artData.creation_date ?? "",
+											  "Technique" : artData.technique ?? "",
+											  "Department" : artData.department ?? "" ,
+											  "Type" : artData.type ?? ""]
+		let funFacts: [String: String] = ["Fun Fact" : artData.fun_fact ?? ""]
+		self.init(id: "\(artData.id ?? 0)",
+									 date: .now,
+									 title: artData.title ?? "",
+									 model_url: nil,
+									 introduction: artData.digital_description ?? artData.wall_description ?? "",
+									 infoSnippets: infoSnippets,
+									 painterName: artData.artistName ?? "",
+									 painterImg: artData.title ?? "",
+									 top_facts: funFacts,
+									 thumbnail: artData.thumbnail,
+									 annotations: nil,
+									 main_vid_url:nil,
+									 model_img: artData.images?.print?.url)
+	}
 }

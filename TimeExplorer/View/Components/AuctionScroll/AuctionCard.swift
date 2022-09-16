@@ -70,10 +70,11 @@ struct AuctionCard: View {
 	var body: some View {
 		ZStack(alignment: .center) {
 			SUI.ImageView(url: data.thumbnail)
+				.framed(size: cardConfig.cardSize, cornerRadius: 0, alignment: .top)
 			lightbottomShadow.fillFrame()
 			overlayCaptionView
 		}
-		.framed(size: cardConfig.cardSize, cornerRadius: cardConfig.cardStyling.cornerRadius, alignment: .center)
+		.framed(size: cardConfig.cardSize, cornerRadius: cardConfig.cardStyling.cornerRadius, alignment: .top)
 		.onAppear {
 			DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
 				withAnimation(.default) {

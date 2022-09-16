@@ -37,26 +37,18 @@ struct ArtIntroMain:View{
 	var body: some View{
 		ZStack(alignment:.top){
 			Color.black
-			VStack(alignment: .leading, spacing: 20){
-				ZStack(alignment: .bottom) {
-					SUI.ImageView(url: data.thumbnail)
-						.framed(size: .init(width: .totalWidth, height: .totalHeight * 0.45),cornerRadius: 0,alignment: .top)
-					lightbottomShadow.fillFrame()
-					HeaderSubHeadView(title: data.title.normal(size: 30),
-									  subTitle: data.painterName?.normal(size: 20),
-									  spacing: 10, alignment: .leading)
-					.padding(.leading, 10)
-					.fillWidth(alignment: .leading)
-						
-				}.framed(size: .init(width: .totalWidth, height: .totalHeight * 0.45),cornerRadius: 0)
-				
+			VStack(alignment: .leading, spacing: 0){
+				headerView
 				Group {
 					intoInfosection()
+					infoText
 					infoBody(w: .totalWidth)
 				}
-				.padding()
+				.padding(.init(top: 15, leading: 15, bottom: 0, trailing: 15))
 				.fillWidth(alignment: .topLeading)
+				.clipped()
 			}
+			.padding(.bottom, .safeAreaInsets.bottom)
 			if showMore {
 				extraIntroView
 					.transitionFrom(.bottom)
@@ -68,7 +60,22 @@ struct ArtIntroMain:View{
     
 }
 
-extension ArtIntroMain{
+extension ArtIntroMain {
+	
+	var headerView: some View{
+		ZStack(alignment: .bottom) {
+			SUI.ImageView(url: data.thumbnail)
+				.framed(size: .init(width: .totalWidth, height: .totalHeight * 0.45),cornerRadius: 0,alignment: .top)
+			lightbottomShadow.fillFrame()
+			HeaderSubHeadView(title: data.title.normal(size: 30),
+							  subTitle: data.painterName?.normal(size: 20),
+							  spacing: 10, alignment: .leading)
+			.padding(.leading, 10)
+			.fillWidth(alignment: .leading)
+				
+		}.framed(size: .init(width: .totalWidth, height: .totalHeight * 0.45),cornerRadius: 0)
+	}
+	
 	@ViewBuilder var extraIntroView : some View{
 		ZStack(alignment: .center) {
 			Color.clear
@@ -93,7 +100,7 @@ extension ArtIntroMain{
     func infoBody(w:CGFloat) -> some View{
         VStack(alignment: .leading, spacing: 10){
 			data.introduction.normal(size: 15).text
-				.lineLimit(3)
+				//.lineLimit(3)
 			CustomButton(config: .init(imageName: .next, size: .init(squared: 15), padding: .init(by: 5), foregroundColor: .white, backgroundColor: .clear)) {
 				showMore = true
 			}
@@ -112,6 +119,27 @@ extension ArtIntroMain{
 				}
 			}
 			.fixedSize(horizontal: false, vertical: true)
+		} else {
+			Color.clear.frame(size: .zero)
+		}
+	}
+	
+	@ViewBuilder var infoText: some View {
+		if let facts = data.top_facts?.first {
+//			SimpleHScroll(data: Array(facts.keys), config: .original) { fact in
+//				VStack(alignment: .leading, spacing: 16) {
+//					fact
+//				}
+//			}
+			VStack(alignment: .leading, spacing: 16) {
+				facts.key.normal(size: 20, color: .white).text
+				facts.value.normal(size: 13, color: .white).text
+			}
+			.padding()
+			.fillWidth(alignment: .leading)
+			.background(BlurView(style: .dark))
+			.cornerRadius(12)
+//			.fillHeight(alignment: .leading)
 		} else {
 			Color.clear.frame(size: .zero)
 		}
