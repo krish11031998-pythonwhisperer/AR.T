@@ -55,19 +55,6 @@ struct DepartmentView: View {
 	
 	init(department: Department) {
 		self._viewModel = .init(wrappedValue: .init(department: department))
-//		let navigationBarAppearance = UINavigationBarAppearance()
-//		navigationBarAppearance.configureWithTransparentBackground()
-//		UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
-//		UINavigationBar.appearance().standardAppearance = navigationBarAppearance
-//		UINavigationBar.appearance().compactAppearance = navigationBarAppearance
-	}
-	
-	private func setupNavBar() {
-		let navigationBarAppearance = UINavigationBarAppearance()
-		navigationBarAppearance.configureWithTransparentBackground()
-		UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
-		UINavigationBar.appearance().standardAppearance = navigationBarAppearance
-		UINavigationBar.appearance().compactAppearance = navigationBarAppearance
 	}
 		
 	private var departmentOptions: some View {
@@ -95,31 +82,33 @@ struct DepartmentView: View {
 	}
 	
     var body: some View {
-		ScrollView {
-			VStack(alignment: .leading, spacing: 8) {
-				"Choose a Department".normal(size: 25, color: .white).text
-					.padding(.horizontal)
-					.fillWidth(alignment: .leading)
-				departmentOptions
-			}.padding(.vertical, 16)
-			
-			gridScrollView
-				.padding(.bottom, .safeAreaInsets.bottom)
-			
-			NavLink(isActive: $viewModel.showArt) {
-				if let validSelectedArt = viewModel.selectedArt {
-					ArtScrollMainView(data: validSelectedArt, showArt: $viewModel.showArt)
-				} else {
-					Color.clear.frame(size: .zero)
+		ZStack(alignment: .center) {
+			Color.black
+				.fillFrame()
+				.edgesIgnoringSafeArea(.all)
+			ScrollView {
+				VStack(alignment: .leading, spacing: 8) {
+					"Choose a Department".normal(size: 25, color: .white).text
+						.padding(.horizontal)
+						.fillWidth(alignment: .leading)
+					departmentOptions
+				}
+				.padding(.top, 16)
+				gridScrollView
+					.padding(.bottom, .safeAreaInsets.bottom + 100)
+				
+				NavLink(isActive: $viewModel.showArt) {
+					if let validSelectedArt = viewModel.selectedArt {
+						ArtScrollMainView(data: validSelectedArt, showArt: $viewModel.showArt)
+					} else {
+						Color.clear.frame(size: .zero)
+					}
 				}
 			}
+			.clipped()
+			.edgesIgnoringSafeArea(.bottom)
 		}
-		.background(Color.black)
-		.clipped()
-		.edgesIgnoringSafeArea(.bottom)
-//		.onChange(of: viewModel.showArt) { newValue in
-//			mainStates.showTab = !newValue
-//		}
+		
 		.onChange(of: viewModel.showArt) { newValue in
 			withAnimation(.default) {
 				if !newValue && viewModel.selectedArt != nil {

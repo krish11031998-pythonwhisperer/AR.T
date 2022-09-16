@@ -96,13 +96,7 @@ struct AppView: View {
 		.fillFrame()
 		
 	}
-        
-    func onAppear(){
-//        self.mainStates.userAcc.autoLogIn(){success in
-//            self.showLoginPage = !success
-//        }
-    }
-    
+            
     var body: some View {
 		ZStack(alignment: .bottom){
 			Color.black
@@ -119,7 +113,6 @@ struct AppView: View {
 		}
 		.frame(width: totalWidth,height:totalHeight)
 		.edgesIgnoringSafeArea(.all)
-		.onAppear(perform: self.onAppear)
     }
 }
 

@@ -14,11 +14,6 @@ struct ArtIntroMain:View{
     @Namespace var animation
     init(data:ArtData){
         self.data = data
-		let navigationBarAppearance = UINavigationBarAppearance()
-		navigationBarAppearance.configureWithTransparentBackground()
-		UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
-		UINavigationBar.appearance().standardAppearance = navigationBarAppearance
-		UINavigationBar.appearance().compactAppearance = navigationBarAppearance
 	}
     
     func infoOverlay(w:CGFloat,h:CGFloat) -> some View{
