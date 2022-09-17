@@ -48,7 +48,7 @@ struct DiscoverView: View {
             Color.black
 			if !mainStates.loading{
 				DiscoveryView(data: viewModel.paginatedData,
-							  model: .init(cardSize: .init(width: 200, height: 350), rows: 4, spacing: 10, bgColor: .clear)) { data in
+							  model: .init(cardSize: .init(width: 200, height: 350), rows: 5, spacing: 10, bgColor: .clear)) { data in
 					SUI.ImageView(url: (data.data as? ExploreData)?.img)
 						.framed(size: .init(width: 200, height: 350), cornerRadius: 15, alignment: .center)
 						.onTapGesture {

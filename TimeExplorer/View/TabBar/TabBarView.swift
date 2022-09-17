@@ -59,34 +59,22 @@ struct TabBarView: View {
         
     }
     
-    func tabButton(name:String,icon:String,isSelected:Bool) -> some View{
-
-		let img: UIImage? = .init(systemName: icon)?.withRenderingMode(.alwaysOriginal)
-			img?.withTintColor(isSelected ? .black : .white)
-			return Image(systemName: icon)
-				.foregroundColor(isSelected ? .black : .white)
-				.frame(size: .init(squared: 20))
-				//.framed(size: .init(squared: 10), cornerRadius: 0, alignment: .center)
-				.padding()
-				.background(
-					ZStack{
-						Color.clear
-						if isSelected{
-							Circle()
-								.fill(Color.white)
-								.matchedGeometryEffect(id: "highlight" , in: self.animation,properties: .position)
-								.aspectRatio(contentMode: .fit)
-						}
-					}
-				)
-				.buttonify {
-					self.mainStates.tab = name
-					self.mainStates.loading = true
-				}
-    }
+	func tabButton(name:String,icon:String,isSelected:Bool) -> some View{
+		return Image(systemName: icon)
+			.foregroundColor(isSelected ? .black : .white)
+			.frame(size: .init(squared: 20))
+			.padding(10)
+			.background(isSelected ? Color.white : Color.gray.opacity(0.15))
+			.clipShape(Circle())
+			.fixedSize()
+			.buttonify {
+				self.mainStates.tab = name
+				self.mainStates.loading = true
+			}
+	}
     
     var Tabs:some View{
-		HStack(alignment: .center, spacing: 8) {
+		HStack(alignment: .center, spacing: 15) {
 			ForEach(tabs, id: \.name){ tab in
 				let isSelected = self.selected(tab.name)
 				self.tabButton(name: tab.name, icon: tab.icon, isSelected: isSelected)

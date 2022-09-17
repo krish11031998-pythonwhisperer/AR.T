@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import SUI
 
 struct Corners:Shape{
     
@@ -17,7 +18,7 @@ struct Corners:Shape{
         if let safeSize = size{
             self.size = safeSize
         }else{
-            self.size = CGSize(width: 50, height: 50)
+            self.size = CGSize(width: 20, height: 20)
         }
     }
     func path(in rect: CGRect) -> Path {
@@ -157,6 +158,8 @@ struct ArcCorners:Shape{
                     break
             }
             
+			print("(DEBUG) Corners :", topLeft,topRight,bottomLeft,bottomRight)
+			
             path.addArc(tangent1End: topLeft, tangent2End: bottomLeft, radius: self.curvedCorners(.topLeft))
             path.addArc(tangent1End: bottomLeft, tangent2End: bottomRight, radius: self.curvedCorners(.bottomLeft))
             path.addArc(tangent1End: bottomRight, tangent2End: topRight, radius: self.curvedCorners(.bottomRight))
@@ -230,11 +233,16 @@ struct GradientShadows:View{
 
 struct Stylings_Previews: PreviewProvider {
     static var previews: some View {
-        VStack{
-            AnimatedWaves(image: UIImage(named: "NightLifeStockImage")!, offset: 0.15)
+//        VStack{
+//            AnimatedWaves(image: UIImage(named: "NightLifeStockImage")!, offset: 0.15)
+			Rectangle()
+				.fill(Color.red)
+				.frame(size: .init(squared: 200))
+				.clipShape(Corners(rect: .allCorners))
+				//.clipShape(ArcCorners(corner: .allCorners, curveFactor: 0.75, cornerRadius: 20, roundedCorner: .allCorners))
             
-            Spacer()
-        }.edgesIgnoringSafeArea(.all)
+//            Spacer()
+//        }.edgesIgnoringSafeArea(.all)
         
     }
 }

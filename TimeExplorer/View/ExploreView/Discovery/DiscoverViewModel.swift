@@ -22,7 +22,9 @@ class DiscoverViewModel: ObservableObject {
 	
 	var paginatedData: [DiscoveryCardData] {
 		guard (offset + 1) * 25 < exploreList.count else { return exploreList.enumerated().map { .init(id: $0.offset, data: $0.element) } }
-		return Array(exploreList[offset..<(offset + 1) * 25]).enumerated().map { .init(id: $0.offset, data: $0.element)}
+		let count = (offset + 1) * 25
+		let arr = Array(exploreList[(offset * 25)..<(offset + 1) * 25])
+		return arr.enumerated().map { .init(id: $0.offset, data: $0.element)}
 	}
 	
 	func updateShowArt(art: ArtData?){
