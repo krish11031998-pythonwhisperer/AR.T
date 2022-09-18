@@ -45,7 +45,6 @@ struct SearchView: View {
 			}
 			.edgesIgnoringSafeArea(.bottom)
 			.clipped()
-			
 			artLink
 		}
 		.toolbar{

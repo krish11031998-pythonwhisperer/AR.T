@@ -102,8 +102,8 @@ struct AppView: View {
 			}
 
 		}
-		.frame(width: totalWidth,height:totalHeight)
-		.edgesIgnoringSafeArea(.all)
+//		.frame(width: totalWidth,height:totalHeight)
+//		.edgesIgnoringSafeArea(.all)
     }
 }
 

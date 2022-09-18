@@ -156,7 +156,7 @@ extension DiscoverView {
 			mainStates.loading = false
 		}
 	}
-}
+} 
 
 struct FancyScrollMain_Previews: PreviewProvider {
     static var previews: some View {
