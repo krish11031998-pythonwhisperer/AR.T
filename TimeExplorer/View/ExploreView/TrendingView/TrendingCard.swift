@@ -12,12 +12,13 @@ import SUI
 struct TrendingMainCard:View{
     var idx:Int?
     var data:TrendingCardData
-    var onTap:(() -> Void)?
+	@Binding var selectedArt: TrendingCardData?
     var isViewing:Bool = false
     
-	init(_ data:TrendingCardData, handler: (() -> Void)? = nil) {
+	init(_ data:TrendingCardData, selectedArt: Binding<TrendingCardData?>) {
+		print("(DEBUG) loading card : \(data.mainText ?? "No Name")")
         self.data = data
-        self.onTap = handler
+		self._selectedArt = selectedArt
     }
     
 
@@ -33,7 +34,7 @@ struct TrendingMainCard:View{
 				.text
 				.blobify(background: .white, padding: 10, cornerRadius: 14)
 				.buttonify {
-					onTap?()
+					selectedArt = data
 				}
         }
 		.padding(.horizontal,25)

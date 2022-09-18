@@ -83,7 +83,6 @@ private class ImageViewModel: ObservableObject {
 	
 	private func loadImage(url: String?) {
 		guard let validUrl = url else { return }
-		print("(DEBUG) Loading image!")
 		UIImage.loadImage(url: validUrl) { result in
 			switch result {
 			case .success(let img):

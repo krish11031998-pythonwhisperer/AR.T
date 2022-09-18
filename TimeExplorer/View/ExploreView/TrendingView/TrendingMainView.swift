@@ -12,6 +12,7 @@ import SUI
 enum CardType:String{
     case art = "Art"
 }
+
 struct TrendingCardData:Identifiable{
     var id:Int?
     var image:String?
@@ -24,6 +25,14 @@ struct TrendingCardData:Identifiable{
     var location:String?
     var date:Date
     var mainImage:UIImage?
+}
+
+extension TrendingCardData: Equatable {
+	
+	static func == (lhs: TrendingCardData, rhs: TrendingCardData) -> Bool {
+		return lhs.id == rhs.id
+	}
+	
 }
 
 struct TrendingData{
@@ -50,18 +59,20 @@ struct TrendingMainView: View {
 		_viewModel = .init(wrappedValue: .init())
 	}
 	
-    func updateViewState(){
-        viewModel.showArt.toggle()
+	func updateViewState(_ currentCard: TrendingCardData?){
+		if currentCard != nil {
+			viewModel.showArt = true
+		}
     }
 	
-	func trendingCardBuilder(data: TrendingCardData, isSelected: Bool) -> some View {
-		if isSelected {
-			DispatchQueue.main.async {
-				self.viewModel.currentCard = data
-			}
+	func updateCurrentCard(_ viewState: Bool) {
+		if !viewState && viewModel.currentCard != nil {
+			viewModel.currentCard = nil
 		}
-		return TrendingMainCard(data, handler: updateViewState)
-
+	}
+	
+	func trendingCardBuilder(data: TrendingCardData) -> some View {
+		return TrendingMainCard(data, selectedArt: $viewModel.currentCard)
 	}
 
 	@ViewBuilder func artInnerView() -> some View {
@@ -75,19 +86,17 @@ struct TrendingMainView: View {
 	}
 
     var body: some View {
-        ZStack(alignment:.top){
-            Color.black
-			if !viewModel.data.isEmpty && !self.mainStates.loading{
-				StackedScroll(data: viewModel.paginatedData) { pageData, isSelected in
-					if let trendingData = pageData as? TrendingCardData {
-						trendingCardBuilder(data: trendingData, isSelected: isSelected)
-					} else {
-						Color.clear
-							.frame(size: .zero)
-					}
+		ZStack(alignment:.top){
+			Color.black
+			StackedScroll(data: viewModel.paginatedData, lazyLoad: true) { pageData, isSelected in
+				if let trendingData = pageData as? TrendingCardData {
+					trendingCardBuilder(data: trendingData)
+				} else {
+					Color.clear
+						.frame(size: .zero)
 				}
-            }
-        }
+			}
+		}
 		.frame(width: totalWidth, height: totalHeight, alignment: .top)
 		.onReceive(viewModel.$data) { data in
 			withAnimation(.default) {
@@ -99,6 +108,8 @@ struct TrendingMainView: View {
 		.fullScreenModal(isActive: $viewModel.showArt,
 						 config: .init(isDraggable: true, showCloseIndicator: true),
 						 innerContent: artInnerView)
+		.onChange(of: viewModel.currentCard, perform: updateViewState(_:))
+		.onChange(of: viewModel.showArt, perform: updateCurrentCard(_:))
         
     }
 }

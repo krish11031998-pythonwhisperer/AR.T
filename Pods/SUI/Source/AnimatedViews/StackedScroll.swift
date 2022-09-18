@@ -37,14 +37,16 @@ public struct StackedScroll<Page: View>: View {
 	@State var currentIdx: Int = .zero
 	@State var offset: CGFloat = .zero
 	@State var scrollEnabled: Bool = true
+	let lazyLoad: Bool
 	
-	public init(data: [Any], @ViewBuilder pageBuilder: @escaping (Any, Bool) -> Page) {
+	public init(data: [Any], lazyLoad: Bool = false, @ViewBuilder pageBuilder: @escaping (Any, Bool) -> Page) {
 		self.data = data
+		self.lazyLoad = lazyLoad
 		self.pageBuilder = pageBuilder
 	}
 	
 	private var scrolledOffset: CGFloat {
-		-currentIdx.cgFloat * .totalHeight
+		-(lazyLoad ? currentIdx.cgFloat.boundedTo()  : currentIdx.cgFloat) * .totalHeight
 	}
 	
 	private var dragGesture: some Gesture {
@@ -73,8 +75,10 @@ public struct StackedScroll<Page: View>: View {
 	public var body: some View {
 		LazyVStack(alignment: .center, spacing: 0) {
 			ForEach(Array(data.enumerated()), id:\.offset) { data in
-				pageBuilder(data.element, data.offset == currentIdx)
-					.frame(size: .init(width: .totalWidth, height: .totalHeight))
+				if (lazyLoad && data.offset >= currentIdx - 1 && data.offset <= currentIdx + 1) || !lazyLoad {
+					pageBuilder(data.element, data.offset == currentIdx)
+						.frame(size: .init(width: .totalWidth, height: .totalHeight))
+				}
 			}
 		}
 		.onPreferenceChange(StackScrollPreferenceKey.self) { newValue in
