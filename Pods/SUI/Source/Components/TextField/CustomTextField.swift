@@ -109,9 +109,15 @@ public struct CustomTextField: View {
 	@State var text: String = ""
 	@State var isEditting: Bool = false
 	let config: CustomTextFieldConfig
+	let searchOnEdit: ((String) -> Void)?
+	let searchOnCommit: ((String) -> Void)?
 	
-	public init(config: CustomTextFieldConfig) {
+	public init(config: CustomTextFieldConfig,
+				searchOnEdit: ((String) -> Void)? = nil,
+				searchOnCommit:  ((String) -> Void)? = nil) {
 		self.config = config
+		self.searchOnEdit = searchOnEdit
+		self.searchOnCommit = searchOnCommit
 	}
 	
 	func onEditting(_ editting: Bool) {
@@ -128,16 +134,37 @@ public struct CustomTextField: View {
 				isEditting = false
 			}
 		}
+		searchOnCommit?(text)
 	}
 	
     public var body: some View {
 		TextField("", text: $text, onEditingChanged: onEditting(_:), onCommit: onCommit)
 			.textFieldStyle(CustomTextFieldStyle(config: config, isEditting: $isEditting))
+			.onChange(of: text) { newValue in
+				searchOnEdit?(newValue)
+			}
     }
 }
 
 struct CustomTextField_Previews: PreviewProvider {
+	
+	@State static var commitText: String = ""
+	@State static var editText: String = ""
+	
     static var previews: some View {
-		CustomTextField(config: .default)
+		VStack(alignment: .leading, spacing: 8) {
+			CustomTextField(config: .default) { editText in
+				withAnimation {
+					Self.editText = editText
+				}
+			} searchOnCommit: { commitText in
+				withAnimation {
+					Self.commitText = commitText
+				}
+			}
+			"Edit: \(editText)".systemBody().text
+			"Commit: \(commitText)".systemBody().text
+		}
+		
     }
 }

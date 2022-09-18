@@ -9,7 +9,7 @@
 import SwiftUI
 import SUI
 
-enum TextStyle:String{
+enum TextStyle: String {
 //    case main = "Avenir Next Medium"
     case main = "NeueMachina-Regular"
     case heading = "BungeeShade-Regular"

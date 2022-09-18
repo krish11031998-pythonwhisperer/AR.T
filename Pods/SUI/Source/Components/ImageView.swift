@@ -69,17 +69,21 @@ public extension UIImage {
 
 //MARK: - ImageView - Component
 
-public struct ImageView: View {
-	@State var image: UIImage? = nil
-	let url: String?
+private class ImageViewModel: ObservableObject {
 	
-	public init(url: String? = nil, image: UIImage? = nil) {
-		self.url = url
-		self._image = .init(initialValue: image)
+	@Published var image: UIImage? = nil
+	
+	init(url: String? = nil, img: UIImage? = nil){
+		if let validImage = img {
+			self._image = .init(initialValue: validImage)
+		} else {
+			loadImage(url: url)
+		}
 	}
 	
-	private func loadImage() {
+	private func loadImage(url: String?) {
 		guard let validUrl = url else { return }
+		print("(DEBUG) Loading image!")
 		UIImage.loadImage(url: validUrl) { result in
 			switch result {
 			case .success(let img):
@@ -90,21 +94,30 @@ public struct ImageView: View {
 				print("(Error) Err :",err.localizedDescription)
 			}
 		}
-		
+	}
+}
+
+public struct ImageView: View {
+	@StateObject private var viewModel: ImageViewModel
+	
+	public init(url: String? = nil, image: UIImage? = nil) {
+		self._viewModel = .init(wrappedValue: .init(url: url, img: image))
 	}
 	
 	public var body: some View {
 		ZStack(alignment: .center) {
-			Color.gray
-				.opacity(image != nil ? 0 : 0.15)
-			if let validImage = image {
+			
+			if let validImage = viewModel.image {
 				Image(uiImage: validImage)
 					.resizable()
 					.scaledToFill()
 					.clipped()
+			} else {
+				Color.gray
+					.opacity(0.15)
 			}
 		}
-		.onAppear(perform: loadImage)
+		
 	}
 }
 

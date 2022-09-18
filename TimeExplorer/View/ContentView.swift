@@ -71,7 +71,7 @@ struct AppView: View {
 			HomePageView()
 				.transparentNavBackground()
 				.tag("home")
-			ArtStoreMain()
+			SearchView()
 				.transparentNavBackground()
 				.tag("blogs")
 			DiscoverView()

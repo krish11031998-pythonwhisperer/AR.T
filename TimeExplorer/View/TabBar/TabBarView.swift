@@ -69,7 +69,6 @@ struct TabBarView: View {
 			.fixedSize()
 			.buttonify {
 				self.mainStates.tab = name
-				self.mainStates.loading = true
 			}
 	}
     
