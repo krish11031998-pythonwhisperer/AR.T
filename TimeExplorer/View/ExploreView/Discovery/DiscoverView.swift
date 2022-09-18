@@ -107,7 +107,7 @@ extension DiscoverView {
 extension DiscoverView {
 	
 	var leadingNavBarItem: some View {
-		"Discover".main(size: 30).text
+		"Discover".normal(size: 30).text
 	}
 	
 	var trailingNavBarItem: some View {
