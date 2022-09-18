@@ -65,15 +65,6 @@ struct AppView: View {
 	init() {
 		UITabBar.appearance().isHidden = true
 	}
-	
-	private let navBarAppearance: UINavigationBarAppearance = {
-		let bar: UINavigationBarAppearance = .init()
-		bar.backgroundColor = .clear
-		bar.backgroundImage = nil
-		bar.shadowColor = .clear
-		bar.titleTextAttributes = [.foregroundColor : UIColor.white, .font : UIFont(name: TextStyle.normal.rawValue, size: 20) as Any]
-		return bar
-	}()
  
 	var tabView: some View {
 		TabView(selection: $mainStates.tab) {

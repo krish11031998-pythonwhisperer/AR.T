@@ -11,29 +11,54 @@ import SUI
 struct DiscoverView: View {
     @EnvironmentObject var mainStates:AppStates
 	@StateObject var viewModel: DiscoverViewModel = .init()
-    
-    
-    
-    var header:some View{
-        HStack(alignment: .center, spacing: 10){
-            MainText(content: "Discover", fontSize: 30, color: .white, fontWeight: .bold, style: .heading)
-            Spacer()
-            SystemButton(b_name: "homekit", b_content: "",color: .white, size: .init(width: 20, height: 20)) {
-                self.mainStates.tab = "home"
-            }
-            SystemButton(b_name: "arrow.clockwise",
-						 b_content: "",
-						 color: .white,
-						 haveBG: true,
-						 size: .init(squared: 20),
-						 bgcolor: .black) {
-				viewModel.updateOffset(1)
+	@Namespace var animation
+	
+	let cardSize: CGSize = .init(width: 200, height: 350)
+	
+    var body: some View {
+        ZStack(alignment: .top) {
+            Color.black
+			if !mainStates.loading{
+				DiscoveryView(data: viewModel.paginatedData,
+							  model: .init(cardSize: cardSize, rows: 5, spacing: 10, bgColor: .clear)) { data in
+					SUI.ImageView(url: (data.data as? ExploreData)?.img)
+						.framed(size: cardSize, cornerRadius: 15, alignment: .center)
+						.matchedGeometryEffect(id: "artCard.\(data.id)", in: animation, isSource: true)
+						.onTapGesture {
+							guard let validData = (data.data as? ExploreData)?.data as? CAData else { return }
+							withAnimation(.easeInOut(duration: 0.5)) {
+								viewModel.art = .init(validData)
+								viewModel.idx = data.id
+							}
+						}
+						.cardSelected(viewModel.idx)
+				}
 			}
-        }.padding()
-        .padding(.top,35)
-        .frame(width: totalWidth, alignment: .leading)
-        .background(bottomShadow.rotationEffect(.init(degrees: .init(180))))
+			selectedArtState
+        }
+		.edgesIgnoringSafeArea(.all)
+		.onAppear(perform: onAppear)
+		.onReceive(viewModel.$exploreList, perform: onReceiveExploreList(_:))
+        .onDisappear(perform: onDisappear)
+		.fullScreenModal(isActive: $viewModel.showArt, config: .init(isDraggable: false, showCloseIndicator: true)) {
+			selectedArtView
+		}
+		.toolbar {
+			ToolbarItem(placement: .navigationBarLeading) {
+				leadingNavBarItem
+			}
+			
+			ToolbarItem(placement: .navigationBarTrailing) {
+				trailingNavBarItem
+			}
+		}
+
     }
+}
+
+//MARK: - Discover View Child Views
+
+extension DiscoverView {
 	
 	@ViewBuilder var selectedArtView: some View {
 		if let art = viewModel.art{
@@ -42,40 +67,95 @@ struct DiscoverView: View {
 			Color.clear.frame(size: .zero)
 		}
 	}
-
-    var body: some View {
-        ZStack(alignment: .top) {
-            Color.black
-			if !mainStates.loading{
-				DiscoveryView(data: viewModel.paginatedData,
-							  model: .init(cardSize: .init(width: 200, height: 350), rows: 5, spacing: 10, bgColor: .clear)) { data in
-					SUI.ImageView(url: (data.data as? ExploreData)?.img)
-						.framed(size: .init(width: 200, height: 350), cornerRadius: 15, alignment: .center)
-						.onTapGesture {
-							withAnimation(.easeInOut(duration: 0.5)) {
-								viewModel.art = (data.data as? ExploreData)?.data as? ArtData
-								viewModel.idx = data.id
-							}
+	
+	@ViewBuilder var selectedArtState: some View {
+		if let validArt = viewModel.art, viewModel.idx != -1 {
+			ZStack {
+				BlurView(style: .regular)
+					.fillFrame(alignment: .center)
+					.onTapGesture {
+						withAnimation {
+							viewModel.idx = -1
+							viewModel.art = nil
 						}
-						.cardSelected(viewModel.idx)
+					}
+				SUI.ImageView(url: validArt.thumbnail)
+					.framed(size: cardSize, cornerRadius: 15, alignment: .center)
+					.matchedGeometryEffect(id: "artCard.\(viewModel.idx)", in: animation, properties: .position, isSource: false)
+				VStack(alignment: .leading, spacing: 8) {
+					validArt.title.normal(size: 20).text
+					validArt.introduction.normal(size: 15).text.lineLimit(3)
+					CustomButton(config: .init(imageName: .next,text: "View art".normal(size: 12))) {
+						viewModel.updateShowArt(art: validArt)
+					}
 				}
+				.transitionFrom(.bottom)
+				.padding()
+				.padding(.bottom, .safeAreaInsets.bottom)
+				.fillFrame(alignment: .bottomLeading)
 			}
-			header
-        }
-		.edgesIgnoringSafeArea(.all)
-		.onReceive(viewModel.$exploreList, perform: { newValue in
-			withAnimation(.default) {
-				mainStates.loading = newValue.isEmpty
-			}
-		})
-        .onChange(of: viewModel.art, perform: viewModel.updateShowArt(art:))
-        .onDisappear(perform: self.mainStates.toggleTab)
-		.fullScreenModal(isActive: $viewModel.showArt, config: .init(isDraggable: false, showCloseIndicator: true)) {
-			selectedArtView
+			.edgesIgnoringSafeArea(.all)
+			.fillFrame(alignment: .center)
+			
 		}
-		.navigationBarHidden(true)
+	}
+}
 
-    }
+
+//MARK: - Discover View NavBar Extension
+
+extension DiscoverView {
+	
+	var leadingNavBarItem: some View {
+		"Discover".main(size: 30).text
+	}
+	
+	var trailingNavBarItem: some View {
+		HStack(alignment: .center, spacing: 8) {
+			SystemButton(b_name: "homekit", b_content: "",color: .white, size: .init(width: 20, height: 20)) {
+				self.mainStates.tab = "home"
+			}
+			SystemButton(b_name: "arrow.clockwise",
+						 b_content: "",
+						 color: .white,
+						 haveBG: true,
+						 size: .init(squared: 20),
+						 bgcolor: .black) {
+				viewModel.updateOffset(1)
+			}
+		}
+	}
+}
+
+//MARK: - Discover View Handlers Extension
+
+extension DiscoverView {
+	
+	private func onDisappear() {
+		if !mainStates.showTab {
+			withAnimation {
+				mainStates.showTab = true
+			}
+		}
+	}
+	
+	private func onReceiveExploreList(_ exploreList: [ExploreData]) {
+		withAnimation {
+			mainStates.loading = exploreList.isEmpty
+		}
+	}
+	
+	private func onAppear() {
+		if mainStates.showTab {
+			withAnimation {
+				mainStates.showTab = false
+			}
+		}
+		
+		if !viewModel.exploreList.isEmpty {
+			mainStates.loading = false
+		}
+	}
 }
 
 struct FancyScrollMain_Previews: PreviewProvider {

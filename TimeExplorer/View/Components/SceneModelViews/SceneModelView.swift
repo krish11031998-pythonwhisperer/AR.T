@@ -43,6 +43,8 @@ struct SceneModelView: View {
     }
     
     func onAppear(){
+		guard !firstLoad else { return }
+		firstLoad.toggle()
          if let model = self.model_url_str{
             DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .milliseconds(500)) {
                 self.mdD.loadModel(name: self.name, url_string: model)
@@ -114,7 +116,6 @@ struct SceneModelView: View {
             )
         }
         .frame(width: w, height: h, alignment: .center)
-//        .onAppear(perform: self.onAppear)
         .onReceive(self.mdD.$url, perform: self.onReceive)
     }
 }
