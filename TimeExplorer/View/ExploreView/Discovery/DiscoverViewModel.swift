@@ -23,7 +23,7 @@ class DiscoverViewModel: ObservableObject {
 	var paginatedData: [DiscoveryCardData] {
 		guard (offset + 1) * 25 < exploreList.count else { return exploreList.enumerated().map { .init(id: $0.offset, data: $0.element) } }
 		let count = (offset + 1) * 25
-		let arr = Array(exploreList[(offset * 25)..<(offset + 1) * 25])
+		let arr = Array(exploreList[(offset * 25)..<count])
 		return arr.enumerated().map { .init(id: $0.offset, data: $0.element)}
 	}
 	
@@ -36,8 +36,10 @@ class DiscoverViewModel: ObservableObject {
 	}
 	
 	func updateOffset(_ newValue: Int) {
-		if (offset + newValue) * 25 < exploreList.count {
-			offset += newValue
+		asyncMainAnimation {
+			if (self.offset + newValue) * 25 < self.exploreList.count {
+				self.offset += newValue
+			}
 		}
 	}
 	

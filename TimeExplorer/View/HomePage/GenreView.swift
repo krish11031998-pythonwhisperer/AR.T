@@ -37,6 +37,7 @@ struct ArtViewCard:View{
     let cardData:CAData
 	let cardSize: CGSize
     init(data:CAData, cardSize:CGSize = .init(width: totalWidth * 0.5, height: totalHeight * 0.3)){
+		print("(DEBUG) artViewCard init called!")
         self.cardData = data
 		self.cardSize = cardSize
     }

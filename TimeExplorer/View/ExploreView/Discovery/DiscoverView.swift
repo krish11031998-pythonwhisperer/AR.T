@@ -18,18 +18,14 @@ struct DiscoverView: View {
     var body: some View {
         ZStack(alignment: .top) {
             Color.black
-			if !mainStates.loading{
+			if !viewModel.paginatedData.isEmpty && !mainStates.loading{
 				DiscoveryView(data: viewModel.paginatedData,
 							  model: .init(cardSize: cardSize, rows: 5, spacing: 10, bgColor: .clear)) { data in
 					SUI.ImageView(url: (data.data as? ExploreData)?.img)
 						.framed(size: cardSize, cornerRadius: 15, alignment: .center)
-						.matchedGeometryEffect(id: "artCard.\(data.id)", in: animation, isSource: true)
+						//.matchedGeometryEffect(id: "artCard.\(data.id)", in: animation, isSource: true)
 						.onTapGesture {
-							guard let validData = (data.data as? ExploreData)?.data as? CAData else { return }
-							withAnimation(.easeInOut(duration: 0.5)) {
-								viewModel.art = .init(validData)
-								viewModel.idx = data.id
-							}
+							handleTap(data: data)
 						}
 						.cardSelected(viewModel.idx)
 				}
@@ -81,7 +77,7 @@ extension DiscoverView {
 					}
 				SUI.ImageView(url: validArt.thumbnail)
 					.framed(size: cardSize, cornerRadius: 15, alignment: .center)
-					.matchedGeometryEffect(id: "artCard.\(viewModel.idx)", in: animation, properties: .position, isSource: false)
+					//.matchedGeometryEffect(id: "artCard.\(viewModel.idx)", in: animation, properties: .position, isSource: false)
 				VStack(alignment: .leading, spacing: 8) {
 					validArt.title.normal(size: 20).text.lineLimit(2)
 					validArt.introduction.normal(size: 15).text.lineLimit(3)
@@ -156,7 +152,15 @@ extension DiscoverView {
 			mainStates.loading = false
 		}
 	}
-} 
+	
+	private func handleTap(data: DiscoveryCardData) {
+		guard let validData = (data.data as? ExploreData)?.data as? CAData else { return }
+		withAnimation(.easeInOut(duration: 0.5)) {
+			viewModel.art = .init(validData)
+			viewModel.idx = data.id
+		}
+	}
+}
 
 struct FancyScrollMain_Previews: PreviewProvider {
     static var previews: some View {

@@ -16,9 +16,7 @@ enum HomeSection: String, CaseIterable {
 	case types = "Types"
 	case recent = "Recently Acquired"
 	case onRadar = "On Your Radar"
-	case mayShow = "CMA May Artist"
-	case new = "New"
-	case artists = "Artists"
+	case museumSpecials = "Museum Specials"
 }
 
 class HomeViewModel: ObservableObject {
@@ -60,9 +58,8 @@ class HomeViewModel: ObservableObject {
 		.highlight : .init(skip: 20,limit: 10),
 		.currentlyOnView : .init(limit: 5, currently_on_view: true),
 		.onRadar : .init(limit: 15, cia_alumni_artists: true),
-		.mayShow : .init(may_show_artists: true),
 		.recent : .init(recently_acquired: true),
-		.new : .init(female_artists: true)
+		.museumSpecials: .init(female_artists: true)
 	]
 	
 	init() {

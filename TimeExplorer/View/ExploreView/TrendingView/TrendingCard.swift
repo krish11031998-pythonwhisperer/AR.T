@@ -16,7 +16,6 @@ struct TrendingMainCard:View{
     var isViewing:Bool = false
     
 	init(_ data:TrendingCardData, selectedArt: Binding<TrendingCardData?>) {
-		print("(DEBUG) loading card : \(data.mainText ?? "No Name")")
         self.data = data
 		self._selectedArt = selectedArt
     }

@@ -121,3 +121,15 @@ class CAImage:Codable{
     var height:String?
 }
 
+extension CAData: Equatable {
+	static func == (lhs: CAData, rhs: CAData) -> Bool {
+		lhs.id == rhs.id
+	}
+}
+
+extension CAData: Hashable {
+	
+	func hash(into hasher: inout Hasher) {
+		hasher.combine(self.id)
+	}
+}

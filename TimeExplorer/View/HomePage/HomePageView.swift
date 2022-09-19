@@ -42,18 +42,13 @@ struct HomePageView: View {
 			case .onRadar:
 				OnRadarArt(data: data as? [CAData] ?? [])
 					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
-			case .mayShow:
-				ArtDepartmentView(data: data as? [CAData] ?? [])
-					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
 			case .recent:
 				RecommendArt(attractions: data as? [CAData] ?? [])
 					.environmentObject(viewModel)
 					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
-			case .new:
-				GenreView(genreData: data as? [CAData] ?? [])
-					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
-			case .artists:
-				artistArtView(data: data as? [CAData] ?? [])
+			case.museumSpecials:
+				MuseumSpecial()
+					.environmentObject(viewModel)
 					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
 			case .departments:
 				departmentView
@@ -67,7 +62,7 @@ struct HomePageView: View {
 		}
     }
 
-	private var sections: [HomeSection] = HomeSection.allCases  //[.highlight, .trending, .onRadar, .recommended, .recent, .new]
+	private var sections: [HomeSection] = HomeSection.allCases
 
     var body: some View {
 		ZStack(alignment: .center) {

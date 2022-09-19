@@ -125,6 +125,7 @@
 		EFB0FC5528D498D500D2B7BC /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB0FC5428D498D500D2B7BC /* SearchView.swift */; };
 		EFF96C8028D034E900A70550 /* CAArtAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF96C7F28D034E900A70550 /* CAArtAPI.swift */; };
 		EFF96C8428D097EE00A70550 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF96C8328D097EE00A70550 /* HomeViewModel.swift */; };
+		EFFDF16E28D82C7400CDB368 /* MuseumSpecial.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFDF16D28D82C7400CDB368 /* MuseumSpecial.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -269,6 +270,7 @@
 		EFB0FC5428D498D500D2B7BC /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		EFF96C7F28D034E900A70550 /* CAArtAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAArtAPI.swift; sourceTree = "<group>"; };
 		EFF96C8328D097EE00A70550 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		EFFDF16D28D82C7400CDB368 /* MuseumSpecial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuseumSpecial.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -415,6 +417,7 @@
 				EFF96C8328D097EE00A70550 /* HomeViewModel.swift */,
 				EF82553A28D25722000447F0 /* ArtDepartmentView.swift */,
 				EF82554428D342BB000447F0 /* DepartmentView.swift */,
+				EFFDF16D28D82C7400CDB368 /* MuseumSpecial.swift */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -995,6 +998,7 @@
 				BCD7C7FE2690955500077D89 /* ChartsMainView.swift in Sources */,
 				EF82553B28D25722000447F0 /* ArtDepartmentView.swift in Sources */,
 				BC5D47DE26667AC800C55A3F /* GenreView.swift in Sources */,
+				EFFDF16E28D82C7400CDB368 /* MuseumSpecial.swift in Sources */,
 				BCB25F1325B0C17900290E18 /* TrendingMainView.swift in Sources */,
 				BCE95E862624E73800B04852 /* SCNSceneView.swift in Sources */,
 				EF62507E28D743B2004704CF /* SearchViewModel.swift in Sources */,
