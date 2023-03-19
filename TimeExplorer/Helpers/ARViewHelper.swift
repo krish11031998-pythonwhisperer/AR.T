@@ -8,8 +8,12 @@
 import Foundation
 import ARKit
 import RealityKit
+import Combine
 
-
+enum ModelEntityError: String, Error {
+    case failedToLoadEntityFromImage
+    case failedToLoadImageData
+}
 
 extension ModelEntity{
     
@@ -48,14 +52,40 @@ extension ModelEntity{
         
     }
     
+    static func loadModelEntityImage(url: URL? = nil) -> AnyPublisher<Data, Error> {
+        guard let url else { return Fail(outputType: Data.self, failure: ModelEntityError.failedToLoadImageData).eraseToAnyPublisher() }
+        return URLSession.shared.dataTaskPublisher(for: url).map(\.data).mapError { _ in ModelEntityError.failedToLoadImageData }.eraseToAnyPublisher()
+    }
+    
+    static func loadModelEntityFromImage(url:URL? = nil) -> AnyPublisher<ModelEntity?, Error>{
+        let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        
+        return loadModelEntityImage(url: url)
+            .receive(on: DispatchQueue.main)
+            .map { data -> ModelEntity? in
+                try? data.write(to: fileURL)
+                do {
+                    // Create a TextureResource by loading the contents of the file URL.
+                    let texture = try TextureResource.load(contentsOf: fileURL)
+                    var material = SimpleMaterial()
+                    material.baseColor = MaterialColorParameter.texture(texture)
+                    let entity = ModelEntity(mesh: .generatePlane(width: 0.2, height: 0.2), materials: [material])
+                    return entity
+                } catch {
+                    print(error.localizedDescription)
+                    return nil
+                }
+                
+            }
+            .eraseToAnyPublisher()
+    }
+    
     
     
     
 }
 
 extension ARView{
-    
-    
     func addModel(model _model:ModelEntity? = nil,url _url:URL? = nil,position _pos:SIMD3<Float>? = nil, scale _scale:SIMD3<Float>? = nil){
         var model:ModelEntity = .init()
         if let mod = _model{

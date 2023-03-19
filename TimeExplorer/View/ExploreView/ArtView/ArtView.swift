@@ -30,9 +30,7 @@ struct ArtView: View {
     @Binding var showArt:Bool
     @StateObject var viewStates:ArtViewStates = .init()
     @Namespace var animation
-    @State var mainTab:Int = 0
     @State var annotationTab:String = ""
-    @State var inspect:Bool = false
     @State var tabData:[(heading:String,detail:String,key:String?)]? = nil
     @State var showInfoCard:Bool = false
     @State var viewAR:Bool = false
@@ -49,36 +47,43 @@ struct ArtView: View {
         HStack{
             if self.viewStates.inspect{
                 SystemButton(b_name: "xmark", b_content: "",color: .black,bgcolor: .white) {
-                    self.viewStates.inspect.toggle()
+                    self.viewStates.inspect = false
                 }
-                //                Spacer()
-                //                MainText(content: self.viewStates.changes ? "Update" : self.data.title, fontSize: 15, color: .white, fontWeight: .bold, style: .normal)
-                //                    .padding()
-                //                    .background(BlurView(style: .dark))
-                //                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                //                    .onTapGesture(perform: self.updateArtData)
-                //                Spacer()
             }
             
         }
-        .padding(.top, .safeAreaInsets.top)
         .fillWidth(alignment: .trailing)
     }
     
     //MARK: - Sidebars
     
-    func sideBar(w:CGFloat) -> some View{
-        return  HStack(alignment: .top, spacing: 10) {
+    func buttonStack() -> some View {
+        HStack(alignment: .center, spacing: 10) {
+            "View in AR".body2Medium(color: .black)
+                .text
+                .padding(10)
+                .background(Color.white)
+                .borderCard(borderColor: .black, radius: 12, borderWidth: 1)
+                .buttonify {
+                    withAnimation(.easeInOut) {
+                        self.viewAR = true
+                    }
+                }
             Spacer()
-            VStack(alignment: .center, spacing: 10) {
-//                TabBarButtons(bindingState: $viewStates.showFeatures, name: "sparkles")
-//                TabBarButtons(bindingState: $viewStates.isEditting,name: "pencil")
-                TabBarButtons(bindingState: $viewAR, name: "cube")
-            }
-        }.padding()
-        .frame(width: w, alignment: .trailing)
+            "Dismiss".body2Medium(color: .black)
+                .text
+                .padding(10)
+                .background(Color.white)
+                .borderCard(borderColor: .black, radius: 12, borderWidth: 1)
+                .buttonify {
+                    withAnimation(.easeInOut) {
+                        self.viewStates.inspect = false
+                    }
+                }
+        }
+        .fillWidth(alignment: .leading)
+        .fillHeight(alignment: .bottomLeading)
     }
-    
     
     
     //MARK: - TabViews
@@ -251,7 +256,6 @@ struct ArtView: View {
             ZStack(alignment: .center) {
                 VStack(alignment: .leading, spacing: 25){
                     if !self.viewStates.isEditting{
-                        self.header.padding()
                         Spacer()
                         if self.viewStates.inspect{
                             if self.viewStates.selectedAnnotation != ""{
@@ -264,9 +268,10 @@ struct ArtView: View {
                         Spacer()
                     }
                     
-                }.frame(width: w, alignment: .bottom).animation(.easeInOut)
+                }.frame(width: w, alignment: .bottom)
+                    .animation(.easeInOut)
                 if self.viewStates.inspect{
-                    self.sideBar(w: w)
+                    self.buttonStack()
                 }
                 
             }.frame(width: w, height: h, alignment: .center)
@@ -355,6 +360,7 @@ struct ArtView: View {
 					self.showInfoCard.toggle()
 				}
 			})
+            .navigationBarHidden(viewStates.inspect)
     }
 }
 

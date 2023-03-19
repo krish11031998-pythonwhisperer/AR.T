@@ -25,6 +25,7 @@ fileprivate struct BorderCard: ViewModifier {
 	
 	public func body(content: Content) -> some View {
 		content
+            .clipContent(radius: radius)
 			.overlay(
 				RoundedRectangle(cornerRadius: radius)
 					.strokeBorder(borderColor, lineWidth: borderWidth)

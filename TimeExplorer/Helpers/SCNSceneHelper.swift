@@ -68,6 +68,10 @@ extension SCNScene{
 class ARModelDownloader:ObservableObject{
     @Published var url:URL? = nil
     @Published var model:ModelEntity? = nil
+    @Published var cancel: Bool = false
+    @Published var show: Bool = false
+    @Published var placeModel: Bool = false
+    
     var cancellable = Set<AnyCancellable>()
     
     func parseModelEntity(output: Publishers.SubscribeOn<LoadRequest<ModelEntity>, DispatchQueue>.Output){
@@ -98,6 +102,19 @@ class ARModelDownloader:ObservableObject{
 			}
 		}
 	}
+    
+    func loadModelFromImage(url: URL) {
+        ModelEntity.loadModelEntityFromImage(url: url)
+//            .receive(on: DispatchQueue.main)
+            .sink { error in
+                print("(DEBUG) err while loading the modelEntity")
+            } receiveValue: { [weak self] entity in
+                guard let self, let validEntity = entity else { return }
+                self.model = validEntity
+                self.cancel = false
+            }
+            .store(in: &cancellable)
+    }
     
     
 }
