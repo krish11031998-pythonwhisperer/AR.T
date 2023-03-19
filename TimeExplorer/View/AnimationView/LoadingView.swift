@@ -11,9 +11,14 @@ import SwiftUI
 struct LoadingView: View {
     var body: some View {
         ZStack{
-            BlurView(style: .regular)
-            LottieView(filename: "loading").frame(width: 150, height: 150)
-        }.edgesIgnoringSafeArea(.all)
+            Color.black
+            ProgressView()
+                .frame(width: 100, height: 100, alignment: .center)
+                //.progressViewStyle(.circular)
+            
+        }
+        .edgesIgnoringSafeArea(.all)
+        .fillFrame(alignment: .center)
     }
 }
 

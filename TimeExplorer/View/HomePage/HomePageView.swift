@@ -8,6 +8,18 @@
 import SwiftUI
 import SUI
 
+fileprivate extension Array {
+    func createMultiDim(_ dim: Int) -> [[Self.Element]] {
+        
+        var result: [[Self.Element]] = []
+        let factor = count/dim
+        for idx in 0..<dim {
+            result.append(Array(self[(idx * factor)..<((idx + 1) * factor)]))
+        }
+        return result
+    }
+}
+
 struct HomePageView: View {
     @EnvironmentObject var mainStates:AppStates
 	@StateObject var viewModel = HomeViewModel()
@@ -50,11 +62,10 @@ struct HomePageView: View {
 				MuseumSpecial()
 					.environmentObject(viewModel)
 					.containerize(title: section.rawValue.heading6(), vPadding: 0, hPadding: 16)
-//			case .departments:
-//				departmentView
-			case .types:
-				typesView
-					.containerize(title: section.rawValue.heading6(), vPadding: 0, hPadding: 16)
+			case .departments:
+				departmentView
+            default:
+                EmptyView().body.framed(size: .zero)
 			}
 		} else {
 			Color.gray.opacity(0.15)
@@ -67,7 +78,7 @@ struct HomePageView: View {
     var body: some View {
 		ZStack(alignment: .center) {
 			ScrollView(.vertical, showsIndicators: false){
-				LazyVStack(alignment: .center, spacing: 10) {
+				VStack(alignment: .center, spacing: 10) {
 					//self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
 					ForEach(sections, id:\.rawValue) { section in
 						subView(section: section)
@@ -133,35 +144,22 @@ extension HomePageView{
         return view
     }
     
-	var departmentView: some View {
-		VStack(alignment: .leading, spacing: 10) {
-			"Departments".normal(size: 25).text
-				.padding()
-			Spacer()
-			ScrollView(.horizontal, showsIndicators: false) {
-				HStack(alignment: .center, spacing: 8) {
-					ForEach(Array(Department.allCases[0..<Department.allCases.count/2]), id: \.rawValue) { data in
-						BlobButton(text: data.rawValue.normal(size: 16, color: .white), config: viewModel.blobConfig) {
-							viewModel.selectedDepartment = data
-						}
-					}
-				}.padding(.horizontal)
-				.fillWidth(alignment: .leading)
-				
-				HStack(alignment: .center, spacing: 8) {
-					ForEach(Array(Department.allCases[Department.allCases.count/2..<Department.allCases.count]), id: \.rawValue) { data in
-						BlobButton(text: data.rawValue.normal(size: 16, color: .white), config: viewModel.blobConfig) {
-							viewModel.selectedDepartment = data
-						}
-					}
-				}.padding(.horizontal).fillWidth(alignment: .leading)
-			}
-			.padding(.bottom)
-		}
-		.fixedHeight(height: 250)
-		.background(Color.gray.opacity(0.15).clipShape(RoundedRectangle(cornerRadius: 20)))
-		.borderCard(borderColor: .white, radius: 20, borderWidth: 1.25)
-	}
+    var departmentView: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            ForEach(Array(Department.allCases.createMultiDim(3).enumerated()), id: \.offset) { el in
+                HStack(alignment: .center, spacing: 8) {
+                    ForEach(el.element, id: \.rawValue) { data in
+                        BlobButton(text: data.rawValue.styled(font: .medium, color: .white, size: 16), config: viewModel.blobConfig) {
+                            viewModel.selectedDepartment = data
+                        }
+                    }
+                }.padding(.horizontal)
+                    .fillWidth(alignment: .leading)
+            }
+        }
+        .containerize(title: "Departments".heading6(), vPadding: 0, hPadding: 16)
+        
+    }
 
 	
 	var typesView: some View {

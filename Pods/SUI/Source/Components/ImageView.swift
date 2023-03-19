@@ -77,7 +77,9 @@ private class ImageViewModel: ObservableObject {
 		if let validImage = img {
 			self._image = .init(initialValue: validImage)
 		} else {
-			loadImage(url: url)
+            DispatchQueue.global(qos: .userInteractive).async {
+                self.loadImage(url: url)
+            }
 		}
 	}
 	
