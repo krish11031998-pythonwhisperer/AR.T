@@ -17,7 +17,7 @@ struct HighlightView: View {
     }
 	
 	private var cardSize: CGSize {
-		.init(width: .totalWidth - 10, height: 350)
+		.init(width: .totalWidth - 32, height: 350)
 	}
 	
 	private func action(_ idx: Int) {

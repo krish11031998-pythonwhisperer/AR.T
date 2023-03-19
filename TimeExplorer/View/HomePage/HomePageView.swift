@@ -34,27 +34,27 @@ struct HomePageView: View {
 			case .highlight:
 				HighlightView(data: data as? [CAData] ?? [])
 					.environmentObject(viewModel)
-					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
+                    .containerize(title: section.rawValue.heading6(), vPadding: 0, hPadding: 16)
 			case .currentlyOnView:
 				TrendingArt(data: data as? [CAData] ?? [])
 					.environmentObject(viewModel)
-					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
+					.containerize(title: section.rawValue.heading6(), vPadding: 0, hPadding: 16)
 			case .onRadar:
 				OnRadarArt(data: data as? [CAData] ?? [])
-					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
+					.containerize(title: section.rawValue.heading6(), vPadding: 0, hPadding: 16)
 			case .recent:
 				RecommendArt(attractions: data as? [CAData] ?? [])
 					.environmentObject(viewModel)
-					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
+					.containerize(title: section.rawValue.heading6(), vPadding: 0, hPadding: 16)
 			case.museumSpecials:
 				MuseumSpecial()
 					.environmentObject(viewModel)
-					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
-			case .departments:
-				departmentView
+					.containerize(title: section.rawValue.heading6(), vPadding: 0, hPadding: 16)
+//			case .departments:
+//				departmentView
 			case .types:
 				typesView
-					.containerize(title: section.rawValue.normal(size: 24), vPadding: 0, hPadding: 10)
+					.containerize(title: section.rawValue.heading6(), vPadding: 0, hPadding: 16)
 			}
 		} else {
 			Color.gray.opacity(0.15)
@@ -68,11 +68,12 @@ struct HomePageView: View {
 		ZStack(alignment: .center) {
 			ScrollView(.vertical, showsIndicators: false){
 				LazyVStack(alignment: .center, spacing: 10) {
-					self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
+					//self.header(dim: .init(width: totalWidth, height: totalHeight * 0.35))
 					ForEach(sections, id:\.rawValue) { section in
 						subView(section: section)
 					}
 				}
+                .padding(.top, .safeAreaInsets.top)
 				.fixedWidth(width: .totalWidth)
 				.padding(.bottom, .safeAreaInsets.bottom + 100)
 			}

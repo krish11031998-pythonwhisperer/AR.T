@@ -11,7 +11,7 @@ import SUI
 
 enum HomeSection: String, CaseIterable {
 	case highlight = "Hightlight of the Day"
-	case departments = "Departments"
+	//case departments = "Departments"
 	case currentlyOnView = "Current On View"
 	case types = "Types"
 	case recent = "Recently Acquired"
@@ -63,7 +63,7 @@ class HomeViewModel: ObservableObject {
 	]
 	
 	init() {
-		sectionData[.departments] = Department.allCases
+		//sectionData[.departments] = Department.allCases
 		sectionData[.types] = Types.allCases
 		loadData()
 	}

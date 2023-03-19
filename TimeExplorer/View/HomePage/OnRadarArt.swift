@@ -26,11 +26,11 @@ struct OnRadarArt: View {
 				SUI.ImageView(url: data[idx].thumbnail)
 					.framed(size: .init(width: tabSize.width * 0.4, height: cardSize.height), cornerRadius: 10, alignment: .center)
 				VStack(alignment: .leading, spacing: 10) {
-					(data[idx].title ?? "XXX").normal(size: 15).text.lineLimit(2)
-					"BiddingPrice".normal(size: 12.5, color: .gray).text
-					"3 BTC".normal(size: 13).text
+					(data[idx].title ?? "XXX").body2Bold().text.lineLimit(2)
+//					"BiddingPrice".normal(size: 12.5, color: .gray).text
+                    (data[idx].artistName ?? "XXX").styled(font: .mediumItalic, color: .gray, size: 12).text
 				}
-				.padding(.vertical,5)
+				.padding(.vertical,8)
 				.fillFrame(alignment: .topLeading)
 			}
 			.framed(size: cardSize)
@@ -56,6 +56,7 @@ struct OnRadarArt: View {
 	var body: some View {
 		ScrollView(.horizontal, showsIndicators: false) {
 			self.grid
+                .padding(.horizontal, 16)
 		}
 	}
 }

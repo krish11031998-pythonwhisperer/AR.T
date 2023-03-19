@@ -73,7 +73,7 @@ struct AppView: View {
 				.tag("home")
 			SearchView()
 				.transparentNavBackground()
-				.tag("blogs")
+				.tag("search")
 			DiscoverView()
 				.transparentNavBackground()
 				.tag("attractions")

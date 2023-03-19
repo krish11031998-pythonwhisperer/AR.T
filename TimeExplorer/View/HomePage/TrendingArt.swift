@@ -25,10 +25,18 @@ struct TrendingArt: View {
 				if !isSelected {
 					BlurView(style: .light)
 				} else {
-					(data.title ?? "No title").normal(size: 13, color: .white)
-						.text
-						.padding(10)
-						.fillWidth(alignment: .leading)
+                    VStack(spacing: 8) {
+                        (data.title ?? "No title").body1Bold(color: .white)
+                            .text
+                            .multilineTextAlignment(.center)
+                        CustomDivider()
+                        (data.artistName ?? "No Artist").styled(font: .mediumItalic, color: .white, size: 10)
+                            .text
+                            .multilineTextAlignment(.center)
+                    }
+                    .padding(10)
+                    .fillWidth(alignment: .leading)
+                    .transitionFrom(.bottom)
 				}
 			}.framed(size: cardSize, cornerRadius: 14, alignment: .center)
 		}

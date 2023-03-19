@@ -50,8 +50,11 @@ struct MuseumSpecial: View {
 	}
 	
 	private var section: some View {
-		SimpleHScroll(data: MuseumSpecialSection.allCases, config: .original) { section in
-			BlobButton(text: section.rawValue.normal(size: 13, color: .white), config: selectedConfig(section)) {
+		SimpleHScroll(data: MuseumSpecialSection.allCases, config: .init(spacing: 10,
+                                                                         showsIndicator: false,
+                                                                         horizontalInsets: .zero,
+                                                                         alignment: .center)) { section in
+            BlobButton(text: section.rawValue.styled(font: .mediumItalic,color: .white, size: 13), config: selectedConfig(section)) {
 				withAnimation {
 					selectedSection = section
 					homeViewModel.loadDataForSection(section: currentSection, param: section.searchParam)
@@ -61,29 +64,19 @@ struct MuseumSpecial: View {
 	}
 	
 	private var artSection: some View{
-		ScrollView(.horizontal, showsIndicators: false) {
-			LazyHStack(alignment: .center, spacing: 8) {
-				ForEach(data, id: \.id) { artData in
-					ArtViewCard(data: artData, cardSize: .init(width: 200, height: 250))
-				}
-			}
-		}
-//		SimpleHScroll(data: data, config: .original) { artData in
-//			ArtViewCard(data: artData, cardSize: .init(width: 200, height: 250))
-//		}
+        ScrollView(.horizontal, showsIndicators: false) {
+            LazyHStack(alignment: .center, spacing: 8) {
+                ForEach(data, id: \.id) { artData in
+                    ArtViewCard(data: artData, cardSize: .init(width: 200, height: 250))
+                }
+            }
+        }
 	}
 	
     var body: some View {
 		VStack(alignment: .leading, spacing: 8) {
 			section
 			artSection
-		}
+        }.padding(.horizontal, 16)
     }
 }
-
-//struct MuseumSpecial_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MuseumSpecial()
-//			.environmentObject(HomeViewModel())
-//    }
-//}

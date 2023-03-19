@@ -41,7 +41,6 @@
 		BC5D47DE26667AC800C55A3F /* GenreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5D47DD26667AC800C55A3F /* GenreView.swift */; };
 		BC5D47E026667F5700C55A3F /* PinterestScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5D47DF26667F5700C55A3F /* PinterestScroll.swift */; };
 		BC618C5425A5D5C100377140 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = BC618C5325A5D5C100377140 /* Charts */; };
-		BC618C5925A6FCA300377140 /* NeueMachina-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = BC618C5825A6FCA300377140 /* NeueMachina-Regular.otf */; };
 		BC618C6325A9F3C000377140 /* YoutubePlayerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC618C6225A9F3C000377140 /* YoutubePlayerHelper.swift */; };
 		BC645DDD2595124A0054F2FE /* MessageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC645DDC2595124A0054F2FE /* MessageData.swift */; };
 		BC69423B26A32C6C003CE533 /* PortfolioMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC69423A26A32C6C003CE533 /* PortfolioMainView.swift */; };
@@ -51,7 +50,6 @@
 		BC71E43C2699750A00EA03BF /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC71E43B2699750A00EA03BF /* Array.swift */; };
 		BC78837E2637FC9A00511836 /* SwipedParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78837D2637FC9A00511836 /* SwipedParams.swift */; };
 		BC7D02372645DF12002D2E9D /* ArtIntroMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7D02362645DF12002D2E9D /* ArtIntroMainView.swift */; };
-		BC80F6AF25ACDCB100F8E450 /* Raleway-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC80F6AE25ACDCB100F8E450 /* Raleway-VariableFont_wght.ttf */; };
 		BC95150E2655A37000FFE1A1 /* RecommendArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95150D2655A37000FFE1A1 /* RecommendArt.swift */; };
 		BC9515112655AAA000FFE1A1 /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = BC9515102655AAA000FFE1A1 /* FocusEntity */; };
 		BC96B68026171BE90062B905 /* César_-_Louvre_Museum.usdz in Resources */ = {isa = PBXBuildFile; fileRef = BC96B67F26171BE90062B905 /* César_-_Louvre_Museum.usdz */; };
@@ -88,9 +86,6 @@
 		BCCDBE3A2587B04900E6A2C1 /* CMBufferHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCDBE392587B04900E6A2C1 /* CMBufferHelper.swift */; };
 		BCCDBE442587C39F00E6A2C1 /* VideoWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCDBE432587C39F00E6A2C1 /* VideoWriter.swift */; };
 		BCCDBE492587EC6100E6A2C1 /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCDBE482587EC6100E6A2C1 /* VideoPlayer.swift */; };
-		BCD6F90D2592290D00FACEF8 /* BungeeOutline-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCD6F90C2592290D00FACEF8 /* BungeeOutline-Regular.ttf */; };
-		BCD6F91225922F0200FACEF8 /* BungeeShade-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCD6F91125922F0200FACEF8 /* BungeeShade-Regular.ttf */; };
-		BCD6F9172592311F00FACEF8 /* GreatVibes-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCD6F9162592311F00FACEF8 /* GreatVibes-Regular.ttf */; };
 		BCD7B08F26A983D3008E057D /* HighlightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD7B08E26A983D3008E057D /* HighlightView.swift */; };
 		BCD7B09426B351FC008E057D /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = BCD7B09326B351FC008E057D /* Introspect */; };
 		BCD7B09626B407CD008E057D /* ArtistArtView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD7B09526B407CD008E057D /* ArtistArtView.swift */; };
@@ -110,11 +105,21 @@
 		BCE0EF032620DF1900864E49 /* SCNViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE0EF022620DF1900864E49 /* SCNViewHelper.swift */; };
 		BCE1AC9F2599019B002A150F /* KeyBoardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE1AC9E2599019A002A150F /* KeyBoardHelper.swift */; };
 		BCE95E862624E73800B04852 /* SCNSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE95E852624E73800B04852 /* SCNSceneView.swift */; };
-		BCEA9736266BFE8900ADBF14 /* NetflixSansThin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCEA9735266BFE8900ADBF14 /* NetflixSansThin.ttf */; };
 		BCF486482627782D001A28E9 /* ArtViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF486472627782D001A28E9 /* ArtViewHelper.swift */; };
 		BCF4864D26277855001A28E9 /* FactCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF4864C26277855001A28E9 /* FactCard.swift */; };
 		C3B796F7C0AADC51EA420CE3 /* Pods_TimeExplorer_TimeExplorerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6655C8DB5E8432C375F6F710 /* Pods_TimeExplorer_TimeExplorerUITests.framework */; };
 		C6F159552BE8EAE85855D645 /* Pods_TimeExplorer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48B7826299716B621E89AED8 /* Pods_TimeExplorer.framework */; };
+		EF38E34F29C7131F00BE3E82 /* Satoshi-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = EF38E34629C7131E00BE3E82 /* Satoshi-MediumItalic.otf */; };
+		EF38E35029C7131F00BE3E82 /* Satoshi-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = EF38E34729C7131E00BE3E82 /* Satoshi-Italic.otf */; };
+		EF38E35129C7131F00BE3E82 /* Satoshi-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = EF38E34829C7131E00BE3E82 /* Satoshi-Light.otf */; };
+		EF38E35229C7131F00BE3E82 /* Satoshi-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = EF38E34929C7131E00BE3E82 /* Satoshi-Black.otf */; };
+		EF38E35329C7131F00BE3E82 /* Satoshi-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = EF38E34A29C7131F00BE3E82 /* Satoshi-BlackItalic.otf */; };
+		EF38E35429C7131F00BE3E82 /* Satoshi-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = EF38E34B29C7131F00BE3E82 /* Satoshi-LightItalic.otf */; };
+		EF38E35529C7131F00BE3E82 /* Satoshi-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = EF38E34C29C7131F00BE3E82 /* Satoshi-Bold.otf */; };
+		EF38E35629C7131F00BE3E82 /* Satoshi-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = EF38E34D29C7131F00BE3E82 /* Satoshi-Medium.otf */; };
+		EF38E35729C7131F00BE3E82 /* Satoshi-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = EF38E34E29C7131F00BE3E82 /* Satoshi-BoldItalic.otf */; };
+		EF38E35929C717B200BE3E82 /* Satoshi-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = EF38E35829C717B200BE3E82 /* Satoshi-Regular.otf */; };
+		EF38E35F29C726E600BE3E82 /* Divider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF38E35E29C726E600BE3E82 /* Divider.swift */; };
 		EF45E59928CF066D0019E229 /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF45E59828CF066D0019E229 /* Misc.swift */; };
 		EF62507E28D743B2004704CF /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF62507D28D743B2004704CF /* SearchViewModel.swift */; };
 		EF82553928D2220D000447F0 /* CATypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF82553828D2220D000447F0 /* CATypes.swift */; };
@@ -186,7 +191,6 @@
 		BC5AFFF725FA3D0100A9E202 /* TrendingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingCard.swift; sourceTree = "<group>"; };
 		BC5D47DD26667AC800C55A3F /* GenreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreView.swift; sourceTree = "<group>"; };
 		BC5D47DF26667F5700C55A3F /* PinterestScroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinterestScroll.swift; sourceTree = "<group>"; };
-		BC618C5825A6FCA300377140 /* NeueMachina-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NeueMachina-Regular.otf"; sourceTree = "<group>"; };
 		BC618C6225A9F3C000377140 /* YoutubePlayerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubePlayerHelper.swift; sourceTree = "<group>"; };
 		BC645DDC2595124A0054F2FE /* MessageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageData.swift; sourceTree = "<group>"; };
 		BC69423A26A32C6C003CE533 /* PortfolioMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortfolioMainView.swift; sourceTree = "<group>"; };
@@ -196,7 +200,6 @@
 		BC71E43B2699750A00EA03BF /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		BC78837D2637FC9A00511836 /* SwipedParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipedParams.swift; sourceTree = "<group>"; };
 		BC7D02362645DF12002D2E9D /* ArtIntroMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtIntroMainView.swift; sourceTree = "<group>"; };
-		BC80F6AE25ACDCB100F8E450 /* Raleway-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 		BC95150D2655A37000FFE1A1 /* RecommendArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendArt.swift; sourceTree = "<group>"; };
 		BC96B67F26171BE90062B905 /* César_-_Louvre_Museum.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = "César_-_Louvre_Museum.usdz"; sourceTree = "<group>"; };
 		BC96B68726175DAE0062B905 /* SpeechModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechModel.swift; sourceTree = "<group>"; };
@@ -235,9 +238,6 @@
 		BCCDBE392587B04900E6A2C1 /* CMBufferHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMBufferHelper.swift; sourceTree = "<group>"; };
 		BCCDBE432587C39F00E6A2C1 /* VideoWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoWriter.swift; sourceTree = "<group>"; };
 		BCCDBE482587EC6100E6A2C1 /* VideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
-		BCD6F90C2592290D00FACEF8 /* BungeeOutline-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BungeeOutline-Regular.ttf"; sourceTree = "<group>"; };
-		BCD6F91125922F0200FACEF8 /* BungeeShade-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BungeeShade-Regular.ttf"; sourceTree = "<group>"; };
-		BCD6F9162592311F00FACEF8 /* GreatVibes-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GreatVibes-Regular.ttf"; sourceTree = "<group>"; };
 		BCD7B08E26A983D3008E057D /* HighlightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightView.swift; sourceTree = "<group>"; };
 		BCD7B09526B407CD008E057D /* ArtistArtView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistArtView.swift; sourceTree = "<group>"; };
 		BCD7C7D726903BF000077D89 /* ArtAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtAPI.swift; sourceTree = "<group>"; };
@@ -256,10 +256,20 @@
 		BCE0EF022620DF1900864E49 /* SCNViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNViewHelper.swift; sourceTree = "<group>"; };
 		BCE1AC9E2599019A002A150F /* KeyBoardHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyBoardHelper.swift; sourceTree = "<group>"; };
 		BCE95E852624E73800B04852 /* SCNSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNSceneView.swift; sourceTree = "<group>"; };
-		BCEA9735266BFE8900ADBF14 /* NetflixSansThin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NetflixSansThin.ttf; sourceTree = "<group>"; };
 		BCF486472627782D001A28E9 /* ArtViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtViewHelper.swift; sourceTree = "<group>"; };
 		BCF4864C26277855001A28E9 /* FactCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactCard.swift; sourceTree = "<group>"; };
 		D21C6C833AA25BBD2A543CED /* Pods-TimeExplorer-TimeExplorerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TimeExplorer-TimeExplorerUITests.release.xcconfig"; path = "Target Support Files/Pods-TimeExplorer-TimeExplorerUITests/Pods-TimeExplorer-TimeExplorerUITests.release.xcconfig"; sourceTree = "<group>"; };
+		EF38E34629C7131E00BE3E82 /* Satoshi-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Satoshi-MediumItalic.otf"; sourceTree = "<group>"; };
+		EF38E34729C7131E00BE3E82 /* Satoshi-Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Satoshi-Italic.otf"; sourceTree = "<group>"; };
+		EF38E34829C7131E00BE3E82 /* Satoshi-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Satoshi-Light.otf"; sourceTree = "<group>"; };
+		EF38E34929C7131E00BE3E82 /* Satoshi-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Satoshi-Black.otf"; sourceTree = "<group>"; };
+		EF38E34A29C7131F00BE3E82 /* Satoshi-BlackItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Satoshi-BlackItalic.otf"; sourceTree = "<group>"; };
+		EF38E34B29C7131F00BE3E82 /* Satoshi-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Satoshi-LightItalic.otf"; sourceTree = "<group>"; };
+		EF38E34C29C7131F00BE3E82 /* Satoshi-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Satoshi-Bold.otf"; sourceTree = "<group>"; };
+		EF38E34D29C7131F00BE3E82 /* Satoshi-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Satoshi-Medium.otf"; sourceTree = "<group>"; };
+		EF38E34E29C7131F00BE3E82 /* Satoshi-BoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Satoshi-BoldItalic.otf"; sourceTree = "<group>"; };
+		EF38E35829C717B200BE3E82 /* Satoshi-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Satoshi-Regular.otf"; sourceTree = "<group>"; };
+		EF38E35E29C726E600BE3E82 /* Divider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Divider.swift; sourceTree = "<group>"; };
 		EF45E59828CF066D0019E229 /* Misc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
 		EF62507D28D743B2004704CF /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		EF82553828D2220D000447F0 /* CATypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CATypes.swift; sourceTree = "<group>"; };
@@ -442,6 +452,7 @@
 		BCA038A7257930D800C6713C /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				EF38E35A29C726B200BE3E82 /* Extensions */,
 				BC1410F92585E0A500AAA0B4 /* lottieFiles */,
 				BCA038A8257930FF00C6713C /* FireBaseStorageHelper.swift */,
 				BC618C6225A9F3C000377140 /* YoutubePlayerHelper.swift */,
@@ -623,13 +634,17 @@
 		BCD6F90B2592290100FACEF8 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				BCD6F90C2592290D00FACEF8 /* BungeeOutline-Regular.ttf */,
-				BCD6F91125922F0200FACEF8 /* BungeeShade-Regular.ttf */,
-				BCD6F9162592311F00FACEF8 /* GreatVibes-Regular.ttf */,
-				BC80F6AE25ACDCB100F8E450 /* Raleway-VariableFont_wght.ttf */,
+				EF38E35829C717B200BE3E82 /* Satoshi-Regular.otf */,
+				EF38E34929C7131E00BE3E82 /* Satoshi-Black.otf */,
+				EF38E34A29C7131F00BE3E82 /* Satoshi-BlackItalic.otf */,
+				EF38E34C29C7131F00BE3E82 /* Satoshi-Bold.otf */,
+				EF38E34E29C7131F00BE3E82 /* Satoshi-BoldItalic.otf */,
+				EF38E34729C7131E00BE3E82 /* Satoshi-Italic.otf */,
+				EF38E34829C7131E00BE3E82 /* Satoshi-Light.otf */,
+				EF38E34B29C7131F00BE3E82 /* Satoshi-LightItalic.otf */,
+				EF38E34D29C7131F00BE3E82 /* Satoshi-Medium.otf */,
+				EF38E34629C7131E00BE3E82 /* Satoshi-MediumItalic.otf */,
 				BC1F8406259B76AB003E2CA8 /* SortsMillGoudy-Regular.ttf */,
-				BC618C5825A6FCA300377140 /* NeueMachina-Regular.otf */,
-				BCEA9735266BFE8900ADBF14 /* NetflixSansThin.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -697,6 +712,22 @@
 				811E6D5BDE82DFAB9C0AD311 /* Pods-TimeExplorerTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		EF38E35A29C726B200BE3E82 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				EF38E35D29C726C200BE3E82 /* View */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		EF38E35D29C726C200BE3E82 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				EF38E35E29C726E600BE3E82 /* Divider.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		EFB0FC5328D498C300D2B7BC /* SearchView */ = {
@@ -828,23 +859,27 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCD6F90D2592290D00FACEF8 /* BungeeOutline-Regular.ttf in Resources */,
-				BCEA9736266BFE8900ADBF14 /* NetflixSansThin.ttf in Resources */,
+				EF38E35529C7131F00BE3E82 /* Satoshi-Bold.otf in Resources */,
+				EF38E35129C7131F00BE3E82 /* Satoshi-Light.otf in Resources */,
+				EF38E35229C7131F00BE3E82 /* Satoshi-Black.otf in Resources */,
 				BC96B68026171BE90062B905 /* César_-_Louvre_Museum.usdz in Resources */,
-				BC80F6AF25ACDCB100F8E450 /* Raleway-VariableFont_wght.ttf in Resources */,
 				BCAFD4C92514C5190072F161 /* Preview Assets.xcassets in Resources */,
+				EF38E35929C717B200BE3E82 /* Satoshi-Regular.otf in Resources */,
+				EF38E35029C7131F00BE3E82 /* Satoshi-Italic.otf in Resources */,
+				EF38E35629C7131F00BE3E82 /* Satoshi-Medium.otf in Resources */,
 				BC07C110253859F700FD399A /* GoogleService-Info.plist in Resources */,
 				BCAFD4C62514C5190072F161 /* Assets.xcassets in Resources */,
 				BC2B4371258C777800854668 /* timer.json in Resources */,
-				BCD6F91225922F0200FACEF8 /* BungeeShade-Regular.ttf in Resources */,
 				BC06C58025FEA727003BCA99 /* Fragment_of_Milan_Cathedral.usdz in Resources */,
-				BC618C5925A6FCA300377140 /* NeueMachina-Regular.otf in Resources */,
+				EF38E35329C7131F00BE3E82 /* Satoshi-BlackItalic.otf in Resources */,
+				EF38E34F29C7131F00BE3E82 /* Satoshi-MediumItalic.otf in Resources */,
 				BC1410F52585E0A100AAA0B4 /* heart.json in Resources */,
 				BCA038DB2579326900C6713C /* loading.json in Resources */,
+				EF38E35429C7131F00BE3E82 /* Satoshi-LightItalic.otf in Resources */,
+				EF38E35729C7131F00BE3E82 /* Satoshi-BoldItalic.otf in Resources */,
 				BC1F8407259B76AB003E2CA8 /* SortsMillGoudy-Regular.ttf in Resources */,
 				BC06C58525FEA72C003BCA99 /* St.usdz in Resources */,
 				BC06C59225FF754E003BCA99 /* Darsena_Milano_Natural_Pool_Proposal.usdz in Resources */,
-				BCD6F9172592311F00FACEF8 /* GreatVibes-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -987,6 +1022,7 @@
 				BCC4E0672619DACF00988164 /* EnvironmentValues.swift in Sources */,
 				BC2AD925261F0778007F5921 /* URLHelper.swift in Sources */,
 				BC78837E2637FC9A00511836 /* SwipedParams.swift in Sources */,
+				EF38E35F29C726E600BE3E82 /* Divider.swift in Sources */,
 				BCC4E06E2619DB2000988164 /* HeroConfiguration.swift in Sources */,
 				BCA038CC257931B500C6713C /* LottieView.swift in Sources */,
 				BC694791264E5DF400FE5FF1 /* ARMainView.swift in Sources */,

@@ -10,14 +10,18 @@ import SwiftUI
 import SUI
 
 enum TextStyle: String {
-//    case main = "Avenir Next Medium"
     case main = "NeueMachina-Regular"
     case heading = "BungeeShade-Regular"
-//    case title = "SortsMillGoudy-Regular"
-//    case normal = "Avenir Next Medium"
-//    case normal = "Cochin"
-//    case normal = "SpaceGrotesk"
-    case normal = "SortsMillGoudy-Regular"
+    case normal = "Satoshi-Regular"
+    case black = "Satoshi-Black"
+    case blackItalic = "Satoshi-BlackItalic"
+    case medium = "Satoshi-Medium"
+    case mediumItalic = "Satoshi-MediumItalic"
+    case light = "Satoshi-Light"
+    case lightItalic = "Satoshi-LightItalic"
+    case bold = "Satoshi-Bold"
+    case boldItalic = "Satoshi-BoldItalic"
+    //case regular = "Satoshi-Regular.otf"
 }
 
 struct BasicText: View {
@@ -58,6 +62,38 @@ extension String {
 		styled(font: .init(name: TextStyle.heading.rawValue, size: size) ?? .systemFont(ofSize: size, weight: .regular), color: color)
 	}
 	
+    
+    func styled(font: TextStyle, color: Color, size: CGFloat) -> RenderableText {
+        guard let customFont = UIFont(name: font.rawValue, size: size) else {
+            return styled(font: .systemFont(ofSize: size, weight: .regular), color: color)
+        }
+        return styled(font: customFont, color: color)
+    }
+}
+
+extension Color {
+    static let textColor: Self = .white
+}
+
+extension String {
+    
+    func heading1(color: Color = .textColor) -> RenderableText { styled(font: .black, color: color, size: 32) }
+    func heading2(color: Color = .textColor) -> RenderableText { styled(font: .black, color: color, size: 24) }
+    func heading3(color: Color = .textColor) -> RenderableText { styled(font: .black, color: color, size: 22) }
+    func heading4(color: Color = .textColor) -> RenderableText { styled(font: .black, color: color, size: 18) }
+    func heading5(color: Color = .textColor) -> RenderableText { styled(font: .black, color: color, size: 16) }
+    func heading6(color: Color = .textColor) -> RenderableText { styled(font: .black, color: color, size: 14) }
+    func body1Bold(color: Color = .textColor) -> RenderableText { styled(font: .bold, color: color, size: 16) }
+    func body1Medium(color: Color = .textColor) -> RenderableText { styled(font: .medium, color: color, size: 16) }
+    func body1Regular(color: Color = .textColor) -> RenderableText { styled(font: .normal, color: color, size: 16) }
+    func body2Bold(color: Color = .textColor) -> RenderableText { styled(font: .bold, color: color, size: 14) }
+    func body2Medium(color: Color = .textColor) -> RenderableText { styled(font: .medium, color: color, size: 14) }
+    func body2Regular(color: Color = .textColor) -> RenderableText { styled(font: .normal, color: color, size: 14) }
+    func body3Medium(color: Color = .textColor) -> RenderableText { styled(font: .medium, color: color, size: 12) }
+    func body3Regular(color: Color = .textColor) -> RenderableText { styled(font: .normal, color: color, size: 12) }
+    func bodySmallRegular(color: Color = .textColor) -> RenderableText { styled(font: .normal, color: color, size: 11) }
+    func largeBodyRegular(color: Color = .textColor) -> RenderableText { styled(font: .normal, color: color, size: 16) }
+    func buttonBold(color: Color = .textColor) -> RenderableText { styled(font: .bold, color: color, size: 13) }
 }
 
 struct MainText: View {

@@ -57,14 +57,13 @@ struct AuctionCard: View {
     
     var overlayCaptionView:some View{
 		VStack(alignment: .leading, spacing: 10){
-			ownerInfo
 			Spacer()
-			MainText(content: self.data.title ?? "Title", fontSize: 20, color: .white, fontWeight: .regular)
-				.lineLimit(3)
+            (self.data.title ?? "Title").body1Bold(color: .white).text.lineLimit(3)
 			lineChart(h: 10)
 			cardInfo
-		}.padding()
-		.framed(size: cardConfig.cardSize, cornerRadius: .zero, alignment: .topLeading)
+		}
+        .padding()
+		.framed(size: cardConfig.cardSize, cornerRadius: .zero, alignment: .leading)
     }
     
 	var body: some View {
@@ -95,7 +94,8 @@ extension AuctionCard{
 				.fillWidth()
 				.fixedHeight(height: line_h)
 		} else {
-			EmptyView().body
+            CustomDivider()
+            (self.data.creators?.first?.description ?? "Krishna").styled(font: .mediumItalic, color: .white, size: 14).text
 		}
 		
     }

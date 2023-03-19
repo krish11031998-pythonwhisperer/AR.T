@@ -9,9 +9,13 @@ import SwiftUI
 import SUI
 
 struct TabBarView: View {
-    var tabs:[(name:String,icon:String)] = [(name:"home",icon:"house.fill"),(name:"blogs",icon:"newspaper"),(name:"feed",icon:"play.tv"),(name:"attractions",icon:"globe"),(name:"profile",icon:"person.fill")]
+    var tabs:[(name:String,icon:String)] = [(name:"home",icon:"house.fill"),
+                                            (name:"search",icon:"magnifyingglass"),
+                                            (name:"feed",icon:"sun.min"),
+                                            (name:"attractions",icon:"globe")//,
+                                            //(name:"profile",icon:"person.fill")
+    ]
     @EnvironmentObject var mainStates:AppStates
-//    @State var tabMidPoints:[String:CGFloat] = [:]
     @Namespace var animation
     var tab:String{
         get{

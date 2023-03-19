@@ -12,6 +12,13 @@ public struct SimpleHScrollConfig {
 	let showsIndicator: Bool
 	let horizontalInsets: EdgeInsets
 	let alignment: VerticalAlignment
+    
+    public init(spacing: CGFloat, showsIndicator: Bool, horizontalInsets: EdgeInsets, alignment: VerticalAlignment) {
+        self.spacing = spacing
+        self.showsIndicator = showsIndicator
+        self.horizontalInsets = horizontalInsets
+        self.alignment = alignment
+    }
 }
 
 public extension SimpleHScrollConfig {

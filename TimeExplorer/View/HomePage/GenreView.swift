@@ -48,12 +48,10 @@ struct ArtViewCard:View{
 				.framed(size: cardSize, cornerRadius: 0, alignment: .top)
 			lightbottomShadow.fillFrame()
 			VStack(alignment: .leading, spacing: 10) {
-				(cardData.title ?? "No Title").normal(size: 12).text
+				(cardData.title ?? "No Title").body1Bold().text
 					.lineLimit(2)
-				RoundedRectangle(cornerRadius: 20)
-					.fill(Color.white.opacity(0.35))
-					.fixedHeight(height: 2)
-					.padding(.bottom,10)
+                CustomDivider()
+                (cardData.artistName ?? "Artist").styled(font: .mediumItalic, color: .white, size: 12).text
 			}
 			.padding()
 			.fillFrame(alignment: .bottomLeading)

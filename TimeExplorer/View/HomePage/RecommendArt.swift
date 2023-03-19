@@ -32,12 +32,19 @@ struct RecommendArt: View {
 					.framed(size: cardSize, cornerRadius: 0, alignment: .center)
 				if selected {
 					lightbottomShadow.fillFrame()
-					(data.title ?? "No Heading")
-						.normal(size: 15)
-						.text
-						.fillWidth(alignment: .leading)
-						.transitionFrom(.bottom)
-						.padding()
+                    VStack {
+                        (data.title ?? "No Heading")
+                            .body1Bold()
+                            .text
+                            .lineLimit(3)
+                            .multilineTextAlignment(.center)
+                        CustomDivider()
+                        (data.artistName ?? "No Heading")
+                            .styled(font: .mediumItalic, color: .white, size: 15)
+                            .text
+                    }
+                    .padding()
+                    .transitionFrom(.bottom)
 				}
 			}
 			.framed(size: cardSize, cornerRadius: 12, alignment: .bottomLeading)
@@ -45,9 +52,3 @@ struct RecommendArt: View {
 
     }
 }
-
-//struct AVScrollView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AVScrollView()
-//    }
-//}
