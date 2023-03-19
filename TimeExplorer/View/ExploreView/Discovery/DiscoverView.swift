@@ -79,9 +79,9 @@ extension DiscoverView {
 					.framed(size: cardSize, cornerRadius: 15, alignment: .center)
 					//.matchedGeometryEffect(id: "artCard.\(viewModel.idx)", in: animation, properties: .position, isSource: false)
 				VStack(alignment: .leading, spacing: 8) {
-					validArt.title.normal(size: 20).text.lineLimit(2)
-					validArt.introduction.normal(size: 15).text.lineLimit(3)
-					CustomButton(config: .init(imageName: .next,text: "View art".normal(size: 12))) {
+					validArt.title.body1Bold().text.lineLimit(2)
+					validArt.introduction.body3Regular().text.lineLimit(3)
+					CustomButton(config: .init(imageName: .next,text: "View art".body3Medium())) {
 						viewModel.updateShowArt(art: validArt)
 					}
 				}
@@ -103,7 +103,7 @@ extension DiscoverView {
 extension DiscoverView {
 	
 	var leadingNavBarItem: some View {
-		"Discover".normal(size: 30).text
+		"Discover".heading2().text
 	}
 	
 	var trailingNavBarItem: some View {

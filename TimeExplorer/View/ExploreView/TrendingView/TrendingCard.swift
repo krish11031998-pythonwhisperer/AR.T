@@ -23,15 +23,18 @@ struct TrendingMainCard:View{
 
 	func infoView() -> some View{
         return VStack(alignment:.leading,spacing: 15){
-			"Tours".normal(size: 40, color: .white).text
+			"Tours".heading1().text
 				.fillWidth(alignment: .leading)
             Spacer()
-            BasicText(content: self.data.mainText ?? "", fontDesign: .serif, size: 30, weight: .bold)
-                .foregroundColor(.white)
+            (data.mainText ?? "No Name").heading2().text
 			"View"
-				.normal(size: 17.5, color: .black)
+                .body2Medium(color: .black)
 				.text
-				.blobify(background: .white, padding: 10, cornerRadius: 14)
+                .padding(.init(vertical: 10, horizontal: 10))
+                .background {
+                    Capsule(style: .continuous)
+                        .fill(Color.white)
+                }
 				.buttonify {
 					selectedArt = data
 				}

@@ -51,15 +51,18 @@ struct ArtView: View {
                 SystemButton(b_name: "xmark", b_content: "",color: .black,bgcolor: .white) {
                     self.viewStates.inspect.toggle()
                 }
-                Spacer()
-                MainText(content: self.viewStates.changes ? "Update" : self.data.title, fontSize: 15, color: .white, fontWeight: .bold, style: .normal)
-                    .padding()
-                    .background(BlurView(style: .dark))
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .onTapGesture(perform: self.updateArtData)
-                Spacer()
+                //                Spacer()
+                //                MainText(content: self.viewStates.changes ? "Update" : self.data.title, fontSize: 15, color: .white, fontWeight: .bold, style: .normal)
+                //                    .padding()
+                //                    .background(BlurView(style: .dark))
+                //                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                //                    .onTapGesture(perform: self.updateArtData)
+                //                Spacer()
             }
+            
         }
+        .padding(.top, .safeAreaInsets.top)
+        .fillWidth(alignment: .trailing)
     }
     
     //MARK: - Sidebars
@@ -68,8 +71,8 @@ struct ArtView: View {
         return  HStack(alignment: .top, spacing: 10) {
             Spacer()
             VStack(alignment: .center, spacing: 10) {
-                TabBarButtons(bindingState: $viewStates.showFeatures, name: "sparkles")
-                TabBarButtons(bindingState: $viewStates.isEditting,name: "pencil")
+//                TabBarButtons(bindingState: $viewStates.showFeatures, name: "sparkles")
+//                TabBarButtons(bindingState: $viewStates.isEditting,name: "pencil")
                 TabBarButtons(bindingState: $viewAR, name: "cube")
             }
         }.padding()
@@ -314,7 +317,7 @@ struct ArtView: View {
 					.fillFrame()
                 VStack(alignment: .leading, spacing: 10){
 					"AR Experience"
-						.normal(size: 45, color: .white)
+						.heading1()
 						.text
                     SystemButton(b_name: "cube", b_content: "View",color: .black,bgcolor: .white) {
                         DispatchQueue.main.async {

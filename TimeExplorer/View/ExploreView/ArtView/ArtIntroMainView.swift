@@ -44,13 +44,16 @@ struct ArtIntroMain:View{
 				.clipped()
 			}
 			.padding(.bottom, .safeAreaInsets.bottom)
-			if showMore {
-				extraIntroView
-					.transitionFrom(.bottom)
-			}
+			
 		}
 		.framed(size: .init(width: .totalWidth, height: .totalHeight), cornerRadius: 0, alignment: .topLeading)
 		.scrollToggle(state: !showMore)
+        .overlay {
+            if showMore {
+                extraIntroView
+                    .transitionFrom(.bottom)
+            }
+        }
 	}
     
 }
@@ -62,10 +65,11 @@ extension ArtIntroMain {
 			SUI.ImageView(url: data.thumbnail)
 				.framed(size: .init(width: .totalWidth, height: .totalHeight * 0.45),cornerRadius: 0,alignment: .top)
 			lightbottomShadow.fillFrame()
-			HeaderSubHeadView(title: data.title.normal(size: 30),
-							  subTitle: data.painterName?.normal(size: 20),
+            HeaderSubHeadView(title: data.title.heading2(),
+                              subTitle: data.painterName?.styled(font: .boldItalic, color: .gray, size: 12),
 							  spacing: 10, alignment: .leading)
-			.padding(.leading, 10)
+            .padding(.leading, 10)
+            .padding(.vertical, 10)
 			.fillWidth(alignment: .leading)
 				
 		}.framed(size: .init(width: .totalWidth, height: .totalHeight * 0.45),cornerRadius: 0)
@@ -76,11 +80,13 @@ extension ArtIntroMain {
 			Color.clear
 			BlurView(style: .dark)
 			ScrollView(.vertical, showsIndicators: false) {
-				MainText(content: self.data.introduction, fontSize: 25, color: .white, fontWeight: .semibold)
+//				MainText(content: self.data.introduction, fontSize: 25, color: .white, fontWeight: .semibold)
+                data.introduction.body1Bold().text
+                    
 					.lineLimit(Int.max)
 					.padding()
 					.padding(.top,.safeAreaInsets.top)
-			}.fillFrame()
+            }.padding(.top, .safeAreaInsets.top).fillFrame()
 			CustomButton(config: .init(imageName: .back, size: .init(squared: 15), padding: .init(by: 5), foregroundColor: .white, backgroundColor: .clear)) {
 				showMore = false
 			}
@@ -94,7 +100,7 @@ extension ArtIntroMain {
 
     func infoBody(w:CGFloat) -> some View{
         VStack(alignment: .leading, spacing: 10){
-			data.introduction.normal(size: 15).text
+			data.introduction.body2Regular().text
 				//.lineLimit(3)
 			CustomButton(config: .init(imageName: .next, size: .init(squared: 15), padding: .init(by: 5), foregroundColor: .white, backgroundColor: .clear)) {
 				showMore = true
@@ -105,10 +111,10 @@ extension ArtIntroMain {
     
 	@ViewBuilder func intoInfosection() -> some View {
 		if let validInfoSnippet = data.infoSnippets {
-			LazyVGrid(columns:Array(repeating: .init(.flexible(minimum: .totalWidth * 0.25, maximum: .totalWidth *  0.5 - 5), spacing: 10, alignment: .topLeading),count: 2), alignment: .leading, spacing: 10) {
+			LazyVGrid(columns:Array(repeating: .init(.flexible(minimum: .totalWidth * 0.25, maximum: .totalWidth *  0.5 - 5), spacing: 10, alignment: .topLeading),count: 2), alignment: .leading, spacing: 8) {
 				ForEach(validInfoSnippet.map{ $0 }.sorted { $0.key < $1.key }, id: \.key) {
-					HeaderSubHeadView(title: $0.key.normal(size: 14,color: .gray),
-									  subTitle: $0.value.normal(size: 16, color: .white),
+                    HeaderSubHeadView(title: $0.key.styled(font: .mediumItalic, color: .gray, size: 10),
+									  subTitle: $0.value.body2Bold(),
 									  spacing: 8,
 									  alignment: .leading)
 				}
@@ -122,13 +128,13 @@ extension ArtIntroMain {
 	@ViewBuilder var infoText: some View {
 		if let facts = data.top_facts?.first {
 			VStack(alignment: .leading, spacing: 16) {
-				facts.key.normal(size: 20, color: .white).text
-				Spacer()
+                facts.key.heading4().text
 				facts.value.normal(size: 13, color: .white).text
+                //Spacer(minLength: 0)
 			}
 			.padding()
 			.fillWidth(alignment: .leading)
-			.fixedHeight(height: 140)
+            .frame(minHeight: 100, maxHeight: 150, alignment: .top)
 			.background(BlurView(style: .dark))
 			.cornerRadius(12)
 		} else {

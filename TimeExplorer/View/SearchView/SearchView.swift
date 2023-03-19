@@ -66,8 +66,8 @@ extension SearchView {
 					SUI.ImageView(url: data.thumbnail)
 						.framed(size: .init(width: cardSize.width, height: 160), cornerRadius: 10, alignment: .center)
 					VStack(alignment: .leading, spacing: 5) {
-						"\(data.painterName ?? "No Name")".normal(size: 10).text
-						"\(data.title)".normal(size: 13).text
+                        "\(data.painterName ?? "No Name")".styled(font: .mediumItalic, color: .gray, size: 10).text
+                        "\(data.title)".body2Bold(color: .white).text
 					}
 					.padding(.horizontal, 8)
 					.frame(width: cardSize.width, height: 50, alignment: .leading)
@@ -94,7 +94,7 @@ extension SearchView {
 	}
 	
 	var navigationBarItem: some View {
-		"Search".normal(size: 25, color: .white).text
+		"Search".heading2().text
 	}
 }
 
